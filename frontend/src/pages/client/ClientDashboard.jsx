@@ -1,206 +1,126 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, Star, Scissors, ChevronRight, Plus, Award, TrendingUp } from 'lucide-react';
-import Navbar from '../../components/layout/Navbar';
-import useAuthStore from '../../store/useAuthStore';
-import { appointmentService } from '../../services/appointmentService';
-import { getStatusColor, getStatusLabel, formatDate, formatTime } from '../../utils/formatters';
-import LoadingSpinner from '../../components/ui/LoadingSpinner';
-import Badge from '../../components/ui/Badge';
+import { Calendar, CheckCircle, Clock, Star, History, CalendarPlus } from 'lucide-react';
+import { useAuth } from '../../hooks/useAuth';
+import BrutalCard from '../../components/ui/BrutalCard';
+import StatsCard from '../../components/ui/StatsCard';
+import PageTransition from '../../components/ui/PageTransition';
 
 export default function ClientDashboard() {
-  const { user } = useAuthStore();
-  const [appointments, setAppointments] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState({ total: 0, completed: 0, upcoming: 0 });
+  const { user } = useAuth();
+  
+  const container = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { staggerChildren: 0.1 } }
+  };
 
-  useEffect(() => {
-    appointmentService.getMyAppointments({ limit: 5 })
-      .then((res) => {
-        setAppointments(res.appointments || []);
-        const completed = res.appointments?.filter(a => a.status === 'completada').length || 0;
-        const upcoming = res.appointments?.filter(a => ['pendiente', 'confirmada'].includes(a.status)).length || 0;
-        setStats({ total: res.pagination?.total || 0, completed, upcoming });
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, []);
-
-  const statCards = [
-    { icon: Calendar, label: 'Total citas', value: stats.total, color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20' },
-    { icon: Clock, label: 'Próximas', value: stats.upcoming, color: 'text-gold-400', bg: 'bg-gold-500/10 border-gold-500/20' },
-    { icon: Star, label: 'Completadas', value: stats.completed, color: 'text-green-400', bg: 'bg-green-500/10 border-green-500/20' },
-    { icon: Award, label: 'Puntos', value: user?.loyaltyPoints || 0, color: 'text-purple-400', bg: 'bg-purple-500/10 border-purple-500/20' },
-  ];
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 }
+  };
 
   return (
-    <div className="min-h-screen bg-dark-400">
-      <Navbar />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
-
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10"
-        >
-          <div>
-            <h1 className="font-display text-3xl font-bold text-white">
-              Hola, <span className="gold-text">{user?.name?.split(' ')[0]}</span> 👋
-            </h1>
-            <p className="text-gray-400 mt-1">Bienvenido a tu panel de Punto Fino</p>
-          </div>
-          <Link to="/reservar" className="btn-primary flex items-center gap-2 self-start">
-            <Plus size={18} />
-            Nueva cita
-          </Link>
+    <PageTransition>
+      <div className="max-w-6xl mx-auto p-4 sm:p-6 space-y-6">
+        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="mb-8">
+          <h1 className="text-4xl font-display font-bold uppercase tracking-wider">
+            HOLA, <span className="text-gold-500">{user?.name?.split(' ')[0] || 'CLIENTE'}</span>
+          </h1>
+          <p className="text-gray-400 font-mono-price mt-2">Bienvenido de vuelta a Punto Fino</p>
         </motion.div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-          {statCards.map(({ icon: Icon, label, value, color, bg }, index) => (
-            <motion.div
-              key={label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className={`card border p-5 ${bg}`}
-            >
-              <div className="flex items-center justify-between mb-3">
-                <Icon size={20} className={color} />
-                <TrendingUp size={14} className="text-gray-600" />
-              </div>
-              <p className="text-2xl font-bold text-white">{value}</p>
-              <p className="text-gray-500 text-sm mt-0.5">{label}</p>
-            </motion.div>
-          ))}
-        </div>
+        <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <motion.div variants={item}><StatsCard icon={Calendar} label="Total Citas" value={12} /></motion.div>
+          <motion.div variants={item}><StatsCard icon={Clock} label="Próximas" value={1} /></motion.div>
+          <motion.div variants={item}><StatsCard icon={CheckCircle} label="Completadas" value={11} /></motion.div>
+          <motion.div variants={item}><StatsCard icon={Star} label="Puntos" value={450} className="border-gold-500" /></motion.div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Citas recientes */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center justify-between mb-5">
-              <h2 className="text-xl font-semibold text-white">Mis citas recientes</h2>
-              <Link to="/cliente/citas" className="text-gold-400 text-sm hover:text-gold-300 flex items-center gap-1">
-                Ver todas <ChevronRight size={14} />
-              </Link>
-            </div>
-
-            {loading ? (
-              <div className="card p-12 flex justify-center">
-                <LoadingSpinner text="Cargando citas..." />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-6">
+            <BrutalCard variant="gold" className="relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-gold-500 text-dark-500 font-bold px-4 py-1 text-sm uppercase tracking-wider rounded-bl-[4px] border-l-2 border-b-2 border-dark-500">
+                Próxima Cita
               </div>
-            ) : appointments.length === 0 ? (
-              <div className="card p-12 text-center">
-                <Scissors size={40} className="text-gray-600 mx-auto mb-4 rotate-45" />
-                <p className="text-gray-400 mb-2">No tienes citas aún</p>
-                <p className="text-gray-600 text-sm mb-6">Reserva tu primera cita con los mejores barberos de Cali</p>
-                <Link to="/reservar" className="btn-primary inline-flex items-center gap-2">
-                  <Plus size={16} />
-                  Reservar ahora
-                </Link>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                {appointments.map((apt, index) => (
-                  <motion.div
-                    key={apt._id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className="card p-5 flex items-center gap-4"
-                  >
-                    <div className="w-12 h-12 bg-gradient-to-br from-gold-500 to-gold-700 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <Scissors size={18} className="text-black rotate-45" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <p className="text-white font-medium">
-                          {apt.services?.[0]?.service?.name || 'Servicio'}
-                          {apt.services?.length > 1 && ` +${apt.services.length - 1}`}
-                        </p>
-                        <span className={`badge border text-xs ${getStatusColor(apt.status)}`}>
-                          {getStatusLabel(apt.status)}
-                        </span>
-                      </div>
-                      <p className="text-gray-500 text-sm mt-0.5">
-                        {apt.barber?.name} · {formatDate(apt.date, { day: 'numeric', month: 'short' })} · {formatTime(apt.startTime)}
-                      </p>
-                    </div>
-                    <div className="text-right flex-shrink-0">
-                      <p className="text-gold-400 font-semibold">
-                        ${apt.totalPrice?.toLocaleString('es-CO')}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Panel lateral */}
-          <div className="space-y-6">
-            {/* Perfil rápido */}
-            <div className="card p-6">
-              <h3 className="text-white font-semibold mb-4">Mi perfil</h3>
-              <div className="flex items-center gap-4 mb-5">
-                <div className="w-14 h-14 bg-gradient-to-br from-gold-500 to-gold-700 rounded-2xl flex items-center justify-center">
-                  <span className="text-black text-xl font-bold">
-                    {user?.name?.charAt(0).toUpperCase()}
-                  </span>
+              <h3 className="text-2xl font-bold uppercase mb-4 mt-2">Corte Clásico + Barba</h3>
+              <div className="flex flex-col sm:flex-row gap-6 font-mono-price">
+                <div>
+                  <p className="text-gray-400 text-sm mb-1 uppercase font-sans font-bold">Fecha</p>
+                  <p className="text-xl">15 Oct 2023</p>
                 </div>
                 <div>
-                  <p className="text-white font-medium">{user?.name}</p>
-                  <p className="text-gray-500 text-sm">{user?.email}</p>
+                  <p className="text-gray-400 text-sm mb-1 uppercase font-sans font-bold">Hora</p>
+                  <p className="text-xl">14:30</p>
+                </div>
+                <div>
+                  <p className="text-gray-400 text-sm mb-1 uppercase font-sans font-bold">Barbero</p>
+                  <p className="text-xl">Carlos M.</p>
                 </div>
               </div>
-              <div className="bg-dark-50 rounded-xl p-4 mb-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Award size={18} className="text-gold-500" />
-                    <span className="text-white text-sm font-medium">Puntos de fidelidad</span>
-                  </div>
-                  <span className="text-gold-400 font-bold">{user?.loyaltyPoints || 0}</span>
-                </div>
-                <div className="mt-3 h-1.5 bg-dark-300 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-gold-500 to-gold-400 rounded-full transition-all"
-                    style={{ width: `${Math.min((user?.loyaltyPoints || 0) / 100 * 100, 100)}%` }}
-                  />
-                </div>
-                <p className="text-gray-600 text-xs mt-1.5">{100 - (user?.loyaltyPoints || 0)} puntos para el siguiente nivel</p>
+              <div className="mt-6 flex gap-4">
+                <button className="brutal-btn bg-dark-500 text-white border-white hover:bg-dark-400 px-6 py-2 uppercase font-bold text-sm">Modificar</button>
+                <button className="brutal-btn bg-red-500/20 text-red-500 border-red-500 hover:bg-red-500/30 px-6 py-2 uppercase font-bold text-sm">Cancelar</button>
               </div>
-              <Link to="/cliente/perfil" className="btn-secondary w-full text-sm text-center block py-2.5">
-                Editar perfil
-              </Link>
-            </div>
+            </BrutalCard>
 
-            {/* Acceso rápido */}
-            <div className="card p-6">
-              <h3 className="text-white font-semibold mb-4">Acceso rápido</h3>
-              <div className="space-y-2">
-                {[
-                  { label: 'Reservar cita', path: '/reservar', icon: Plus },
-                  { label: 'Mis citas', path: '/cliente/citas', icon: Calendar },
-                  { label: 'Ver servicios', path: '/#servicios', icon: Scissors },
-                  { label: 'Ver barberos', path: '/#barberos', icon: Star },
-                ].map(({ label, path, icon: Icon }) => (
-                  <Link
-                    key={path}
-                    to={path}
-                    className="flex items-center gap-3 p-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all group"
-                  >
-                    <Icon size={16} className="text-gold-500 group-hover:scale-110 transition-transform" />
-                    <span className="text-sm">{label}</span>
-                    <ChevronRight size={14} className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </Link>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <BrutalCard variant="interactive" className="flex items-center justify-between p-6 group">
+                <div>
+                  <h3 className="font-bold uppercase text-lg">Reservar Cita</h3>
+                  <p className="text-gray-400 text-sm">Agenda tu próximo corte</p>
+                </div>
+                <div className="w-12 h-12 bg-gold-500 text-dark-500 rounded-full flex items-center justify-center border-2 border-dark-500 group-hover:scale-110 transition-transform">
+                  <CalendarPlus size={24} />
+                </div>
+              </BrutalCard>
+              <BrutalCard variant="interactive" className="flex items-center justify-between p-6 group">
+                <div>
+                  <h3 className="font-bold uppercase text-lg">Historial</h3>
+                  <p className="text-gray-400 text-sm">Ver citas pasadas</p>
+                </div>
+                <div className="w-12 h-12 bg-dark-300 text-white rounded-full flex items-center justify-center border-2 border-[#333] group-hover:scale-110 transition-transform">
+                  <History size={24} />
+                </div>
+              </BrutalCard>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <BrutalCard padding={false}>
+              <div className="p-4 bg-dark-300 border-b-2 border-[#333]">
+                <h3 className="font-bold uppercase tracking-wider flex items-center gap-2"><Star size={18} className="text-gold-500"/> Fidelidad</h3>
+              </div>
+              <div className="p-4">
+                <div className="flex justify-between items-end mb-2">
+                  <span className="text-sm text-gray-400 uppercase font-bold">Nivel Plata</span>
+                  <span className="font-mono-price text-gold-500 font-bold">450 / 500</span>
+                </div>
+                <div className="w-full h-4 bg-dark-200 border-2 border-[#333] rounded-full overflow-hidden">
+                  <div className="h-full bg-gold-500 w-[90%] border-r-2 border-dark-500"></div>
+                </div>
+                <p className="text-xs text-gray-400 mt-3 text-center">Faltan 50 pts para Nivel Oro</p>
+              </div>
+            </BrutalCard>
+
+            <BrutalCard padding={false}>
+               <div className="p-4 bg-dark-300 border-b-2 border-[#333]">
+                <h3 className="font-bold uppercase tracking-wider flex items-center gap-2"><History size={18}/> Recientes</h3>
+              </div>
+              <div className="divide-y-2 divide-dashed divide-[#333]">
+                {[1, 2, 3].map(i => (
+                  <div key={i} className="p-4 flex justify-between items-center hover:bg-dark-200 transition-colors cursor-pointer">
+                    <div>
+                      <p className="font-bold uppercase text-sm">Corte Clásico</p>
+                      <p className="text-xs text-gray-400 font-mono-price mt-1">10 Sep • Carlos M.</p>
+                    </div>
+                    <span className="brutal-badge bg-green-500/10 text-green-500 border-green-500/20">Completada</span>
+                  </div>
                 ))}
               </div>
-            </div>
+            </BrutalCard>
           </div>
         </div>
       </div>
-    </div>
+    </PageTransition>
   );
 }

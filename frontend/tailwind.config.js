@@ -27,7 +27,20 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
-        display: ['Playfair Display', 'serif'],
+        display: ['Space Grotesk', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+      },
+      boxShadow: {
+        'brutal-sm': '2px 2px 0 #333',
+        'brutal': '4px 4px 0 #333',
+        'brutal-lg': '6px 6px 0 #333',
+        'brutal-gold-sm': '2px 2px 0 #d4af37',
+        'brutal-gold': '4px 4px 0 #d4af37',
+        'brutal-gold-lg': '6px 6px 0 #d4af37',
+        'brutal-black': '4px 4px 0 #0a0a0a',
+      },
+      borderWidth: {
+        '3': '3px',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

@@ -5,6 +5,8 @@ export const appointmentService = {
   getAvailableSlots: (params) => api.get('/appointments/available-slots', { params }),
   getMyAppointments: (params) => api.get('/appointments/my-appointments', { params }),
   getBarberAppointments: (params) => api.get('/appointments/barber-appointments', { params }),
+  getAll: (params) => api.get('/appointments', { params }),
+  getStats: (params) => api.get('/appointments/stats', { params }), // useful for admin
   cancel: (id, reason) => api.put(`/appointments/${id}/cancel`, { reason }),
   updateStatus: (id, status) => api.put(`/appointments/${id}/status`, { status }),
 };

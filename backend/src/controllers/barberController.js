@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Barber = require('../models/Barber');
 const User = require('../models/User');
 const Appointment = require('../models/Appointment');
@@ -58,7 +59,7 @@ exports.getBarberStats = async (req, res) => {
     const stats = await Appointment.aggregate([
       {
         $match: {
-          barber: require('mongoose').Types.ObjectId(barberId),
+          barber: new mongoose.Types.ObjectId(barberId),
           status: 'completada',
           date: { $gte: startOfMonth },
         },

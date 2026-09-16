@@ -4,6 +4,7 @@ const Service = require('../models/Service');
 const User = require('../models/User');
 const { calculateEndTime, generateTimeSlots, sendSuccess, sendError } = require('../utils/helpers');
 const { createNotification } = require('../services/notificationService');
+const { sendAppointmentConfirmationEmail } = require('../services/emailService');
 
 // @desc    Crear cita
 // @route   POST /api/appointments
@@ -77,6 +78,11 @@ exports.createAppointment = async (req, res) => {
       .populate('client', 'name email phone avatar')
       .populate('barber', 'name avatar')
       .populate('services.service', 'name price duration category');
+
+    // Enviar email de confirmación
+    if (populatedAppointment.client.email) {
+      sendAppointmentConfirmationEmail(populatedAppointment).catch(err => console.error('Error sending email:', err));
+    }
 
     return sendSuccess(res, 201, 'Cita reservada exitosamente.', {
       appointment: populatedAppointment,

@@ -1,162 +1,85 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
+import { Users, Scissors, Calendar, DollarSign, Activity } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Users, Calendar, DollarSign, Scissors, ChevronRight, TrendingUp, Settings, Star } from 'lucide-react';
-import Navbar from '../../components/layout/Navbar';
-import { appointmentService } from '../../services/appointmentService';
-import { serviceService } from '../../services/serviceService';
-import { barberService } from '../../services/barberService';
-import { getStatusColor, getStatusLabel, formatDate, formatTime } from '../../utils/formatters';
-import LoadingSpinner from '../../components/ui/LoadingSpinner';
+import BrutalCard from '../../components/ui/BrutalCard';
+import StatsCard from '../../components/ui/StatsCard';
+import PageTransition from '../../components/ui/PageTransition';
 
 export default function AdminDashboard() {
-  const [recentAppointments, setRecentAppointments] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [counts, setCounts] = useState({ services: 0, barbers: 0 });
+  const container = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { staggerChildren: 0.1 } }
+  };
 
-  useEffect(() => {
-    Promise.all([
-      appointmentService.getBarberAppointments({ limit: 8 }),
-      serviceService.getAll(),
-      barberService.getAll(),
-    ])
-      .then(([aptsRes, servicesRes, barbersRes]) => {
-        setRecentAppointments(aptsRes.appointments || []);
-        setCounts({
-          services: servicesRes.services?.length || 0,
-          barbers: barbersRes.barbers?.length || 0,
-        });
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, []);
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 }
+  };
 
-  const menuItems = [
-    { label: 'Gestionar Citas', path: '/admin/citas', icon: Calendar, color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20', desc: 'Ver y gestionar todas las citas' },
-    { label: 'Gestionar Servicios', path: '/admin/servicios', icon: Scissors, color: 'text-gold-400', bg: 'bg-gold-500/10 border-gold-500/20', desc: `${counts.services} servicios activos` },
-    { label: 'Gestionar Barberos', path: '/admin/barberos', icon: Star, color: 'text-purple-400', bg: 'bg-purple-500/10 border-purple-500/20', desc: `${counts.barbers} barberos registrados` },
-    { label: 'Gestionar Usuarios', path: '/admin/usuarios', icon: Users, color: 'text-green-400', bg: 'bg-green-500/10 border-green-500/20', desc: 'Ver todos los clientes' },
+  const NAV_LINKS = [
+    { to: '/admin/appointments', icon: Calendar, label: 'Citas', desc: 'Gestionar agenda global' },
+    { to: '/admin/barbers', icon: Scissors, label: 'Barberos', desc: 'Personal y horarios' },
+    { to: '/admin/services', icon: Activity, label: 'Servicios', desc: 'Precios y categorías' },
+    { to: '/admin/users', icon: Users, label: 'Usuarios', desc: 'Clientes y roles' },
   ];
 
   return (
-    <div className="min-h-screen bg-dark-400">
-      <Navbar />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
-
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-10"
-        >
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-gold-500 to-gold-700 rounded-xl flex items-center justify-center">
-              <Settings size={18} className="text-black" />
-            </div>
-            <div>
-              <h1 className="font-display text-3xl font-bold text-white">
-                Panel <span className="gold-text">Administrador</span>
-              </h1>
-              <p className="text-gray-400 text-sm">Control total de Punto Fino</p>
-            </div>
-          </div>
+    <PageTransition>
+      <div className="max-w-6xl mx-auto p-4 sm:p-6 space-y-6">
+        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="mb-8">
+          <h1 className="text-3xl font-display font-bold uppercase tracking-wider">
+            PANEL DE <span className="text-gold-500">ADMINISTRACIÓN</span>
+          </h1>
+          <p className="text-gray-400 font-mono-price mt-2">Resumen General del Sistema</p>
         </motion.div>
 
-        {/* Menu principal */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-          {menuItems.map(({ label, path, icon: Icon, color, bg, desc }, index) => (
-            <motion.div
-              key={path}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
-              <Link to={path} className={`card border ${bg} p-6 flex flex-col gap-4 hover:scale-105 transition-all duration-300 block`}>
-                <div className="flex items-center justify-between">
-                  <Icon size={24} className={color} />
-                  <ChevronRight size={16} className="text-gray-600" />
-                </div>
-                <div>
-                  <p className="text-white font-semibold">{label}</p>
-                  <p className="text-gray-500 text-xs mt-0.5">{desc}</p>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+        <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <motion.div variants={item}><StatsCard icon={Calendar} label="Citas Hoy" value={24} trend="+5%" /></motion.div>
+          <motion.div variants={item}><StatsCard icon={DollarSign} label="Ingresos Mes" value={3500000} trend="+12%" className="border-gold-500" /></motion.div>
+          <motion.div variants={item}><StatsCard icon={Scissors} label="Barberos Activos" value={5} /></motion.div>
+          <motion.div variants={item}><StatsCard icon={Users} label="Clientes Totales" value={1250} trend="+15" /></motion.div>
+        </motion.div>
 
-        {/* Citas recientes */}
-        <div className="card p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-white flex items-center gap-2">
-              <Calendar size={20} className="text-gold-500" />
-              Citas recientes
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+          <div className="md:col-span-2 space-y-6">
+            <h2 className="text-xl font-bold uppercase tracking-wider flex items-center gap-2">
+              <Activity className="text-gold-500"/> Actividad Reciente
             </h2>
-            <Link to="/admin/citas" className="text-gold-400 text-sm hover:text-gold-300 flex items-center gap-1">
-              Ver todas <ChevronRight size={14} />
-            </Link>
+            <BrutalCard padding={false} className="divide-y-2 divide-dashed divide-[#333]">
+              {[1, 2, 3, 4].map(i => (
+                <div key={i} className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-dark-200 transition-colors">
+                  <div className="flex items-center gap-4">
+                    <div className="w-2 h-2 bg-gold-500 rounded-full"></div>
+                    <div>
+                      <p className="font-bold uppercase text-sm">Nueva Cita Programada</p>
+                      <p className="text-xs text-gray-400 font-mono-price">Carlos M. con Juan Pérez</p>
+                    </div>
+                  </div>
+                  <span className="text-xs font-mono-price text-gray-500">Hace 5 min</span>
+                </div>
+              ))}
+            </BrutalCard>
           </div>
 
-          {loading ? (
-            <div className="flex justify-center py-12">
-              <LoadingSpinner text="Cargando..." />
+          <div className="space-y-6">
+             <h2 className="text-xl font-bold uppercase tracking-wider flex items-center gap-2">
+              <Users className="text-gold-500"/> Accesos Rápidos
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-2 gap-4">
+              {NAV_LINKS.map(link => (
+                <Link key={link.to} to={link.to}>
+                  <BrutalCard variant="interactive" className="h-full flex flex-col items-center text-center p-4">
+                    <link.icon size={24} className="text-gold-500 mb-2" />
+                    <h3 className="font-bold uppercase text-sm mb-1">{link.label}</h3>
+                    <p className="text-[10px] text-gray-400 font-mono-price">{link.desc}</p>
+                  </BrutalCard>
+                </Link>
+              ))}
             </div>
-          ) : recentAppointments.length === 0 ? (
-            <div className="text-center py-12">
-              <Calendar size={40} className="text-gray-600 mx-auto mb-3" />
-              <p className="text-gray-400">No hay citas registradas aún</p>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-white/5">
-                    <th className="text-left text-gray-500 text-xs font-medium pb-3 pr-4">Cliente</th>
-                    <th className="text-left text-gray-500 text-xs font-medium pb-3 pr-4">Barbero</th>
-                    <th className="text-left text-gray-500 text-xs font-medium pb-3 pr-4">Fecha y hora</th>
-                    <th className="text-left text-gray-500 text-xs font-medium pb-3 pr-4">Servicio</th>
-                    <th className="text-left text-gray-500 text-xs font-medium pb-3 pr-4">Total</th>
-                    <th className="text-left text-gray-500 text-xs font-medium pb-3">Estado</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/5">
-                  {recentAppointments.map((apt) => (
-                    <tr key={apt._id} className="hover:bg-white/2 transition-colors">
-                      <td className="py-3 pr-4">
-                        <p className="text-white text-sm font-medium">{apt.client?.name}</p>
-                        <p className="text-gray-600 text-xs">{apt.client?.phone}</p>
-                      </td>
-                      <td className="py-3 pr-4">
-                        <p className="text-gray-300 text-sm">{apt.barber?.name}</p>
-                      </td>
-                      <td className="py-3 pr-4">
-                        <p className="text-gray-300 text-sm">{formatDate(apt.date, { day: 'numeric', month: 'short' })}</p>
-                        <p className="text-gray-600 text-xs">{formatTime(apt.startTime)}</p>
-                      </td>
-                      <td className="py-3 pr-4">
-                        <p className="text-gray-300 text-sm truncate max-w-32">
-                          {apt.services?.[0]?.service?.name}
-                          {apt.services?.length > 1 && ` +${apt.services.length - 1}`}
-                        </p>
-                      </td>
-                      <td className="py-3 pr-4">
-                        <p className="text-gold-400 text-sm font-medium">
-                          ${apt.totalPrice?.toLocaleString('es-CO')}
-                        </p>
-                      </td>
-                      <td className="py-3">
-                        <span className={`badge border text-xs ${getStatusColor(apt.status)}`}>
-                          {getStatusLabel(apt.status)}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+          </div>
         </div>
       </div>
-    </div>
+    </PageTransition>
   );
 }

@@ -1,83 +1,62 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
+import BrutalCard from '../ui/BrutalCard';
 
-const reviews = [
-  { id: 1, name: 'Felipe Mejia', date: 'mayo 29, 2026', rating: 5, comment: 'Excelente servicio, el mejor corte que me han hecho en Cali. El ambiente es increíble y los barberos muy profesionales.' },
-  { id: 2, name: 'Santiago Ospina', date: 'mayo 28, 2026', rating: 5, comment: 'Muy buena atención, precios justos y resultados de calidad. Definitivamente volvería.' },
-  { id: 3, name: 'Joan Mosquera', date: 'mayo 24, 2026', rating: 5, comment: 'El lugar perfecto para los que buscan un corte premium. Ambiente relajado y trabajo impecable.' },
-  { id: 4, name: 'Brayan Godoy', date: 'mayo 21, 2026', rating: 5, comment: 'Primera vez aquí y quedé encantado. El barbero fue muy detallista con lo que pedí.' },
-  { id: 5, name: 'Gerson Rojas', date: 'abril 20, 2026', rating: 5, comment: 'Muy recomendado. El servicio de barba y cejas quedó perfecto.' },
-  { id: 6, name: 'Alexandra Márquez', date: 'abril 14, 2026', rating: 5, comment: 'Fui con mi hijo y el resultado fue excelente. Muy amables y profesionales.' },
+const REVIEWS = [
+  { id: 1, name: 'David M.', rating: 5, text: 'Excelente servicio, el fade quedó impecable. Muy puntuales y el lugar tiene mucho estilo.' },
+  { id: 2, name: 'Sergio R.', rating: 5, text: 'Llevo 2 años cortándome aquí y nunca decepcionan. Carlos es un maestro con las tijeras.' },
+  { id: 3, name: 'Miguel T.', rating: 4, text: 'Buena música, buena vibra. El arreglo de barba con toalla caliente es recomendado.' },
 ];
 
 export default function ReviewsSection() {
   return (
-    <section className="py-24 bg-dark-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <span className="inline-block text-gold-500 text-sm font-medium tracking-widest uppercase mb-4">
-            Testimonios
-          </span>
-          <h2 className="section-title mb-4">
-            Lo que dicen nuestros <span className="gold-text">clientes</span>
+    <section className="py-20 bg-dark-400">
+      <div className="container mx-auto px-4 max-w-6xl">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-display font-bold uppercase tracking-wider text-white">
+            Lo Que Dicen
           </h2>
-          <div className="flex items-center justify-center gap-3 mt-6">
-            <div className="flex">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} size={20} className="text-gold-500 fill-gold-500" />
-              ))}
-            </div>
-            <span className="text-white font-bold text-xl">5.0</span>
-            <span className="text-gray-500">· 7 reseñas verificadas</span>
-          </div>
-        </motion.div>
+          <div className="w-24 h-2 bg-gold-500 mx-auto mt-4"></div>
+        </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {reviews.map((review, index) => (
-            <motion.div
+        <div className="flex overflow-x-auto sm:grid sm:grid-cols-2 md:grid-cols-3 gap-6 pb-8 snap-x snap-mandatory scrollbar-hide px-4 sm:px-0">
+          {REVIEWS.map((review, i) => (
+            <motion.div 
               key={review.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.2 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.05 }}
-              className="card p-6 relative"
+              className="min-w-[85vw] sm:min-w-0 snap-center"
             >
-              {/* Quote icon */}
-              <div className="absolute top-4 right-4 text-gold-500/20">
-                <Quote size={32} />
-              </div>
-
-              {/* Stars */}
-              <div className="flex gap-0.5 mb-4">
-                {[...Array(review.rating)].map((_, i) => (
-                  <Star key={i} size={14} className="text-gold-500 fill-gold-500" />
-                ))}
-              </div>
-
-              {/* Comment */}
-              <p className="text-gray-300 text-sm leading-relaxed mb-5">
-                "{review.comment}"
-              </p>
-
-              {/* Author */}
-              <div className="flex items-center gap-3 pt-4 border-t border-white/5">
-                <div className="w-10 h-10 bg-gradient-to-br from-gold-500 to-gold-700 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <span className="text-black font-bold text-sm">
+              <BrutalCard className="h-full flex flex-col relative pt-10">
+                <div className="absolute top-4 right-4 text-gold-500 opacity-20">
+                  <Quote size={40} />
+                </div>
+                
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={16} className={i < review.rating ? "text-gold-500 fill-gold-500" : "text-gray-600"} />
+                  ))}
+                </div>
+                
+                <p className="text-gray-300 flex-grow mb-6 font-sans leading-relaxed italic">
+                  "{review.text}"
+                </p>
+                
+                <div className="brutal-divider mb-4"></div>
+                
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gold-500 border-2 border-dark-500 shadow-brutal-sm flex items-center justify-center font-bold text-dark-500">
                     {review.name.charAt(0)}
-                  </span>
+                  </div>
+                  <div>
+                    <p className="font-bold uppercase text-sm">{review.name}</p>
+                    <p className="text-[10px] text-gray-500 font-mono-price uppercase tracking-wider">Cliente Verificado</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-white font-medium text-sm">{review.name}</p>
-                  <p className="text-gray-500 text-xs">{review.date} · Cali</p>
-                </div>
-              </div>
+              </BrutalCard>
             </motion.div>
           ))}
         </div>
