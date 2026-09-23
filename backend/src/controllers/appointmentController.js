@@ -276,10 +276,17 @@ exports.updateAppointmentStatus = async (req, res) => {
 // @access  Private (barbero)
 exports.getBarberAppointments = async (req, res) => {
   try {
-    const { date, status } = req.query;
+    const { date, status, startDate, endDate } = req.query;
     const query = { barber: req.user.id };
 
-    if (date) {
+    if (startDate && endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      query.date = {
+        $gte: new Date(start.setHours(0, 0, 0, 0)),
+        $lte: new Date(end.setHours(23, 59, 59, 999)),
+      };
+    } else if (date) {
       const targetDate = new Date(date);
       query.date = {
         $gte: new Date(targetDate.setHours(0, 0, 0, 0)),
@@ -287,10 +294,10 @@ exports.getBarberAppointments = async (req, res) => {
       };
     }
 
-    if (status) query.status = status;
+    if (status && status !== 'todos') query.status = status;
 
     const appointments = await Appointment.find(query)
-      .populate('client', 'name phone avatar loyaltyPoints')
+      .populate('client', 'name email phone avatar loyaltyPoints')
       .populate('services.service', 'name price duration category')
       .sort({ date: 1, startTime: 1 });
 

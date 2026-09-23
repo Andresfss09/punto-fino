@@ -20,9 +20,9 @@ const BottomBar = () => {
       break;
     case 'barbero':
       links = [
-        { icon: LayoutDashboard, label: 'Dashboard', path: '/barbero' },
-        { icon: Calendar, label: 'Agenda', path: '/barbero/agenda' },
-        { icon: User, label: 'Perfil', path: '/barbero/perfil' },
+        { icon: LayoutDashboard, label: 'Dashboard', path: '/barber' },
+        { icon: Calendar, label: 'Agenda', path: '/barber/agenda' },
+        { icon: User, label: 'Perfil', path: '/barber/perfil' },
       ];
       break;
     case 'cliente':
@@ -43,7 +43,7 @@ const BottomBar = () => {
           <NavLink
             key={idx}
             to={link.path}
-            end={link.path === '/cliente' || link.path === '/barbero' || link.path === '/admin'}
+            end={link.path === '/cliente' || link.path === '/barber' || link.path === '/admin'}
             className={({ isActive }) => 
               `flex flex-col items-center justify-center flex-1 h-full min-w-[44px] border-t-3 transition-colors ${
                 isActive 

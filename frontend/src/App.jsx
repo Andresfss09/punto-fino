@@ -68,16 +68,19 @@ export default function App() {
               <PageTransition><BarberDashboard /></PageTransition>
             </PrivateRoute>
           } />
+          <Route path="/barbero" element={<Navigate to="/barber" replace />} />
           <Route path="/barber/agenda" element={
             <PrivateRoute allowedRoles={['barbero']}>
               <PageTransition><BarberSchedule /></PageTransition>
             </PrivateRoute>
           } />
+          <Route path="/barbero/agenda" element={<Navigate to="/barber/agenda" replace />} />
           <Route path="/barber/perfil" element={
             <PrivateRoute allowedRoles={['barbero']}>
               <PageTransition><BarberProfile /></PageTransition>
             </PrivateRoute>
           } />
+          <Route path="/barbero/perfil" element={<Navigate to="/barber/perfil" replace />} />
 
           {/* Admin */}
           <Route path="/admin" element={

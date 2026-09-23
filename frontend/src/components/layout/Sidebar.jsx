@@ -21,9 +21,9 @@ export default function Sidebar() {
       break;
     case 'barbero':
       links = [
-        { icon: LayoutDashboard, label: 'Dashboard', path: '/barbero' },
-        { icon: Calendar, label: 'Agenda', path: '/barbero/agenda' },
-        { icon: User, label: 'Mi Perfil', path: '/barbero/perfil' },
+        { icon: LayoutDashboard, label: 'Dashboard', path: '/barber' },
+        { icon: Calendar, label: 'Agenda', path: '/barber/agenda' },
+        { icon: User, label: 'Mi Perfil', path: '/barber/perfil' },
       ];
       break;
     case 'cliente':
