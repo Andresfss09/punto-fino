@@ -201,24 +201,24 @@ export default function LoginPage() {
                 <div>
                   <label className="label">Contraseña</label>
                   <div className="relative">
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                    <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none z-10">
                       <Lock size={18} />
                     </div>
                     <input
                       type={showPassword ? 'text' : 'password'}
                       placeholder="Tu contraseña"
-                      className={`input-field pl-10 pr-10 ${errors.password ? 'border-red-500/50' : ''}`}
+                      className={`input-field pl-11 pr-11 ${errors.password ? '!border-red-500/70 focus:!border-red-500 focus:!ring-red-500/20' : ''}`}
                       {...register('password')}
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors"
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors z-10 cursor-pointer"
                     >
                       {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                     </button>
                   </div>
-                  {errors.password && <p className="mt-1 text-sm text-red-400">{errors.password.message}</p>}
+                  {errors.password && <p className="mt-1.5 text-xs text-red-400 font-medium">{errors.password.message}</p>}
                 </div>
 
                 <div className="flex justify-end">
