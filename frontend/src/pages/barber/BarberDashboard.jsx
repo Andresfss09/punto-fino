@@ -18,7 +18,9 @@ import {
   Scissors, 
   AlertCircle,
   ExternalLink,
-  ChevronRight
+  ChevronRight,
+  Download,
+  FileSpreadsheet
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import useAuthStore from '../../store/useAuthStore';
@@ -242,6 +244,82 @@ export default function BarberDashboard() {
       setRangeStartDate(startISO);
       setRangeEndDate(todayISO);
       fetchRangeReport(startISO, todayISO);
+    }
+  };
+
+  // Export Range Report to CSV/Excel
+  const handleExportExcel = () => {
+    if (!rangeStats.appointments || rangeStats.appointments.length === 0) {
+      toast.error('No hay registros en el rango seleccionado para exportar.');
+      return;
+    }
+
+    try {
+      const headers = [
+        'Fecha',
+        'Hora Inicio',
+        'Hora Fin',
+        'Cliente Peluqueado',
+        'Teléfono',
+        'Email',
+        'Servicios Realizados',
+        'Método de Pago',
+        'Estado',
+        'Total Cobrado (COP)',
+      ];
+
+      const rows = rangeStats.appointments.map((apt) => {
+        const client = apt.client || {};
+        const dateStr = apt.date
+          ? new Date(apt.date).toLocaleDateString('es-CO')
+          : '';
+        const servicesStr = apt.services?.map((s) => s.service?.name || 'Servicio').join(' + ') || '';
+
+        return [
+          `"${dateStr}"`,
+          `"${apt.startTime || ''}"`,
+          `"${apt.endTime || ''}"`,
+          `"${(client.name || 'Sin nombre').replace(/"/g, '""')}"`,
+          `"${(client.phone || '').replace(/"/g, '""')}"`,
+          `"${(client.email || '').replace(/"/g, '""')}"`,
+          `"${servicesStr.replace(/"/g, '""')}"`,
+          `"${(apt.paymentMethod || 'Efectivo').replace(/"/g, '""')}"`,
+          `"${(getStatusLabel(apt.status) || '').replace(/"/g, '""')}"`,
+          apt.totalPrice || 0,
+        ];
+      });
+
+      // Fila de resumen total al final
+      rows.push([
+        '"TOTAL"',
+        '""',
+        '""',
+        `"${rangeStats.uniqueClients} clientes únicos"`,
+        '""',
+        '""',
+        `"${rangeStats.totalCuts} cortes finalizados"`,
+        '""',
+        '""',
+        rangeStats.totalRevenue || 0,
+      ]);
+
+      // sep=; garantiza que Microsoft Excel abra las columnas separadas en cualquier idioma y SO
+      const csvString = 'sep=;\r\n' + [headers.join(';'), ...rows.map((r) => r.join(';'))].join('\r\n');
+      const blob = new Blob(['\uFEFF' + csvString], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      const cleanName = (user?.name || 'barbero').toLowerCase().replace(/\s+/g, '_');
+      link.download = `reporte_cortes_${cleanName}_${rangeStartDate}_al_${rangeEndDate}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      toast.success('¡Reporte descargado exitosamente para Excel! 📊');
+    } catch (err) {
+      console.error('Error al exportar a Excel:', err);
+      toast.error('Ocurrió un error al generar el archivo');
     }
   };
 
@@ -829,11 +907,22 @@ export default function BarberDashboard() {
 
             {/* Detailed Table / Cards of clients peluqueados in the range */}
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <h3 className="text-xl font-display font-bold uppercase text-white flex items-center gap-2">
                   <Users size={20} className="text-gold-500" />
                   Clientes Atendidos en el Periodo ({rangeStats.appointments?.length || 0})
                 </h3>
+
+                {rangeStats.appointments?.length > 0 && (
+                  <button
+                    onClick={handleExportExcel}
+                    className="brutal-btn bg-green-500/15 text-green-400 border-green-500/50 hover:bg-green-500/25 px-4 py-2 text-xs font-bold uppercase flex items-center gap-2 shadow-[3px_3px_0_#22c55e] cursor-pointer"
+                    title="Descargar reporte en formato compatible con Microsoft Excel"
+                  >
+                    <FileSpreadsheet size={16} />
+                    Exportar a Excel (.csv)
+                  </button>
+                )}
               </div>
 
               {loadingRange ? (

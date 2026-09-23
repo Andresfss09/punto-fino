@@ -154,3 +154,4 @@ const seedAppointments = async () => {
 };
 
 seedAppointments();
+
