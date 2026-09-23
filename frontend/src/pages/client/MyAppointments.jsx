@@ -95,8 +95,7 @@ export default function MyAppointments() {
 
   return (
     <PageTransition>
-      <Navbar />
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-20">
         
         <div className="mb-8">
           <h1 className="font-display text-4xl sm:text-5xl uppercase text-white mb-2 leading-tight">

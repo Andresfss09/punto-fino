@@ -48,7 +48,7 @@ export default function ServiceSelector({ services = [], selectedServices = [], 
   return (
     <div className="pb-24 sm:pb-0">
       {categories.length > 1 && (
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className="flex flex-wrap gap-2 mb-4">
           {categories.map(cat => (
             <button
               key={cat}
@@ -64,6 +64,17 @@ export default function ServiceSelector({ services = [], selectedServices = [], 
           ))}
         </div>
       )}
+
+      {/* Info Banner: Duración y Precios */}
+      <div className="mb-6 p-3.5 bg-[#111111] border-2 border-[#333] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+        <span className="text-gray-300 flex items-center gap-1.5 font-sans">
+          <Clock size={15} className="text-gold-500" />
+          <strong>Duración estimada:</strong> 30 a 40 minutos en promedio por corte
+        </span>
+        <span className="text-gold-500 font-mono font-bold uppercase tracking-wider">
+          Precios en pesos colombianos (COP)
+        </span>
+      </div>
 
       <motion.div 
         variants={container}
