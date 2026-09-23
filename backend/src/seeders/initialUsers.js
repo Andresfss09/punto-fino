@@ -7,73 +7,67 @@ const seedUsers = async () => {
   try {
     await connectDB();
 
-    // 1. Admin
-    const adminEmail = 'admin@puntofino.com';
+    // 1. Admin Steel House
+    const adminEmail = 'admin@steelhouse.com';
     let admin = await User.findOne({ email: adminEmail });
     if (!admin) {
       admin = await User.create({
-        name: 'Administrador Punto Fino',
+        name: 'Admin Steel House',
         email: adminEmail,
         phone: '3001112233',
         password: 'admin123456',
         role: 'admin',
         isVerified: true,
       });
-      console.log('✅ Admin creado: admin@puntofino.com / admin123456');
-    } else {
-      console.log('ℹ️ Admin ya existe');
+      console.log('✅ Admin creado: admin@steelhouse.com / admin123456');
     }
 
-    // 2. Barbero 1 (Carlos)
-    const barber1Email = 'carlos@puntofino.com';
+    // 2. Barbero 1 (Juan Muñeton)
+    const barber1Email = 'juan@steelhouse.com';
     let barberUser1 = await User.findOne({ email: barber1Email });
     if (!barberUser1) {
       barberUser1 = await User.create({
-        name: 'Carlos Mendoza',
+        name: 'Juan Muñeton',
         email: barber1Email,
-        phone: '3109876543',
+        phone: '3158965266',
         password: 'barbero123',
         role: 'barbero',
         isVerified: true,
       });
       await Barber.create({
         user: barberUser1._id,
-        bio: 'Master barber con más de 8 años de experiencia en fades y cortes clásicos.',
-        specialties: ['degradado', 'corte clásico', 'barba'],
-        rating: { average: 4.9, count: 28 },
+        bio: 'Fundador y Master Barber. Especialista en la Experiencia Gold, visagismo y cortes de alta precisión.',
+        specialties: ['degradado', 'corte clásico', 'barba', 'diseño'],
+        rating: { average: 5.0, count: 42 },
         isAvailable: true,
       });
-      console.log('✅ Barbero Carlos creado: carlos@puntofino.com / barbero123');
-    } else {
-      console.log('ℹ️ Barbero Carlos ya existe');
+      console.log('✅ Barbero Juan Muñeton creado: juan@steelhouse.com / barbero123');
     }
 
-    // 3. Barbero 2 (Mateo)
-    const barber2Email = 'mateo@puntofino.com';
+    // 3. Barbero 2 (Carlos Mendoza)
+    const barber2Email = 'carlos@steelhouse.com';
     let barberUser2 = await User.findOne({ email: barber2Email });
     if (!barberUser2) {
       barberUser2 = await User.create({
-        name: 'Mateo Gómez',
+        name: 'Carlos Mendoza',
         email: barber2Email,
-        phone: '3205556677',
+        phone: '3109876543',
         password: 'barbero123',
         role: 'barbero',
         isVerified: true,
       });
       await Barber.create({
         user: barberUser2._id,
-        bio: 'Especialista en perfilado de barba al detalle, diseños urbanos y tratamientos faciales.',
-        specialties: ['barba', 'diseño', 'mascarilla'],
-        rating: { average: 4.8, count: 19 },
+        bio: 'Especialista en degradados limpios, perfilado de barba al detalle y cuidado capilar.',
+        specialties: ['degradado', 'corte clásico', 'barba'],
+        rating: { average: 4.9, count: 28 },
         isAvailable: true,
       });
-      console.log('✅ Barbero Mateo creado: mateo@puntofino.com / barbero123');
-    } else {
-      console.log('ℹ️ Barbero Mateo ya existe');
+      console.log('✅ Barbero Carlos creado: carlos@steelhouse.com / barbero123');
     }
 
-    // 4. Cliente
-    const clientEmail = 'cliente@puntofino.com';
+    // 4. Cliente Steel House
+    const clientEmail = 'cliente@steelhouse.com';
     let client = await User.findOne({ email: clientEmail });
     if (!client) {
       client = await User.create({
@@ -83,14 +77,12 @@ const seedUsers = async () => {
         password: 'cliente123',
         role: 'cliente',
         isVerified: true,
-        loyaltyPoints: 50,
+        loyaltyPoints: 100,
       });
-      console.log('✅ Cliente creado: cliente@puntofino.com / cliente123');
-    } else {
-      console.log('ℹ️ Cliente ya existe');
+      console.log('✅ Cliente creado: cliente@steelhouse.com / cliente123');
     }
 
-    console.log('🎉 Seed de usuarios finalizado con éxito.');
+    console.log('🎉 Seed de usuarios de Steel House finalizado con éxito.');
     process.exit(0);
   } catch (error) {
     console.error('❌ Error en seedUsers:', error.message);
@@ -99,4 +91,3 @@ const seedUsers = async () => {
 };
 
 seedUsers();
-

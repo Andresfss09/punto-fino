@@ -45,8 +45,16 @@ export default function Sidebar() {
   return (
     <aside className="hidden md:flex flex-col w-64 h-screen bg-[#111111] border-r-2 border-[#333] flex-shrink-0 z-40 relative">
       {/* Logo Area */}
-      <div className="h-16 flex items-center px-6 border-b-2 border-[#333]">
-        <h2 className="font-display font-bold text-xl text-[#d4af37] tracking-wider uppercase">Punto Fino</h2>
+      <div className="h-16 flex items-center gap-3 px-5 border-b-2 border-[#333]">
+        <img
+          src="/logo.png"
+          alt="Steel House"
+          className="w-9 h-9 object-contain rounded-full border border-gold-500/40"
+        />
+        <div>
+          <h2 className="font-display font-bold text-base text-white tracking-wide leading-none">Steel House</h2>
+          <span className="text-[10px] text-gold-500 tracking-[0.2em] font-semibold uppercase">Barberia's 👑</span>
+        </div>
       </div>
 
       {/* Navigation Links */}

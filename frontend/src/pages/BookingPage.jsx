@@ -179,8 +179,8 @@ export default function BookingPage() {
           <h1 className="font-display text-4xl sm:text-5xl uppercase text-white mb-2 leading-tight">
             AGENDA TU <span className="text-[#d4af37]">CITA</span>
           </h1>
-          <p className="text-[#a0a0a0] font-mono text-sm uppercase tracking-widest">
-            SISTEMA DE RESERVAS PUNTO FINO
+          <p className="text-gold-500 font-mono text-xs uppercase tracking-[0.25em] font-semibold">
+            STEEL HOUSE BARBERIA'S 👑 · RESERVAS
           </p>
         </div>
 

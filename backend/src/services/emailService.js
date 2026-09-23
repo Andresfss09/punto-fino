@@ -33,7 +33,7 @@ exports.sendWelcomeEmail = async (user) => {
   const html = `
     <html><head><style>${emailStyles}</style></head>
     <body><div class="container">
-      <div class="header"><h1>✂️ PUNTO FINO</h1><p>Barbería Premium · Cali</p></div>
+      <div class="header"><h1>👑 STEEL HOUSE</h1><p>Barberia's · Cali</p></div>
       <div class="body">
         <h2>¡Bienvenido, ${user.name}! 🔥</h2>
         <p>Tu cuenta ha sido creada exitosamente. Ahora puedes reservar citas con los mejores barberos de Cali.</p>
@@ -45,7 +45,7 @@ exports.sendWelcomeEmail = async (user) => {
         <p>Reserva tu primera cita y empieza a acumular puntos exclusivos.</p>
         <a href="${process.env.CLIENT_URL}" class="btn">RESERVAR AHORA</a>
       </div>
-      <div class="footer"><p>© 2025 Punto Fino · cra 12 #53-51 Villacolombia, Cali</p></div>
+      <div class="footer"><p>© ${new Date().getFullYear()} Steel House Barberia's · Cra. 16 #33F-31, Cali</p></div>
     </div></body></html>
   `;
 
@@ -64,7 +64,7 @@ exports.sendAppointmentConfirmationEmail = async (appointment) => {
   const html = `
     <html><head><style>${emailStyles}</style></head>
     <body><div class="container">
-      <div class="header"><h1>✂️ PUNTO FINO</h1><p>Confirmación de Cita</p></div>
+      <div class="header"><h1>👑 STEEL HOUSE</h1><p>Confirmación de Cita</p></div>
       <div class="body">
         <h2>Cita Confirmada ✅</h2>
         <p>Tu cita ha sido reservada exitosamente.</p>
@@ -77,7 +77,7 @@ exports.sendAppointmentConfirmationEmail = async (appointment) => {
         </div>
         <p>Recuerda llegar 5 minutos antes de tu cita.</p>
       </div>
-      <div class="footer"><p>© 2025 Punto Fino · cra 12 #53-51 Villacolombia, Cali</p></div>
+      <div class="footer"><p>© ${new Date().getFullYear()} Steel House Barberia's · Cra. 16 #33F-31, Cali</p></div>
     </div></body></html>
   `;
 
@@ -96,14 +96,14 @@ exports.sendPasswordResetEmail = async (user, token) => {
   const html = `
     <html><head><style>${emailStyles}</style></head>
     <body><div class="container">
-      <div class="header"><h1>✂️ PUNTO FINO</h1><p>Recuperar Contraseña</p></div>
+      <div class="header"><h1>👑 STEEL HOUSE</h1><p>Recuperar Contraseña</p></div>
       <div class="body">
         <h2>Restablecer Contraseña</h2>
         <p>Haz clic en el botón para crear una nueva contraseña. Este enlace expira en 30 minutos.</p>
         <a href="${resetUrl}" class="btn">RESTABLECER CONTRASEÑA</a>
         <p>Si no solicitaste esto, ignora este email.</p>
       </div>
-      <div class="footer"><p>© 2025 Punto Fino · cra 12 #53-51 Villacolombia, Cali</p></div>
+      <div class="footer"><p>© ${new Date().getFullYear()} Steel House Barberia's · Cra. 16 #33F-31, Cali</p></div>
     </div></body></html>
   `;
 

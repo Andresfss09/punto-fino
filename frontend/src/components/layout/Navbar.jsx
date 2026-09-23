@@ -39,16 +39,18 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2 group">
-              <div className="w-9 h-9 bg-gradient-to-br from-gold-500 to-gold-700 rounded-lg flex items-center justify-center group-hover:shadow-lg group-hover:shadow-gold-500/30 transition-all">
-                <Scissors size={18} className="text-black rotate-45" />
-              </div>
-              <div>
-                <span className="font-display text-lg font-bold text-white leading-none block">
-                  Punto Fino
+            <Link to="/" className="flex items-center gap-3 group">
+              <img
+                src="/logo.png"
+                alt="Steel House Barberia's"
+                className="w-10 h-10 object-contain rounded-full border border-gold-500/30 group-hover:scale-105 group-hover:border-gold-500 transition-all duration-300"
+              />
+              <div className="flex flex-col">
+                <span className="font-display text-lg font-bold text-white tracking-wide leading-none group-hover:text-gold-400 transition-colors">
+                  Steel House
                 </span>
-                <span className="text-xs text-gold-500 leading-none tracking-widest uppercase">
-                  Barbería
+                <span className="text-[10px] text-gold-500 tracking-[0.25em] uppercase font-semibold mt-1">
+                  BARBERIA'S 👑
                 </span>
               </div>
             </Link>
