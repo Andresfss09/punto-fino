@@ -38,8 +38,23 @@ const slideVariants = {
 };
 
 export default function BookingPage() {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, user, isBarber, isAdmin } = useAuthStore();
   const navigate = useNavigate();
+
+  // Si un barbero o admin intenta agendar citas como cliente, redirigir a su propio panel
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (isBarber?.() || user?.role === 'barbero') {
+        navigate('/barber', { replace: true });
+      } else if (isAdmin?.() || user?.role === 'admin') {
+        navigate('/admin', { replace: true });
+      }
+    }
+  }, [isAuthenticated, user, navigate, isBarber, isAdmin]);
+
+  if (isAuthenticated && (user?.role === 'barbero' || user?.role === 'admin')) {
+    return null;
+  }
 
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(1);

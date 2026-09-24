@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { format, addDays, subDays, isSameDay } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Calendar as CalendarIcon, Clock, ChevronLeft, ChevronRight, Save, User, UserCheck } from 'lucide-react';
-import Navbar from '../../components/layout/Navbar';
 import PageTransition from '../../components/ui/PageTransition';
 import BrutalCard from '../../components/ui/BrutalCard';
 import { appointmentService } from '../../services/appointmentService';
@@ -135,8 +134,7 @@ export default function BarberSchedule() {
 
   return (
     <PageTransition>
-      <Navbar />
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-24 pb-20">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-2 pb-20">
         
         <div className="mb-8">
           <h1 className="font-display text-4xl uppercase text-white mb-1">

@@ -35,7 +35,7 @@ export default function DashboardLayout() {
             </button>
             <div className="flex items-center gap-3 pl-4 border-l-2 border-[#333]">
               <div className="hidden sm:block text-right">
-                <div className="text-sm font-medium text-white">{user?.nombre || 'Usuario'}</div>
+                <div className="text-sm font-medium text-white">{user?.name || user?.nombre || 'Usuario'}</div>
                 <div className="text-xs text-[#a0a0a0] capitalize">{user?.role || 'Cliente'}</div>
               </div>
               <div className="w-9 h-9 rounded-full bg-[#333] border-2 border-[#d4af37] flex items-center justify-center overflow-hidden">

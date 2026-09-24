@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, Filter, Scissors, Star, Clock, User, Check, X } from 'lucide-react';
-import Navbar from '../../components/layout/Navbar';
 import PageTransition from '../../components/ui/PageTransition';
 import BrutalCard from '../../components/ui/BrutalCard';
 import Modal from '../../components/ui/Modal';

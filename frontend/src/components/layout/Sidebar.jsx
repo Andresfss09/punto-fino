@@ -63,7 +63,7 @@ export default function Sidebar() {
           <NavLink
             key={idx}
             to={link.path}
-            end={link.path === '/cliente' || link.path === '/barbero' || link.path === '/admin'}
+            end={link.path === '/cliente' || link.path === '/barber' || link.path === '/admin'}
             className={({ isActive }) =>
               `flex items-center px-4 py-3 min-h-[44px] border-2 transition-colors duration-100 ${
                 isActive

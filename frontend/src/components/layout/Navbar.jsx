@@ -26,11 +26,12 @@ export default function Navbar() {
     return '/cliente';
   };
 
+  const isStaff = isAuthenticated && (isBarber() || isAdmin());
   const navLinks = [
     { label: 'Inicio', path: '/' },
     { label: 'Servicios', path: '/#servicios' },
     { label: 'Barberos', path: '/#barberos' },
-    { label: 'Reservar', path: '/reservar' },
+    ...(!isStaff ? [{ label: 'Reservar', path: '/reservar' }] : []),
   ];
 
   return (
@@ -133,21 +134,41 @@ export default function Navbar() {
                               <LayoutDashboard size={16} />
                               Dashboard
                             </Link>
-                            <Link
-                              to="/reservar"
-                              onClick={() => setShowUserMenu(false)}
-                              className="flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all"
-                            >
-                              <Calendar size={16} />
-                              Nueva cita
-                            </Link>
+                            {isBarber() ? (
+                              <Link
+                                to="/barber/agenda"
+                                onClick={() => setShowUserMenu(false)}
+                                className="flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                              >
+                                <Calendar size={16} />
+                                Mi Agenda
+                              </Link>
+                            ) : isAdmin() ? (
+                              <Link
+                                to="/admin/citas"
+                                onClick={() => setShowUserMenu(false)}
+                                className="flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                              >
+                                <Calendar size={16} />
+                                Citas
+                              </Link>
+                            ) : (
+                              <Link
+                                to="/reservar"
+                                onClick={() => setShowUserMenu(false)}
+                                className="flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                              >
+                                <Calendar size={16} />
+                                Nueva cita
+                              </Link>
+                            )}
                             <Link
                               to={`${getDashboardLink()}/perfil`}
                               onClick={() => setShowUserMenu(false)}
                               className="flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all"
                             >
                               <Settings size={16} />
-                              Configuración
+                              {isBarber() ? 'Mi Perfil' : 'Configuración'}
                             </Link>
                           </div>
                           <div className="p-1 border-t border-white/5">
@@ -203,6 +224,15 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
+              {isAuthenticated && (
+                <Link
+                  to={getDashboardLink()}
+                  onClick={() => setIsOpen(false)}
+                  className="block px-4 py-2.5 rounded-lg text-sm text-gold-400 font-semibold hover:bg-white/5 transition-all border-t border-white/5 mt-1 pt-3"
+                >
+                  Ir a mi Dashboard ({isBarber() ? 'Barbero' : isAdmin() ? 'Admin' : 'Cliente'})
+                </Link>
+              )}
             </div>
           </motion.div>
         )}
