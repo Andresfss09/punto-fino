@@ -1,154 +1,165 @@
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Clock, ChevronRight } from 'lucide-react';
-import { serviceService } from '../../services/serviceService';
+import BrutalCard from '../ui/BrutalCard';
 
-const defaultServices = [
-  { _id: '1', name: 'Barba', price: 12000, duration: 10, category: 'barba', isPopular: true },
-  { _id: '2', name: 'Cejas', price: 5000, duration: 5, category: 'diseño', isPopular: true },
-  { _id: '3', name: 'Corte barba y cejas', price: 34000, duration: 45, category: 'combo', isPopular: true },
-  { _id: '4', name: 'Corte de cabello', price: 20000, duration: 30, category: 'corte', isPopular: false },
-  { _id: '5', name: 'Corte y barba', price: 30000, duration: 40, category: 'combo', isPopular: false },
-  { _id: '6', name: 'Corte y ceja', price: 24000, duration: 35, category: 'combo', isPopular: false },
+const CATEGORIES = ['Todos', 'Experiencias', 'Corte', 'Barba'];
+
+const SERVICES = [
+  {
+    id: 1,
+    name: 'Experiencia White',
+    badge: 'Popular',
+    desc: 'Corte de cabello profesional, perfilación de cejas, orientación de corte según tu fisionomía y aplicación de productos profesionales.',
+    price: 22000,
+    time: 45,
+    cat: 'Experiencias',
+    highlight: false,
+  },
+  {
+    id: 2,
+    name: 'Experiencia Black',
+    badge: 'Recomendada',
+    desc: 'Corte de cabello profesional, mascarilla facial, exfoliación profunda, aceite hidratante y perfilación de cejas y barba.',
+    price: 40000,
+    time: 60,
+    cat: 'Experiencias',
+    highlight: false,
+  },
+  {
+    id: 3,
+    name: 'Experiencia Gold VIP 👑',
+    badge: 'Exclusivo VIP',
+    desc: 'Servicio completo de lujo: Corte + barba + cejas, asesoría personalizada de imagen, hidratación facial profunda y vaporozono frío y caliente.',
+    price: 75000,
+    time: 90,
+    cat: 'Experiencias',
+    highlight: true,
+  },
+  {
+    id: 4,
+    name: 'Perfilado de Barba',
+    badge: 'Detalle',
+    desc: 'Diseño de barba según tu estilo, navaja libre, toalla caliente, exfoliación y aplicación de aceite hidratante.',
+    price: 16000,
+    time: 30,
+    cat: 'Barba',
+    highlight: false,
+  },
+  {
+    id: 5,
+    name: 'Corte Clásico / Fade',
+    badge: 'Esencial',
+    desc: 'Degradado limpio a navaja o corte a tijera tradicional con acabado milimétrico y peinado.',
+    price: 20000,
+    time: 40,
+    cat: 'Corte',
+    highlight: false,
+  },
+  {
+    id: 6,
+    name: 'Mascarilla Facial',
+    badge: 'Cuidado',
+    desc: 'Tratamiento facial exfoliante, puntos negros e hidratación para revitalizar la piel del rostro.',
+    price: 25000,
+    time: 30,
+    cat: 'Experiencias',
+    highlight: false,
+  },
 ];
 
-const categoryColors = {
-  corte: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-  barba: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
-  combo: 'bg-gold-500/20 text-gold-400 border-gold-500/30',
-  diseño: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
-  tratamiento: 'bg-green-500/20 text-green-400 border-green-500/30',
-};
-
-const categoryLabels = {
-  corte: 'Corte',
-  barba: 'Barba',
-  combo: 'Combo',
-  diseño: 'Diseño',
-  tratamiento: 'Tratamiento',
-};
-
 export default function ServicesSection() {
-  const [services, setServices] = useState(defaultServices);
-  const [activeCategory, setActiveCategory] = useState('todos');
+  const [activeCat, setActiveCat] = useState('Todos');
 
-  useEffect(() => {
-    serviceService.getAll({ isActive: true })
-      .then((res) => { if (res.services?.length > 0) setServices(res.services); })
-      .catch(() => {});
-  }, []);
-
-  const categories = ['todos', ...new Set(services.map((s) => s.category))];
-  const filtered = activeCategory === 'todos' ? services : services.filter((s) => s.category === activeCategory);
+  const filtered = activeCat === 'Todos' ? SERVICES : SERVICES.filter(s => s.cat === activeCat);
 
   return (
-    <section id="servicios" className="py-24 bg-dark-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <span className="inline-block text-gold-500 text-sm font-medium tracking-widest uppercase mb-4">
-            Lo que ofrecemos
+    <section id="servicios" className="py-24 bg-dark-400 border-t border-white/5">
+      <div className="container mx-auto px-4 max-w-6xl">
+        <div className="text-center mb-14">
+          <span className="text-xs uppercase font-mono tracking-[0.3em] text-gold-500 font-bold block mb-2">
+            CATÁLOGO EXCLUSIVO
           </span>
-          <h2 className="section-title mb-4">
-            Nuestros <span className="gold-text">Servicios</span>
+          <h2 className="text-3xl md:text-5xl font-display font-bold uppercase tracking-wider inline-block">
+            Elige tu <span className="text-gold-500">Experiencia</span>
           </h2>
-          <p className="text-gray-400 text-lg max-w-xl mx-auto">
-            Desde cortes clásicos hasta diseños de tendencia. Calidad premium en cada servicio.
+          <p className="text-gray-400 text-sm md:text-base max-w-xl mx-auto mt-3">
+            Tratamientos y cortes diseñados para elevar tu presencia y estilo personal.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Filtros */}
-        <div className="flex flex-wrap justify-center gap-2 mb-12">
-          {categories.map((cat) => (
+        <div className="flex flex-wrap justify-center gap-3 mb-14">
+          {CATEGORIES.map(cat => (
             <button
               key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                activeCategory === cat
-                  ? 'bg-gold-500 text-black'
-                  : 'bg-dark-50 text-gray-400 border border-white/10 hover:border-gold-500/30 hover:text-gold-400'
+              onClick={() => setActiveCat(cat)}
+              className={`brutal-badge text-sm px-6 py-2.5 cursor-pointer rounded-xl transition-all ${
+                activeCat === cat
+                  ? 'bg-gold-500 text-black border-gold-500 font-bold shadow-brutal-gold-sm'
+                  : 'bg-[#141414] text-gray-300 border-white/10 hover:border-gold-500/50'
               }`}
             >
-              {cat === 'todos' ? 'Todos' : categoryLabels[cat] || cat}
+              {cat}
             </button>
           ))}
         </div>
 
-        {/* Grid de servicios */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((service, index) => (
+        <motion.div 
+          layout
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          {filtered.map((service, i) => (
             <motion.div
-              key={service._id}
+              key={service.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.05 }}
-              className="card-hover p-6 group"
             >
-              {/* Popular badge */}
-              {service.isPopular && (
-                <div className="flex justify-end mb-3">
-                  <span className="badge bg-gold-500/20 text-gold-400 border border-gold-500/30">
-                    🔥 Popular
-                  </span>
-                </div>
-              )}
-
-              {/* Icono decorativo */}
-              <div className="w-14 h-14 bg-dark-50 border border-white/5 rounded-xl flex items-center justify-center mb-4 group-hover:border-gold-500/30 transition-all">
-                <span className="text-2xl">✂️</span>
-              </div>
-
-              {/* Info */}
-              <div className="flex items-start justify-between mb-3">
+              <BrutalCard className={`h-full flex flex-col justify-between group hover:-translate-y-1.5 transition-all duration-300 rounded-2xl ${
+                service.highlight ? 'border-2 border-gold-500 shadow-brutal-gold bg-gradient-to-b from-[#1a1811] to-[#111111]' : ''
+              }`}>
                 <div>
-                  <h3 className="text-white font-semibold text-lg capitalize">{service.name}</h3>
-                  <span className={`badge mt-1 border ${categoryColors[service.category] || 'bg-gray-500/20 text-gray-400'}`}>
-                    {categoryLabels[service.category] || service.category}
-                  </span>
-                </div>
-                <div className="text-right">
-                  <p className="text-gold-400 font-bold text-xl">
-                    ${service.price.toLocaleString('es-CO')}
+                  <div className="flex justify-between items-center mb-4">
+                    <span className={`text-xs uppercase font-bold tracking-wider px-3 py-1 rounded-full ${
+                      service.highlight
+                        ? 'bg-gold-500 text-black'
+                        : 'bg-gold-500/10 text-gold-400 border border-gold-500/20'
+                    }`}>
+                      {service.badge}
+                    </span>
+                    <span className="font-mono-price text-gray-400 text-xs flex items-center gap-1">
+                      ⏱ {service.time} min
+                    </span>
+                  </div>
+                  
+                  <h3 className="text-xl font-bold uppercase mb-2 group-hover:text-gold-400 transition-colors">
+                    {service.name}
+                  </h3>
+                  <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                    {service.desc}
                   </p>
                 </div>
-              </div>
-
-              {/* Duración */}
-              <div className="flex items-center gap-1.5 text-gray-500 text-sm mb-5">
-                <Clock size={14} />
-                <span>{service.duration} min</span>
-              </div>
-
-              {/* CTA */}
-              <Link
-                to="/reservar"
-                className="w-full flex items-center justify-center gap-2 bg-dark-50 border border-white/10 text-gray-300 hover:border-gold-500/30 hover:text-gold-400 rounded-xl py-2.5 text-sm font-medium transition-all group-hover:bg-gold-500/5"
-              >
-                Reservar
-                <ChevronRight size={16} />
-              </Link>
+                
+                <div>
+                  <div className="border-t border-white/10 pt-4 flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] uppercase font-mono text-gray-500 block">Inversión</span>
+                      <span className="font-mono-price text-2xl font-bold text-white">
+                        ${service.price.toLocaleString('es-CO')}
+                      </span>
+                    </div>
+                    <Link
+                      to="/reservar"
+                      className="px-4 py-2 text-xs uppercase font-bold tracking-wider rounded-lg bg-gold-500 text-black hover:bg-gold-400 transition-all shadow-sm"
+                    >
+                      Agendar
+                    </Link>
+                  </div>
+                </div>
+              </BrutalCard>
             </motion.div>
           ))}
-        </div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center mt-12"
-        >
-          <Link to="/reservar" className="btn-primary inline-flex items-center gap-2">
-            Reservar ahora
-            <ChevronRight size={18} />
-          </Link>
         </motion.div>
       </div>
     </section>

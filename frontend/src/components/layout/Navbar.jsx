@@ -26,11 +26,12 @@ export default function Navbar() {
     return '/cliente';
   };
 
+  const isStaff = isAuthenticated && (isBarber() || isAdmin());
   const navLinks = [
     { label: 'Inicio', path: '/' },
     { label: 'Servicios', path: '/#servicios' },
     { label: 'Barberos', path: '/#barberos' },
-    { label: 'Reservar', path: '/reservar' },
+    ...(!isStaff ? [{ label: 'Reservar', path: '/reservar' }] : []),
   ];
 
   return (
@@ -39,16 +40,18 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2 group">
-              <div className="w-9 h-9 bg-gradient-to-br from-gold-500 to-gold-700 rounded-lg flex items-center justify-center group-hover:shadow-lg group-hover:shadow-gold-500/30 transition-all">
-                <Scissors size={18} className="text-black rotate-45" />
-              </div>
-              <div>
-                <span className="font-display text-lg font-bold text-white leading-none block">
-                  Punto Fino
+            <Link to="/" className="flex items-center gap-3 group">
+              <img
+                src="/logo.png"
+                alt="Steel House Barberia's"
+                className="w-10 h-10 object-contain rounded-full border border-gold-500/30 group-hover:scale-105 group-hover:border-gold-500 transition-all duration-300"
+              />
+              <div className="flex flex-col">
+                <span className="font-display text-lg font-bold text-white tracking-wide leading-none group-hover:text-gold-400 transition-colors">
+                  Steel House
                 </span>
-                <span className="text-xs text-gold-500 leading-none tracking-widest uppercase">
-                  Barbería
+                <span className="text-[10px] text-gold-500 tracking-[0.25em] uppercase font-semibold mt-1">
+                  BARBERIA'S 👑
                 </span>
               </div>
             </Link>
@@ -131,21 +134,41 @@ export default function Navbar() {
                               <LayoutDashboard size={16} />
                               Dashboard
                             </Link>
-                            <Link
-                              to="/reservar"
-                              onClick={() => setShowUserMenu(false)}
-                              className="flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all"
-                            >
-                              <Calendar size={16} />
-                              Nueva cita
-                            </Link>
+                            {isBarber() ? (
+                              <Link
+                                to="/barber/agenda"
+                                onClick={() => setShowUserMenu(false)}
+                                className="flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                              >
+                                <Calendar size={16} />
+                                Mi Agenda
+                              </Link>
+                            ) : isAdmin() ? (
+                              <Link
+                                to="/admin/citas"
+                                onClick={() => setShowUserMenu(false)}
+                                className="flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                              >
+                                <Calendar size={16} />
+                                Citas
+                              </Link>
+                            ) : (
+                              <Link
+                                to="/reservar"
+                                onClick={() => setShowUserMenu(false)}
+                                className="flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                              >
+                                <Calendar size={16} />
+                                Nueva cita
+                              </Link>
+                            )}
                             <Link
                               to={`${getDashboardLink()}/perfil`}
                               onClick={() => setShowUserMenu(false)}
                               className="flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all"
                             >
                               <Settings size={16} />
-                              Configuración
+                              {isBarber() ? 'Mi Perfil' : 'Configuración'}
                             </Link>
                           </div>
                           <div className="p-1 border-t border-white/5">
@@ -201,6 +224,15 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
+              {isAuthenticated && (
+                <Link
+                  to={getDashboardLink()}
+                  onClick={() => setIsOpen(false)}
+                  className="block px-4 py-2.5 rounded-lg text-sm text-gold-400 font-semibold hover:bg-white/5 transition-all border-t border-white/5 mt-1 pt-3"
+                >
+                  Ir a mi Dashboard ({isBarber() ? 'Barbero' : isAdmin() ? 'Admin' : 'Cliente'})
+                </Link>
+              )}
             </div>
           </motion.div>
         )}

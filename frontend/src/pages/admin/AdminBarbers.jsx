@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Star, Plus, Scissors, Check, X, Phone, Mail } from 'lucide-react';
-import Navbar from '../../components/layout/Navbar';
 import Modal from '../../components/ui/Modal';
 import Input from '../../components/ui/Input';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
@@ -66,8 +65,7 @@ export default function AdminBarbers() {
 
   return (
     <div className="min-h-screen bg-dark-400">
-      <Navbar />
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-16">
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

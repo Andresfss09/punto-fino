@@ -1,127 +1,108 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Calendar, Star, Users, Scissors } from 'lucide-react';
+import AnimatedCounter from '../ui/AnimatedCounter';
 
 export default function HeroSection() {
-  const stats = [
-    { icon: Star, value: '5.0', label: 'Calificación' },
-    { icon: Users, value: '500+', label: 'Clientes' },
-    { icon: Scissors, value: '6+', label: 'Servicios' },
-    { icon: Calendar, value: '3', label: 'Barberos' },
-  ];
+  const container = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.2 } }
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 25 },
+    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } }
+  };
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-dark-400">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-dark-400"></div>
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-gold-500/3 rounded-full blur-3xl"></div>
-      </div>
-
-      {/* Decorative scissors pattern */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(6)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute text-gold-500/5 text-8xl select-none"
-            style={{
-              top: `${15 + i * 15}%`,
-              left: `${5 + (i % 3) * 35}%`,
-              transform: `rotate(${i * 30}deg)`,
-            }}
-          >
-            ✂
-          </div>
-        ))}
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
-        <div className="max-w-3xl">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="inline-flex items-center gap-2 bg-gold-500/10 border border-gold-500/20 rounded-full px-4 py-2 mb-8"
-          >
-            <span className="w-2 h-2 rounded-full bg-gold-500 animate-pulse"></span>
-            <span className="text-gold-400 text-sm font-medium">Barbería Premium · Cali, Colombia</span>
+    <section className="relative min-h-[92vh] flex items-center justify-center overflow-hidden bg-dark-500 pt-20 pb-16">
+      {/* Background gradients */}
+      <div className="absolute inset-0 z-0 opacity-20 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gold-500/30 via-dark-500 to-dark-500 pointer-events-none"></div>
+      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none"></div>
+      
+      <div className="container mx-auto px-4 z-10 relative">
+        <motion.div 
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="max-w-4xl mx-auto text-center"
+        >
+          {/* Logo Badge in Hero */}
+          <motion.div variants={item} className="mb-6 flex justify-center">
+            <div className="relative group cursor-pointer">
+              <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-gold-500 to-gold-300 opacity-30 blur-md group-hover:opacity-60 transition duration-500"></div>
+              <img
+                src="/logo.png"
+                alt="Steel House Barberia's Logo"
+                className="relative w-28 h-28 sm:w-36 sm:h-36 object-contain rounded-full border-3 border-gold-500 shadow-brutal-gold mx-auto"
+              />
+            </div>
           </motion.div>
 
-          {/* Título */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="font-display text-5xl md:text-7xl font-bold text-white mb-6 leading-tight"
-          >
-            El arte del{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 via-gold-500 to-gold-600 text-shadow-gold">
-              buen corte
+          <motion.div variants={item} className="inline-block border-2 border-gold-500/60 px-4 py-1.5 mb-5 bg-[#141414] shadow-brutal-gold-sm rounded-full">
+            <span className="font-mono-price text-gold-400 font-bold uppercase text-xs sm:text-sm tracking-[0.25em]">
+              BARBERÍA DE EXPERIENCIA · CALI
             </span>
+          </motion.div>
+
+          <motion.h1 
+            variants={item}
+            className="text-[clamp(2.5rem,7vw,6.5rem)] font-display font-bold text-white leading-none uppercase tracking-tight mb-2"
+          >
+            STEEL <span className="text-gold-500" style={{ textShadow: '0 0 30px rgba(212,175,55,0.3)' }}>HOUSE</span>
           </motion.h1>
 
-          {/* Descripción */}
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-xl text-gray-400 mb-10 leading-relaxed max-w-xl"
+            variants={item}
+            className="font-display font-semibold text-lg sm:text-2xl text-gold-400 tracking-[0.3em] uppercase mb-6"
           >
-            Profesionales en asesoría de imagen. Diseños clásicos y de tendencia.
-            Mascarillas faciales. La experiencia que te mereces.
+            BARBERIA'S 👑
           </motion.p>
 
-          {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-4 mb-16"
+          <motion.p 
+            variants={item}
+            className="text-base sm:text-xl text-gray-300 font-sans max-w-2xl mx-auto mb-10 leading-relaxed"
           >
-            <Link to="/reservar" className="btn-primary text-base flex items-center justify-center gap-2">
-              <Calendar size={20} />
-              Reservar ahora
+            Más que un corte de cabello, <span className="text-white font-semibold">construimos presencia</span>. Cada experiencia está diseñada para cuidar tu imagen, tu tiempo y tu estilo de vida.
+          </motion.p>
+
+          <motion.div variants={item} className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Link to="/reservar" className="w-full sm:w-auto brutal-btn-primary px-8 py-4 text-lg border-3 shadow-brutal-gold rounded-xl">
+              RESERVAR TU CITA AHORA
             </Link>
-            <Link to="/#servicios" className="btn-secondary text-base flex items-center justify-center gap-2">
-              <Scissors size={20} />
-              Ver servicios
-            </Link>
+            <a
+              href="https://wa.me/573158965266?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Steel%20House"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto brutal-btn bg-[#141414] text-gold-400 border-2 border-gold-500/50 hover:border-gold-500 px-6 py-4 text-base font-semibold rounded-xl transition-all"
+            >
+              WhatsApp Directo
+            </a>
           </motion.div>
 
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="grid grid-cols-2 sm:grid-cols-4 gap-4"
-          >
-            {stats.map(({ icon: Icon, value, label }) => (
-              <div key={label} className="glass rounded-xl p-4 text-center">
-                <Icon size={20} className="text-gold-500 mx-auto mb-2" />
-                <div className="text-2xl font-bold text-white">{value}</div>
-                <div className="text-xs text-gray-500">{label}</div>
-              </div>
-            ))}
+          {/* Stats Bar */}
+          <motion.div variants={container} className="grid grid-cols-3 gap-4 sm:gap-6 mt-16 max-w-2xl mx-auto border-t-2 border-dashed border-[#333] pt-8">
+            <motion.div variants={item} className="flex flex-col items-center">
+              <span className="text-2xl sm:text-4xl font-mono-price font-bold text-white mb-1">
+                <AnimatedCounter value={7} />+
+              </span>
+              <span className="text-[11px] sm:text-xs uppercase text-gray-400 font-bold tracking-wider">Años de Exp</span>
+            </motion.div>
+            <motion.div variants={item} className="flex flex-col items-center">
+              <span className="text-2xl sm:text-4xl font-mono-price font-bold text-white mb-1">
+                <AnimatedCounter value={2500} />+
+              </span>
+              <span className="text-[11px] sm:text-xs uppercase text-gray-400 font-bold tracking-wider">Cortes Realizados</span>
+            </motion.div>
+            <motion.div variants={item} className="flex flex-col items-center">
+              <span className="text-2xl sm:text-4xl font-mono-price font-bold text-gold-500 mb-1">
+                <AnimatedCounter value={4.9} />
+              </span>
+              <span className="text-[11px] sm:text-xs uppercase text-gray-400 font-bold tracking-wider">Valoración 👑</span>
+            </motion.div>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-      >
-        <span className="text-xs text-gray-600 tracking-widest uppercase">Explorar</span>
-        <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
-          className="w-0.5 h-8 bg-gradient-to-b from-gold-500 to-transparent"
-        />
-      </motion.div>
     </section>
   );
 }

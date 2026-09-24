@@ -10,8 +10,11 @@ const { protect } = require('../middlewares/auth');
 const { authorize } = require('../middlewares/roles');
 
 router.get('/', getAllBarbers);
-router.get('/:userId', getBarber);
+
+// Protected routes
 router.use(protect);
+router.get('/stats/me', authorize('barbero', 'admin'), getBarberStats);
+router.get('/stats/:userId', authorize('barbero', 'admin'), getBarberStats);
 router.put('/profile', authorize('barbero'), updateBarberProfile);
 router.put('/:barberId/availability', authorize('admin'), async (req, res) => {
   try {
@@ -27,6 +30,8 @@ router.put('/:barberId/availability', authorize('admin'), async (req, res) => {
     res.status(500).json({ success: false, message: 'Error al actualizar' });
   }
 });
-router.get('/stats/:userId', authorize('barbero', 'admin'), getBarberStats);
+
+// Barber profile by user ID
+router.get('/:userId', getBarber);
 
 module.exports = router;

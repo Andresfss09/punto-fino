@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -11,11 +11,33 @@
 
   html {
     scroll-behavior: smooth;
+    color-scheme: dark;
   }
 
   body {
-    @apply bg-dark-400 text-white font-sans antialiased;
+    @apply bg-[#0a0a0a] text-white font-sans antialiased;
     min-height: 100vh;
+  }
+
+  /* Asegurar que todos los inputs del navegador tengan fondo oscuro y texto blanco */
+  input, textarea, select {
+    @apply text-white bg-[#141414];
+    color-scheme: dark;
+  }
+
+  /* Evitar que el autofill de Google Chrome pinte el fondo de blanco */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    -webkit-text-fill-color: #ffffff !important;
+    -webkit-box-shadow: 0 0 0px 1000px #141414 inset !important;
+    transition: background-color 5000s ease-in-out 0s;
   }
 
   ::-webkit-scrollbar {
@@ -23,15 +45,35 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-dark-200;
+    @apply bg-[#0d0d0d];
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-gold-500 rounded-full;
+    @apply bg-[#d4af37] rounded-full;
   }
 }
 
 @layer components {
+  /* Clases Base de Componentes */
+  .input-field {
+    @apply w-full bg-[#141414] border border-white/15 rounded-xl px-4 py-3 text-white text-base
+           placeholder:text-gray-500 focus:outline-none focus:border-gold-500 focus:bg-[#1a1a1a]
+           focus:ring-2 focus:ring-gold-500/25 transition-all duration-200;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-gray-300 mb-2;
+  }
+
+  .card {
+    @apply bg-[#141414] border border-white/10 rounded-2xl overflow-hidden;
+  }
+
+  .card-hover {
+    @apply card hover:border-gold-500/30 hover:shadow-xl hover:shadow-gold-500/5 
+           transition-all duration-300 cursor-pointer;
+  }
+
   .btn-primary {
     @apply bg-gradient-to-r from-gold-500 to-gold-400 text-black font-semibold px-6 py-3 rounded-xl
            hover:from-gold-400 hover:to-gold-300 transition-all duration-300 
@@ -46,25 +88,6 @@
   .btn-ghost {
     @apply text-gray-400 font-medium px-4 py-2 rounded-lg
            hover:text-white hover:bg-white/5 transition-all duration-200 cursor-pointer;
-  }
-
-  .card {
-    @apply bg-dark-100 border border-white/5 rounded-2xl overflow-hidden;
-  }
-
-  .card-hover {
-    @apply card hover:border-gold-500/30 hover:shadow-xl hover:shadow-gold-500/5 
-           transition-all duration-300 cursor-pointer;
-  }
-
-  .input-field {
-    @apply w-full bg-dark-50 border border-white/10 rounded-xl px-4 py-3 text-white
-           placeholder-gray-500 focus:outline-none focus:border-gold-500/50 
-           focus:ring-2 focus:ring-gold-500/20 transition-all duration-200;
-  }
-
-  .label {
-    @apply block text-sm font-medium text-gray-400 mb-2;
   }
 
   .badge {
@@ -86,10 +109,45 @@
   .glass {
     @apply bg-white/5 backdrop-blur-sm border border-white/10;
   }
-}
 
-@layer utilities {
-  .text-shadow-gold {
-    text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+  /* Componentes de Estilo Neo-Brutalista */
+  .brutal-card {
+    @apply bg-[#111111] border-2 border-[#333] shadow-[4px_4px_0_#333] rounded-[4px];
+  }
+
+  .brutal-card-gold {
+    @apply bg-[#111111] border-2 border-[#d4af37] shadow-[4px_4px_0_#d4af37] rounded-[4px];
+  }
+
+  .brutal-btn {
+    @apply border-2 shadow-[4px_4px_0] transition-all duration-100 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0] cursor-pointer;
+  }
+
+  .brutal-btn-primary {
+    @apply brutal-btn bg-[#d4af37] text-[#0a0a0a] border-[#0a0a0a] shadow-[4px_4px_0_#0a0a0a] font-bold uppercase tracking-wider;
+  }
+
+  .brutal-btn-outline {
+    @apply brutal-btn bg-transparent text-[#d4af37] border-[#d4af37] shadow-[4px_4px_0_#d4af37];
+  }
+
+  .brutal-input {
+    @apply bg-[#0d0d0d] border-2 border-[#333] rounded-none focus:border-[#d4af37] focus:shadow-[3px_3px_0_#d4af37] text-white focus:outline-none px-4 py-3;
+  }
+
+  .brutal-badge {
+    @apply border-2 font-mono text-xs uppercase tracking-widest px-2 py-0.5 rounded-[2px];
+  }
+
+  .brutal-divider {
+    @apply border-t-2 border-dashed border-[#333];
+  }
+
+  .font-display {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .font-mono-price {
+    font-family: 'JetBrains Mono', monospace;
   }
 }

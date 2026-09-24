@@ -59,11 +59,17 @@ export default function RegisterPage() {
         className="w-full max-w-md"
       >
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br from-gold-500 to-gold-700 rounded-2xl mb-4 shadow-lg shadow-gold-500/30">
-            <Scissors size={24} className="text-black rotate-45" />
-          </div>
+          <Link to="/" className="inline-block group mb-3">
+            <img
+              src="/logo.png"
+              alt="Steel House Barberia's"
+              className="w-20 h-20 object-contain rounded-full border-2 border-gold-500 shadow-brutal-gold-sm mx-auto group-hover:scale-105 transition-transform"
+            />
+          </Link>
           <h1 className="font-display text-3xl font-bold text-white">Crea tu cuenta</h1>
-          <p className="text-gray-400 mt-1 text-sm">Únete a la comunidad Punto Fino</p>
+          <p className="text-gold-500 mt-1 text-xs uppercase tracking-widest font-semibold">
+            Steel House Barberia's 👑
+          </p>
         </div>
 
         <div className="card p-8">
