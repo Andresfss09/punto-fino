@@ -54,3 +54,22 @@ exports.authorize = (...roles) => {
     next();
   };
 };
+
+exports.protectOptional = async (req, res, next) => {
+  try {
+    let token;
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+    if (token) {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const user = await User.findById(decoded.id).select('-password');
+      if (user && user.isActive) {
+        req.user = user;
+      }
+    }
+  } catch (error) {
+    // Si el token es inválido o no existe, simplemente continúa como invitado
+  }
+  next();
+};

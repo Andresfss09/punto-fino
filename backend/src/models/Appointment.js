@@ -5,7 +5,28 @@ const appointmentSchema = new mongoose.Schema(
     client: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
+      required: false,
+    },
+    clientName: {
+      type: String,
+      trim: true,
+    },
+    clientEmail: {
+      type: String,
+      trim: true,
+      lowercase: true,
+    },
+    clientPhone: {
+      type: String,
+      trim: true,
+    },
+    clientAddress: {
+      type: String,
+      trim: true,
+    },
+    isGuest: {
+      type: Boolean,
+      default: false,
     },
     barber: {
       type: mongoose.Schema.Types.ObjectId,

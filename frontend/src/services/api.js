@@ -23,7 +23,7 @@ api.interceptors.response.use(
   (response) => response.data,
   (error) => {
     const message = error.response?.data?.message || 'Error de conexión';
-    if (error.response?.status === 401) {
+    if (error.response?.status === 401 && localStorage.getItem('pf_token')) {
       localStorage.removeItem('pf_token');
       localStorage.removeItem('pf_user');
       window.location.href = '/login';

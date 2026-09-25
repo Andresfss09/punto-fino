@@ -149,12 +149,12 @@ export default function ServicesSection() {
                         ${service.price.toLocaleString('es-CO')}
                       </span>
                     </div>
-                    <Link
-                      to="/reservar"
+                    <a
+                      href="#reservar"
                       className="px-4 py-2 text-xs uppercase font-bold tracking-wider rounded-lg bg-gold-500 text-black hover:bg-gold-400 transition-all shadow-sm"
                     >
                       Agendar
-                    </Link>
+                    </a>
                   </div>
                 </div>
               </BrutalCard>

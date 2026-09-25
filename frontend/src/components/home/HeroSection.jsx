@@ -67,9 +67,9 @@ export default function HeroSection() {
           </motion.p>
 
           <motion.div variants={item} className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link to="/reservar" className="w-full sm:w-auto brutal-btn-primary px-8 py-4 text-lg border-3 shadow-brutal-gold rounded-xl">
+            <a href="#reservar" className="w-full sm:w-auto brutal-btn-primary px-8 py-4 text-lg border-3 shadow-brutal-gold rounded-xl text-center">
               RESERVAR TU CITA AHORA
-            </Link>
+            </a>
             <a
               href="https://wa.me/573158965266?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Steel%20House"
               target="_blank"

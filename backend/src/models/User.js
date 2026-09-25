@@ -21,6 +21,11 @@ const userSchema = new mongoose.Schema(
       required: [true, 'El teléfono es requerido'],
       match: [/^[0-9]{10}$/, 'Teléfono debe tener 10 dígitos'],
     },
+    address: {
+      type: String,
+      default: '',
+      maxlength: [150, 'Dirección máximo 150 caracteres'],
+    },
     password: {
       type: String,
       required: [true, 'La contraseña es requerida'],

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Scissors, User, Calendar, Clock, Check, Edit2 } from 'lucide-react';
+import { Scissors, User, Calendar, Clock, Check, Edit2, Mail, Phone, MapPin } from 'lucide-react';
 import BrutalCard from '../ui/BrutalCard';
 import { formatTime } from '../../utils/formatters';
 
@@ -9,7 +9,20 @@ export default function BookingConfirmation({
   onBack, 
   isSubmitting 
 }) {
-  const { selectedServices, selectedBarber, selectedDate, selectedSlot, totalPrice, totalDuration, paymentMethod, setPaymentMethod, notes, setNotes } = bookingData;
+  const { 
+    selectedServices, 
+    selectedBarber, 
+    selectedDate, 
+    selectedSlot, 
+    totalPrice, 
+    totalDuration, 
+    paymentMethod, 
+    setPaymentMethod, 
+    notes, 
+    setNotes,
+    clientData,
+    setClientData,
+  } = bookingData;
 
   const paymentMethods = [
     { id: 'efectivo', label: 'Efectivo' },
@@ -18,8 +31,110 @@ export default function BookingConfirmation({
     { id: 'transferencia', label: 'Transferencia' }
   ];
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setClientData((prev) => ({ ...prev, [name]: value }));
+  };
+
   return (
     <div className="space-y-6">
+      {/* Formulario de Datos del Cliente */}
+      <BrutalCard variant="gold" className="p-6">
+        <div className="flex items-center gap-3 mb-5 border-b-2 border-[#d4af37] pb-3">
+          <div className="p-2.5 bg-black border-2 border-gold-500 rounded-lg text-gold-500 shadow-brutal-gold-sm">
+            <User size={20} />
+          </div>
+          <div>
+            <h3 className="font-display text-2xl uppercase text-white tracking-wide">
+              Datos del Cliente
+            </h3>
+            <p className="text-xs text-gold-400 font-mono">
+              No necesitas crear cuenta previa. Te enviaremos la confirmación a tu correo.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Nombre completo */}
+          <div>
+            <label className="block text-xs font-mono font-bold uppercase tracking-wider text-gray-200 mb-1.5">
+              Nombre Completo <span className="text-gold-500">*</span>
+            </label>
+            <div className="relative">
+              <User size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                name="name"
+                value={clientData?.name || ''}
+                onChange={handleInputChange}
+                placeholder="Ej: Andrés Silva"
+                required
+                className="brutal-input pl-9 w-full bg-[#111111] text-white text-sm"
+              />
+            </div>
+          </div>
+
+          {/* Correo Electrónico */}
+          <div>
+            <label className="block text-xs font-mono font-bold uppercase tracking-wider text-gray-200 mb-1.5">
+              Correo Electrónico <span className="text-gold-500">*</span>
+            </label>
+            <div className="relative">
+              <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input
+                type="email"
+                name="email"
+                value={clientData?.email || ''}
+                onChange={handleInputChange}
+                placeholder="ejemplo@correo.com"
+                required
+                className="brutal-input pl-9 w-full bg-[#111111] text-white text-sm"
+              />
+            </div>
+            <span className="text-[10px] text-gray-400 font-sans mt-0.5 block">
+              Recibirás el código y detalles de tu reserva
+            </span>
+          </div>
+
+          {/* Teléfono */}
+          <div>
+            <label className="block text-xs font-mono font-bold uppercase tracking-wider text-gray-200 mb-1.5">
+              Teléfono / WhatsApp <span className="text-gold-500">*</span>
+            </label>
+            <div className="relative">
+              <Phone size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input
+                type="tel"
+                name="phone"
+                value={clientData?.phone || ''}
+                onChange={handleInputChange}
+                placeholder="Ej: 315 890 1234"
+                required
+                className="brutal-input pl-9 w-full bg-[#111111] text-white text-sm"
+              />
+            </div>
+          </div>
+
+          {/* Dirección */}
+          <div>
+            <label className="block text-xs font-mono font-bold uppercase tracking-wider text-gray-200 mb-1.5">
+              Dirección de Residencia <span className="text-gold-500">*</span>
+            </label>
+            <div className="relative">
+              <MapPin size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                name="address"
+                value={clientData?.address || ''}
+                onChange={handleInputChange}
+                placeholder="Ej: Cra. 12 #53-51, Cali"
+                required
+                className="brutal-input pl-9 w-full bg-[#111111] text-white text-sm"
+              />
+            </div>
+          </div>
+        </div>
+      </BrutalCard>
       <BrutalCard variant="gold" className="p-6">
         <h3 className="font-display text-2xl uppercase mb-6 text-white border-b-2 border-[#d4af37] pb-4">
           Resumen de la cita

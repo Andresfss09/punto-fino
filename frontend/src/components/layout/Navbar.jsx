@@ -30,8 +30,8 @@ export default function Navbar() {
   const navLinks = [
     { label: 'Inicio', path: '/' },
     { label: 'Servicios', path: '/#servicios' },
+    ...(!isStaff ? [{ label: 'Reservar', path: '/#reservar' }] : []),
     { label: 'Barberos', path: '/#barberos' },
-    ...(!isStaff ? [{ label: 'Reservar', path: '/reservar' }] : []),
   ];
 
   return (

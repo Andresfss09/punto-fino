@@ -60,9 +60,13 @@ exports.sendWelcomeEmail = async (user) => {
 
 exports.sendAppointmentConfirmationEmail = async (appointment) => {
   try {
-    const { client, barber, services, date, startTime, endTime, totalDuration, totalPrice, confirmationCode, paymentMethod } = appointment;
+    const { client, barber, services, date, startTime, endTime, totalDuration, totalPrice, confirmationCode, paymentMethod, clientName: cName, clientEmail: cEmail, clientAddress: cAddr } = appointment;
 
-    if (!client || !client.email) return;
+    const emailTo = cEmail || client?.email;
+    const displayName = cName || client?.name || 'Cliente';
+    const displayAddress = cAddr || client?.address;
+
+    if (!emailTo) return;
 
     const servicesList = services?.map(s => s.service?.name || 'Servicio').join(', ') || 'Corte de cabello';
 
@@ -72,17 +76,18 @@ exports.sendAppointmentConfirmationEmail = async (appointment) => {
         <div class="header"><h1>👑 STEEL HOUSE</h1><p>Confirmación de Cita</p></div>
         <div class="body">
           <h2>¡Tu cita ha sido confirmada! ✅</h2>
-          <p>Hola <strong>${client.name}</strong>, tu reserva en Steel House Barberia's ha sido agendada con éxito.</p>
+          <p>Hola <strong>${displayName}</strong>, tu reserva en Steel House Barberia's ha sido agendada con éxito.</p>
           <div class="detail-box">
             <p><strong>Código de reserva:</strong> ${confirmationCode}</p>
-            <p><strong>Barbero asignado:</strong> ${barber.name}</p>
+            <p><strong>Barbero asignado:</strong> ${barber?.name || 'Barbero Steel House'}</p>
             <p><strong>Fecha:</strong> ${new Date(date).toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
             <p><strong>Horario:</strong> ${startTime} - ${endTime} (aprox. ${totalDuration} min)</p>
             <p><strong>Servicio(s):</strong> ${servicesList}</p>
             <p><strong>Método de pago:</strong> ${paymentMethod || 'Efectivo'}</p>
             <p><strong>Total a pagar:</strong> $${totalPrice.toLocaleString('es-CO')} COP</p>
+            ${displayAddress ? `<p><strong>Dirección registrada:</strong> ${displayAddress}</p>` : ''}
           </div>
-          <p>📍 <strong>Ubicación:</strong> Cra. 16 #33F-31, Cali, Colombia.</p>
+          <p>📍 <strong>Ubicación de la Barbería:</strong> Cra. 16 #33F-31, Cali, Colombia.</p>
           <p>Te recomendamos llegar 5 a 10 minutos antes de la hora acordada.</p>
         </div>
         <div class="footer"><p>© ${new Date().getFullYear()} Steel House Barberia's · Cra. 16 #33F-31, Cali</p></div>
@@ -92,11 +97,11 @@ exports.sendAppointmentConfirmationEmail = async (appointment) => {
     const transporter = createTransporter();
     await transporter.sendMail({
       from: process.env.EMAIL_FROM || '"Steel House Barberia\'s" <noreply@steelhouse.com>',
-      to: client.email,
+      to: emailTo,
       subject: `¡Cita confirmada en Steel House! - ${confirmationCode} ✂️`,
       html,
     });
-    console.log(`[Email] Confirmación enviada al cliente: ${client.email}`);
+    console.log(`[Email] Confirmación enviada al cliente: ${emailTo}`);
   } catch (error) {
     console.error('[Email Error] Error enviando confirmación al cliente:', error.message);
   }
@@ -104,9 +109,14 @@ exports.sendAppointmentConfirmationEmail = async (appointment) => {
 
 exports.sendAppointmentNotificationToBarber = async (appointment) => {
   try {
-    const { client, barber, services, date, startTime, endTime, totalDuration, totalPrice, confirmationCode, notes, paymentMethod } = appointment;
+    const { client, barber, services, date, startTime, endTime, totalDuration, totalPrice, confirmationCode, notes, paymentMethod, clientName: cName, clientPhone: cPhone, clientEmail: cEmail, clientAddress: cAddr } = appointment;
 
     if (!barber || !barber.email) return;
+
+    const displayName = cName || client?.name || 'Cliente';
+    const displayPhone = cPhone || client?.phone || 'No registrado';
+    const displayEmail = cEmail || client?.email || 'No registrado';
+    const displayAddress = cAddr || client?.address;
 
     const servicesList = services?.map(s => s.service?.name || 'Servicio').join(', ') || 'Corte de cabello';
 
@@ -119,9 +129,10 @@ exports.sendAppointmentNotificationToBarber = async (appointment) => {
           <p>Hola <strong>${barber.name}</strong>, se ha programado una nueva cita en tu agenda:</p>
           <div class="detail-box">
             <p><strong>Código de cita:</strong> ${confirmationCode}</p>
-            <p><strong>Cliente:</strong> ${client.name}</p>
-            <p><strong>Teléfono cliente:</strong> ${client.phone || 'No registrado'}</p>
-            <p><strong>Email cliente:</strong> ${client.email || 'No registrado'}</p>
+            <p><strong>Cliente:</strong> ${displayName}</p>
+            <p><strong>Teléfono cliente:</strong> ${displayPhone}</p>
+            <p><strong>Email cliente:</strong> ${displayEmail}</p>
+            ${displayAddress ? `<p><strong>Dirección cliente:</strong> ${displayAddress}</p>` : ''}
             <p><strong>Fecha:</strong> ${new Date(date).toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
             <p><strong>Horario:</strong> ${startTime} - ${endTime} (${totalDuration} min)</p>
             <p><strong>Servicio(s):</strong> ${servicesList}</p>

@@ -39,12 +39,23 @@ const parseLocalDateRange = (dateStr) => {
   return { startOfDay: start, endOfDay: end, dayOfWeek: start.getDay(), localDate: start };
 };
 
-// @desc    Crear cita
+// @desc    Crear cita (soporta tanto usuarios autenticados como clientes invitados)
 // @route   POST /api/appointments
-// @access  Private (cliente)
+// @access  Public / Optional Auth
 exports.createAppointment = async (req, res) => {
   try {
-    let { barberId, serviceIds, date, startTime, notes, paymentMethod } = req.body;
+    let {
+      barberId,
+      serviceIds,
+      date,
+      startTime,
+      notes,
+      paymentMethod,
+      clientName,
+      clientEmail,
+      clientPhone,
+      clientAddress,
+    } = req.body;
 
     // Obtener servicios y calcular totales
     const services = await Service.find({ _id: { $in: serviceIds }, isActive: true });
@@ -131,11 +142,60 @@ exports.createAppointment = async (req, res) => {
       );
     }
 
+    // Manejo de usuario cliente (autenticado o invitado)
+    let clientId = req.user?._id || req.user?.id;
+    let finalClientName = (req.user?.name || clientName || '').trim();
+    let finalClientEmail = (req.user?.email || clientEmail || '').toLowerCase().trim();
+    let finalClientPhone = (req.user?.phone || clientPhone || '').trim();
+    let finalClientAddress = (clientAddress || req.user?.address || '').trim();
+    const isGuest = !req.user;
+
+    if (isGuest) {
+      if (!finalClientName) {
+        return sendError(res, 400, 'Por favor ingresa tu nombre completo.');
+      }
+      if (!finalClientEmail || !finalClientEmail.includes('@')) {
+        return sendError(res, 400, 'Por favor ingresa un correo electrónico válido.');
+      }
+      if (!finalClientPhone) {
+        return sendError(res, 400, 'Por favor ingresa tu número de teléfono.');
+      }
+
+      const digitsOnly = finalClientPhone.replace(/\D/g, '');
+      const validPhone = (digitsOnly.length >= 10 ? digitsOnly.slice(-10) : digitsOnly.padStart(10, '0')) || '3000000000';
+
+      // Buscar si ya existe un usuario con este correo
+      let guestUser = await User.findOne({ email: finalClientEmail });
+      if (!guestUser) {
+        const randomPass = `SH-${Math.random().toString(36).substring(2, 10)}!`;
+        guestUser = await User.create({
+          name: finalClientName,
+          email: finalClientEmail,
+          phone: validPhone,
+          password: randomPass,
+          role: 'cliente',
+          isVerified: false,
+          address: finalClientAddress,
+        });
+      } else {
+        if (finalClientAddress && !guestUser.address) {
+          guestUser.address = finalClientAddress;
+          await guestUser.save();
+        }
+      }
+      clientId = guestUser._id;
+    } else {
+      // Si el usuario ya está autenticado y envió dirección, guardarla
+      if (finalClientAddress && !req.user.address) {
+        await User.findByIdAndUpdate(clientId, { address: finalClientAddress });
+      }
+    }
+
     // Generar código único de confirmación
     const confirmationCode = `SH-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 5).toUpperCase()}`;
 
     const appointment = await Appointment.create({
-      client: req.user.id,
+      client: clientId,
       barber: targetBarberUser._id,
       services: services.map((s) => ({
         service: s._id,
@@ -150,28 +210,34 @@ exports.createAppointment = async (req, res) => {
       notes: notes || '',
       paymentMethod: paymentMethod || 'efectivo',
       confirmationCode,
+      clientName: finalClientName,
+      clientEmail: finalClientEmail,
+      clientPhone: finalClientPhone,
+      clientAddress: finalClientAddress,
+      isGuest,
     });
 
-    // Sumar cita al contador del usuario cliente
-    await User.findByIdAndUpdate(req.user.id, { $inc: { totalAppointments: 1 } });
+    if (clientId) {
+      await User.findByIdAndUpdate(clientId, { $inc: { totalAppointments: 1 } });
+    }
 
     // Notificación en la app para el barbero
     await createNotification({
       recipient: targetBarberUser._id,
       type: 'nueva_cita',
       title: '¡Nueva cita reservada!',
-      message: `${req.user.name} reservó una cita para el ${localDate.toLocaleDateString('es-CO')} a las ${startTime}.`,
+      message: `${finalClientName} reservó una cita para el ${localDate.toLocaleDateString('es-CO')} a las ${startTime}.`,
       data: { appointmentId: appointment._id },
     });
 
     const populatedAppointment = await Appointment.findById(appointment._id)
-      .populate('client', 'name email phone avatar')
+      .populate('client', 'name email phone avatar address')
       .populate('barber', 'name email phone avatar')
       .populate('services.service', 'name price duration category');
 
     // Enviar correos automáticos al cliente y al barbero
     try {
-      if (populatedAppointment.client?.email) {
+      if (finalClientEmail) {
         sendAppointmentConfirmationEmail(populatedAppointment);
       }
       if (populatedAppointment.barber?.email) {
@@ -183,6 +249,7 @@ exports.createAppointment = async (req, res) => {
 
     return sendSuccess(res, 201, '¡Cita reservada exitosamente! Se envió confirmación al correo.', {
       appointment: populatedAppointment,
+      confirmationCode,
     });
   } catch (error) {
     console.error('Error al crear la cita:', error);
