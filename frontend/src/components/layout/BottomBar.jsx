@@ -12,7 +12,7 @@ const BottomBar = () => {
   switch (role) {
     case 'admin':
       links = [
-        { icon: LayoutDashboard, label: 'Dashboard', path: '/admin' },
+        { icon: LayoutDashboard, label: 'Nómina', path: '/admin' },
         { icon: Calendar, label: 'Citas', path: '/admin/citas' },
         { icon: Scissors, label: 'Barberos', path: '/admin/barberos' },
         { icon: Sparkles, label: 'Servicios', path: '/admin/servicios' },

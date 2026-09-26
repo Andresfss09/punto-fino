@@ -598,3 +598,63 @@ exports.getBarberAppointments = async (req, res) => {
     return sendError(res, 500, 'Error al obtener citas del barbero.');
   }
 };
+
+// @desc    Obtener todas las citas (Admin) con filtros y paginación
+// @route   GET /api/appointments
+// @access  Private (admin)
+exports.getAllAppointments = async (req, res) => {
+  try {
+    const { page = 1, limit = 20, status, date, barberId, search } = req.query;
+    const query = {};
+
+    if (status && status !== 'todos') query.status = status;
+
+    if (date) {
+      const parts = date.split('T')[0].split('-').map(Number);
+      const start = new Date(parts[0], parts[1] - 1, parts[2], 0, 0, 0, 0);
+      const end = new Date(parts[0], parts[1] - 1, parts[2], 23, 59, 59, 999);
+      query.date = { $gte: start, $lte: end };
+    }
+
+    if (barberId && barberId !== 'all') {
+      const bDoc = await Barber.findById(barberId);
+      if (bDoc) {
+        query.barber = { $in: [bDoc.user, bDoc._id].filter(Boolean) };
+      } else if (mongoose.Types.ObjectId.isValid(barberId)) {
+        query.barber = new mongoose.Types.ObjectId(barberId);
+      }
+    }
+
+    if (search && search.trim()) {
+      const sRegex = new RegExp(search.trim(), 'i');
+      query.$or = [
+        { clientName: sRegex },
+        { clientEmail: sRegex },
+        { clientPhone: sRegex },
+        { confirmationCode: sRegex },
+      ];
+    }
+
+    const appointments = await Appointment.find(query)
+      .populate('client', 'name email phone avatar')
+      .populate('barber', 'name email phone avatar')
+      .populate('services.service', 'name price duration category')
+      .sort({ date: -1, startTime: -1 })
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
+
+    const total = await Appointment.countDocuments(query);
+
+    return sendSuccess(res, 200, 'Todas las citas obtenidas.', {
+      appointments,
+      pagination: {
+        total,
+        page: Number(page),
+        pages: Math.ceil(total / limit),
+      },
+    });
+  } catch (error) {
+    console.error('Error en getAllAppointments:', error);
+    return sendError(res, 500, 'Error al obtener citas.');
+  }
+};

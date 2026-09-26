@@ -7,6 +7,7 @@ const {
   cancelAppointment,
   updateAppointmentStatus,
   getBarberAppointments,
+  getAllAppointments,
 } = require('../controllers/appointmentController');
 const { protect, protectOptional } = require('../middlewares/auth');
 const { authorize } = require('../middlewares/roles');
@@ -15,6 +16,7 @@ router.get('/available-slots', getAvailableSlots);
 router.post('/', protectOptional, createAppointment);
 
 router.use(protect);
+router.get('/', authorize('admin'), getAllAppointments);
 router.get('/my-appointments', authorize('cliente'), getMyAppointments);
 router.get('/barber-appointments', authorize('barbero', 'admin'), getBarberAppointments);
 router.put('/:id/cancel', cancelAppointment);

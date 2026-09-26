@@ -100,6 +100,13 @@ const appointmentSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Review',
     },
+    commissionPaid: {
+      type: Boolean,
+      default: false,
+    },
+    commissionPaidAt: {
+      type: Date,
+    },
   },
   {
     timestamps: true,
