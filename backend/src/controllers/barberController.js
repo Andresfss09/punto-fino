@@ -19,7 +19,12 @@ exports.getAllBarbers = async (req, res) => {
 
 exports.getBarber = async (req, res) => {
   try {
-    const barber = await Barber.findOne({ user: req.params.userId })
+    const isObjectId = mongoose.Types.ObjectId.isValid(req.params.userId);
+    const query = isObjectId
+      ? { $or: [{ user: req.params.userId }, { _id: req.params.userId }] }
+      : { user: req.params.userId };
+
+    const barber = await Barber.findOne(query)
       .populate('user', 'name email phone avatar')
       .populate({
         path: 'portfolio',
@@ -37,15 +42,66 @@ exports.updateBarberProfile = async (req, res) => {
   try {
     const { bio, specialties, schedule } = req.body;
 
+    const DAY_MAP = {
+      sunday: 0, domingo: 0, 0: 0,
+      monday: 1, lunes: 1, 1: 1,
+      tuesday: 2, martes: 2, 2: 2,
+      wednesday: 3, miercoles: 3, miércoles: 3, 3: 3,
+      thursday: 4, jueves: 4, 4: 4,
+      friday: 5, viernes: 5, 5: 5,
+      saturday: 6, sabado: 6, sábado: 6, 6: 6,
+    };
+
+    const updateData = {};
+    if (bio !== undefined) updateData.bio = bio;
+    if (specialties !== undefined) updateData.specialties = specialties;
+
+    if (schedule !== undefined) {
+      const formattedSchedule = [];
+      if (Array.isArray(schedule)) {
+        for (const item of schedule) {
+          const dayNum = typeof item.day === 'string'
+            ? (DAY_MAP[item.day.toLowerCase()] ?? Number(item.day))
+            : item.day;
+          if (dayNum !== undefined && !isNaN(dayNum)) {
+            formattedSchedule.push({
+              day: dayNum,
+              isWorking: item.isWorking !== false,
+              startTime: item.startTime || '09:00',
+              endTime: item.endTime || '20:00',
+              breakStart: item.breakStart || item.breakStartTime || '13:00',
+              breakEnd: item.breakEnd || item.breakEndTime || '14:00',
+            });
+          }
+        }
+      } else if (schedule && typeof schedule === 'object') {
+        for (const [key, val] of Object.entries(schedule)) {
+          const dayNum = DAY_MAP[key.toLowerCase()];
+          if (dayNum !== undefined && val) {
+            formattedSchedule.push({
+              day: dayNum,
+              isWorking: val.isWorking !== false,
+              startTime: val.startTime || '09:00',
+              endTime: val.endTime || '20:00',
+              breakStart: val.breakStart || val.breakStartTime || '13:00',
+              breakEnd: val.breakEnd || val.breakEndTime || '14:00',
+            });
+          }
+        }
+      }
+      updateData.schedule = formattedSchedule;
+    }
+
     const barber = await Barber.findOneAndUpdate(
-      { user: req.user.id },
-      { bio, specialties, schedule },
-      { new: true, runValidators: true }
+      { $or: [{ user: req.user.id }, { _id: req.user.id }] },
+      updateData,
+      { returnDocument: 'after', runValidators: true }
     ).populate('user', 'name avatar');
 
     if (!barber) return sendError(res, 404, 'Perfil de barbero no encontrado.');
     return sendSuccess(res, 200, 'Perfil actualizado.', { barber });
   } catch (error) {
+    console.error('Error al actualizar perfil de barbero:', error);
     return sendError(res, 500, 'Error al actualizar perfil.');
   }
 };

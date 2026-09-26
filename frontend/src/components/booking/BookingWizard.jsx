@@ -253,10 +253,13 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
       appointmentService
         .getAvailableSlots(params)
         .then((res) => {
-          const lista = res.slots || [];
+          const lista = res.slots || res.data?.slots || [];
           setSlots(Array.isArray(lista) ? lista : []);
         })
-        .catch(() => setSlots([]))
+        .catch((err) => {
+          console.error('Error al obtener horarios disponibles:', err);
+          setSlots([]);
+        })
         .finally(() => setLoadingSlots(false));
     }
   }, [selectedBarber, selectedDate, totalDuration]);
@@ -557,6 +560,7 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
 
             {step === 3 && (
               <TimeSlotPicker
+                availableSlots={slots}
                 slots={slots}
                 selectedDate={selectedDate}
                 selectedSlot={selectedSlot}

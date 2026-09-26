@@ -7,10 +7,14 @@ export default function TimeSlotPicker({
   selectedDate, 
   onSelectDate, 
   availableSlots = [], 
+  slots = [],
   selectedSlot, 
   onSelectSlot, 
   isLoading 
 }) {
+  const effectiveSlots = Array.isArray(availableSlots) && availableSlots.length > 0
+    ? availableSlots
+    : (Array.isArray(slots) ? slots : []);
   
   const getTodayDate = () => {
     const now = new Date();
@@ -29,12 +33,12 @@ export default function TimeSlotPicker({
     return `${year}-${month}-${day}`;
   };
 
-  const groupSlots = (slots) => {
+  const groupSlots = (slotsList) => {
     const morning = [];
     const afternoon = [];
     const evening = [];
 
-    slots.forEach(slot => {
+    slotsList.forEach(slot => {
       const h = parseInt(slot.split(':')[0], 10);
       if (h < 12) morning.push(slot);
       else if (h < 17) afternoon.push(slot);
@@ -44,7 +48,7 @@ export default function TimeSlotPicker({
     return { Mañana: morning, Tarde: afternoon, Noche: evening };
   };
 
-  const groupedSlots = groupSlots(availableSlots);
+  const groupedSlots = groupSlots(effectiveSlots);
 
   return (
     <div className="space-y-6">
@@ -74,7 +78,7 @@ export default function TimeSlotPicker({
                 <div key={i} className="h-12 bg-[#333] border-2 border-[#1a1a1a]" />
               ))}
             </div>
-          ) : availableSlots.length === 0 ? (
+          ) : effectiveSlots.length === 0 ? (
             <div className="text-center py-8 border-2 border-dashed border-[#333]">
               <p className="text-[#a0a0a0] font-bold uppercase">No hay horarios disponibles</p>
               <p className="text-[#a0a0a0] text-sm mt-1">Intenta con otra fecha</p>

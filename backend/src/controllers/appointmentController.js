@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Appointment = require('../models/Appointment');
 const Barber = require('../models/Barber');
 const Service = require('../models/Service');
@@ -18,6 +19,50 @@ const minutesToTime = (totalMinutes) => {
   const h = Math.floor(totalMinutes / 60);
   const m = totalMinutes % 60;
   return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+};
+
+const DAY_NAMES = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+
+// Helper to reliably extract the barber's schedule for a given day (0-6)
+const extractDaySchedule = (barber, dayOfWeek) => {
+  if (!barber || !barber.schedule) {
+    return {
+      isWorking: dayOfWeek !== 0,
+      startTime: '09:00',
+      endTime: '20:00',
+      breakStart: '13:00',
+      breakEnd: '14:00',
+    };
+  }
+
+  const dayName = DAY_NAMES[dayOfWeek];
+  let found = null;
+
+  if (Array.isArray(barber.schedule)) {
+    found = barber.schedule.find(
+      (s) => s.day === dayOfWeek || s.day === dayName || String(s.day) === String(dayOfWeek)
+    );
+  } else if (typeof barber.schedule === 'object') {
+    found = barber.schedule[dayName] || barber.schedule[dayOfWeek] || barber.schedule[String(dayOfWeek)];
+  }
+
+  if (!found) {
+    return {
+      isWorking: dayOfWeek !== 0,
+      startTime: '09:00',
+      endTime: '20:00',
+      breakStart: '13:00',
+      breakEnd: '14:00',
+    };
+  }
+
+  return {
+    isWorking: found.isWorking !== false,
+    startTime: found.startTime || '09:00',
+    endTime: found.endTime || '20:00',
+    breakStart: found.breakStart || found.breakStartTime || '13:00',
+    breakEnd: found.breakEnd || found.breakEndTime || '14:00',
+  };
 };
 
 // Helper to parse YYYY-MM-DD cleanly in local timezone without UTC offset shift
@@ -100,8 +145,8 @@ exports.createAppointment = async (req, res) => {
         if (!b.user || !b.user.isActive) continue;
 
         const dayOfWeek = startOfDay.getDay();
-        const sched = b.schedule?.find((s) => s.day === dayOfWeek);
-        if (sched && !sched.isWorking) continue;
+        const sched = extractDaySchedule(b, dayOfWeek);
+        if (!sched.isWorking) continue;
 
         const bUserIds = [b.user._id, b._id].filter(Boolean);
         const existingApts = await Appointment.find({
@@ -279,23 +324,27 @@ exports.getAvailableSlots = async (req, res) => {
     const durationMinutes = parseInt(duration, 10) || 40;
     const { startOfDay, endOfDay, dayOfWeek, localDate } = parseLocalDateRange(date);
 
-    // Si seleccionó un barbero específico
-    if (barberId && barberId !== 'any') {
-      const barber = await Barber.findOne({
-        $or: [{ user: barberId }, { _id: barberId }],
-      });
+    // Si seleccionó un barbero específico válido
+    const isValidBarberId = barberId && barberId !== 'any' && barberId !== 'undefined' && barberId !== 'null';
+
+    if (isValidBarberId) {
+      let barber = null;
+      if (mongoose.Types.ObjectId.isValid(barberId)) {
+        barber = await Barber.findOne({
+          $or: [{ user: barberId }, { _id: barberId }],
+        });
+      }
+
+      // Si no se encuentra con el ID enviado, intentar encontrar el barbero por coincidencia de usuario o primer barbero activo
+      if (!barber) {
+        barber = await Barber.findOne({ isAvailable: true });
+      }
 
       if (!barber || !barber.isAvailable) {
         return sendSuccess(res, 200, 'Barbero no disponible.', { slots: [] });
       }
 
-      const daySchedule = barber.schedule?.find((s) => s.day === dayOfWeek) || {
-        isWorking: dayOfWeek !== 0,
-        startTime: '09:00',
-        endTime: '20:00',
-        breakStart: '13:00',
-        breakEnd: '14:00',
-      };
+      const daySchedule = extractDaySchedule(barber, dayOfWeek);
 
       if (!daySchedule.isWorking) {
         return sendSuccess(res, 200, 'Sin disponibilidad ese día.', { slots: [] });
@@ -325,8 +374,10 @@ exports.getAvailableSlots = async (req, res) => {
 
         const slotEndMins = slotMins + durationMinutes;
 
-        // Verificar descanso / almuerzo
-        if (slotMins < breakEndMins && slotEndMins > breakStartMins) continue;
+        // Verificar descanso / almuerzo si tiene definido horario de descanso
+        if (breakStartMins && breakEndMins && breakStartMins < breakEndMins) {
+          if (slotMins < breakEndMins && slotEndMins > breakStartMins) continue;
+        }
 
         // Verificar conflicto con citas agendadas
         const hasConflict = bookedAppointments.some((apt) => {
@@ -352,13 +403,7 @@ exports.getAvailableSlots = async (req, res) => {
     const currentMinutesToday = now.getHours() * 60 + now.getMinutes() + 15;
 
     for (const b of allBarbers) {
-      const daySchedule = b.schedule?.find((s) => s.day === dayOfWeek) || {
-        isWorking: dayOfWeek !== 0,
-        startTime: '09:00',
-        endTime: '20:00',
-        breakStart: '13:00',
-        breakEnd: '14:00',
-      };
+      const daySchedule = extractDaySchedule(b, dayOfWeek);
 
       if (!daySchedule.isWorking) continue;
 
@@ -378,7 +423,9 @@ exports.getAvailableSlots = async (req, res) => {
         if (isToday && slotMins < currentMinutesToday) continue;
 
         const slotEndMins = slotMins + durationMinutes;
-        if (slotMins < breakEndMins && slotEndMins > breakStartMins) continue;
+        if (breakStartMins && breakEndMins && breakStartMins < breakEndMins) {
+          if (slotMins < breakEndMins && slotEndMins > breakStartMins) continue;
+        }
 
         const hasConflict = bookedAppointments.some((apt) => {
           const aStart = timeToMinutes(apt.startTime);

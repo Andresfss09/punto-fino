@@ -21,10 +21,30 @@ const DAYS_OF_WEEK = [
   { id: 'sunday', label: 'Domingo' },
 ];
 
+const DAY_INDEX_TO_ID = {
+  0: 'sunday',
+  1: 'monday',
+  2: 'tuesday',
+  3: 'wednesday',
+  4: 'thursday',
+  5: 'friday',
+  6: 'saturday',
+};
+
+const DAY_ID_TO_INDEX = {
+  sunday: 0,
+  monday: 1,
+  tuesday: 2,
+  wednesday: 3,
+  thursday: 4,
+  friday: 5,
+  saturday: 6,
+};
+
 const DEFAULT_SCHEDULE_DAY = {
   isWorking: true,
   startTime: '09:00',
-  endTime: '19:00',
+  endTime: '20:00',
   breakStartTime: '13:00',
   breakEndTime: '14:00'
 };
@@ -50,16 +70,40 @@ export default function BarberSchedule() {
       barberService.getOne(user._id)
         .then(res => {
           const barberData = res.barber || res.data?.barber;
-          if (barberData?.schedule) {
-            setSchedule(barberData.schedule);
-          } else {
-            // init default schedule
-            const initSchedule = {};
-            DAYS_OF_WEEK.forEach(d => {
-              initSchedule[d.id] = { ...DEFAULT_SCHEDULE_DAY };
+          const raw = barberData?.schedule;
+          const cleanSchedule = {};
+          DAYS_OF_WEEK.forEach(d => {
+            cleanSchedule[d.id] = { ...DEFAULT_SCHEDULE_DAY, isWorking: d.id !== 'sunday' };
+          });
+
+          if (Array.isArray(raw) && raw.length > 0) {
+            raw.forEach(item => {
+              const dayId = typeof item.day === 'number' ? DAY_INDEX_TO_ID[item.day] : item.day;
+              if (dayId && cleanSchedule[dayId]) {
+                cleanSchedule[dayId] = {
+                  isWorking: item.isWorking !== false,
+                  startTime: item.startTime || '09:00',
+                  endTime: item.endTime || '20:00',
+                  breakStartTime: item.breakStartTime || item.breakStart || '13:00',
+                  breakEndTime: item.breakEndTime || item.breakEnd || '14:00',
+                };
+              }
             });
-            setSchedule(initSchedule);
+          } else if (raw && typeof raw === 'object') {
+            Object.entries(raw).forEach(([k, v]) => {
+              const dayId = DAY_INDEX_TO_ID[k] || k;
+              if (dayId && cleanSchedule[dayId]) {
+                cleanSchedule[dayId] = {
+                  isWorking: v.isWorking !== false,
+                  startTime: v.startTime || '09:00',
+                  endTime: v.endTime || '20:00',
+                  breakStartTime: v.breakStartTime || v.breakStart || '13:00',
+                  breakEndTime: v.breakEndTime || v.breakEnd || '14:00',
+                };
+              }
+            });
           }
+          setSchedule(cleanSchedule);
         })
         .catch(err => console.error(err))
         .finally(() => setLoadingSchedule(false));
@@ -97,9 +141,19 @@ export default function BarberSchedule() {
   const handleSaveSchedule = async () => {
     setSavingSchedule(true);
     try {
-      await barberService.updateProfile({ schedule });
+      const formattedSchedule = Object.entries(schedule).map(([dayId, config]) => ({
+        day: DAY_ID_TO_INDEX[dayId] !== undefined ? DAY_ID_TO_INDEX[dayId] : 1,
+        isWorking: config.isWorking !== false,
+        startTime: config.startTime || '09:00',
+        endTime: config.endTime || '20:00',
+        breakStart: config.breakStartTime || '13:00',
+        breakEnd: config.breakEndTime || '14:00',
+      }));
+
+      await barberService.updateProfile({ schedule: formattedSchedule });
       toast.success('Horario actualizado exitosamente');
     } catch (error) {
+      console.error('Error al guardar horario:', error);
       toast.error('Error al guardar horario');
     } finally {
       setSavingSchedule(false);
