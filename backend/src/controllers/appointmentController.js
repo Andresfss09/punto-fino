@@ -57,8 +57,16 @@ exports.createAppointment = async (req, res) => {
       clientAddress,
     } = req.body;
 
-    // Obtener servicios y calcular totales
-    const services = await Service.find({ _id: { $in: serviceIds }, isActive: true });
+    // Obtener servicios y calcular totales (soporta ObjectId y nombres)
+    const mongoose = require('mongoose');
+    const validObjectIds = (serviceIds || []).filter(id => mongoose.Types.ObjectId.isValid(id));
+    const services = await Service.find({
+      $or: [
+        { _id: { $in: validObjectIds } },
+        { name: { $in: serviceIds || [] } }
+      ],
+      isActive: true
+    });
     if (services.length === 0) {
       return sendError(res, 404, 'Por favor selecciona al menos un servicio válido.');
     }

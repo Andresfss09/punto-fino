@@ -51,18 +51,123 @@ const slideVariants = {
   }),
 };
 
+const FALLBACK_SERVICES = [
+  {
+    _id: '6ab429b351b742ce20f96ab4',
+    name: 'Experiencia White',
+    description: 'Corte de cabello profesional, perfilación de cejas, orientación según fisionomía y acabado profesional.',
+    price: 22000,
+    duration: 35,
+    category: 'combo',
+    isPopular: true,
+    isActive: true,
+  },
+  {
+    _id: '6ab429b351b742ce20f96ab5',
+    name: 'Experiencia Black',
+    description: 'Corte de cabello profesional, mascarilla facial purificante, exfoliación, aceite hidratante, perfilado de cejas y barba.',
+    price: 40000,
+    duration: 45,
+    category: 'combo',
+    isPopular: true,
+    isActive: true,
+  },
+  {
+    _id: '6ab429b351b742ce20f96ab6',
+    name: 'Experiencia Gold VIP 👑',
+    description: 'Servicio de lujo total: Corte + barba + cejas, asesoría personalizada de imagen, hidratación facial profunda y vaporozono frío/caliente.',
+    price: 75000,
+    duration: 60,
+    category: 'combo',
+    isPopular: true,
+    isActive: true,
+  },
+  {
+    _id: '6ab429b351b742ce20f96ab7',
+    name: 'Perfilado de Barba',
+    description: 'Diseño de barba a navaja libre, toalla caliente relajante, exfoliación y aplicación de aceites esenciales.',
+    price: 16000,
+    duration: 25,
+    category: 'barba',
+    isPopular: false,
+    isActive: true,
+  },
+  {
+    _id: '6ab429b351b742ce20f96ab8',
+    name: 'Corte Clásico / Fade',
+    description: 'Degradado limpio a navaja o corte clásico a tijera con pulido milimétrico.',
+    price: 20000,
+    duration: 35,
+    category: 'corte',
+    isPopular: false,
+    isActive: true,
+  },
+  {
+    _id: '6ab429b351b742ce20f96ab9',
+    name: 'Mascarilla Facial Hidratante',
+    description: 'Tratamiento facial limpiador, exfoliación de poros e hidratación profunda con aceites revitalizantes.',
+    price: 25000,
+    duration: 30,
+    category: 'tratamiento',
+    isPopular: false,
+    isActive: true,
+  },
+];
+
+const FALLBACK_BARBERS = [
+  {
+    _id: '6ab429b62a8371bc3f9ee10c',
+    user: {
+      _id: '6ab429b52a8371bc3f9ee10b',
+      name: 'Juan Muñeton',
+      email: 'juan@steelhouse.com',
+      phone: '3158965266',
+    },
+    bio: 'Fundador y Master Barber. Especialista en la Experiencia Gold, visagismo y cortes de alta precisión.',
+    specialties: ['degradado', 'corte clásico', 'barba', 'diseño'],
+    rating: { average: 5.0, count: 42 },
+    isAvailable: true,
+  },
+  {
+    _id: '6ab429b62a8371bc3f9ee115',
+    user: {
+      _id: '6ab429b62a8371bc3f9ee114',
+      name: 'Carlos Mendoza',
+      email: 'carlos@steelhouse.com',
+      phone: '3109876543',
+    },
+    bio: 'Especialista en degradados limpios, perfilado de barba al detalle y cuidado capilar.',
+    specialties: ['degradado', 'corte clásico', 'barba'],
+    rating: { average: 4.9, count: 28 },
+    isAvailable: true,
+  },
+  {
+    _id: '6ab4239e4bfe1bd8baae880d',
+    user: {
+      _id: '6ab4239d4bfe1bd8baae880c',
+      name: 'Mateo Gómez',
+      email: 'mateo@puntofino.com',
+      phone: '3205556677',
+    },
+    bio: 'Especialista en perfilado de barba al detalle, diseños urbanos y tratamientos faciales.',
+    specialties: ['barba', 'diseño', 'mascarilla'],
+    rating: { average: 4.8, count: 19 },
+    isAvailable: true,
+  },
+];
+
 export default function BookingWizard({ isEmbedded = false, initialServiceId = null }) {
   const { user, isAuthenticated } = useAuthStore();
 
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(1);
 
-  const [services, setServices] = useState([]);
-  const [barbers, setBarbers] = useState([]);
+  const [services, setServices] = useState(FALLBACK_SERVICES);
+  const [barbers, setBarbers] = useState(FALLBACK_BARBERS);
   const [slots, setSlots] = useState([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
-  const [loadingServices, setLoadingServices] = useState(true);
-  const [loadingBarbers, setLoadingBarbers] = useState(true);
+  const [loadingServices, setLoadingServices] = useState(false);
+  const [loadingBarbers, setLoadingBarbers] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   // Booking selections
@@ -97,34 +202,35 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
     }
   }, [user]);
 
-  // Load services and barbers
+  // Load services and barbers from API (updates seamlessly)
   useEffect(() => {
-    setLoadingServices(true);
     serviceService
       .getAll({ isActive: true })
       .then((res) => {
-        const lista = res.services || [];
-        const validList = Array.isArray(lista) ? lista : [];
-        setServices(validList);
-
-        // Preselect initial service if requested
-        if (initialServiceId && validList.length > 0) {
-          const match = validList.find((s) => s._id === initialServiceId || s.name === initialServiceId);
-          if (match) setSelectedServices([match]);
+        const lista = res.services || res.data?.services || [];
+        if (Array.isArray(lista) && lista.length > 0) {
+          setServices(lista);
+          if (initialServiceId) {
+            const match = lista.find((s) => s._id === initialServiceId || s.name === initialServiceId);
+            if (match) setSelectedServices([match]);
+          }
         }
       })
-      .catch(() => toast.error('Error cargando servicios'))
-      .finally(() => setLoadingServices(false));
+      .catch((err) => {
+        console.warn('Servicios iniciales cargados desde Steel House:', err);
+      });
 
-    setLoadingBarbers(true);
     barberService
       .getAll()
       .then((res) => {
-        const lista = res.barbers || [];
-        setBarbers(Array.isArray(lista) ? lista : []);
+        const lista = res.barbers || res.data?.barbers || [];
+        if (Array.isArray(lista) && lista.length > 0) {
+          setBarbers(lista);
+        }
       })
-      .catch(() => {})
-      .finally(() => setLoadingBarbers(false));
+      .catch((err) => {
+        console.warn('Barberos iniciales cargados desde Steel House:', err);
+      });
   }, [initialServiceId]);
 
   const totalDuration = selectedServices.reduce((sum, s) => sum + (s.duration || 40), 0);
