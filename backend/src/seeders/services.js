@@ -75,7 +75,7 @@ const services = [
     price: 8000,
     duration: 10,
     category: 'bar',
-    image: 'https://images.unsplash.com/photo-1608270116645-a75d5069f257?auto=format&fit=crop&w=700&q=80',
+    image: '/cerveza-bar.webp',
     isPopular: false,
     isActive: true,
     order: 7,

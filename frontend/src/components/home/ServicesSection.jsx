@@ -77,7 +77,7 @@ const SERVICES = [
     name: 'Cerveza Premium Fría & Coctelería de Bar',
     badge: 'Bar Selection 🍺',
     badgeType: 'gold',
-    image: 'https://images.unsplash.com/photo-1608270116645-a75d5069f257?auto=format&fit=crop&w=700&q=80',
+    image: '/cerveza-bar.webp',
     desc: 'Acompaña tu corte con una cerveza premium bien fría (Corona, Heineken, Stella Artois, Club Colombia) o trago de autor on the rocks servido en vaso de cristal. Incluida en la Experiencia Platinium o disponible a la carta.',
     price: 8000,
     time: 10,

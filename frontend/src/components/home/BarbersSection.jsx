@@ -11,7 +11,6 @@ const BARBERS = [
     rating: 4.9, 
     reviews: 16, 
     specs: ['Experiencia Platinium', 'Visagismo Facial', 'Degradados'],
-    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80',
     bio: 'Profesional en asesoría de imagen y cortes de alta precisión. Especialista en la Experiencia Platinium y técnicas modernas de visagismo.',
   },
   { 
@@ -22,7 +21,6 @@ const BARBERS = [
     rating: 5.0, 
     reviews: 16, 
     specs: ['Ritual de Barba', 'Navaja Libre', 'Vapor Ozono'],
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80',
     bio: 'Maestro en el cuidado integral de la barba, perfilado a navaja tradicional y diseño de barba con vapor ozono y aceites botánicos.',
   },
   { 
@@ -33,7 +31,6 @@ const BARBERS = [
     rating: 4.9, 
     reviews: 16, 
     specs: ['Corte Clásico', 'Cejas', 'Fade en Tendencia'],
-    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80',
     bio: 'Experto en cortes clásicos y en tendencia, perfilado geométrico de cejas y texturizado para un look impecable.',
   },
 ];
@@ -73,26 +70,23 @@ export default function BarbersSection() {
               viewport={{ once: true }}
               className="bg-[#121815] border border-[#222a26] hover:border-[#cfa53b]/50 rounded-[4px] overflow-hidden flex flex-col group transition-all duration-300 shadow-subtle"
             >
-              {/* Barber Studio Portrait — Warm low-light mood */}
-              <div className="relative aspect-[4/3] overflow-hidden bg-[#0d1210]">
-                <img
-                  src={barber.image}
-                  alt={barber.name}
-                  className="w-full h-full object-cover object-top filter grayscale contrast-115 brightness-90 group-hover:scale-105 group-hover:filter-none transition-all duration-700 ease-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#121815] via-transparent to-transparent opacity-90" />
+              {/* Header with Monogram & Badges (Photos removed per brand specification) */}
+              <div className="p-6 border-b border-[#1f2723] bg-[#0f1512] flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-[4px] bg-[#161d19] border border-[#2b3630] flex items-center justify-center text-gold-400 font-serif italic text-xl font-bold tracking-wider group-hover:border-gold-400/50 group-hover:bg-[#1b231f] transition-all">
+                    {barber.name.split(' ').map(n => n[0]).join('')}
+                  </div>
+                  <div>
+                    <span className="editorial-tag bg-[#161d19] border-[#2b3530] text-[#dfdbca]">
+                      {barber.experience}
+                    </span>
+                  </div>
+                </div>
                 
-                {/* Rating Badge */}
-                <div className="absolute bottom-3 left-4 z-10 flex items-center gap-1.5 bg-[#0e1311]/90 backdrop-blur-sm border border-[#222a26] px-2.5 py-1 rounded-[4px]">
+                <div className="flex items-center gap-1.5 bg-[#0e1311] border border-[#222a26] px-2.5 py-1 rounded-[4px]">
                   <Star size={12} className="text-gold-400 fill-gold-400" />
                   <span className="font-mono text-xs font-semibold text-white">{barber.rating}</span>
                   <span className="font-sans text-[11px] text-[#808080]">({barber.reviews})</span>
-                </div>
-
-                <div className="absolute top-3.5 right-3.5 z-10">
-                  <span className="editorial-tag bg-[#161d19]/90 border-[#2b3530] text-[#dfdbca] backdrop-blur-sm">
-                    {barber.experience}
-                  </span>
                 </div>
               </div>
 
