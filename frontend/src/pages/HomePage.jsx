@@ -8,24 +8,23 @@ import BookingWizard from '../components/booking/BookingWizard';
 
 export default function HomePage() {
   return (
-    <div className="bg-dark-400">
+    <div className="bg-black text-white min-h-screen">
       <Navbar />
       <HeroSection />
       <ServicesSection />
 
-      {/* Sección de Reserva directa en la página principal (Sin necesidad de crear cuenta) */}
-      <section id="reservar" className="py-24 bg-[#0d0d0d] border-t-2 border-white/5 relative scroll-mt-16">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gold-500/10 via-transparent to-transparent pointer-events-none" />
-        <div className="container mx-auto px-4 max-w-5xl relative z-10">
-          <div className="text-center mb-12">
-            <span className="text-xs uppercase font-mono tracking-[0.3em] text-gold-500 font-bold block mb-2">
-              RESERVA RÁPIDA Y DIRECTA
+      {/* Booking Section — Ferrari Digital Surface Spec */}
+      <section id="reservar" className="py-24 sm:py-32 bg-black border-b border-[#222222] relative scroll-mt-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <span className="text-[11px] font-display uppercase tracking-[3px] text-[#888888] font-normal block mb-2">
+              AGENDAMIENTO EN LÍNEA · CONFIRMACIÓN INMEDIATA
             </span>
-            <h2 className="text-3xl md:text-5xl font-display font-bold uppercase tracking-wider text-white">
-              Agenda tu <span className="text-gold-500">Cita</span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-medium uppercase tracking-[3px] text-white">
+              AGENDA TU CITA
             </h2>
-            <p className="text-gray-400 text-sm md:text-base max-w-xl mx-auto mt-3 font-sans">
-              Selecciona tu servicio, tu barbero favorito y la hora. No requieres crear cuenta previa; llena tus datos y te enviaremos la confirmación a tu correo.
+            <p className="text-[#888888] text-xs sm:text-sm max-w-lg mx-auto mt-3 font-sans leading-relaxed">
+              Elige tu experiencia, selecciona a tu maestro barbero y la fecha ideal. No requieres crear cuenta previa para reservar tu cupo en Cali.
             </p>
           </div>
 

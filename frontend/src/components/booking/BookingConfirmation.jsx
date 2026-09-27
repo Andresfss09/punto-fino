@@ -1,5 +1,5 @@
 import React from 'react';
-import { Scissors, User, Calendar, Clock, Check, Edit2, Mail, Phone, MapPin, Sparkles } from 'lucide-react';
+import { Scissors, User, Calendar, Clock, Check, Edit2, Mail, Phone, MapPin } from 'lucide-react';
 import { formatTime, formatPrice } from '../../utils/formatters';
 
 export default function BookingConfirmation({ 
@@ -24,7 +24,7 @@ export default function BookingConfirmation({
   } = bookingData;
 
   const paymentMethods = [
-    { id: 'efectivo', label: 'Efectivo en el Atelier' },
+    { id: 'efectivo', label: 'Efectivo en Sede' },
     { id: 'nequi', label: 'Nequi' },
     { id: 'daviplata', label: 'Daviplata' },
     { id: 'transferencia', label: 'Transferencia Bancaria' }
@@ -37,18 +37,18 @@ export default function BookingConfirmation({
 
   return (
     <div className="space-y-6">
-      {/* Formulario de Datos del Cliente */}
-      <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-6 shadow-subtle">
-        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-[#1f2723]">
-          <div className="p-2 bg-[#161d19] border border-[#2b3530] rounded-[4px] text-gold-400">
-            <User size={18} />
+      {/* Client Data Form */}
+      <div className="bg-[#111111] border border-[#262626] rounded-none p-6">
+        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-[#222222]">
+          <div className="p-2 border border-[#333333] bg-black text-white">
+            <User size={16} />
           </div>
           <div>
-            <h3 className="font-serif italic text-2xl text-white">
-              Datos del Cliente
+            <h3 className="font-display font-medium text-base text-white uppercase tracking-[2px]">
+              DATOS DE CONTACTO
             </h3>
-            <p className="text-xs text-[#808080] font-sans mt-0.5">
-              No requieres cuenta previa. Te notificaremos la cita a tu correo y WhatsApp.
+            <p className="text-xs text-[#888888] font-sans mt-0.5">
+              Sin registro obligatorio. Te notificaremos los detalles de tu cita de forma inmediata.
             </p>
           </div>
         </div>
@@ -56,11 +56,11 @@ export default function BookingConfirmation({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Nombre completo */}
           <div>
-            <label className="block text-xs font-sans uppercase tracking-wider text-[#dfdbca] mb-1.5 font-medium">
-              Nombre Completo <span className="text-gold-400">*</span>
+            <label className="block text-xs font-display uppercase tracking-[2px] text-[#888888] mb-1.5">
+              Nombre Completo *
             </label>
             <div className="relative">
-              <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#808080]" />
+              <User size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#666666]" />
               <input
                 type="text"
                 name="name"
@@ -68,18 +68,18 @@ export default function BookingConfirmation({
                 onChange={handleInputChange}
                 placeholder="Ej: Andrés Silva"
                 required
-                className="w-full bg-[#101513] border border-[#26302a] focus:border-gold-400 rounded-[4px] text-white pl-10 pr-4 py-2.5 text-xs font-sans focus:outline-none transition-all"
+                className="w-full bg-black border border-[#333333] focus:border-white rounded-none text-white pl-10 pr-4 py-2.5 text-xs font-sans focus:outline-none transition-all"
               />
             </div>
           </div>
 
           {/* Correo Electrónico */}
           <div>
-            <label className="block text-xs font-sans uppercase tracking-wider text-[#dfdbca] mb-1.5 font-medium">
-              Correo Electrónico <span className="text-gold-400">*</span>
+            <label className="block text-xs font-display uppercase tracking-[2px] text-[#888888] mb-1.5">
+              Correo Electrónico *
             </label>
             <div className="relative">
-              <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#808080]" />
+              <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#666666]" />
               <input
                 type="email"
                 name="email"
@@ -87,177 +87,190 @@ export default function BookingConfirmation({
                 onChange={handleInputChange}
                 placeholder="ejemplo@correo.com"
                 required
-                className="w-full bg-[#101513] border border-[#26302a] focus:border-gold-400 rounded-[4px] text-white pl-10 pr-4 py-2.5 text-xs font-sans focus:outline-none transition-all"
+                className="w-full bg-black border border-[#333333] focus:border-white rounded-none text-white pl-10 pr-4 py-2.5 text-xs font-sans focus:outline-none transition-all"
               />
             </div>
-            <span className="text-[10px] text-[#808080] font-sans mt-1 block">
-              Recibirás el comprobante con tu código de reserva
-            </span>
           </div>
 
-          {/* Teléfono */}
+          {/* Teléfono / WhatsApp */}
           <div>
-            <label className="block text-xs font-sans uppercase tracking-wider text-[#dfdbca] mb-1.5 font-medium">
-              Teléfono / WhatsApp <span className="text-gold-400">*</span>
+            <label className="block text-xs font-display uppercase tracking-[2px] text-[#888888] mb-1.5">
+              WhatsApp / Teléfono *
             </label>
             <div className="relative">
-              <Phone size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#808080]" />
+              <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#666666]" />
               <input
                 type="tel"
                 name="phone"
                 value={clientData?.phone || ''}
                 onChange={handleInputChange}
-                placeholder="Ej: 315 890 1234"
+                placeholder="Ej: 3122398964"
                 required
-                className="w-full bg-[#101513] border border-[#26302a] focus:border-gold-400 rounded-[4px] text-white pl-10 pr-4 py-2.5 text-xs font-sans focus:outline-none transition-all"
+                className="w-full bg-black border border-[#333333] focus:border-white rounded-none text-white pl-10 pr-4 py-2.5 text-xs font-sans focus:outline-none transition-all"
               />
             </div>
           </div>
 
-          {/* Dirección */}
+          {/* Dirección o Sector */}
           <div>
-            <label className="block text-xs font-sans uppercase tracking-wider text-[#dfdbca] mb-1.5 font-medium">
-              Dirección de Residencia <span className="text-gold-400">*</span>
+            <label className="block text-xs font-display uppercase tracking-[2px] text-[#888888] mb-1.5">
+              Ciudad / Sector
             </label>
             <div className="relative">
-              <MapPin size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#808080]" />
+              <MapPin size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#666666]" />
               <input
                 type="text"
                 name="address"
                 value={clientData?.address || ''}
                 onChange={handleInputChange}
-                placeholder="Ej: Cra. 16 #33F-31, Cali"
-                required
-                className="w-full bg-[#101513] border border-[#26302a] focus:border-gold-400 rounded-[4px] text-white pl-10 pr-4 py-2.5 text-xs font-sans focus:outline-none transition-all"
+                placeholder="Ej: Villacolombia, Cali"
+                className="w-full bg-black border border-[#333333] focus:border-white rounded-none text-white pl-10 pr-4 py-2.5 text-xs font-sans focus:outline-none transition-all"
               />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Resumen de la Cita */}
-      <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-6 shadow-subtle">
-        <h3 className="font-serif italic text-2xl text-white mb-6 border-b border-[#1f2723] pb-4 flex items-center justify-between">
-          <span>Resumen de la Cita</span>
-          <span className="editorial-tag bg-[#161d19] border-[#2b3530] text-gold-400 font-sans">
-            Atelier Punto Fino
-          </span>
+      {/* Booking Summary Card */}
+      <div className="bg-[#111111] border border-[#262626] rounded-none p-6">
+        <h3 className="font-display font-medium text-base text-white uppercase tracking-[2px] mb-4 pb-3 border-b border-[#222222]">
+          RESUMEN DE TU CITA
         </h3>
-        
-        {/* Timeline Details */}
-        <div className="space-y-4 font-sans text-xs">
-          <div className="p-3.5 bg-[#101513] border border-[#1f2723] rounded-[4px] flex justify-between items-center">
-            <span className="text-[#808080] flex items-center gap-2">
-              <Scissors size={14} className="text-gold-400" /> Servicios Seleccionados:
-            </span>
-            <span className="font-serif italic text-sm text-white font-medium">
-              {selectedServices.map(s => s.name).join(' + ')}
-            </span>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-3">
+            <div className="flex items-start gap-3">
+              <div className="p-1.5 border border-[#333333] bg-black text-white shrink-0 mt-0.5">
+                <Scissors size={14} />
+              </div>
+              <div>
+                <p className="text-[10px] font-display uppercase tracking-[2px] text-[#888888]">EXPERIENCIA(S)</p>
+                <div className="mt-1 space-y-1">
+                  {selectedServices.map(s => (
+                    <div key={s._id} className="flex items-baseline justify-between gap-4 text-xs">
+                      <span className="text-white font-medium">{s.name}</span>
+                      <span className="font-mono text-[#aaaaaa] shrink-0">${s.price?.toLocaleString('es-CO')} COP</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 pt-2">
+              <div className="p-1.5 border border-[#333333] bg-black text-white shrink-0">
+                <User size={14} />
+              </div>
+              <div>
+                <p className="text-[10px] font-display uppercase tracking-[2px] text-[#888888]">MAESTRO BARBERO</p>
+                <p className="text-xs text-white uppercase font-display font-medium mt-0.5">
+                  {selectedBarber?._id === 'any' ? 'Cualquier Maestro Disponible' : (selectedBarber?.user?.name || selectedBarber?.name)}
+                </p>
+              </div>
+            </div>
           </div>
 
-          <div className="p-3.5 bg-[#101513] border border-[#1f2723] rounded-[4px] flex justify-between items-center">
-            <span className="text-[#808080] flex items-center gap-2">
-              <User size={14} className="text-gold-400" /> Maestro Barbero:
-            </span>
-            <span className="font-serif italic text-sm text-gold-400 font-medium">
-              {selectedBarber?.user?.name || 'Cualquiera disponible'}
-            </span>
-          </div>
+          <div className="space-y-3">
+            <div className="flex items-center gap-3">
+              <div className="p-1.5 border border-[#333333] bg-black text-white shrink-0">
+                <Calendar size={14} />
+              </div>
+              <div>
+                <p className="text-[10px] font-display uppercase tracking-[2px] text-[#888888]">FECHA Y HORA</p>
+                <p className="text-xs text-white font-mono mt-0.5">
+                  {selectedDate} · {formatTime(selectedSlot)}
+                </p>
+              </div>
+            </div>
 
-          <div className="p-3.5 bg-[#101513] border border-[#1f2723] rounded-[4px] flex justify-between items-center">
-            <span className="text-[#808080] flex items-center gap-2">
-              <Calendar size={14} className="text-gold-400" /> Fecha y Horario:
-            </span>
-            <span className="font-mono text-white capitalize">
-              {new Date(selectedDate + 'T12:00:00').toLocaleDateString('es-CO', {
-                weekday: 'short', day: 'numeric', month: 'short'
-              })} · {formatTime(selectedSlot)}
-            </span>
-          </div>
-
-          <div className="p-3.5 bg-[#101513] border border-[#1f2723] rounded-[4px] flex justify-between items-center">
-            <span className="text-[#808080] flex items-center gap-2">
-              <Clock size={14} className="text-gold-400" /> Duración Estimada:
-            </span>
-            <span className="text-white font-medium">{totalDuration} minutos</span>
+            <div className="flex items-center gap-3 pt-2">
+              <div className="p-1.5 border border-[#333333] bg-black text-white shrink-0">
+                <MapPin size={14} />
+              </div>
+              <div>
+                <p className="text-[10px] font-display uppercase tracking-[2px] text-[#888888]">SEDE</p>
+                <p className="text-xs text-white mt-0.5">
+                  Cra 12 #53-51, Villacolombia, Cali
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-        
-        {/* Total Price Pill */}
-        <div className="mt-6 pt-5 border-t border-[#1f2723] flex items-center justify-between">
-          <span className="text-xs uppercase tracking-wider font-sans text-[#dfdbca] font-semibold">
-            Inversión Total:
+
+        {/* Payment Methods */}
+        <div className="mt-6 pt-5 border-t border-[#222222]">
+          <label className="block text-xs font-display uppercase tracking-[2px] text-[#888888] mb-3">
+            MÉTODO DE PAGO PREFERIDO
+          </label>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {paymentMethods.map(pm => (
+              <button
+                key={pm.id}
+                type="button"
+                onClick={() => setPaymentMethod(pm.id)}
+                className={`py-2.5 px-3 text-[11px] font-display uppercase tracking-[1px] rounded-none border transition-all cursor-pointer ${
+                  paymentMethod === pm.id
+                    ? 'bg-white text-black border-white font-medium'
+                    : 'bg-black text-[#888888] border-[#2b2b2b] hover:border-white/60 hover:text-white'
+                }`}
+              >
+                {pm.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Notes */}
+        <div className="mt-5">
+          <label className="block text-xs font-display uppercase tracking-[2px] text-[#888888] mb-1.5">
+            INDICACIONES ADICIONALES (OPCIONAL)
+          </label>
+          <textarea
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            rows={2}
+            placeholder="¿Alguna preferencia sobre el corte, barba o indicación para el barbero?"
+            className="w-full bg-black border border-[#333333] focus:border-white rounded-none text-white p-3 text-xs font-sans focus:outline-none transition-all placeholder:text-[#555555]"
+          />
+        </div>
+
+        {/* Total Row */}
+        <div className="mt-6 pt-4 border-t border-[#222222] flex items-center justify-between">
+          <div className="flex flex-col">
+            <span className="text-[10px] font-display uppercase tracking-[2px] text-[#888888]">TOTAL DEL SERVICIO</span>
+            <span className="text-xs text-[#666666] font-mono">Duración aproximada: {totalDuration} min</span>
+          </div>
+          <span className="font-mono text-xl sm:text-2xl text-white font-medium">
+            {formatPrice(totalPrice)} <span className="text-xs text-[#888888]">COP</span>
           </span>
-          <span className="price-pill text-sm font-semibold">
-            {formatPrice(totalPrice)} COP
-          </span>
         </div>
       </div>
 
-      {/* Método de Pago */}
-      <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-6 shadow-subtle">
-        <h4 className="font-serif italic text-xl text-white mb-4">Forma de Pago</h4>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-          {paymentMethods.map(method => (
-            <label 
-              key={method.id}
-              className={`cursor-pointer flex items-center justify-center py-3 px-3 rounded-[4px] text-xs font-sans transition-all border text-center ${
-                paymentMethod === method.id
-                  ? 'bg-gold-400 text-[#0e1311] border-gold-400 font-semibold'
-                  : 'bg-[#101513] text-[#dfdbca] border-[#26302a] hover:border-gold-400/50'
-              }`}
-            >
-              <input 
-                type="radio" 
-                name="paymentMethod" 
-                value={method.id}
-                checked={paymentMethod === method.id}
-                onChange={() => setPaymentMethod(method.id)}
-                className="hidden" 
-              />
-              {method.label}
-            </label>
-          ))}
-        </div>
-      </div>
-
-      {/* Notas Adicionales */}
-      <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-6 shadow-subtle">
-        <h4 className="font-serif italic text-xl text-white mb-3 flex items-center gap-2">
-          <Edit2 size={16} className="text-gold-400" /> Notas o Indicaciones Especiales
-        </h4>
-        <textarea
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          placeholder="Ej: Prefiero degradado medio en navaja, toalla caliente y perfilado fino de cejas..."
-          className="w-full bg-[#101513] border border-[#26302a] focus:border-gold-400 rounded-[4px] text-white p-3 text-xs font-sans h-20 resize-none focus:outline-none transition-all placeholder:text-[#808080]"
-          maxLength={300}
-        />
-        <div className="text-right mt-1">
-          <span className="text-[#808080] font-mono text-[11px]">{notes.length}/300</span>
-        </div>
-      </div>
-
-      {/* Botones de Acción */}
-      <div className="flex flex-col sm:flex-row gap-3 pt-2">
-        <button 
+      {/* Bottom Action */}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
+        <button
+          type="button"
           onClick={onBack}
-          className="btn-secondary text-xs uppercase tracking-wider py-3 px-6 w-full sm:w-auto text-center"
           disabled={isSubmitting}
+          className="w-full sm:w-auto border border-[#333333] hover:border-white text-white font-display text-xs uppercase tracking-[2px] py-3.5 px-6 rounded-none transition-all cursor-pointer"
         >
-          Atrás
+          MODIFICAR DATOS
         </button>
-        <button 
+
+        <button
+          type="button"
           onClick={onConfirm}
-          className="btn-primary text-xs uppercase tracking-wider py-3.5 px-8 w-full flex-1 flex items-center justify-center gap-2"
           disabled={isSubmitting}
+          className="w-full sm:w-auto bg-white hover:bg-[#e0e0e0] text-black font-display text-xs uppercase tracking-[2px] font-medium py-3.5 px-8 rounded-none transition-all cursor-pointer flex items-center justify-center gap-2 shadow-lg"
         >
           {isSubmitting ? (
-            <div className="w-5 h-5 border-2 border-[#0e1311] border-t-transparent rounded-full animate-spin" />
+            <span className="flex items-center gap-2">
+              <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+              CONFIRMANDO...
+            </span>
           ) : (
             <>
-              <Check size={16} strokeWidth={2.5} />
-              Confirmar Cita en Punto Fino
+              <span>CONFIRMAR RESERVA</span>
+              <Check size={16} />
             </>
           )}
         </button>

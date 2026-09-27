@@ -1,246 +1,271 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ArrowUpRight, Scissors, Sparkles, MessageCircle, Calendar } from 'lucide-react';
-import AnimatedCounter from '../ui/AnimatedCounter';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronRight, ChevronLeft, Pause, Play, ArrowRight, ShieldCheck, Star } from 'lucide-react';
+
+const SLIDES = [
+  {
+    id: 1,
+    image: '/images/punto-fino-corte.jpg',
+    eyebrow: 'VISAGISMO & CORTE DE AUTOR',
+    headline: 'ESCULTURA CAPILAR DE PRECISIÓN',
+    description: 'Diagnóstico morfológico según fisonomía craneal y textura capilar. Degradados milimétricos y acabados con navaja libre en Cali.',
+    cta: 'RESERVAR EXPERIENCIA',
+    link: '#reservar',
+  },
+  {
+    id: 2,
+    image: '/images/punto-fino-ritual.jpg',
+    eyebrow: 'EXPERIENCIA PLATINIUM',
+    headline: 'EL RITUAL SUPREMO GOL DE ORO',
+    description: 'Tratamiento integral de lujo: Visagismo, corte milimétrico, ritual de barba con toalla caliente, mascarilla dérmica y vapor ozono.',
+    cta: 'EXPLORAR RITUAL',
+    link: '#servicios',
+  },
+  {
+    id: 3,
+    image: '/images/punto-fino-vapor.jpg',
+    eyebrow: 'RITUAL DE BARBA & VAPOR OZONO',
+    headline: 'PURIFICACIÓN & RASURADO CLÁSICO',
+    description: 'Apertura de poros mediante vapor ozonizado, bálsamos botánicos esenciales y perfilado geométrico con técnica tradicional.',
+    cta: 'AGENDAR BARBA',
+    link: '#reservar',
+  },
+];
 
 export default function HeroSection() {
-  const container = {
-    hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.1 } }
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const timerRef = useRef(null);
+
+  // Auto-play slideshow interval
+  useEffect(() => {
+    if (isPlaying) {
+      timerRef.current = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
+      }, 6500);
+    } else if (timerRef.current) {
+      clearInterval(timerRef.current);
+    }
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [isPlaying]);
+
+  const goToSlide = (idx) => {
+    setCurrentSlide(idx);
   };
 
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } }
+  const handleNext = () => {
+    setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
   };
 
-  const featuredEntries = [
-    {
-      title: 'Experiencia White',
-      category: 'Corte de Autor',
-      notes: 'Visagismo según morfología craneal, lavado térmico y texturizado a tijera japonesa.',
-      href: '#servicios',
-      price: '$22.000 COP',
-    },
-    {
-      title: 'Experiencia Black',
-      category: 'Ritual Completo',
-      notes: 'Corte milimétrico, mascarilla desintoxicante de carbón activado y toalla caliente.',
-      href: '#servicios',
-      price: '$40.000 COP',
-    },
-    {
-      title: 'Experiencia Gold VIP',
-      category: 'Edición Exclusiva',
-      notes: 'Tratamiento supremo: corte + barba completa, vaporozono ozonizado y perfilado facial.',
-      href: '#servicios',
-      price: '$75.000 COP',
-    },
-    {
-      title: 'Perfilado de Barba a Navaja Libre',
-      category: 'Barbería Clásica',
-      notes: 'Diseño geométrico a navaja clásica, exfoliación botánica y bálsamo nutritivo.',
-      href: '#servicios',
-      price: '$16.000 COP',
-    },
-  ];
+  const handlePrev = () => {
+    setCurrentSlide((prev) => (prev - 1 + SLIDES.length) % SLIDES.length);
+  };
+
+  const togglePlay = () => {
+    setIsPlaying((prev) => !prev);
+  };
+
+  const activeSlide = SLIDES[currentSlide];
 
   return (
-    <div className="w-full bg-[#0e1311] text-white pt-28 sm:pt-32">
-      {/* Primary Hero Section */}
-      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-        {/* Subtle warm ember/gold wash in backdrop (Assembly Coffee style) */}
-        <div 
-          className="absolute top-10 right-10 w-[500px] h-[500px] bg-[#cfa53b]/5 rounded-full blur-[140px] pointer-events-none" 
-          aria-hidden="true"
-        />
+    <div className="relative w-full bg-black text-white overflow-hidden">
+      {/* 100vw x 92vh Full-bleed Cinematic Hero Surface */}
+      <div className="relative w-full h-[88vh] sm:h-[92vh] min-h-[580px] max-h-[1050px]">
+        {/* Background Slide Imagery with cross-fade */}
+        <AnimatePresence initial={false} mode="sync">
+          <motion.div
+            key={activeSlide.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute inset-0 w-full h-full"
+          >
+            <img
+              src={activeSlide.image}
+              alt={activeSlide.headline}
+              fetchPriority={currentSlide === 0 ? 'high' : 'auto'}
+              loading={currentSlide === 0 ? 'eager' : 'lazy'}
+              className="w-full h-full object-cover object-center filter brightness-[0.78] contrast-[1.08] transform scale-[1.02]"
+            />
+            {/* Scrim Overlay for Legibility */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/30 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/30 pointer-events-none" />
+          </motion.div>
+        </AnimatePresence>
 
-        <motion.div 
-          variants={container}
-          initial="hidden"
-          animate="show"
-          className="space-y-12"
-        >
-          {/* Header Typography Group */}
-          <div className="border-b border-[#1f2723] pb-10">
-            <motion.div variants={item} className="flex flex-wrap items-center gap-3 mb-6">
-              <span className="editorial-tag bg-[#161d19] border-[#2b3630] text-gold-400">
-                Atelier · Cali, Valle
+        {/* Copy Cluster — Bottom-Centred / Bottom-Left Hierarchy */}
+        <div className="relative z-20 h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-end pb-20 sm:pb-24">
+          <div className="max-w-2xl space-y-4">
+            {/* Category Eyebrow */}
+            <motion.div
+              key={`eyebrow-${activeSlide.id}`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="flex items-center gap-3"
+            >
+              <span className="text-[11px] sm:text-xs font-display uppercase tracking-[3px] text-white/70 font-normal">
+                {activeSlide.eyebrow}
               </span>
-              <span className="font-sans text-[11px] uppercase tracking-widest text-[#808080]">
-                Vol. 2026 — Edición No. 7
+              <span className="h-px w-6 bg-white/30 hidden sm:inline-block" />
+              <span className="text-[10px] sm:text-[11px] font-display uppercase tracking-[2px] text-white/50 hidden sm:inline-block">
+                PUNTO FINO · CALI
               </span>
             </motion.div>
 
-            <motion.div variants={item} className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-              <div className="flex items-center gap-5 sm:gap-6">
-                <img
-                  src="/logo.png"
-                  alt="Punto Fino Monograma"
-                  className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-contain rounded-[4px] border border-[#26302a] shadow-md shrink-0"
-                />
-                <div>
-                  <h1 className="font-serif italic text-5xl sm:text-7xl lg:text-8xl font-normal tracking-tight text-white leading-none">
-                    Punto Fino
-                  </h1>
-                  <p className="font-sans text-xs sm:text-sm uppercase tracking-[0.28em] text-gold-400 mt-3 font-medium">
-                    Barbería de Autor · Visagismo & Estilo Masculino
-                  </p>
-                </div>
-              </div>
+            {/* Slide Main Headline */}
+            <motion.h1
+              key={`headline-${activeSlide.id}`}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="font-display font-medium text-3xl sm:text-5xl lg:text-6xl text-white tracking-[3px] sm:tracking-[4px] uppercase leading-[1.12]"
+            >
+              {activeSlide.headline}
+            </motion.h1>
 
-              <div className="max-w-md">
-                <p className="font-sans text-sm sm:text-base text-[#b3b3b3] leading-relaxed">
-                  Más que un corte de cabello, esculpimos presencia y distinción. Una experiencia de calma, técnica milimétrica y atención personalizada en Cali.
-                </p>
-                <div className="mt-4 flex items-center gap-4">
-                  <a
-                    href="#reservar"
-                    className="price-pill hover:bg-white transition-all transform hover:scale-[1.02]"
-                  >
-                    Agendar Cita en Línea
-                  </a>
-                  <a
-                    href="https://wa.me/573158965266?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Punto%20Fino"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="editorial-link text-sm flex items-center gap-1.5"
-                  >
-                    <MessageCircle size={15} /> WhatsApp Directo
-                  </a>
-                </div>
-              </div>
+            {/* Description */}
+            <motion.p
+              key={`desc-${activeSlide.id}`}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-white/80 text-xs sm:text-sm max-w-xl font-sans font-light leading-relaxed tracking-wide"
+            >
+              {activeSlide.description}
+            </motion.p>
+
+            {/* Ferrari-Style CTA: Spaced Label + Circle Arrow Button */}
+            <motion.div
+              key={`cta-${activeSlide.id}`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.25 }}
+              className="pt-2 sm:pt-4"
+            >
+              <a
+                href={activeSlide.link}
+                className="group inline-flex items-center gap-4 text-xs font-display uppercase tracking-[2px] text-white transition-all cursor-pointer"
+              >
+                <span className="border-b border-transparent group-hover:border-white transition-colors duration-200">
+                  {activeSlide.cta}
+                </span>
+                <span className="w-9 h-9 rounded-full border border-white/80 group-hover:border-white group-hover:bg-white group-hover:text-black flex items-center justify-center text-white transition-all duration-300">
+                  <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+                </span>
+              </a>
             </motion.div>
           </div>
+        </div>
 
-          {/* Two-Column Editorial Hero Layout (Table of Contents + Studio Visual) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start">
-            {/* Left Column: Featured Index / Table of Contents (35% width) */}
-            <motion.div variants={item} className="lg:col-span-5 space-y-6">
-              <div className="flex items-center justify-between border-b border-[#1f2723] pb-2">
-                <span className="font-sans text-[11px] uppercase tracking-widest text-[#808080]">
-                  Índice de Servicios Destacados
-                </span>
-                <span className="font-sans text-[11px] text-gold-400 uppercase tracking-wider">
-                  Carta 2026
-                </span>
-              </div>
+        {/* Carousel Desktop Side Nav Arrows */}
+        <div className="hidden sm:flex absolute inset-y-0 left-4 right-4 z-20 items-center justify-between pointer-events-none">
+          <button
+            onClick={handlePrev}
+            aria-label="Diapositiva anterior"
+            className="w-10 h-10 rounded-full border border-white/30 hover:border-white text-white/70 hover:text-white flex items-center justify-center bg-black/30 backdrop-blur-sm pointer-events-auto transition-all cursor-pointer"
+          >
+            <ChevronLeft size={18} />
+          </button>
+          <button
+            onClick={handleNext}
+            aria-label="Siguiente diapositiva"
+            className="w-10 h-10 rounded-full border border-white/30 hover:border-white text-white/70 hover:text-white flex items-center justify-center bg-black/30 backdrop-blur-sm pointer-events-auto transition-all cursor-pointer"
+          >
+            <ChevronRight size={18} />
+          </button>
+        </div>
 
-              <div className="divide-y divide-[#1f2723]">
-                {featuredEntries.map((entry, idx) => (
-                  <div key={idx} className="py-4.5 first:pt-1 last:pb-1 group">
-                    <div className="flex items-baseline justify-between gap-4">
-                      <a 
-                        href={entry.href} 
-                        className="font-serif italic text-xl text-white group-hover:text-gold-300 transition-colors flex items-center gap-1.5"
-                      >
-                        {entry.title}
-                        <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity text-gold-400" />
-                      </a>
-                      <span className="font-mono text-xs text-gold-400 font-medium shrink-0">
-                        {entry.price}
-                      </span>
-                    </div>
-                    <span className="font-sans text-[11px] uppercase tracking-wider text-[#808080] block mt-0.5">
-                      {entry.category}
-                    </span>
-                    <p className="font-sans text-xs text-[#b3b3b3] mt-1.5 leading-relaxed">
-                      {entry.notes}
-                    </p>
-                  </div>
-                ))}
-              </div>
+        {/* Carousel Controls: Centred Dot Indicators + Bottom-Right Pause/Play */}
+        <div className="absolute bottom-6 inset-x-0 z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          <div className="w-10 hidden sm:block" />
 
-              {/* Stats Bar (Restrained & Elegant) */}
-              <div className="pt-6 border-t border-[#1f2723] grid grid-cols-3 gap-4 text-left">
-                <div>
-                  <div className="font-serif italic text-2xl text-white">
-                    <AnimatedCounter value={7} />+
-                  </div>
-                  <div className="font-sans text-[10px] uppercase tracking-wider text-[#808080] mt-0.5">
-                    Años de Maestría
-                  </div>
-                </div>
-                <div>
-                  <div className="font-serif italic text-2xl text-white">
-                    <AnimatedCounter value={2500} />+
-                  </div>
-                  <div className="font-sans text-[10px] uppercase tracking-wider text-[#808080] mt-0.5">
-                    Servicios de Autor
-                  </div>
-                </div>
-                <div>
-                  <div className="font-serif italic text-2xl text-gold-400">
-                    <AnimatedCounter value={4.9} />
-                  </div>
-                  <div className="font-sans text-[10px] uppercase tracking-wider text-[#808080] mt-0.5">
-                    Calificación Promedio
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Right Column: Studio Photograph Visual (65% width) */}
-            <motion.div variants={item} className="lg:col-span-7">
-              <div className="relative rounded-[4px] overflow-hidden border border-[#222a26] bg-[#121815] group shadow-subtle">
-                {/* Studio Photograph with warm ember/charcoal atmosphere */}
-                <div className="relative aspect-[16/11] sm:aspect-[16/10] overflow-hidden bg-[#0d1210]">
-                  <img
-                    src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1400&q=80"
-                    alt="Atelier Punto Fino Barbería"
-                    className="w-full h-full object-cover object-center filter brightness-[0.88] contrast-[1.05] group-hover:scale-[1.02] transition-transform duration-700 ease-out"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0e1311] via-transparent to-transparent opacity-80" />
-                  
-                  {/* Floating Price Pill at Bottom Left */}
-                  <div className="absolute bottom-5 left-5 z-10 flex flex-wrap items-center gap-3">
-                    <span className="price-pill shadow-md">
-                      Servicios desde — $16.000 COP
-                    </span>
-                    <span className="editorial-tag bg-[#121815]/90 border-[#2b3530] text-[#dfdbca] backdrop-blur-sm hidden sm:inline-flex">
-                      Atención Personalizada
-                    </span>
-                  </div>
-                </div>
-
-                {/* Caption / Studio Note */}
-                <div className="p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs border-t border-[#1f2723]">
-                  <div>
-                    <p className="font-serif italic text-white text-sm">
-                      Sede Principal — B/ Atanasio Girardot
-                    </p>
-                    <p className="font-sans text-[11px] text-[#808080] mt-0.5">
-                      Cra. 16 #33F-31, Cali · Lunes a Sábado 9:00 a 20:00 · Domingos 10:00 a 17:00
-                    </p>
-                  </div>
-                  <a
-                    href="#reservar"
-                    className="font-serif italic text-gold-400 hover:text-white underline underline-offset-4 text-xs transition-colors shrink-0"
-                  >
-                    Seleccionar barbero & fecha →
-                  </a>
-                </div>
-              </div>
-            </motion.div>
+          {/* Centred Dots: Active has Rosso Corsa (#da291c) ring */}
+          <div className="flex items-center gap-3 bg-black/40 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10 mx-auto sm:mx-0">
+            {SLIDES.map((slide, idx) => (
+              <button
+                key={slide.id}
+                onClick={() => goToSlide(idx)}
+                aria-label={`Ir a la diapositiva ${idx + 1}`}
+                className="p-1 focus:outline-none cursor-pointer flex items-center justify-center"
+              >
+                {currentSlide === idx ? (
+                  /* Active indicator: Rosso Corsa ring with white inner dot */
+                  <span className="w-3.5 h-3.5 rounded-full border border-[#da291c] flex items-center justify-center">
+                    <span className="w-1.5 h-1.5 rounded-full bg-white" />
+                  </span>
+                ) : (
+                  /* Inactive indicator: solid white dot */
+                  <span className="w-2 h-2 rounded-full bg-white/40 hover:bg-white transition-colors" />
+                )}
+              </button>
+            ))}
           </div>
-        </motion.div>
-      </section>
 
-      {/* Editorial Manifesto Block (Full-Width Black #0e1311 — Assembly Coffee Signature) */}
-      <section className="border-y border-[#1f2723] bg-[#0c100e] py-20 sm:py-28">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <span className="editorial-tag bg-[#161d19] border-[#2b3530] text-gold-400 mb-6">
-            Manifiesto Punto Fino
-          </span>
-          <blockquote className="font-serif italic text-2xl sm:text-4xl lg:text-[40px] text-white font-normal leading-[1.3] text-balance">
-            “Entendemos el corte de cabello como un ejercicio de visagismo y arquitectura. No perseguimos tendencias efímeras; esculpimos la presencia, la proporción y el carácter de cada hombre con técnica milimétrica y atención absoluta.”
-          </blockquote>
-          <div className="mt-8 flex items-center justify-center gap-3">
-            <span className="w-8 h-px bg-gold-400/40"></span>
-            <span className="font-sans text-xs uppercase tracking-[0.25em] text-[#b3b3b3]">
-              Juan Muñeton · Master Barber & Fundador
-            </span>
-            <span className="w-8 h-px bg-gold-400/40"></span>
+          {/* Pause / Play Circular Button */}
+          <button
+            onClick={togglePlay}
+            aria-label={isPlaying ? 'Pausar carrusel' : 'Reanudar carrusel'}
+            className="w-9 h-9 rounded-full border border-white/50 hover:border-white text-white/80 hover:text-white flex items-center justify-center bg-black/40 backdrop-blur-sm transition-all cursor-pointer"
+          >
+            {isPlaying ? <Pause size={13} /> : <Play size={13} className="ml-0.5" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Atelier Metrics & Authority Band (Ferrari Minimalist Section Band) */}
+      <section className="bg-[#0c0c0c] border-y border-[#1f1f1f] py-8 sm:py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 items-center divide-y md:divide-y-0 md:divide-x divide-[#222222]">
+            {/* Metric 1 */}
+            <div className="pt-4 md:pt-0 md:px-4">
+              <span className="text-[10px] font-display uppercase tracking-[2px] text-[#888888] block">
+                UBICACIÓN OFICIAL
+              </span>
+              <p className="font-display font-medium text-white text-sm sm:text-base tracking-[1.5px] uppercase mt-1">
+                VILLACOLOMBIA, CALI
+              </p>
+              <p className="text-[11px] text-[#777777] font-sans mt-0.5">Cra 12 #53-51</p>
+            </div>
+
+            {/* Metric 2 */}
+            <div className="pt-4 md:pt-0 md:px-4">
+              <span className="text-[10px] font-display uppercase tracking-[2px] text-[#888888] block">
+                VALORACIÓN CLIENTES
+              </span>
+              <div className="flex items-center gap-1.5 mt-1">
+                <span className="font-display font-medium text-white text-sm sm:text-base tracking-[1.5px]">
+                  4.9 / 5.0
+                </span>
+                <span className="text-white text-xs">★</span>
+              </div>
+              <p className="text-[11px] text-[#777777] font-sans mt-0.5">Opiniones verificadas en Weibook</p>
+            </div>
+
+            {/* Metric 3 */}
+            <div className="pt-4 md:pt-0 md:px-4">
+              <span className="text-[10px] font-display uppercase tracking-[2px] text-[#888888] block">
+                MAESTROS BARBEROS
+              </span>
+              <p className="font-display font-medium text-white text-sm sm:text-base tracking-[1.5px] uppercase mt-1">
+                3 ESPECIALISTAS
+              </p>
+              <p className="text-[11px] text-[#777777] font-sans mt-0.5">Juan David · Juan Diego · Emanuel</p>
+            </div>
+
+            {/* Metric 4 */}
+            <div className="pt-4 md:pt-0 md:px-4">
+              <span className="text-[10px] font-display uppercase tracking-[2px] text-[#888888] block">
+                AGENDAMIENTO EN LÍNEA
+              </span>
+              <p className="font-display font-medium text-white text-sm sm:text-base tracking-[1.5px] uppercase mt-1">
+                CONFIRMACIÓN INMEDIATA
+              </p>
+              <p className="text-[11px] text-[#777777] font-sans mt-0.5">Sin registro previo obligatorio</p>
+            </div>
           </div>
         </div>
       </section>

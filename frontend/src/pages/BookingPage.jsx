@@ -9,7 +9,7 @@ export default function BookingPage() {
   const { isAuthenticated, user, isBarber, isAdmin } = useAuthStore();
   const navigate = useNavigate();
 
-  // Si un barbero o admin intenta agendar citas como cliente, redirigir a su propio panel
+  // If a barber or admin navigates here, redirect to their panel
   useEffect(() => {
     if (isAuthenticated) {
       if (isBarber?.() || user?.role === 'barbero') {
@@ -27,17 +27,17 @@ export default function BookingPage() {
   return (
     <PageTransition>
       <Navbar />
-      <div className="min-h-screen bg-[#0e1311] text-white pt-28 pb-32 sm:pb-24">
+      <div className="min-h-screen bg-black text-white pt-32 pb-32 sm:pb-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="mb-12 text-center">
-            <span className="editorial-tag bg-[#161d19] border-[#2b3630] text-gold-400 mb-3">
-              Punto Fino · Barbería de Autor · Cali
+            <span className="text-[11px] font-display uppercase tracking-[3px] text-[#888888] block mb-2 font-normal">
+              PUNTO FINO · VILLACOLOMBIA, CALI
             </span>
-            <h1 className="font-serif italic text-4xl sm:text-6xl text-white font-normal mb-3 leading-tight">
-              Agenda tu Cita de Autor
+            <h1 className="font-display font-medium text-3xl sm:text-5xl text-white uppercase tracking-[3px] mb-3 leading-tight">
+              AGENDAR CITA
             </h1>
-            <p className="text-[#b3b3b3] font-sans text-xs sm:text-sm max-w-lg mx-auto leading-relaxed">
-              Elige tu corte o experiencia, tu maestro barbero y el horario de tu preferencia. Sin necesidad de crear cuenta previa.
+            <p className="text-[#888888] font-sans text-xs sm:text-sm max-w-lg mx-auto leading-relaxed">
+              Elige tu experiencia, tu maestro barbero y la fecha ideal. Confirmación instantánea y recordatorio directo a tu WhatsApp.
             </p>
           </div>
 

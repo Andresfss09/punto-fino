@@ -296,32 +296,32 @@ export default function BarberSchedule() {
                   </div>
                 ) : (
                   <div className="divide-y-2 divide-dashed divide-[#333]">
-                    {appointments.map(apt => (
-                      <div key={apt._id} className="p-4 flex flex-col sm:flex-row gap-4 hover:bg-[#1a1a1a] transition-colors">
+                    {appointments.filter(Boolean).map(apt => (
+                      <div key={apt._id || Math.random()} className="p-4 flex flex-col sm:flex-row gap-4 hover:bg-[#1a1a1a] transition-colors">
                         <div className="w-24 flex-shrink-0 pt-1">
-                          <p className="font-mono font-bold text-white text-lg">{formatTime(apt.startTime)}</p>
+                          <p className="font-mono font-bold text-white text-lg">{formatTime(apt?.startTime)}</p>
                           <p className="text-[#666] font-mono text-xs mt-1">
-                            {Math.floor(apt.totalDuration / 60)}h {apt.totalDuration % 60}m
+                            {Math.floor((apt?.totalDuration || 35) / 60)}h {(apt?.totalDuration || 35) % 60}m
                           </p>
                         </div>
                         
                         <div className="flex-1 border-l-4 pl-4 py-1 flex flex-col justify-between" 
-                             style={{ borderColor: apt.status === 'completada' ? '#22c55e' : apt.status === 'cancelada' ? '#ef4444' : '#d4af37' }}>
+                             style={{ borderColor: apt?.status === 'completada' ? '#22c55e' : apt?.status === 'cancelada' ? '#ef4444' : '#d4af37' }}>
                           <div>
                             <div className="flex justify-between items-start mb-2">
-                              <h4 className="font-display text-lg text-white uppercase">{apt.client?.name}</h4>
-                              <span className={`brutal-badge text-[10px] ${getStatusStyle(apt.status)}`}>
-                                {apt.status}
+                              <h4 className="font-display text-lg text-white uppercase">{apt?.client?.name || apt?.clientName || 'Cliente'}</h4>
+                              <span className={`brutal-badge text-[10px] ${getStatusStyle(apt?.status)}`}>
+                                {apt?.status || 'confirmada'}
                               </span>
                             </div>
                             <p className="text-[#a0a0a0] text-sm mb-3">
-                              {apt.services?.map(s => s.name).join(', ')}
+                              {apt?.services?.map(s => s.name).join(', ') || 'Servicio de corte'}
                             </p>
                           </div>
                           
                           <div className="flex items-center justify-between text-xs font-mono border-t border-[#333] pt-2 mt-2">
-                            <span className="text-[#666] uppercase">{apt.paymentMethod}</span>
-                            <span className="text-[#d4af37] font-bold">${apt.totalPrice?.toLocaleString('es-CO')}</span>
+                            <span className="text-[#666] uppercase">{apt?.paymentMethod || 'efectivo'}</span>
+                            <span className="text-[#d4af37] font-bold">${apt?.totalPrice?.toLocaleString('es-CO') || 0}</span>
                           </div>
                         </div>
                       </div>

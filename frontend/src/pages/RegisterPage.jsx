@@ -4,12 +4,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
-import { Mail, Lock, User, Phone, Sparkles } from 'lucide-react';
+import { Mail, Lock, User, Phone } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { authService } from '../services/authService';
 import useAuthStore from '../store/useAuthStore';
 import Input from '../components/ui/Input';
-import Button from '../components/ui/Button';
 
 const registerSchema = z.object({
   name: z.string().min(2, 'Nombre mínimo 2 caracteres').max(50, 'Nombre máximo 50 caracteres'),
@@ -52,27 +51,29 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0e1311] flex items-center justify-center px-4 py-20">
+    <div className="min-h-screen bg-black flex items-center justify-center px-4 py-20 text-white">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md"
       >
         <div className="text-center mb-8">
-          <Link to="/" className="inline-block group mb-4">
+          <Link to="/" className="inline-block group mb-3">
             <img
               src="/logo.png"
-              alt="Punto Fino Barbería"
-              className="w-20 h-20 object-contain rounded-[4px] border border-[#26302a] shadow-md mx-auto group-hover:scale-105 transition-transform"
+              alt="Punto Fino"
+              className="w-14 h-14 object-contain invert contrast-150 mx-auto transition-transform group-hover:scale-105"
             />
           </Link>
-          <h1 className="font-serif italic text-4xl font-normal text-white">Únete al Atelier</h1>
-          <p className="text-gold-400 mt-1.5 text-xs uppercase tracking-[0.25em] font-sans font-medium">
-            Punto Fino · Barbería de Autor
+          <h1 className="font-display font-medium text-2xl uppercase tracking-[3px] text-white">
+            PUNTO FINO
+          </h1>
+          <p className="text-[#888888] mt-1 text-[10px] uppercase tracking-[3px] font-display">
+            REGISTRO DE CLIENTE · CALI
           </p>
         </div>
 
-        <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-7 shadow-subtle">
+        <div className="bg-[#111111] border border-[#262626] rounded-none p-7">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <Input
               label="Nombre completo"
@@ -91,7 +92,7 @@ export default function RegisterPage() {
             />
             <Input
               label="Teléfono / WhatsApp"
-              placeholder="3001234567"
+              placeholder="3122398964"
               icon={Phone}
               maxLength={10}
               error={errors.phone?.message}
@@ -108,7 +109,7 @@ export default function RegisterPage() {
             <Input
               label="Confirmar contraseña"
               type="password"
-              placeholder="Repite tu contraseña"
+              placeholder="Repite la contraseña"
               icon={Lock}
               error={errors.confirmPassword?.message}
               {...register('confirmPassword')}
@@ -117,20 +118,18 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn-primary text-xs uppercase tracking-wider py-3.5 mt-2"
+              className="w-full bg-white hover:bg-[#e0e0e0] text-black font-display font-medium text-xs uppercase tracking-[2px] py-3.5 rounded-none transition-all cursor-pointer mt-4"
             >
-              {loading ? 'Creando cuenta...' : 'Crear Cuenta de Cliente'}
+              {loading ? 'CREANDO CUENTA...' : 'CREAR CUENTA'}
             </button>
           </form>
 
-          <div className="mt-6 pt-5 border-t border-[#1f2723] text-center">
-            <p className="text-[#808080] text-xs font-sans">
-              ¿Ya tienes cuenta?{' '}
-              <Link to="/login" className="text-gold-400 hover:text-white font-medium transition-colors underline underline-offset-4">
-                Iniciar sesión
-              </Link>
-            </p>
-          </div>
+          <p className="text-center text-[#888888] text-xs font-sans mt-6">
+            ¿Ya tienes cuenta?{' '}
+            <Link to="/login" className="text-white hover:underline uppercase tracking-wider font-display text-[11px] ml-1">
+              Iniciar sesión
+            </Link>
+          </p>
         </div>
       </motion.div>
     </div>
