@@ -1,6 +1,12 @@
 import React from 'react';
-import { Scissors, User, Calendar, Clock, Check, Edit2, Mail, Phone, MapPin, Sparkles, Coffee } from 'lucide-react';
+import { Scissors, User, Calendar, Clock, Check, Edit2, Mail, Phone, MapPin, Sparkles, ShoppingBag, Plus } from 'lucide-react';
 import { formatTime, formatPrice } from '../../utils/formatters';
+
+const BEVERAGES = [
+  { id: 'Jugo Hit ($5.000)', name: 'JUGO HIT', category: 'NEVERA', price: 5000, initials: 'JH' },
+  { id: 'Cerveza Águila Latón ($6.000)', name: 'CERVEZA AGUILA LATON', category: 'NEVERA', price: 6000, initials: 'CA' },
+  { id: 'Agua ($3.000)', name: 'AGUA', category: 'NEVERA', price: 3000, initials: 'AG' },
+];
 
 export default function BookingConfirmation({ 
   bookingData, 
@@ -18,20 +24,12 @@ export default function BookingConfirmation({
     paymentMethod, 
     setPaymentMethod, 
     notes, 
-    setNotes,
+    setNotes, 
     clientData, 
     setClientData,
     selectedBeverage,
     setSelectedBeverage,
   } = bookingData;
-
-  const BEVERAGES = [
-    { id: 'Café Espresso recién molido (Cortesía)', label: 'Café Espresso recién molido', tag: 'Cortesía Atelier', icon: '☕' },
-    { id: 'Cerveza Fría Premium (Corona / Heineken)', label: 'Cerveza Fría Premium', tag: 'Bar Selection', icon: '🍺' },
-    { id: 'Trago de Whisky On The Rocks', label: 'Whisky On The Rocks', tag: 'VIP Selection', icon: '🥃' },
-    { id: 'Agua mineral con gas / fría (Cortesía)', label: 'Agua Mineral / Botánica', tag: 'Cortesía Atelier', icon: '💧' },
-    { id: 'Sin bebida', label: 'Sin bebida por el momento', tag: 'Opcional', icon: '—' },
-  ];
 
   const paymentMethods = [
     { id: 'efectivo', label: 'Efectivo en el Atelier' },
@@ -42,29 +40,39 @@ export default function BookingConfirmation({
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setClientData((prev) => ({ ...prev, [name]: value }));
+    setClientData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleBeverageToggle = (bevId) => {
+    if (selectedBeverage === bevId) {
+      setSelectedBeverage('Sin bebida');
+    } else {
+      setSelectedBeverage(bevId);
+    }
   };
 
   return (
     <div className="space-y-6">
+      
       {/* Formulario de Datos del Cliente */}
       <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-6 shadow-subtle">
-        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-[#1f2723]">
-          <div className="p-2 bg-[#161d19] border border-[#2b3530] rounded-[4px] text-gold-400">
-            <User size={18} />
-          </div>
+        <div className="flex items-center justify-between border-b border-[#1f2723] pb-4 mb-5">
           <div>
-            <h3 className="font-serif italic text-2xl text-white">
-              Datos del Cliente
-            </h3>
-            <p className="text-xs text-[#808080] font-sans mt-0.5">
-              No requieres cuenta previa. Te notificaremos la cita a tu correo y WhatsApp.
+            <h3 className="font-serif italic text-2xl text-white">Datos de Quien Reserva</h3>
+            <p className="text-xs text-[#8e9b94] font-sans mt-0.5">
+              Sin necesidad de crear cuenta previa. Te enviaremos la confirmación directa.
             </p>
           </div>
+          <span className="editorial-tag bg-[#161d19] border-[#2b3530] text-gold-400 font-sans hidden sm:inline-block">
+            Paso Obligatorio
+          </span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {/* Nombre completo */}
+          {/* Nombre */}
           <div>
             <label className="block text-xs font-sans uppercase tracking-wider text-[#dfdbca] mb-1.5 font-medium">
               Nombre Completo <span className="text-gold-400">*</span>
@@ -76,7 +84,7 @@ export default function BookingConfirmation({
                 name="name"
                 value={clientData?.name || ''}
                 onChange={handleInputChange}
-                placeholder="Ej: Andrés Silva"
+                placeholder="Ej: Nicolás Gómez"
                 required
                 className="w-full bg-[#101513] border border-[#26302a] focus:border-gold-400 rounded-[4px] text-white pl-10 pr-4 py-2.5 text-xs font-sans focus:outline-none transition-all"
               />
@@ -95,7 +103,7 @@ export default function BookingConfirmation({
                 name="email"
                 value={clientData?.email || ''}
                 onChange={handleInputChange}
-                placeholder="ejemplo@correo.com"
+                placeholder="Ej: nicolas@gmail.com"
                 required
                 className="w-full bg-[#101513] border border-[#26302a] focus:border-gold-400 rounded-[4px] text-white pl-10 pr-4 py-2.5 text-xs font-sans focus:outline-none transition-all"
               />
@@ -155,7 +163,7 @@ export default function BookingConfirmation({
         </h3>
         
         {/* Timeline Details */}
-        <div className="space-y-4 font-sans text-xs">
+        <div className="space-y-3.5 font-sans text-xs">
           <div className="p-3.5 bg-[#101513] border border-[#1f2723] rounded-[4px] flex justify-between items-center">
             <span className="text-[#808080] flex items-center gap-2">
               <Scissors size={14} className="text-gold-400" /> Servicios Seleccionados:
@@ -179,9 +187,7 @@ export default function BookingConfirmation({
               <Calendar size={14} className="text-gold-400" /> Fecha y Horario:
             </span>
             <span className="font-mono text-white capitalize">
-              {new Date(selectedDate + 'T12:00:00').toLocaleDateString('es-CO', {
-                weekday: 'short', day: 'numeric', month: 'short'
-              })} · {formatTime(selectedSlot)}
+              {selectedDate ? new Date(selectedDate + 'T12:00:00').toLocaleDateString('es-CO', { weekday: 'short', day: 'numeric', month: 'short' }) : ''} · {formatTime(selectedSlot)}
             </span>
           </div>
 
@@ -193,9 +199,9 @@ export default function BookingConfirmation({
           </div>
 
           {selectedBeverage && selectedBeverage !== 'Sin bebida' && (
-            <div className="p-3.5 bg-[#101513] border border-[#1f2723] rounded-[4px] flex justify-between items-center">
+            <div className="p-3.5 bg-[#101513] border border-gold-400/30 rounded-[4px] flex justify-between items-center">
               <span className="text-[#808080] flex items-center gap-2">
-                <Coffee size={14} className="text-gold-400" /> Bebida en Atelier:
+                <ShoppingBag size={14} className="text-gold-400" /> Bebida Agregada (Nevera):
               </span>
               <span className="font-serif italic text-sm text-gold-400 font-medium">
                 {selectedBeverage}
@@ -215,53 +221,100 @@ export default function BookingConfirmation({
         </div>
       </div>
 
-      {/* Selección de Bebida durante tu Cita */}
+      {/* Lo que usamos contigo (Sección de Bebidas Nevera en Cita) */}
       <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-6 shadow-subtle">
-        <div className="flex items-center justify-between border-b border-[#1f2723] pb-3 mb-4">
-          <div className="flex items-center gap-2.5">
-            <Coffee size={18} className="text-gold-400" />
-            <h4 className="font-serif italic text-xl text-white">Servicio de Bar & Bebida durante tu Cita</h4>
+        <div className="flex items-start gap-3.5 border-b border-[#1f2723] pb-4 mb-5">
+          <div className="w-10 h-10 rounded-[4px] bg-[#161d19] border border-[#26302a] flex items-center justify-center shrink-0 text-gold-400">
+            <ShoppingBag size={20} />
           </div>
-          <span className="editorial-tag bg-[#161d19] border-[#2b3530] text-gold-400 font-sans">
-            Cortesía Atelier
-          </span>
+          <div>
+            <h4 className="font-serif italic text-xl sm:text-2xl text-gold-400 leading-tight">
+              Lo que usamos contigo
+            </h4>
+            <p className="font-sans text-xs text-[#8e9b94] mt-0.5">
+              Añádelos a tu reserva y recógelos en tu cita
+            </p>
+          </div>
         </div>
-        <p className="font-sans text-xs text-[#b3b3b3] mb-4 leading-relaxed">
-          En Punto Fino te recibimos con una bebida a la temperatura perfecta para disfrutar mientras esculpimos tu estilo. Selecciona tu preferencia:
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-          {BEVERAGES.map((bev) => (
-            <label
-              key={bev.id}
-              className={`cursor-pointer p-3 rounded-[4px] border transition-all flex items-start gap-3 ${
-                selectedBeverage === bev.id
-                  ? 'bg-[#19231d] border-gold-400 text-white shadow-sm'
-                  : 'bg-[#101513] border-[#222a26] text-[#b3b3b3] hover:border-[#38443e] hover:text-white'
-              }`}
-            >
-              <input
-                type="radio"
-                name="selectedBeverage"
-                value={bev.id}
-                checked={selectedBeverage === bev.id}
-                onChange={() => setSelectedBeverage && setSelectedBeverage(bev.id)}
-                className="hidden"
-              />
-              <span className="text-xl shrink-0">{bev.icon}</span>
-              <div className="flex-1 min-w-0">
-                <span className="font-sans text-xs font-medium block text-white truncate">
-                  {bev.label}
-                </span>
-                <span className="font-sans text-[10px] text-gold-400 uppercase tracking-wider block mt-0.5">
-                  {bev.tag}
-                </span>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {BEVERAGES.map((bev) => {
+            const isSelected = selectedBeverage === bev.id;
+            return (
+              <div
+                key={bev.id}
+                className={`p-4 rounded-[4px] border transition-all flex flex-col justify-between ${
+                  isSelected
+                    ? 'bg-[#19231d] border-gold-400 shadow-sm'
+                    : 'bg-[#101513] border-[#222a26] hover:border-[#38443e]'
+                }`}
+              >
+                {/* Initials Box */}
+                <div className="w-full aspect-[4/3] bg-[#0e1311] border border-[#222a26] rounded-[4px] flex items-center justify-center mb-3">
+                  <span className="font-serif italic text-3xl font-bold text-white tracking-widest">
+                    {bev.initials}
+                  </span>
+                </div>
+
+                <div className="space-y-1 mb-3">
+                  <span className="font-sans text-[10px] uppercase tracking-widest text-[#808080] font-medium block">
+                    {bev.category}
+                  </span>
+                  <p className="font-serif italic text-base text-gold-400 font-normal leading-snug">
+                    {bev.name}
+                  </p>
+                  
+                  <div className="flex items-center justify-between pt-1">
+                    <span className="font-mono font-bold text-sm text-gold-400">
+                      ${bev.price.toLocaleString('es-CO')}
+                    </span>
+                    <span className="px-1.5 py-0.5 rounded-[3px] text-[9px] font-sans uppercase tracking-wider bg-emerald-950/60 text-emerald-400 border border-emerald-800/40">
+                      Disponible
+                    </span>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => handleBeverageToggle(bev.id)}
+                  className={`w-full py-2 rounded-[4px] text-xs font-sans uppercase tracking-wider font-semibold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                    isSelected
+                      ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-600'
+                      : 'bg-gold-400 hover:bg-gold-300 text-[#0e1311]'
+                  }`}
+                >
+                  {isSelected ? (
+                    <>
+                      <Check size={13} strokeWidth={2.5} />
+                      <span>Agregado</span>
+                    </>
+                  ) : (
+                    <>
+                      <Plus size={13} strokeWidth={2.5} />
+                      <span>+ Agregar</span>
+                    </>
+                  )}
+                </button>
               </div>
-            </label>
-          ))}
+            );
+          })}
         </div>
+
+        {selectedBeverage && selectedBeverage !== 'Sin bebida' && (
+          <div className="mt-4 pt-3 border-t border-[#1f2723] flex justify-between items-center">
+            <span className="text-xs text-[#8e9b94]">Bebida seleccionada: <strong className="text-gold-400 font-serif italic">{selectedBeverage}</strong></span>
+            <button
+              type="button"
+              onClick={() => setSelectedBeverage('Sin bebida')}
+              className="text-[11px] text-rose-400 hover:text-rose-300 underline underline-offset-2 cursor-pointer font-sans"
+            >
+              Quitar bebida
+            </button>
+          </div>
+        )}
       </div>
 
-      {/* Método de Pago */}
+      {/* Forma de Pago */}
       <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-6 shadow-subtle">
         <h4 className="font-serif italic text-xl text-white mb-4">Forma de Pago</h4>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -270,7 +323,7 @@ export default function BookingConfirmation({
               key={method.id}
               className={`cursor-pointer flex items-center justify-center py-3 px-3 rounded-[4px] text-xs font-sans transition-all border text-center ${
                 paymentMethod === method.id
-                  ? 'bg-gold-400 text-[#0e1311] border-gold-400 font-semibold'
+                  ? 'bg-gold-400 text-[#0e1311] border-gold-400 font-semibold shadow-sm'
                   : 'bg-[#101513] text-[#dfdbca] border-[#26302a] hover:border-gold-400/50'
               }`}
             >
@@ -309,14 +362,14 @@ export default function BookingConfirmation({
       <div className="flex flex-col sm:flex-row gap-3 pt-2">
         <button 
           onClick={onBack}
-          className="btn-secondary text-xs uppercase tracking-wider py-3 px-6 w-full sm:w-auto text-center"
+          className="btn-secondary text-xs uppercase tracking-wider py-3 px-6 w-full sm:w-auto text-center cursor-pointer"
           disabled={isSubmitting}
         >
           Atrás
         </button>
         <button 
           onClick={onConfirm}
-          className="btn-primary text-xs uppercase tracking-wider py-3.5 px-8 w-full flex-1 flex items-center justify-center gap-2"
+          className="btn-primary text-xs uppercase tracking-wider py-3.5 px-8 w-full flex-1 flex items-center justify-center gap-2 cursor-pointer shadow-sm"
           disabled={isSubmitting}
         >
           {isSubmitting ? (

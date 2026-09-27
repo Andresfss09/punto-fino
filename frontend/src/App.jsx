@@ -24,7 +24,6 @@ import AdminServices from './pages/admin/AdminServices';
 import AdminBarbers from './pages/admin/AdminBarbers';
 import AdminUsers from './pages/admin/AdminUsers';
 
-import FloatingWhatsApp from './components/ui/FloatingWhatsApp';
 
 // Rutas protegidas por rol
 function PrivateRoute({ children, allowedRoles }) {
@@ -117,7 +116,6 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </AnimatePresence>
-    <FloatingWhatsApp />
     </>
   );
 }

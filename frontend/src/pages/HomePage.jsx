@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from '../components/layout/Navbar';
 import HeroSection from '../components/home/HeroSection';
 import ServicesSection from '../components/home/ServicesSection';
+import BeveragesSection from '../components/home/BeveragesSection';
 import BarbersSection from '../components/home/BarbersSection';
 import ReviewsSection from '../components/home/ReviewsSection';
 import LocationSection from '../components/home/LocationSection';
@@ -13,6 +14,7 @@ export default function HomePage() {
       <Navbar />
       <HeroSection />
       <ServicesSection />
+      <BeveragesSection />
 
       {/* Sección de Reserva directa en la página principal */}
       <section id="reservar" className="py-24 sm:py-32 bg-[#0c100e] border-b border-[#1f2723] relative scroll-mt-16">
@@ -24,8 +26,8 @@ export default function HomePage() {
             <h2 className="font-serif italic text-4xl sm:text-5xl text-white font-normal leading-tight">
               Agenda tu Experiencia
             </h2>
-            <p className="text-[#b3b3b3] text-xs sm:text-sm max-w-xl mx-auto mt-3 font-sans leading-relaxed">
-              Selecciona tu servicio, tu barbero favorito y el horario ideal. No requieres crear cuenta; incluye bebida de cortesía y confirmación por correo y WhatsApp.
+            <p className="text-[#8e9b94] text-xs sm:text-sm max-w-xl mx-auto mt-3 font-sans leading-relaxed">
+              Selecciona tu servicio, tu barbero y el horario ideal. No requieres crear cuenta para agendar; confirmación inmediata por correo electrónico.
             </p>
           </div>
 

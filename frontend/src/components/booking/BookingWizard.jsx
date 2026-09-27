@@ -107,29 +107,13 @@ const FALLBACK_SERVICES = [
     isPopular: false,
     isActive: true,
   },
-  {
-    _id: '6ab429b351b742ce20f96ab9',
-    name: 'Servicio de Bar & Café de Cortesía',
-    description: 'Bebida de cortesía: café espresso recién molido o agua mineral purificada incluida en tu sesión.',
-    price: 0,
-    duration: 10,
-    category: 'bebidas',
-    image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=700&q=80',
-    isPopular: false,
-    isActive: true,
-  },
-  {
-    _id: '6ab429b351b742ce20f96aba',
-    name: 'Cerveza Premium Fría & Coctelería',
-    description: 'Cerveza fría importada (Corona, Heineken, Club Colombia) o whisky de autor servido on the rocks.',
-    price: 8000,
-    duration: 10,
-    category: 'bebidas',
-    image: '/cerveza-bar.webp',
-    isPopular: false,
-    isActive: true,
-  },
 ];
+
+const BEVERAGE_PRICES = {
+  'Jugo Hit ($5.000)': 5000,
+  'Cerveza Águila Latón ($6.000)': 6000,
+  'Agua ($3.000)': 3000,
+};
 
 const FALLBACK_BARBERS = [
   {
@@ -194,7 +178,7 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
   const [selectedSlot, setSelectedSlot] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('efectivo');
   const [notes, setNotes] = useState('');
-  const [selectedBeverage, setSelectedBeverage] = useState('Café Espresso recién molido (Cortesía)');
+  const [selectedBeverage, setSelectedBeverage] = useState('Sin bebida');
 
   // Client Details Form (No need to create an account)
   const [clientData, setClientData] = useState({
@@ -252,7 +236,8 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
   }, [initialServiceId]);
 
   const totalDuration = selectedServices.reduce((sum, s) => sum + (s.duration || 40), 0);
-  const totalPrice = selectedServices.reduce((sum, s) => sum + (s.price || 0), 0);
+  const beveragePrice = BEVERAGE_PRICES[selectedBeverage] || 0;
+  const totalPrice = selectedServices.reduce((sum, s) => sum + (s.price || 0), 0) + beveragePrice;
 
   // Load available time slots when barber, date and duration are set
   useEffect(() => {

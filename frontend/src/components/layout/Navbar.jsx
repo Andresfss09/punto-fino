@@ -227,17 +227,7 @@ export default function Navbar() {
                   </div>
                 </>
               ) : (
-                <div className="flex items-center gap-2.5">
-                  <a
-                    href="https://wa.me/573122398964?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Punto%20Fino"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-[4px] border border-[#2b3a30] hover:border-[#25D366]/60 bg-[#121815] text-[#25D366] hover:bg-[#16201b] font-mono text-xs font-medium transition-all"
-                    title="Chatear con Punto Fino por WhatsApp"
-                  >
-                    <MessageCircle size={13} className="text-[#25D366]" />
-                    <span>312 239 8964</span>
-                  </a>
+                <div className="flex items-center gap-3">
                   <Link 
                     to="/login" 
                     className="font-sans text-xs uppercase tracking-wider text-[#b3b3b3] hover:text-white px-3 py-2 transition-colors"
