@@ -45,7 +45,7 @@ exports.sendWelcomeEmail = async (user) => {
         <p>Reserva tu primera experiencia y empieza a acumular puntos exclusivos.</p>
         <a href="${process.env.CLIENT_URL}" class="btn">RESERVAR CITA</a>
       </div>
-      <div class="footer"><p>© ${new Date().getFullYear()} Punto Fino Barbería · Cra. 16 #33F-31, Cali</p></div>
+      <div class="footer"><p>© ${new Date().getFullYear()} Punto Fino Barbería · Cra. 12 #53-51, Villacolombia, Cali</p></div>
     </div></body></html>
   `;
 
@@ -87,10 +87,10 @@ exports.sendAppointmentConfirmationEmail = async (appointment) => {
             <p><strong>Total:</strong> $${totalPrice.toLocaleString('es-CO')} COP</p>
             ${displayAddress ? `<p><strong>Dirección cliente:</strong> ${displayAddress}</p>` : ''}
           </div>
-          <p>📍 <strong>Ubicación del Atelier:</strong> Cra. 16 #33F-31, Cali, Colombia.</p>
+          <p>📍 <strong>Ubicación del Atelier:</strong> Cra. 12 #53-51, Villacolombia, Cali, Colombia.</p>
           <p>Te recomendamos llegar 5 a 10 minutos antes de la hora para garantizar tu experiencia completa.</p>
         </div>
-        <div class="footer"><p>© ${new Date().getFullYear()} Punto Fino Barbería · Cra. 16 #33F-31, Cali</p></div>
+        <div class="footer"><p>© ${new Date().getFullYear()} Punto Fino Barbería · Cra. 12 #53-51, Villacolombia, Cali</p></div>
       </div></body></html>
     `;
 
@@ -171,7 +171,7 @@ exports.sendPasswordResetEmail = async (user, token) => {
         <a href="${resetUrl}" class="btn">RESTABLECER CONTRASEÑA</a>
         <p>Si no solicitaste esto, puedes ignorar este correo de forma segura.</p>
       </div>
-      <div class="footer"><p>© ${new Date().getFullYear()} Punto Fino Barbería · Cra. 16 #33F-31, Cali</p></div>
+      <div class="footer"><p>© ${new Date().getFullYear()} Punto Fino Barbería · Cra. 12 #53-51, Villacolombia, Cali</p></div>
     </div></body></html>
   `;
 

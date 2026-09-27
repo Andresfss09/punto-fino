@@ -22,48 +22,70 @@ const seedUsers = async () => {
       console.log(`✅ Admin creado: ${adminEmail} / admin123456`);
     }
 
-    // 2. Barbero 1 (Juan Muñeton)
-    const barber1Email = 'juan@puntofino.com';
-    let barberUser1 = await User.findOne({ email: { $in: [barber1Email, 'juan@steelhouse.com'] } });
+    // 2. Barbero 1 (Juan David)
+    const barber1Email = 'juan.david@puntofino.com';
+    let barberUser1 = await User.findOne({ email: { $in: [barber1Email, 'juan@puntofino.com', 'juan@steelhouse.com'] } });
     if (!barberUser1) {
       barberUser1 = await User.create({
-        name: 'Juan Muñeton',
+        name: 'Juan David',
         email: barber1Email,
-        phone: '3158965266',
+        phone: '3122398964',
         password: 'barbero123',
         role: 'barbero',
         isVerified: true,
       });
       await Barber.create({
         user: barberUser1._id,
-        bio: 'Fundador y Master Barber. Especialista en la Experiencia Gold, visagismo y cortes de alta precisión.',
-        specialties: ['degradado', 'corte clásico', 'barba', 'diseño'],
-        rating: { average: 5.0, count: 42 },
+        bio: 'Master Barber y Asesor de Imagen. Especialista en la Experiencia Platinium, visagismo facial y cortes de alta precisión.',
+        specialties: ['Experiencia Platinium', 'visagismo', 'degradado'],
+        rating: { average: 4.9, count: 16 },
         isAvailable: true,
       });
-      console.log('✅ Barbero Juan Muñeton creado: juan@puntofino.com / barbero123');
+      console.log('✅ Barbero Juan David creado: juan.david@puntofino.com / barbero123');
     }
 
-    // 3. Barbero 2 (Carlos Mendoza)
-    const barber2Email = 'carlos@puntofino.com';
-    let barberUser2 = await User.findOne({ email: { $in: [barber2Email, 'carlos@steelhouse.com'] } });
+    // 3. Barbero 2 (Juan Diego)
+    const barber2Email = 'juan.diego@puntofino.com';
+    let barberUser2 = await User.findOne({ email: { $in: [barber2Email, 'carlos@puntofino.com', 'carlos@steelhouse.com'] } });
     if (!barberUser2) {
       barberUser2 = await User.create({
-        name: 'Carlos Mendoza',
+        name: 'Juan Diego',
         email: barber2Email,
-        phone: '3109876543',
+        phone: '3122398964',
         password: 'barbero123',
         role: 'barbero',
         isVerified: true,
       });
       await Barber.create({
         user: barberUser2._id,
-        bio: 'Especialista en degradados limpios, perfilado de barba al detalle y cuidado capilar.',
-        specialties: ['degradado', 'corte clásico', 'barba'],
-        rating: { average: 4.9, count: 28 },
+        bio: 'Especialista en Ritual de Barba & Corte. Maestro en afeitado tradicional a navaja, vapor ozono y diseño de barba.',
+        specialties: ['Ritual de Barba', 'navaja libre', 'vapor ozono'],
+        rating: { average: 5.0, count: 16 },
         isAvailable: true,
       });
-      console.log('✅ Barbero Carlos creado: carlos@puntofino.com / barbero123');
+      console.log('✅ Barbero Juan Diego creado: juan.diego@puntofino.com / barbero123');
+    }
+
+    // 4. Barbero 3 (Emanuel Torres)
+    const barber3Email = 'emanuel@puntofino.com';
+    let barberUser3 = await User.findOne({ email: { $in: [barber3Email, 'mateo@puntofino.com'] } });
+    if (!barberUser3) {
+      barberUser3 = await User.create({
+        name: 'Emanuel Torres',
+        email: barber3Email,
+        phone: '3122398964',
+        password: 'barbero123',
+        role: 'barbero',
+        isVerified: true,
+      });
+      await Barber.create({
+        user: barberUser3._id,
+        bio: 'Especialista en Tendencia & Textura. Experto en perfilado de cejas, cortes clásicos y texturizados en tendencia.',
+        specialties: ['corte clásico', 'cejas', 'tendencias'],
+        rating: { average: 4.9, count: 16 },
+        isAvailable: true,
+      });
+      console.log('✅ Barbero Emanuel Torres creado: emanuel@puntofino.com / barbero123');
     }
 
     // 4. Cliente Punto Fino

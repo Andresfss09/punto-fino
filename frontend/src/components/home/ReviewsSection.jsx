@@ -5,27 +5,27 @@ import { Star, Quote, CheckCircle2 } from 'lucide-react';
 const REVIEWS = [
   { 
     id: 1, 
-    name: 'David Moreno', 
-    service: 'Experiencia Gold VIP',
+    name: 'Juan David Gómez', 
+    service: 'Experiencia Platinium / Gol de Oro',
     date: 'Septiembre 2026',
     rating: 5, 
-    text: 'La atención de Juan es otro nivel. El diagnóstico de visagismo fue exacto y la combinación con la toalla caliente y vaporozono me dejó como nuevo. Sin duda la mejor barbería de Cali.' 
+    text: 'El ritual con vapor ozono frío y caliente, la mascarilla para puntos negros y el corte con visagismo es de otro nivel. Juan David entiende con exactitud lo que favorece a las facciones de tu rostro.' 
   },
   { 
     id: 2, 
-    name: 'Sergio Restrepo', 
-    service: 'Experiencia Black',
+    name: 'Camilo Andrés Mora', 
+    service: 'Experiencia Punto Fino + Ritual de Barba',
     date: 'Septiembre 2026',
     rating: 5, 
-    text: 'Puntualidad británica, ambiente sobrio y música en el punto exacto. Llevo más de un año viniendo a cortarme con Carlos y la consistencia en el degradado es impecable.' 
+    text: 'Puntualidad impecable y trato de primera. El ritual de barba con aceites hidratantes y navaja libre deja la piel relajada y sin irritación. Sin duda la mejor barbería de Villacolombia.' 
   },
   { 
     id: 3, 
-    name: 'Miguel Ángel Torres', 
-    service: 'Perfilado de Barba a Navaja',
+    name: 'Felipe Benítez', 
+    service: 'Experiencia Punto Fino (Corte + Cejas)',
     date: 'Agosto 2026',
     rating: 5, 
-    text: 'El ritual de barba con aceites esenciales y navaja libre es adictivo. Salgo renovado cada vez que tengo una reunión importante. Totalmente recomendado.' 
+    text: 'El perfilado de cejas y el degradado milimétrico son perfectos. Ambiente sobrio, higiénico y con productos profesionales de alta gama.' 
   },
 ];
 
@@ -36,13 +36,13 @@ export default function ReviewsSection() {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <span className="editorial-tag bg-[#161d19] border-[#2b3630] text-gold-400 mb-3">
-            Opiniones Reales
+            Opiniones Reales · 4.9 ★ Weibook
           </span>
           <h2 className="font-serif italic text-4xl sm:text-5xl text-white font-normal leading-tight">
             La Voz de Nuestros Clientes
           </h2>
           <p className="font-sans text-xs sm:text-sm text-[#b3b3b3] mt-3">
-            Más de 2.500 clientes confían su imagen y presencia a nuestro atelier en Cali.
+            Calificación 4.9 / 5.0 basada en 16 reseñas reales y verificadas en la plataforma de reservas de Punto Fino.
           </p>
         </div>
 

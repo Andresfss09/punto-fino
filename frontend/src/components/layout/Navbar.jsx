@@ -41,7 +41,7 @@ export default function Navbar() {
         <span className="truncate">Punto Fino · Atelier de Corte & Visagismo Masculino · Cali</span>
         <span className="hidden md:inline text-gold-400">◆</span>
         <span className="hidden md:inline font-sans text-[11px] text-[#b3b3b3] normal-case tracking-normal">
-          Cra. 16 #33F-31, Cali · Atención con cita previa
+          Cra. 12 #53-51, Villacolombia, Cali · WhatsApp: 312 239 8964
         </span>
       </div>
 

@@ -61,16 +61,20 @@ export default function Footer() {
           {/* Column 3 - Schedule */}
           <div className="space-y-3">
             <h4 className="font-sans text-xs uppercase tracking-widest text-white font-medium flex items-center gap-1.5">
-              <Clock size={13} className="text-gold-400" /> Horario de Atención
+              <Clock size={13} className="text-gold-400" /> Horario Oficial Weibook
             </h4>
             <ul className="space-y-2 text-xs font-sans text-[#b3b3b3]">
-              <li className="flex justify-between max-w-[220px] pb-1 border-b border-[#1f2723]">
-                <span>Lunes a Sábado</span>
-                <span className="font-mono text-white">9:00 - 20:00</span>
+              <li className="flex justify-between max-w-[240px] pb-1 border-b border-[#1f2723]">
+                <span>Lunes</span>
+                <span className="font-mono text-white">8:00 - 20:30</span>
               </li>
-              <li className="flex justify-between max-w-[220px] pb-1 border-b border-[#1f2723]">
-                <span>Domingos & Festivos</span>
-                <span className="font-mono text-gold-400">10:00 - 17:00</span>
+              <li className="flex justify-between max-w-[240px] pb-1 border-b border-[#1f2723]">
+                <span>Martes a Sábado</span>
+                <span className="font-mono text-white">9:00 - 20:30</span>
+              </li>
+              <li className="flex justify-between max-w-[240px] pb-1 border-b border-[#1f2723]">
+                <span>Domingos</span>
+                <span className="font-mono text-gold-400">9:00 - 16:00</span>
               </li>
               <li className="text-[11px] text-[#808080] pt-1">
                 Atención con cita previa confirmada
@@ -85,20 +89,20 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs font-sans text-[#b3b3b3]">
               <li>
-                <span className="text-white block font-medium">Sede Atanasio Girardot</span>
-                <span>Cra. 16 #33F-31, Cali, Valle del Cauca</span>
+                <span className="text-white block font-medium">Sede Villacolombia</span>
+                <span>Cra. 12 #53-51, Villacolombia, Cali, Valle del Cauca</span>
               </li>
               <li>
                 <a 
-                  href="tel:+573158965266" 
+                  href="tel:+573122398964" 
                   className="font-mono hover:text-gold-400 transition-colors flex items-center gap-2"
                 >
-                  <Phone size={13} className="text-gold-400" /> +57 315 896 5266
+                  <Phone size={13} className="text-gold-400" /> +57 312 239 8964
                 </a>
               </li>
               <li className="pt-1">
                 <a
-                  href="https://wa.me/573158965266?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Punto%20Fino"
+                  href="https://wa.me/573122398964?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Punto%20Fino"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-serif italic text-gold-400 hover:text-white underline underline-offset-4 flex items-center gap-1.5 transition-colors"

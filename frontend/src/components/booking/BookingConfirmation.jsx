@@ -126,7 +126,7 @@ export default function BookingConfirmation({
                 name="address"
                 value={clientData?.address || ''}
                 onChange={handleInputChange}
-                placeholder="Ej: Cra. 16 #33F-31, Cali"
+                placeholder="Ej: Cra. 12 #53-51, Cali"
                 required
                 className="w-full bg-[#101513] border border-[#26302a] focus:border-gold-400 rounded-[4px] text-white pl-10 pr-4 py-2.5 text-xs font-sans focus:outline-none transition-all"
               />

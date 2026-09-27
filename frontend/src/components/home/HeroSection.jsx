@@ -16,32 +16,32 @@ export default function HeroSection() {
 
   const featuredEntries = [
     {
-      title: 'Experiencia White',
-      category: 'Corte de Autor',
-      notes: 'Visagismo según morfología craneal, lavado térmico y texturizado a tijera japonesa.',
+      title: 'Experiencia Platinium / Gol de Oro',
+      category: 'Ritual Supremo VIP',
+      notes: 'Visagismo, exfoliación profunda, vapor ozono frío y caliente, mascarilla de puntos negros, velo hidratante y masaje relajante.',
       href: '#servicios',
-      price: '$22.000 COP',
+      price: '$55.000 COP',
     },
     {
-      title: 'Experiencia Black',
-      category: 'Ritual Completo',
-      notes: 'Corte milimétrico, mascarilla desintoxicante de carbón activado y toalla caliente.',
+      title: 'Experiencia Punto Fino + Ritual de Barba',
+      category: 'Experiencia Completa',
+      notes: 'Corte de autor con visagismo, lavado capilar y ritual de barba con vapor ozono, toallas y aceites hidratantes.',
       href: '#servicios',
-      price: '$40.000 COP',
+      price: '$34.000 COP',
     },
     {
-      title: 'Experiencia Gold VIP',
-      category: 'Edición Exclusiva',
-      notes: 'Tratamiento supremo: corte + barba completa, vaporozono ozonizado y perfilado facial.',
+      title: 'Experiencia Punto Fino (Corte + Cejas)',
+      category: 'Servicio Insignia',
+      notes: 'Visagismo según morfología craneal, corte de alta precisión, perfilado de cejas y peinado con producto profesional.',
       href: '#servicios',
-      price: '$75.000 COP',
+      price: '$24.000 COP',
     },
     {
-      title: 'Perfilado de Barba a Navaja Libre',
-      category: 'Barbería Clásica',
-      notes: 'Diseño geométrico a navaja clásica, exfoliación botánica y bálsamo nutritivo.',
+      title: 'Ritual de Barba',
+      category: 'Cuidado Facial & Barba',
+      notes: 'Diseño geométrico a navaja clásica, exfoliación facial, vapor ozono dual y nutrición dérmica con aceites botánicos.',
       href: '#servicios',
-      price: '$16.000 COP',
+      price: '$12.000 COP',
     },
   ];
 
@@ -65,7 +65,7 @@ export default function HeroSection() {
           <div className="border-b border-[#1f2723] pb-10">
             <motion.div variants={item} className="flex flex-wrap items-center gap-3 mb-6">
               <span className="editorial-tag bg-[#161d19] border-[#2b3630] text-gold-400">
-                Atelier · Cali, Valle
+                Atelier · Villacolombia, Cali
               </span>
               <span className="font-sans text-[11px] uppercase tracking-widest text-[#808080]">
                 Vol. 2026 — Edición No. 7
@@ -101,7 +101,7 @@ export default function HeroSection() {
                     Agendar Cita en Línea
                   </a>
                   <a
-                    href="https://wa.me/573158965266?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Punto%20Fino"
+                    href="https://wa.me/573122398964?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Punto%20Fino"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="editorial-link text-sm flex items-center gap-1.5"
@@ -186,16 +186,16 @@ export default function HeroSection() {
                 {/* Studio Photograph with warm ember/charcoal atmosphere */}
                 <div className="relative aspect-[16/11] sm:aspect-[16/10] overflow-hidden bg-[#0d1210]">
                   <img
-                    src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1400&q=80"
+                    src="https://s3.weibook.co/punto_fino/portadas/c49bcfe1-8c59-4af6-befd-fdc16b5eae2b.webp"
                     alt="Atelier Punto Fino Barbería"
-                    className="w-full h-full object-cover object-center filter brightness-[0.88] contrast-[1.05] group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+                    className="w-full h-full object-cover object-center filter brightness-[0.92] contrast-[1.05] group-hover:scale-[1.02] transition-transform duration-700 ease-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0e1311] via-transparent to-transparent opacity-80" />
                   
                   {/* Floating Price Pill at Bottom Left */}
                   <div className="absolute bottom-5 left-5 z-10 flex flex-wrap items-center gap-3">
                     <span className="price-pill shadow-md">
-                      Servicios desde — $16.000 COP
+                      Servicios desde — $5.000 COP
                     </span>
                     <span className="editorial-tag bg-[#121815]/90 border-[#2b3530] text-[#dfdbca] backdrop-blur-sm hidden sm:inline-flex">
                       Atención Personalizada
@@ -207,10 +207,10 @@ export default function HeroSection() {
                 <div className="p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs border-t border-[#1f2723]">
                   <div>
                     <p className="font-serif italic text-white text-sm">
-                      Sede Principal — B/ Atanasio Girardot
+                      Sede Principal — B/ Villacolombia
                     </p>
                     <p className="font-sans text-[11px] text-[#808080] mt-0.5">
-                      Cra. 16 #33F-31, Cali · Lunes a Sábado 9:00 a 20:00 · Domingos 10:00 a 17:00
+                      Cra. 12 #53-51, Cali · Lun 8:00 a 20:30 · Mar a Sáb 9:00 a 20:30 · Dom 9:00 a 16:00
                     </p>
                   </div>
                   <a
@@ -238,7 +238,7 @@ export default function HeroSection() {
           <div className="mt-8 flex items-center justify-center gap-3">
             <span className="w-8 h-px bg-gold-400/40"></span>
             <span className="font-sans text-xs uppercase tracking-[0.25em] text-[#b3b3b3]">
-              Juan Muñeton · Master Barber & Fundador
+              Juan David · Master Barber & Asesor de Imagen
             </span>
             <span className="w-8 h-px bg-gold-400/40"></span>
           </div>

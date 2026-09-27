@@ -11,19 +11,22 @@ const seedAppointments = async () => {
     console.log('MongoDB conectado para sembrar citas de prueba...');
 
     // Get barbers
-    const juan = await User.findOne({ email: { $in: ['juan@puntofino.com', 'juan@steelhouse.com'] } });
-    const carlos = await User.findOne({ email: { $in: ['carlos@puntofino.com', 'carlos@steelhouse.com'] } });
+    const juan = await User.findOne({ email: { $in: ['juan.david@puntofino.com', 'juan@puntofino.com', 'juan@steelhouse.com'] } });
+    const diego = await User.findOne({ email: { $in: ['juan.diego@puntofino.com', 'carlos@puntofino.com', 'carlos@steelhouse.com'] } });
+    const emanuel = await User.findOne({ email: { $in: ['emanuel@puntofino.com', 'mateo@puntofino.com'] } });
 
-    if (!juan && !carlos) {
+    const targetBarbers = [juan, diego, emanuel].filter(Boolean);
+
+    if (targetBarbers.length === 0) {
       console.log('No se encontraron barberos de Punto Fino.');
       process.exit(1);
     }
 
     // Get services
-    const expWhite = await Service.findOne({ name: 'Experiencia White' });
-    const expBlack = await Service.findOne({ name: 'Experiencia Black' });
-    const expGold = await Service.findOne({ name: 'Experiencia Gold VIP 👑' });
-    const barba = await Service.findOne({ name: 'Perfilado de Barba' });
+    const expPlatinium = await Service.findOne({ name: 'Experiencia Platinium / Gol de Oro' }) || await Service.findOne({});
+    const expRitual = await Service.findOne({ name: 'Experiencia Punto Fino + Ritual de Barba' }) || expPlatinium;
+    const expCorte = await Service.findOne({ name: 'Experiencia Punto Fino (Corte + Cejas)' }) || expPlatinium;
+    const ritualBarba = await Service.findOne({ name: 'Ritual de Barba' }) || expPlatinium;
 
     // Ensure clients exist
     const clientData = [
@@ -42,8 +45,6 @@ const seedAppointments = async () => {
       clients.push(clientUser);
     }
 
-    const targetBarbers = [juan, carlos].filter(Boolean);
-
     // Clean existing appointments to avoid cluttering or duplicates
     await Appointment.deleteMany({});
     console.log('Citas anteriores limpiadas.');
@@ -56,17 +57,17 @@ const seedAppointments = async () => {
       await Appointment.create({
         client: clients[0]._id,
         barber: barber._id,
-        services: [{ service: expWhite._id, price: expWhite.price, duration: expWhite.duration }],
+        services: [{ service: expCorte._id, price: expCorte.price, duration: expCorte.duration }],
         date: todayCut,
         startTime: '09:00',
-        endTime: '09:45',
-        totalPrice: expWhite.price,
-        totalDuration: expWhite.duration,
+        endTime: '09:35',
+        totalPrice: expCorte.price,
+        totalDuration: expCorte.duration,
         status: 'completada',
         paymentStatus: 'pagado',
         paymentMethod: 'efectivo',
-        confirmationCode: `ST-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
-        notes: 'Corte fade bajo con raya lateral',
+        confirmationCode: `PF-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
+        notes: 'Corte de autor con diseño de cejas',
       });
 
       // 2. Cita en progreso o pendiente HOY
@@ -75,19 +76,18 @@ const seedAppointments = async () => {
         client: clients[1]._id,
         barber: barber._id,
         services: [
-          { service: expBlack._id, price: expBlack.price, duration: expBlack.duration },
-          { service: barba._id, price: barba.price, duration: barba.duration },
+          { service: expRitual._id, price: expRitual.price, duration: expRitual.duration },
         ],
         date: todayPending,
         startTime: '11:00',
-        endTime: '12:00',
-        totalPrice: expBlack.price + barba.price,
-        totalDuration: 60,
+        endTime: '11:45',
+        totalPrice: expRitual.price,
+        totalDuration: 45,
         status: 'en_progreso',
         paymentStatus: 'pendiente',
         paymentMethod: 'nequi',
-        confirmationCode: `ST-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
-        notes: 'Cliente frecuente, perfilado de barba marcado',
+        confirmationCode: `PF-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
+        notes: 'Cliente frecuente, ritual de barba con toalla caliente',
       });
 
       // 3. Cita agendada para la tarde HOY
@@ -95,17 +95,17 @@ const seedAppointments = async () => {
       await Appointment.create({
         client: clients[2]._id,
         barber: barber._id,
-        services: [{ service: expGold._id, price: expGold.price, duration: expGold.duration }],
+        services: [{ service: expPlatinium._id, price: expPlatinium.price, duration: expPlatinium.duration }],
         date: todayAfternoon,
         startTime: '15:30',
         endTime: '16:30',
-        totalPrice: expGold.price,
+        totalPrice: expPlatinium.price,
         totalDuration: 60,
         status: 'confirmada',
         paymentStatus: 'pagado',
         paymentMethod: 'daviplata',
-        confirmationCode: `ST-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
-        notes: 'Servicio VIP completo con bebida',
+        confirmationCode: `PF-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
+        notes: 'Servicio Platinium VIP completo',
       });
 
       // 4. Cita completada hace 2 días (esta semana)
@@ -114,16 +114,16 @@ const seedAppointments = async () => {
       await Appointment.create({
         client: clients[3]._id,
         barber: barber._id,
-        services: [{ service: expBlack._id, price: expBlack.price, duration: expBlack.duration }],
+        services: [{ service: ritualBarba._id, price: ritualBarba.price, duration: ritualBarba.duration }],
         date: twoDaysAgo,
         startTime: '14:00',
-        endTime: '14:45',
-        totalPrice: expBlack.price,
-        totalDuration: 45,
+        endTime: '14:20',
+        totalPrice: ritualBarba.price,
+        totalDuration: 20,
         status: 'completada',
         paymentStatus: 'pagado',
         paymentMethod: 'nequi',
-        confirmationCode: `ST-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
+        confirmationCode: `PF-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
       });
 
       // 5. Cita completada la semana anterior (este mes)
@@ -132,16 +132,16 @@ const seedAppointments = async () => {
       await Appointment.create({
         client: clients[0]._id,
         barber: barber._id,
-        services: [{ service: expGold._id, price: expGold.price, duration: expGold.duration }],
+        services: [{ service: expPlatinium._id, price: expPlatinium.price, duration: expPlatinium.duration }],
         date: sixDaysAgo,
         startTime: '16:00',
         endTime: '17:00',
-        totalPrice: expGold.price,
+        totalPrice: expPlatinium.price,
         totalDuration: 60,
         status: 'completada',
         paymentStatus: 'pagado',
         paymentMethod: 'transferencia',
-        confirmationCode: `ST-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
+        confirmationCode: `PF-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
       });
     }
 
