@@ -55,7 +55,7 @@ export default function Navbar() {
                 <img
                   src="/logo.png"
                   alt="Punto Fino Barbería"
-                  className="w-10 h-10 object-contain rounded-full border border-gold-400/40 group-hover:border-gold-400 transition-all duration-300"
+                  className="w-11 h-11 object-contain rounded-[4px] border border-[#26302a] group-hover:border-gold-400/60 transition-all duration-300 shadow-sm"
                 />
               </div>
               <div className="flex flex-col">

@@ -13,7 +13,7 @@ export default function Footer() {
               <img
                 src="/logo.png"
                 alt="Punto Fino Barbería"
-                className="w-11 h-11 object-contain rounded-full border border-gold-400/40"
+                className="w-12 h-12 object-contain rounded-[4px] border border-[#26302a] shadow-sm"
               />
               <div>
                 <h3 className="font-serif italic text-2xl text-white leading-tight">

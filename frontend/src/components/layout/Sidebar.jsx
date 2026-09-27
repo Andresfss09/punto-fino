@@ -49,7 +49,7 @@ export default function Sidebar() {
         <img
           src="/logo.png"
           alt="Punto Fino"
-          className="w-9 h-9 object-contain rounded-full border border-gold-400/40"
+          className="w-10 h-10 object-contain rounded-[4px] border border-[#26302a]"
         />
         <div>
           <h2 className="font-serif italic text-xl text-white tracking-tight leading-none">Punto Fino</h2>

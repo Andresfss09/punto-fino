@@ -73,13 +73,20 @@ export default function HeroSection() {
             </motion.div>
 
             <motion.div variants={item} className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-              <div>
-                <h1 className="font-serif italic text-5xl sm:text-7xl lg:text-8xl font-normal tracking-tight text-white leading-none">
-                  Punto Fino
-                </h1>
-                <p className="font-sans text-xs sm:text-sm uppercase tracking-[0.28em] text-gold-400 mt-3 font-medium">
-                  Barbería de Autor · Visagismo & Estilo Masculino
-                </p>
+              <div className="flex items-center gap-5 sm:gap-6">
+                <img
+                  src="/logo.png"
+                  alt="Punto Fino Monograma"
+                  className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-contain rounded-[4px] border border-[#26302a] shadow-md shrink-0"
+                />
+                <div>
+                  <h1 className="font-serif italic text-5xl sm:text-7xl lg:text-8xl font-normal tracking-tight text-white leading-none">
+                    Punto Fino
+                  </h1>
+                  <p className="font-sans text-xs sm:text-sm uppercase tracking-[0.28em] text-gold-400 mt-3 font-medium">
+                    Barbería de Autor · Visagismo & Estilo Masculino
+                  </p>
+                </div>
               </div>
 
               <div className="max-w-md">

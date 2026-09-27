@@ -105,11 +105,11 @@ export default function LoginPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <Link to="/" className="inline-block group mb-3">
+          <Link to="/" className="inline-block group mb-4">
             <img
               src="/logo.png"
               alt="Punto Fino Barbería"
-              className="w-16 h-16 object-contain rounded-full border border-gold-400/40 mx-auto group-hover:scale-105 transition-transform"
+              className="w-20 h-20 object-contain rounded-[4px] border border-[#26302a] shadow-md mx-auto group-hover:scale-105 transition-transform"
             />
           </Link>
           <h1 className="font-serif italic text-4xl text-white tracking-tight leading-none">
