@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
-import { User, Mail, Phone, Lock, Bell, Camera, ChevronDown, ChevronUp, Check } from 'lucide-react';
+import { User, Mail, Phone, Lock, Bell, Camera, ChevronDown, ChevronUp } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import PageTransition from '../../components/ui/PageTransition';
 import toast from 'react-hot-toast';
@@ -51,22 +51,22 @@ export default function ClientProfile() {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-20 space-y-6">
         
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between pb-6 border-b border-[#1f2723]">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between pb-6 border-b border-[#1e1e1e]">
           <div>
-            <span className="editorial-tag text-gold-400 block mb-1">Cuenta & Preferencias</span>
-            <h1 className="font-serif italic text-3xl sm:text-4xl text-white">
+            <span className="eyebrow text-gold-400 block mb-1">Cuenta & Preferencias</span>
+            <h1 className="font-sans font-medium uppercase tracking-[0.16em] text-2xl sm:text-3xl text-white">
               Mi <span className="text-gold-400">Perfil</span>
             </h1>
-            <p className="text-[#8e9b94] text-xs font-sans mt-1">
-              Información personal, seguridad y preferencias de notificación
+            <p className="text-[#888888] text-xs font-sans mt-1">
+              Información personal, seguridad y preferencias de notificación.
             </p>
           </div>
         </div>
 
         {/* User Card */}
-        <div className="bg-[#121815] border border-[#1f2723] rounded-[4px] p-6 flex flex-col sm:flex-row items-center gap-6">
+        <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-6 flex flex-col sm:flex-row items-center gap-6">
           <div className="relative">
-            <div className="w-20 h-20 rounded-[4px] bg-[#161d19] border border-gold-400/40 overflow-hidden flex items-center justify-center font-serif italic text-3xl text-gold-400 font-bold shadow-sm">
+            <div className="w-18 h-18 rounded-none bg-[#141414] border border-[#262626] overflow-hidden flex items-center justify-center font-mono text-2xl text-white font-medium">
               {avatar ? (
                 <img src={avatar} alt="Avatar" className="w-full h-full object-cover" />
               ) : (
@@ -74,64 +74,64 @@ export default function ClientProfile() {
               )}
             </div>
             <label 
-              className="absolute -bottom-2 -right-2 bg-gold-400 hover:bg-gold-300 text-[#0e1311] p-1.5 rounded-[4px] cursor-pointer transition-transform hover:scale-105 shadow-sm"
+              className="absolute -bottom-2 -right-2 bg-white text-black p-1.5 rounded-none cursor-pointer transition-transform hover:scale-105"
               title="Cambiar fotografía"
             >
-              <Camera size={14} />
+              <Camera size={13} />
               <input type="file" className="hidden" accept="image/*" onChange={handleAvatarUpload} />
             </label>
           </div>
           
           <div className="text-center sm:text-left">
-            <h2 className="font-serif italic text-2xl text-white">{user?.name || 'Cliente'}</h2>
+            <h2 className="font-sans font-medium uppercase tracking-[0.14em] text-lg text-white">{user?.name || 'Cliente'}</h2>
             <div className="flex items-center gap-2 justify-center sm:justify-start mt-1">
-              <span className="editorial-tag text-gold-400 bg-[#161d19] border border-gold-400/30 px-2 py-0.5 rounded-[2px]">
+              <span className="px-2 py-0.5 text-[10px] font-mono rounded-none uppercase tracking-wider bg-[#141414] text-gold-400 border border-gold-400/30">
                 Cliente Distinguido
               </span>
-              <span className="text-[#8e9b94] text-xs font-mono">Punto Fino Club</span>
+              <span className="text-[#888888] text-xs font-mono">Punto Fino Club</span>
             </div>
           </div>
         </div>
 
         {/* Personal Info */}
-        <div className="bg-[#121815] border border-[#1f2723] rounded-[4px] overflow-hidden">
-          <div className="p-4 sm:p-5 bg-[#161d19]/60 border-b border-[#1f2723] flex items-center gap-2">
-            <User size={16} className="text-gold-400" />
-            <h3 className="font-serif italic text-lg text-white">Información Personal</h3>
+        <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none overflow-hidden">
+          <div className="p-4 sm:p-5 bg-[#0e0e0e] border-b border-[#1e1e1e] flex items-center gap-2">
+            <User size={15} className="text-white" />
+            <h3 className="font-sans font-medium uppercase tracking-[0.16em] text-xs sm:text-sm text-white">Información Personal</h3>
           </div>
           <div className="p-5 sm:p-6 space-y-4">
             <div>
-              <label className="text-[#8e9b94] font-sans text-[11px] uppercase tracking-wider mb-1 block">Nombre Completo</label>
+              <label className="text-[#888888] font-sans text-[11px] uppercase tracking-[0.16em] mb-1 block">Nombre Completo</label>
               <div className="relative">
-                <User size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#666]" />
+                <User size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#666]" />
                 <input 
                   value={user?.name || ''} 
                   readOnly 
-                  className="w-full bg-[#0e1311] border border-[#222a26] text-[#dfdbca] rounded-[4px] pl-9 pr-3 py-2 text-xs outline-none cursor-not-allowed"
+                  className="w-full bg-[#141414] border border-[#222222] text-[#d4d4d4] rounded-none pl-9 pr-3 py-2 text-xs outline-none cursor-not-allowed font-sans"
                 />
               </div>
             </div>
 
             <div>
-              <label className="text-[#8e9b94] font-sans text-[11px] uppercase tracking-wider mb-1 block">Correo Electrónico</label>
+              <label className="text-[#888888] font-sans text-[11px] uppercase tracking-[0.16em] mb-1 block">Correo Electrónico</label>
               <div className="relative">
-                <Mail size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#666]" />
+                <Mail size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#666]" />
                 <input 
                   value={user?.email || ''} 
                   readOnly 
-                  className="w-full bg-[#0e1311] border border-[#222a26] text-[#dfdbca] rounded-[4px] pl-9 pr-3 py-2 text-xs outline-none cursor-not-allowed"
+                  className="w-full bg-[#141414] border border-[#222222] text-[#d4d4d4] rounded-none pl-9 pr-3 py-2 text-xs outline-none cursor-not-allowed font-mono"
                 />
               </div>
             </div>
 
             <div>
-              <label className="text-[#8e9b94] font-sans text-[11px] uppercase tracking-wider mb-1 block">Teléfono de Contacto</label>
+              <label className="text-[#888888] font-sans text-[11px] uppercase tracking-[0.16em] mb-1 block">Teléfono de Contacto</label>
               <div className="relative">
-                <Phone size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#666]" />
+                <Phone size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#666]" />
                 <input 
                   value={user?.phone || '+57 300 000 0000'} 
                   readOnly 
-                  className="w-full bg-[#0e1311] border border-[#222a26] text-[#dfdbca] rounded-[4px] pl-9 pr-3 py-2 text-xs outline-none cursor-not-allowed"
+                  className="w-full bg-[#141414] border border-[#222222] text-[#d4d4d4] rounded-none pl-9 pr-3 py-2 text-xs outline-none cursor-not-allowed font-mono"
                 />
               </div>
             </div>
@@ -139,50 +139,50 @@ export default function ClientProfile() {
         </div>
 
         {/* Security */}
-        <div className="bg-[#121815] border border-[#1f2723] rounded-[4px] overflow-hidden">
+        <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none overflow-hidden">
           <div 
-            className="p-4 sm:p-5 bg-[#161d19]/60 flex justify-between items-center cursor-pointer hover:bg-[#161d19] transition-colors"
+            className="p-4 sm:p-5 bg-[#0e0e0e] flex justify-between items-center cursor-pointer hover:bg-[#141414] transition-colors"
             onClick={() => setShowPassword(!showPassword)}
           >
             <div className="flex items-center gap-2">
-              <Lock size={16} className="text-gold-400" />
-              <h3 className="font-serif italic text-lg text-white">Seguridad de la Cuenta</h3>
+              <Lock size={15} className="text-white" />
+              <h3 className="font-sans font-medium uppercase tracking-[0.16em] text-xs sm:text-sm text-white">Seguridad de la Cuenta</h3>
             </div>
-            {showPassword ? <ChevronUp size={18} className="text-gold-400" /> : <ChevronDown size={18} className="text-[#8e9b94]" />}
+            {showPassword ? <ChevronUp size={16} className="text-white" /> : <ChevronDown size={16} className="text-[#888888]" />}
           </div>
 
           {showPassword && (
-            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="p-5 sm:p-6 border-t border-[#1f2723]">
+            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="p-5 sm:p-6 border-t border-[#1e1e1e]">
               <form onSubmit={handlePassSubmit(onPasswordChange)} className="space-y-4">
                 <div>
-                  <label className="text-[#8e9b94] font-sans text-[11px] uppercase tracking-wider mb-1 block">Contraseña Actual</label>
+                  <label className="text-[#888888] font-sans text-[11px] uppercase tracking-[0.16em] mb-1 block">Contraseña Actual</label>
                   <input 
                     type="password" 
                     {...passReg('currentPassword')} 
                     placeholder="Ingresa tu contraseña actual"
-                    className="w-full bg-[#0e1311] border border-[#222a26] text-white focus:border-gold-400/50 rounded-[4px] px-3 py-2 text-xs outline-none transition-colors"
+                    className="w-full bg-[#141414] border border-[#222222] text-white focus:border-white/50 rounded-none px-3 py-2 text-xs outline-none transition-colors"
                   />
                   {passErrors.currentPassword && <p className="text-rose-400 text-xs mt-1">{passErrors.currentPassword.message}</p>}
                 </div>
 
                 <div>
-                  <label className="text-[#8e9b94] font-sans text-[11px] uppercase tracking-wider mb-1 block">Nueva Contraseña</label>
+                  <label className="text-[#888888] font-sans text-[11px] uppercase tracking-[0.16em] mb-1 block">Nueva Contraseña</label>
                   <input 
                     type="password" 
                     {...passReg('newPassword')} 
                     placeholder="Mínimo 6 caracteres"
-                    className="w-full bg-[#0e1311] border border-[#222a26] text-white focus:border-gold-400/50 rounded-[4px] px-3 py-2 text-xs outline-none transition-colors"
+                    className="w-full bg-[#141414] border border-[#222222] text-white focus:border-white/50 rounded-none px-3 py-2 text-xs outline-none transition-colors"
                   />
                   {passErrors.newPassword && <p className="text-rose-400 text-xs mt-1">{passErrors.newPassword.message}</p>}
                 </div>
 
                 <div>
-                  <label className="text-[#8e9b94] font-sans text-[11px] uppercase tracking-wider mb-1 block">Confirmar Nueva Contraseña</label>
+                  <label className="text-[#888888] font-sans text-[11px] uppercase tracking-[0.16em] mb-1 block">Confirmar Nueva Contraseña</label>
                   <input 
                     type="password" 
                     {...passReg('confirmPassword')} 
                     placeholder="Repite la nueva contraseña"
-                    className="w-full bg-[#0e1311] border border-[#222a26] text-white focus:border-gold-400/50 rounded-[4px] px-3 py-2 text-xs outline-none transition-colors"
+                    className="w-full bg-[#141414] border border-[#222222] text-white focus:border-white/50 rounded-none px-3 py-2 text-xs outline-none transition-colors"
                   />
                   {passErrors.confirmPassword && <p className="text-rose-400 text-xs mt-1">{passErrors.confirmPassword.message}</p>}
                 </div>
@@ -190,7 +190,7 @@ export default function ClientProfile() {
                 <div className="pt-2 flex justify-end">
                   <button 
                     type="submit" 
-                    className="bg-gold-400 hover:bg-gold-300 text-[#0e1311] font-sans font-semibold text-xs uppercase tracking-wider px-5 py-2.5 rounded-[4px] transition-all cursor-pointer shadow-sm"
+                    className="btn-ferrari-primary text-xs !py-2 !px-5"
                   >
                     Actualizar Contraseña
                   </button>
@@ -201,35 +201,35 @@ export default function ClientProfile() {
         </div>
 
         {/* Notifications */}
-        <div className="bg-[#121815] border border-[#1f2723] rounded-[4px] overflow-hidden">
-          <div className="p-4 sm:p-5 bg-[#161d19]/60 border-b border-[#1f2723] flex items-center gap-2">
-            <Bell size={16} className="text-gold-400" />
-            <h3 className="font-serif italic text-lg text-white">Preferencias de Notificación</h3>
+        <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none overflow-hidden">
+          <div className="p-4 sm:p-5 bg-[#0e0e0e] border-b border-[#1e1e1e] flex items-center gap-2">
+            <Bell size={15} className="text-white" />
+            <h3 className="font-sans font-medium uppercase tracking-[0.16em] text-xs sm:text-sm text-white">Preferencias de Notificación</h3>
           </div>
           <div className="p-5 sm:p-6 space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-white text-xs font-sans font-medium">Confirmaciones por Correo</p>
-                <p className="text-[#8e9b94] text-[11px]">Recibe recibos y recordatorios de tus citas</p>
+                <p className="text-white text-xs font-sans font-medium uppercase tracking-[0.12em]">Confirmaciones por Correo</p>
+                <p className="text-[#888888] text-[11px] font-sans">Recibe recibos y recordatorios de tus citas</p>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" className="sr-only peer" defaultChecked />
-                <div className="w-10 h-5 bg-[#0e1311] border border-[#222a26] rounded-[4px] peer peer-checked:bg-gold-400/30 peer-checked:border-gold-400 transition-colors"></div>
-                <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-gold-400 rounded-[2px] transition-transform peer-checked:translate-x-5"></div>
+                <div className="w-10 h-5 bg-[#141414] border border-[#222222] rounded-none peer peer-checked:bg-white peer-checked:border-white transition-colors"></div>
+                <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-black rounded-none transition-transform peer-checked:translate-x-5"></div>
               </label>
             </div>
             
-            <div className="border-t border-[#1f2723]"></div>
+            <div className="border-t border-[#1e1e1e]"></div>
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-white text-xs font-sans font-medium">Recordatorios por WhatsApp</p>
-                <p className="text-[#8e9b94] text-[11px]">Notificación directa 2 horas antes de tu corte</p>
+                <p className="text-white text-xs font-sans font-medium uppercase tracking-[0.12em]">Recordatorios por WhatsApp</p>
+                <p className="text-[#888888] text-[11px] font-sans">Notificación directa antes de tu cita</p>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" className="sr-only peer" defaultChecked />
-                <div className="w-10 h-5 bg-[#0e1311] border border-[#222a26] rounded-[4px] peer peer-checked:bg-gold-400/30 peer-checked:border-gold-400 transition-colors"></div>
-                <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-gold-400 rounded-[2px] transition-transform peer-checked:translate-x-5"></div>
+                <div className="w-10 h-5 bg-[#141414] border border-[#222222] rounded-none peer peer-checked:bg-white peer-checked:border-white transition-colors"></div>
+                <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-black rounded-none transition-transform peer-checked:translate-x-5"></div>
               </label>
             </div>
           </div>

@@ -80,15 +80,15 @@ export default function MyAppointments() {
   const getStatusBadge = (status) => {
     switch (status) {
       case 'completada':
-        return 'bg-emerald-950/50 text-emerald-400 border-emerald-800/40';
+        return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
       case 'confirmada':
-        return 'bg-blue-950/50 text-blue-400 border-blue-800/40';
+        return 'bg-blue-500/10 text-blue-400 border-blue-500/30';
       case 'pendiente':
-        return 'bg-amber-950/50 text-gold-400 border-amber-800/40';
+        return 'bg-gold-400/10 text-gold-400 border-gold-400/30';
       case 'cancelada':
-        return 'bg-rose-950/50 text-rose-400 border-rose-800/40';
+        return 'bg-rose-500/10 text-rose-400 border-rose-500/30';
       default:
-        return 'bg-[#161d19] text-[#b3b3b3] border-[#222a26]';
+        return 'bg-[#141414] text-[#888888] border-[#222222]';
     }
   };
 
@@ -101,29 +101,29 @@ export default function MyAppointments() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-20">
         
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4 pb-6 border-b border-[#1f2723]">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4 pb-6 border-b border-[#1e1e1e]">
           <div>
-            <span className="editorial-tag text-gold-400 block mb-1">Historial & Citas</span>
-            <h1 className="font-serif italic text-3xl sm:text-4xl text-white">
+            <span className="eyebrow text-gold-400 block mb-1">Historial & Citas</span>
+            <h1 className="font-sans font-medium uppercase tracking-[0.16em] text-2xl sm:text-3xl text-white">
               Mis <span className="text-gold-400">Citas</span>
             </h1>
-            <p className="text-[#8e9b94] text-xs font-sans mt-1">
-              Gestiona tus reservas, consulta el estado o califica a tu barbero
+            <p className="text-[#888888] text-xs font-sans mt-1">
+              Gestiona tus reservas, consulta el estado o califica a tu barbero.
             </p>
           </div>
         </div>
 
         {/* Filters */}
         <div className="flex items-center gap-2 mb-8 overflow-x-auto pb-2 scrollbar-hide">
-          <Filter size={15} className="text-[#8e9b94] flex-shrink-0 mr-1" />
+          <Filter size={14} className="text-[#888888] flex-shrink-0 mr-1" />
           {statuses.map(({ value, label }) => (
             <button
               key={value}
               onClick={() => setStatusFilter(value)}
-              className={`px-3.5 py-1.5 rounded-[4px] text-xs font-sans uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-none text-xs font-sans uppercase tracking-[0.16em] transition-all whitespace-nowrap cursor-pointer border ${
                 statusFilter === value
-                  ? 'bg-gold-400 text-[#0e1311] font-semibold shadow-sm'
-                  : 'bg-[#161d19] text-[#b3b3b3] hover:text-white border border-[#222a26]'
+                  ? 'bg-white text-black border-white font-medium'
+                  : 'bg-[#141414] text-[#888888] hover:text-white border-[#222222] hover:border-white/40'
               }`}
             >
               {label}
@@ -134,13 +134,13 @@ export default function MyAppointments() {
         {/* Appointments List */}
         {loading ? (
           <div className="flex justify-center py-20">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold-400"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border border-white border-t-transparent"></div>
           </div>
         ) : appointments.length === 0 ? (
-          <div className="text-center py-20 bg-[#121815] border border-[#1f2723] rounded-[4px] p-8">
-            <Calendar size={40} className="text-gold-400/40 mx-auto mb-3" />
-            <p className="font-serif italic text-xl text-white mb-1">Sin Citas Registradas</p>
-            <p className="text-[#8e9b94] text-xs font-sans mt-1">Intenta cambiando el filtro o reserva tu próxima experiencia en Punto Fino.</p>
+          <div className="text-center py-20 bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-8">
+            <Calendar size={36} className="text-[#444444] mx-auto mb-3" />
+            <p className="font-sans font-medium uppercase tracking-[0.16em] text-sm text-white mb-1">Sin Citas Registradas</p>
+            <p className="text-[#888888] text-xs font-sans mt-1">Intenta cambiando el filtro o reserva tu próxima experiencia en Punto Fino.</p>
           </div>
         ) : (
           <motion.div 
@@ -152,27 +152,27 @@ export default function MyAppointments() {
                 <motion.div
                   key={apt._id}
                   layout
-                  initial={{ opacity: 0, y: 15 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.98 }}
                 >
-                  <div className="bg-[#121815] border border-[#1f2723] hover:border-[#2b3530] transition-colors rounded-[4px] p-5 sm:p-6 flex flex-col sm:flex-row gap-6">
+                  <div className="bg-[#0a0a0a] border border-[#1e1e1e] hover:border-[#333333] transition-colors rounded-none p-5 sm:p-6 flex flex-col sm:flex-row gap-6">
                     {/* Date/Time Column */}
-                    <div className="flex sm:flex-col justify-between sm:justify-start items-center sm:items-start min-w-[140px] border-b sm:border-b-0 sm:border-r border-[#1f2723] pb-4 sm:pb-0 sm:pr-6">
+                    <div className="flex sm:flex-col justify-between sm:justify-start items-center sm:items-start min-w-[140px] border-b sm:border-b-0 sm:border-r border-[#1e1e1e] pb-4 sm:pb-0 sm:pr-6">
                       <div>
-                        <p className="font-serif italic text-3xl text-white leading-none mb-1">
+                        <p className="font-mono text-3xl text-white font-medium leading-none mb-1">
                           {new Date(apt.date + 'T12:00:00').getDate().toString().padStart(2, '0')}
                         </p>
-                        <p className="text-gold-400 font-sans text-xs uppercase tracking-wider">
+                        <p className="text-gold-400 font-sans text-xs uppercase tracking-[0.16em]">
                           {new Date(apt.date + 'T12:00:00').toLocaleDateString('es-CO', { month: 'short', year: 'numeric' })}
                         </p>
                       </div>
                       <div className="text-right sm:text-left sm:mt-4">
-                        <span className="inline-block px-2.5 py-1 border border-[#222a26] bg-[#0e1311] font-mono text-xs text-white mb-2 rounded-[4px]">
+                        <span className="inline-block px-2.5 py-1 border border-[#222222] bg-[#141414] font-mono text-xs text-white mb-2 rounded-none">
                           {formatTime(apt.startTime)}
                         </span>
                         <div>
-                          <span className={`inline-block px-2.5 py-0.5 rounded-[4px] text-[10px] font-sans uppercase tracking-wider border ${getStatusBadge(apt.status)}`}>
+                          <span className={`inline-block px-2 py-0.5 rounded-none text-[10px] font-mono uppercase tracking-wider border ${getStatusBadge(apt.status)}`}>
                             {getStatusText(apt.status)}
                           </span>
                         </div>
@@ -183,36 +183,36 @@ export default function MyAppointments() {
                     <div className="flex-1 flex flex-col justify-between space-y-4">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
-                          <User size={15} className="text-gold-400" />
-                          <span className="font-serif italic text-lg text-white">
+                          <User size={14} className="text-white" />
+                          <span className="font-sans font-medium uppercase tracking-[0.14em] text-sm text-white">
                             {apt.barber?.user?.name || 'Barbero Asignado'}
                           </span>
                         </div>
                         <div className="flex flex-wrap gap-1.5 mt-2">
                           {apt.services?.map((s, i) => (
-                            <span key={i} className="text-xs bg-[#161d19] border border-[#222a26] text-[#dfdbca] px-2.5 py-1 rounded-[4px]">
+                            <span key={i} className="text-xs bg-[#141414] border border-[#222222] text-[#d4d4d4] px-2.5 py-1 rounded-none font-sans">
                               {s.name}
                             </span>
                           ))}
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-between border-t border-[#1f2723] pt-3 mt-4">
-                        <span className="text-[#8e9b94] font-mono text-xs uppercase">
+                      <div className="flex items-center justify-between border-t border-[#1e1e1e] pt-3 mt-4">
+                        <span className="text-[#888888] font-mono text-xs uppercase">
                           Pago: {apt.paymentMethod}
                         </span>
-                        <span className="font-mono font-bold text-gold-400 text-lg">
+                        <span className="font-mono font-medium text-white text-base">
                           ${apt.totalPrice?.toLocaleString('es-CO')}
                         </span>
                       </div>
                     </div>
 
                     {/* Actions Column */}
-                    <div className="flex sm:flex-col gap-2 pt-4 sm:pt-0 sm:pl-4 justify-end sm:border-l sm:border-[#1f2723]">
+                    <div className="flex sm:flex-col gap-2 pt-4 sm:pt-0 sm:pl-4 justify-end sm:border-l sm:border-[#1e1e1e]">
                       {(apt.status === 'pendiente' || apt.status === 'confirmada') && (
                         <button
                           onClick={() => setCancelModal({ open: true, appointmentId: apt._id })}
-                          className="bg-rose-950/40 hover:bg-rose-950/70 text-rose-400 border border-rose-800/40 px-4 py-2 text-xs font-sans uppercase tracking-wider rounded-[4px] transition-colors w-full cursor-pointer"
+                          className="bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 px-4 py-2 text-xs font-sans uppercase tracking-[0.16em] rounded-none transition-colors w-full cursor-pointer"
                         >
                           Cancelar Cita
                         </button>
@@ -221,15 +221,15 @@ export default function MyAppointments() {
                       {apt.status === 'completada' && !apt.isReviewed && (
                         <button
                           onClick={() => setReviewModal({ open: true, appointment: apt })}
-                          className="bg-gold-400 hover:bg-gold-300 text-[#0e1311] font-sans font-semibold px-4 py-2 text-xs uppercase tracking-wider rounded-[4px] transition-colors w-full cursor-pointer shadow-sm"
+                          className="btn-ferrari-primary text-xs !py-2 !px-4 w-full"
                         >
                           Reseñar
                         </button>
                       )}
                       
                       {apt.status === 'completada' && apt.isReviewed && (
-                        <div className="px-4 py-2 border border-[#222a26] text-[#8e9b94] font-sans text-xs uppercase tracking-wider w-full text-center flex items-center justify-center gap-1.5 bg-[#161d19] rounded-[4px]">
-                          <Check size={14} className="text-emerald-400" />
+                        <div className="px-4 py-2 border border-[#222222] text-[#888888] font-sans text-xs uppercase tracking-[0.16em] w-full text-center flex items-center justify-center gap-1.5 bg-[#141414] rounded-none">
+                          <Check size={13} className="text-emerald-400" />
                           <span>Reseñada</span>
                         </div>
                       )}
@@ -243,106 +243,85 @@ export default function MyAppointments() {
       </div>
 
       {/* Cancel Modal */}
-      <Modal isOpen={cancelModal.open} onClose={() => setCancelModal({ open: false, appointmentId: null })} title="Cancelar Cita">
-        <div className="p-6">
-          <p className="text-[#dfdbca] mb-5 text-sm font-sans">
+      <Modal isOpen={cancelModal.open} onClose={() => setCancelModal({ open: false, appointmentId: null })} title="CANCELAR CITA">
+        <div className="space-y-4">
+          <p className="text-[#d4d4d4] text-xs font-sans leading-relaxed">
             ¿Estás seguro de que deseas cancelar esta reserva? Por favor cuéntanos el motivo:
           </p>
-          
-          <div className="space-y-2.5 mb-6">
-            {['Cambio de planes', 'Encontré otro lugar', 'Motivos personales', 'Otro'].map(reason => (
-              <label 
-                key={reason}
-                className={`cursor-pointer flex items-center p-3 rounded-[4px] border transition-all ${
-                  cancelReason === reason 
-                    ? 'border-rose-500/60 bg-rose-950/20 text-white' 
-                    : 'border-[#222a26] bg-[#161d19]/50 text-[#8e9b94] hover:border-[#2b3530]'
-                }`}
-              >
-                <input 
-                  type="radio" 
-                  name="cancelReason" 
-                  value={reason}
-                  checked={cancelReason === reason}
-                  onChange={(e) => setCancelReason(e.target.value)}
-                  className="hidden"
-                />
-                <div className={`w-4 h-4 rounded-[2px] border mr-3 flex items-center justify-center ${cancelReason === reason ? 'border-rose-400 bg-rose-400' : 'border-[#444]'}`}>
-                  {cancelReason === reason && <div className="w-1.5 h-1.5 bg-[#0e1311]" />}
-                </div>
-                <span className="text-xs font-sans uppercase tracking-wider">
-                  {reason}
-                </span>
-              </label>
-            ))}
-          </div>
 
-          <div className="flex gap-3">
-            <button 
+          <select
+            value={cancelReason}
+            onChange={(e) => setCancelReason(e.target.value)}
+            className="w-full bg-[#141414] border border-[#222222] text-white focus:border-white/50 rounded-none p-2.5 text-xs outline-none transition-colors font-sans"
+          >
+            <option value="Cambio de planes">Cambio de planes</option>
+            <option value="Imprevisto laboral">Imprevisto laboral</option>
+            <option value="Problemas de transporte">Problemas de transporte</option>
+            <option value="Deseo cambiar de fecha">Deseo cambiar de fecha</option>
+            <option value="Otro motivo">Otro motivo</option>
+          </select>
+
+          <div className="flex gap-3 pt-4 border-t border-[#1e1e1e]">
+            <button
               onClick={() => setCancelModal({ open: false, appointmentId: null })}
-              className="bg-[#161d19] hover:bg-[#1f2723] text-[#dfdbca] border border-[#2b3530] text-xs font-sans uppercase tracking-wider flex-1 py-2.5 rounded-[4px] transition-colors cursor-pointer"
+              className="flex-1 bg-[#141414] hover:bg-[#1a1a1a] text-[#888888] hover:text-white border border-[#222222] py-2 rounded-none text-xs font-sans uppercase tracking-[0.16em] transition-colors cursor-pointer"
             >
-              Volver
+              Cerrar
             </button>
-            <button 
+            <button
               onClick={handleCancel}
               disabled={actionLoading}
-              className="bg-rose-950/60 hover:bg-rose-950/90 text-rose-400 border border-rose-800/60 font-sans font-semibold uppercase tracking-wider flex-1 py-2.5 text-xs rounded-[4px] flex items-center justify-center gap-2 cursor-pointer transition-colors"
+              className="flex-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 py-2 rounded-none text-xs font-sans uppercase tracking-[0.16em] transition-colors cursor-pointer"
             >
-              {actionLoading ? <div className="w-4 h-4 border-2 border-rose-400 border-t-transparent rounded-full animate-spin" /> : <><X size={15} /> Confirmar Cancelación</>}
+              {actionLoading ? 'Cancelando...' : 'Confirmar Cancelación'}
             </button>
           </div>
         </div>
       </Modal>
 
       {/* Review Modal */}
-      <Modal isOpen={reviewModal.open} onClose={() => setReviewModal({ open: false, appointment: null })} title="Calificar Experiencia">
-        <div className="p-6">
-          <p className="text-[#dfdbca] mb-5 text-sm text-center">
-            ¿Cómo fue tu experiencia con <span className="font-serif italic text-gold-400 text-base">{reviewModal.appointment?.barber?.user?.name}</span>?
+      <Modal isOpen={reviewModal.open} onClose={() => setReviewModal({ open: false, appointment: null })} title="CALIFICAR SERVICIO">
+        <div className="space-y-4">
+          <p className="text-[#888888] text-xs font-sans">
+            ¿Cómo fue tu experiencia en Punto Fino con {reviewModal.appointment?.barber?.user?.name}?
           </p>
-          
-          <div className="flex justify-center gap-2 mb-6">
+
+          <div className="flex justify-center gap-2 py-3">
             {[1, 2, 3, 4, 5].map((star) => (
               <button
                 key={star}
+                type="button"
                 onClick={() => setReviewRating(star)}
-                className="transition-transform hover:scale-110 focus:outline-none cursor-pointer p-1"
+                className="p-1 hover:scale-110 transition-transform cursor-pointer"
               >
                 <Star
-                  size={32}
-                  className={star <= reviewRating ? 'fill-gold-400 text-gold-400' : 'text-[#333] fill-transparent'}
+                  size={24}
+                  className={star <= reviewRating ? 'text-gold-400 fill-gold-400' : 'text-[#262626]'}
                 />
               </button>
             ))}
           </div>
 
-          <div className="mb-6">
-            <label className="text-[#8e9b94] font-sans text-[11px] uppercase tracking-wider mb-2 block">
-              Comentario u Opinión (Opcional)
-            </label>
-            <textarea
-              value={reviewComment}
-              onChange={(e) => setReviewComment(e.target.value)}
-              placeholder="Ej: Excelente servicio, gran atención y precisión en el corte..."
-              className="w-full bg-[#0e1311] border border-[#222a26] text-white focus:border-gold-400/50 rounded-[4px] p-3 text-xs outline-none h-24 resize-none transition-colors"
-              maxLength={200}
-            />
-          </div>
+          <textarea
+            placeholder="Escribe un comentario sobre el corte, la atención y el ambiente (opcional)..."
+            value={reviewComment}
+            onChange={(e) => setReviewComment(e.target.value)}
+            className="w-full bg-[#141414] border border-[#222222] text-white focus:border-white/50 rounded-none p-3 text-xs outline-none h-24 resize-none transition-colors font-sans"
+          />
 
-          <div className="flex gap-3">
-            <button 
+          <div className="flex gap-3 pt-4 border-t border-[#1e1e1e]">
+            <button
               onClick={() => setReviewModal({ open: false, appointment: null })}
-              className="bg-[#161d19] hover:bg-[#1f2723] text-[#dfdbca] border border-[#2b3530] text-xs font-sans uppercase tracking-wider flex-1 py-2.5 rounded-[4px] transition-colors cursor-pointer"
+              className="flex-1 bg-[#141414] hover:bg-[#1a1a1a] text-[#888888] hover:text-white border border-[#222222] py-2 rounded-none text-xs font-sans uppercase tracking-[0.16em] transition-colors cursor-pointer"
             >
-              Cancelar
+              Omitir
             </button>
-            <button 
+            <button
               onClick={handleReview}
               disabled={actionLoading}
-              className="bg-gold-400 hover:bg-gold-300 text-[#0e1311] font-sans font-semibold text-xs uppercase tracking-wider flex-1 py-2.5 rounded-[4px] flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-sm"
+              className="flex-1 btn-ferrari-primary text-xs !py-2"
             >
-              {actionLoading ? <div className="w-4 h-4 border-2 border-[#0e1311] border-t-transparent rounded-full animate-spin" /> : <><Check size={15} /> Publicar Reseña</>}
+              {actionLoading ? 'Enviando...' : 'Publicar Reseña'}
             </button>
           </div>
         </div>

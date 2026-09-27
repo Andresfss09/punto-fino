@@ -68,39 +68,39 @@ export default function AdminBarbers() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-20">
 
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4 pb-6 border-b border-[#1f2723]">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4 pb-6 border-b border-[#1e1e1e]">
           <div>
-            <span className="editorial-tag text-gold-400 block mb-1">Equipo & Maestros</span>
-            <h1 className="font-serif italic text-3xl sm:text-4xl text-white">
+            <span className="eyebrow text-gold-400 block mb-1">Equipo & Maestros</span>
+            <h1 className="font-sans font-medium uppercase tracking-[0.16em] text-2xl sm:text-3xl text-white">
               Gestión de <span className="text-gold-400">Barberos</span>
             </h1>
-            <p className="text-[#8e9b94] text-xs font-sans mt-1">
-              {barbers.length} barberos profesionales registrados en la plataforma
+            <p className="text-[#888888] text-xs font-sans mt-1">
+              {barbers.length} barberos profesionales registrados en la plataforma.
             </p>
           </div>
           <button
             onClick={() => setCreateModal(true)}
-            className="bg-gold-400 hover:bg-gold-300 text-[#0e1311] font-sans font-semibold text-xs tracking-wider uppercase px-4 py-2.5 rounded-[4px] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+            className="btn-ferrari-primary text-xs !py-2.5 !px-4"
           >
-            <Plus size={16} />
+            <Plus size={14} />
             Nuevo Barbero
           </button>
         </div>
 
         {loading ? (
           <div className="flex justify-center py-20">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold-400"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border border-white border-t-transparent"></div>
           </div>
         ) : barbers.length === 0 ? (
-          <div className="bg-[#121815] border border-[#1f2723] rounded-[4px] p-16 text-center">
-            <Scissors size={40} className="text-gold-400/40 mx-auto mb-3" />
-            <p className="font-serif italic text-xl text-white mb-1">No hay barberos registrados</p>
-            <p className="text-[#8e9b94] text-xs font-sans mb-5">Crea el primer perfil para que esté disponible en reservas.</p>
+          <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-16 text-center">
+            <Scissors size={36} className="text-[#444444] mx-auto mb-3" />
+            <p className="font-sans font-medium uppercase tracking-[0.16em] text-sm text-white mb-1">No hay barberos registrados</p>
+            <p className="text-[#888888] text-xs font-sans mb-5">Crea el primer perfil para que esté disponible en reservas.</p>
             <button
               onClick={() => setCreateModal(true)}
-              className="bg-gold-400 hover:bg-gold-300 text-[#0e1311] font-sans font-semibold text-xs tracking-wider uppercase px-5 py-2.5 rounded-[4px] inline-flex items-center gap-2 cursor-pointer"
+              className="btn-ferrari-primary text-xs !py-2.5 !px-5 inline-flex items-center gap-2"
             >
-              <Plus size={16} />
+              <Plus size={14} />
               Crear Barbero
             </button>
           </div>
@@ -109,38 +109,38 @@ export default function AdminBarbers() {
             {barbers.map((barber) => (
               <div
                 key={barber._id}
-                className="bg-[#121815] border border-[#1f2723] hover:border-[#2b3530] transition-colors rounded-[4px] p-6 flex flex-col justify-between"
+                className="bg-[#0a0a0a] border border-[#1e1e1e] hover:border-[#333333] transition-colors rounded-none p-6 flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-start justify-between mb-5">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-[#161d19] border border-gold-400/40 rounded-[4px] flex items-center justify-center flex-shrink-0">
-                        <span className="font-serif italic text-xl text-gold-400 font-bold">
+                      <div className="w-11 h-11 bg-[#141414] border border-[#262626] rounded-none flex items-center justify-center flex-shrink-0">
+                        <span className="font-mono text-base text-white font-medium">
                           {barber.user?.name?.charAt(0).toUpperCase()}
                         </span>
                       </div>
                       <div>
-                        <p className="font-serif italic text-lg text-white leading-tight">{barber.user?.name}</p>
-                        <p className="text-[#8e9b94] text-xs font-sans mt-0.5">Maestro Barbero</p>
+                        <p className="font-sans font-medium uppercase tracking-[0.14em] text-sm text-white leading-tight">{barber.user?.name}</p>
+                        <p className="text-[#888888] text-xs font-sans mt-0.5 uppercase tracking-wider">Maestro Barbero</p>
                       </div>
                     </div>
-                    <span className={`px-2.5 py-0.5 rounded-[4px] text-[10px] font-sans uppercase tracking-wider border ${
+                    <span className={`px-2 py-0.5 rounded-none text-[10px] font-mono uppercase tracking-wider border ${
                       barber.isAvailable
-                        ? 'bg-emerald-950/50 text-emerald-400 border-emerald-800/40'
-                        : 'bg-rose-950/50 text-rose-400 border-rose-800/40'
+                        ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                        : 'bg-rose-500/10 text-rose-400 border-rose-500/30'
                     }`}>
                       {barber.isAvailable ? 'Activo' : 'Inactivo'}
                     </span>
                   </div>
 
                   <div className="space-y-1.5 mb-4">
-                    <div className="flex items-center gap-2 text-[#8e9b94] text-xs">
-                      <Mail size={13} className="text-gold-400/70" />
+                    <div className="flex items-center gap-2 text-[#888888] text-xs">
+                      <Mail size={13} className="text-[#666666]" />
                       <span className="truncate">{barber.user?.email}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-[#8e9b94] text-xs">
-                      <Phone size={13} className="text-gold-400/70" />
-                      <span>{barber.user?.phone}</span>
+                    <div className="flex items-center gap-2 text-[#888888] text-xs">
+                      <Phone size={13} className="text-[#666666]" />
+                      <span className="font-mono">{barber.user?.phone}</span>
                     </div>
                   </div>
 
@@ -148,13 +148,13 @@ export default function AdminBarbers() {
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        size={13}
+                        size={12}
                         className={i < Math.floor(barber.rating?.average || 0)
                           ? 'text-gold-400 fill-gold-400'
-                          : 'text-[#333] fill-transparent'}
+                          : 'text-[#262626] fill-transparent'}
                       />
                     ))}
-                    <span className="text-[#8e9b94] font-mono text-xs ml-1.5">
+                    <span className="text-[#888888] font-mono text-xs ml-1.5">
                       {barber.rating?.average || 0} ({barber.rating?.count || 0} reseñas)
                     </span>
                   </div>
@@ -162,31 +162,31 @@ export default function AdminBarbers() {
                   {barber.specialties?.length > 0 && (
                     <div className="flex flex-wrap gap-1.5 mb-4">
                       {barber.specialties.map((spec) => (
-                        <span key={spec} className="inline-block px-2 py-0.5 rounded-[4px] text-[10px] font-sans bg-[#161d19] text-[#dfdbca] border border-[#222a26] uppercase">
+                        <span key={spec} className="inline-block px-2 py-0.5 rounded-none text-[10px] font-mono bg-[#141414] text-[#d4d4d4] border border-[#222222] uppercase">
                           {spec}
                         </span>
                       ))}
                     </div>
                   )}
 
-                  <div className="grid grid-cols-2 gap-3 py-3 border-y border-[#1f2723] mb-5">
+                  <div className="grid grid-cols-2 gap-3 py-3 border-y border-[#1e1e1e] mb-5">
                     <div className="text-center">
-                      <p className="font-mono font-bold text-white text-base">{barber.totalClients || 0}</p>
-                      <p className="text-[#8e9b94] text-[10px] uppercase font-sans tracking-wider">Clientes atendidos</p>
+                      <p className="font-mono font-medium text-white text-base">{barber.totalClients || 0}</p>
+                      <p className="text-[#888888] text-[10px] uppercase font-sans tracking-[0.16em]">Clientes atendidos</p>
                     </div>
-                    <div className="text-center border-l border-[#1f2723]">
-                      <p className="font-mono font-bold text-gold-400 text-base">{barber.rating?.average || 0}</p>
-                      <p className="text-[#8e9b94] text-[10px] uppercase font-sans tracking-wider">Calificación</p>
+                    <div className="text-center border-l border-[#1e1e1e]">
+                      <p className="font-mono font-medium text-white text-base">{barber.rating?.average || 0}</p>
+                      <p className="text-[#888888] text-[10px] uppercase font-sans tracking-[0.16em]">Calificación</p>
                     </div>
                   </div>
                 </div>
 
                 <button
                   onClick={() => handleToggleAvailable(barber._id, barber.isAvailable)}
-                  className={`w-full flex items-center justify-center gap-2 py-2 rounded-[4px] text-xs font-sans uppercase tracking-wider border transition-all cursor-pointer ${
+                  className={`w-full flex items-center justify-center gap-2 py-2 rounded-none text-xs font-sans uppercase tracking-[0.16em] border transition-all cursor-pointer ${
                     barber.isAvailable
-                      ? 'bg-rose-950/30 hover:bg-rose-950/60 text-rose-400 border-rose-800/40'
-                      : 'bg-emerald-950/30 hover:bg-emerald-950/60 text-emerald-400 border-emerald-800/40'
+                      ? 'bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border-rose-500/30'
+                      : 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
                   }`}
                 >
                   {barber.isAvailable
@@ -203,79 +203,79 @@ export default function AdminBarbers() {
         <Modal
           isOpen={createModal}
           onClose={() => { setCreateModal(false); setForm({ name: '', email: '', phone: '', password: '' }); }}
-          title="Crear Nuevo Barbero"
+          title="CREAR NUEVO BARBERO"
         >
-          <form onSubmit={handleCreate} className="p-6">
-            <p className="text-[#8e9b94] text-xs font-sans mb-5 leading-relaxed">
+          <form onSubmit={handleCreate} className="space-y-4">
+            <p className="text-[#888888] text-xs font-sans mb-4 leading-relaxed">
               El profesional podrá acceder inmediatamente al dashboard de barbero con estas credenciales.
             </p>
             
             <div className="space-y-3.5 mb-6">
               <div>
-                <label className="text-[#8e9b94] font-sans text-[11px] uppercase tracking-wider mb-1 block">Nombre Completo</label>
+                <label className="text-[#888888] font-sans text-[11px] uppercase tracking-[0.16em] mb-1 block">Nombre Completo</label>
                 <input
                   type="text"
                   placeholder="Ej: Nicolás Gómez"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full bg-[#0e1311] border border-[#222a26] text-white focus:border-gold-400/50 rounded-[4px] p-2.5 text-xs outline-none transition-colors"
+                  className="w-full bg-[#141414] border border-[#222222] text-white focus:border-white/50 rounded-none p-2.5 text-xs outline-none transition-colors"
                   required
                 />
               </div>
 
               <div>
-                <label className="text-[#8e9b94] font-sans text-[11px] uppercase tracking-wider mb-1 block">Correo Electrónico</label>
+                <label className="text-[#888888] font-sans text-[11px] uppercase tracking-[0.16em] mb-1 block">Correo Electrónico</label>
                 <input
                   type="email"
                   placeholder="barbero@puntofino.com"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="w-full bg-[#0e1311] border border-[#222a26] text-white focus:border-gold-400/50 rounded-[4px] p-2.5 text-xs outline-none transition-colors"
+                  className="w-full bg-[#141414] border border-[#222222] text-white focus:border-white/50 rounded-none p-2.5 text-xs outline-none transition-colors"
                   required
                 />
               </div>
 
               <div>
-                <label className="text-[#8e9b94] font-sans text-[11px] uppercase tracking-wider mb-1 block">Teléfono (10 dígitos)</label>
+                <label className="text-[#888888] font-sans text-[11px] uppercase tracking-[0.16em] mb-1 block">Teléfono (10 dígitos)</label>
                 <input
                   type="tel"
                   placeholder="3001234567"
                   maxLength={10}
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                  className="w-full bg-[#0e1311] border border-[#222a26] text-white focus:border-gold-400/50 rounded-[4px] p-2.5 text-xs outline-none transition-colors"
+                  className="w-full bg-[#141414] border border-[#222222] text-white focus:border-white/50 rounded-none p-2.5 text-xs outline-none transition-colors font-mono"
                   required
                 />
               </div>
 
               <div>
-                <label className="text-[#8e9b94] font-sans text-[11px] uppercase tracking-wider mb-1 block">Contraseña Temporal</label>
+                <label className="text-[#888888] font-sans text-[11px] uppercase tracking-[0.16em] mb-1 block">Contraseña Temporal</label>
                 <input
                   type="password"
                   placeholder="Mínimo 6 caracteres"
                   value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
-                  className="w-full bg-[#0e1311] border border-[#222a26] text-white focus:border-gold-400/50 rounded-[4px] p-2.5 text-xs outline-none transition-colors"
+                  className="w-full bg-[#141414] border border-[#222222] text-white focus:border-white/50 rounded-none p-2.5 text-xs outline-none transition-colors"
                   required
                 />
               </div>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex gap-3 pt-2">
               <button
                 type="button"
-                className="bg-[#161d19] hover:bg-[#1f2723] text-[#dfdbca] border border-[#2b3530] text-xs font-sans uppercase tracking-wider flex-1 py-2.5 rounded-[4px] transition-colors cursor-pointer"
+                className="bg-[#141414] hover:bg-[#1a1a1a] text-[#888888] hover:text-white border border-[#222222] text-xs font-sans uppercase tracking-[0.16em] flex-1 py-2.5 rounded-none transition-colors cursor-pointer"
                 onClick={() => { setCreateModal(false); setForm({ name: '', email: '', phone: '', password: '' }); }}
               >
                 Cancelar
               </button>
               <button
                 type="submit"
-                className="bg-gold-400 hover:bg-gold-300 text-[#0e1311] font-sans font-semibold text-xs uppercase tracking-wider flex-1 py-2.5 rounded-[4px] flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-sm"
+                className="btn-ferrari-primary text-xs !py-2.5 flex-1"
                 disabled={creating}
               >
                 {creating
-                  ? <div className="w-4 h-4 border-2 border-[#0e1311] border-t-transparent rounded-full animate-spin" />
+                  ? <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
                   : 'Crear Barbero'
                 }
               </button>

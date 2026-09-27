@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Star, Quote, CheckCircle2 } from 'lucide-react';
+import { Star, CheckCircle2 } from 'lucide-react';
 
 const REVIEWS = [
   { 
@@ -31,31 +31,31 @@ const REVIEWS = [
 
 export default function ReviewsSection() {
   return (
-    <section className="py-24 bg-[#0e1311] border-b border-[#1f2723]">
+    <section className="py-24 bg-[#000000] border-b border-[#1e1e1e]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="editorial-tag bg-[#161d19] border-[#2b3630] text-gold-400 mb-3">
+          <span className="eyebrow block mb-3 text-gold-400">
             Opiniones Reales · 4.9 ★ Weibook
           </span>
-          <h2 className="font-serif italic text-4xl sm:text-5xl text-white font-normal leading-tight">
+          <h2 className="display-hero text-2xl sm:text-3xl lg:text-4xl text-white font-medium">
             La Voz de Nuestros Clientes
           </h2>
-          <p className="font-sans text-xs sm:text-sm text-[#b3b3b3] mt-3">
+          <p className="font-sans text-xs sm:text-sm text-[#888888] mt-3">
             Calificación 4.9 / 5.0 basada en 16 reseñas reales y verificadas en la plataforma de reservas de Punto Fino.
           </p>
         </div>
 
         {/* Reviews Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {REVIEWS.map((review, i) => (
             <motion.div 
               key={review.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1, duration: 0.4 }}
+              transition={{ delay: i * 0.1, duration: 0.3 }}
               viewport={{ once: true }}
-              className="bg-[#121815] border border-[#222a26] hover:border-[#cfa53b]/40 rounded-[4px] p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 shadow-subtle relative"
+              className="bg-[#0a0a0a] border border-[#1e1e1e] hover:border-[#383838] rounded-none p-6 sm:p-7 flex flex-col justify-between transition-all duration-200"
             >
               <div>
                 {/* Rating Stars (Antique Gold) */}
@@ -63,32 +63,32 @@ export default function ReviewsSection() {
                   {[...Array(5)].map((_, idx) => (
                     <Star 
                       key={idx} 
-                      size={14} 
-                      className={idx < review.rating ? "text-gold-400 fill-gold-400" : "text-[#333]"} 
+                      size={13} 
+                      className={idx < review.rating ? "text-gold-400 fill-gold-400" : "text-[#262626]"} 
                     />
                   ))}
-                  <span className="font-mono text-xs text-[#808080] ml-2 font-medium">5.0</span>
+                  <span className="font-mono text-xs text-[#888888] ml-2 font-medium">5.0</span>
                 </div>
                 
-                {/* Editorial Quote in Cormorant Garamond Italic */}
-                <p className="font-serif italic text-base sm:text-lg text-white/95 leading-relaxed mb-6">
+                {/* Review Text */}
+                <p className="font-sans text-sm text-[#d4d4d4] leading-relaxed mb-6 font-normal">
                   “{review.text}”
                 </p>
               </div>
 
               {/* Reviewer Details */}
-              <div className="pt-4 border-t border-[#1f2723] flex items-center justify-between">
+              <div className="pt-4 border-t border-[#1e1e1e] flex items-center justify-between">
                 <div>
-                  <h4 className="font-sans text-xs uppercase tracking-wider font-semibold text-white">
+                  <h4 className="font-sans text-xs uppercase tracking-[0.16em] font-medium text-white">
                     {review.name}
                   </h4>
-                  <p className="font-sans text-[11px] text-gold-400 mt-0.5">
+                  <p className="font-mono text-[11px] text-gold-400 mt-0.5">
                     {review.service}
                   </p>
                 </div>
-                <div className="flex items-center gap-1 text-[11px] font-sans text-[#808080]">
+                <div className="flex items-center gap-1.5 text-[11px] font-mono text-[#888888]">
                   <CheckCircle2 size={13} className="text-gold-400" />
-                  <span>Verificado</span>
+                  <span>VERIFICADO</span>
                 </div>
               </div>
             </motion.div>

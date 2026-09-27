@@ -10,31 +10,30 @@ const BrutalCard = ({
   padding = true,
   ...props 
 }) => {
-  const baseClasses = 'rounded-[4px] border transition-all duration-200';
+  const baseClasses = 'rounded-none border transition-all duration-200';
   const paddingClasses = padding ? 'p-4 sm:p-6' : '';
   
   let variantClasses = '';
   switch (variant) {
     case 'gold':
-      variantClasses = 'bg-[#121815] border-[#cfa53b]/40 shadow-sm';
+      variantClasses = 'bg-[#0d0d0d] border-gold-400/40 shadow-sm';
       break;
     case 'interactive':
-      variantClasses = 'bg-[#121815] border-[#222a26] hover:border-[#cfa53b]/50 hover:bg-[#151c19] cursor-pointer shadow-subtle';
+      variantClasses = 'bg-[#0a0a0a] border-[#1e1e1e] hover:border-[#383838] hover:bg-[#111111] cursor-pointer';
       break;
     case 'default':
     default:
-      variantClasses = 'bg-[#121815] border-[#222a26] shadow-subtle';
+      variantClasses = 'bg-[#0a0a0a] border-[#1e1e1e]';
       break;
   }
 
   const combinedClasses = `${baseClasses} ${variantClasses} ${paddingClasses} ${className}`;
 
-  // Only apply animation if it's a motion component
   const animationProps = Component === motion.div || Component === motion.button || Component === motion.article
     ? {
-        initial: { opacity: 0, y: 15 },
+        initial: { opacity: 0, y: 10 },
         animate: { opacity: 1, y: 0 },
-        transition: { duration: 0.3 }
+        transition: { duration: 0.25 }
       }
     : {};
 
@@ -51,4 +50,3 @@ const BrutalCard = ({
 };
 
 export default BrutalCard;
-

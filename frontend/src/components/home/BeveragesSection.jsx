@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShoppingBag, Check, Plus } from 'lucide-react';
+import { ShoppingBag, Plus } from 'lucide-react';
 
 const BEVERAGES = [
   {
@@ -40,22 +40,25 @@ export default function BeveragesSection({ onSelectBeverage }) {
   };
 
   return (
-    <section id="bebidas" className="py-16 sm:py-20 bg-[#0e1311] border-b border-[#1f2723]">
+    <section id="bebidas" className="py-16 sm:py-20 bg-[#000000] border-b border-[#1e1e1e]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Container styled like Weibook Punto Fino */}
-        <div className="bg-[#121815] border border-[#1f2723] rounded-[8px] p-6 sm:p-8 shadow-subtle">
+        {/* Container */}
+        <div className="bg-[#0d0d0d] border border-[#1e1e1e] rounded-none p-6 sm:p-8">
           
           {/* Header */}
           <div className="flex items-start gap-4 mb-8">
-            <div className="w-12 h-12 rounded-[6px] bg-[#161d19] border border-[#26302a] flex items-center justify-center shrink-0 text-gold-400 shadow-sm">
-              <ShoppingBag size={22} />
+            <div className="w-10 h-10 rounded-none bg-black border border-[#262626] flex items-center justify-center shrink-0 text-white">
+              <ShoppingBag size={18} />
             </div>
             <div>
-              <h3 className="font-serif italic text-2xl sm:text-3xl text-gold-400 font-normal leading-tight">
+              <span className="font-sans text-[10px] uppercase tracking-[0.28em] text-[#888888] block mb-1">
+                NEVERA DEL ATELIER
+              </span>
+              <h3 className="font-sans uppercase text-xl sm:text-2xl text-white font-medium tracking-[0.16em] leading-tight">
                 Lo que usamos contigo
               </h3>
-              <p className="font-sans text-xs sm:text-sm text-[#8e9b94] mt-1">
+              <p className="font-sans text-xs text-[#888888] mt-1">
                 Añádelos a tu reserva y recógelos en tu cita
               </p>
             </div>
@@ -66,30 +69,29 @@ export default function BeveragesSection({ onSelectBeverage }) {
             {BEVERAGES.map((bev) => (
               <div
                 key={bev.id}
-                className="bg-[#161d19]/80 border border-[#222a26] hover:border-gold-400/40 rounded-[6px] p-4 flex flex-col justify-between transition-all duration-200 group"
+                className="bg-black border border-[#1e1e1e] hover:border-[#383838] rounded-none p-5 flex flex-col justify-between transition-all duration-150 group"
               >
                 {/* Initials Placeholder Box */}
-                <div className="w-full aspect-[4/3] bg-[#0e1311] border border-[#222a26] rounded-[4px] flex items-center justify-center mb-4 group-hover:border-gold-400/30 transition-colors">
-                  <span className="font-serif italic text-4xl sm:text-5xl font-bold text-white tracking-widest">
+                <div className="w-full aspect-[4/3] bg-[#0a0a0a] border border-[#1e1e1e] rounded-none flex items-center justify-center mb-4 group-hover:border-[#383838] transition-colors">
+                  <span className="font-mono text-3xl sm:text-4xl font-normal text-white tracking-[0.2em]">
                     {bev.initials}
                   </span>
                 </div>
 
                 {/* Details */}
                 <div className="space-y-1 mb-4">
-                  <span className="font-sans text-[10px] uppercase tracking-widest text-[#8e9b94] font-medium block">
+                  <span className="font-sans text-[10px] uppercase tracking-[0.25em] text-[#888888] font-normal block">
                     {bev.category}
                   </span>
-                  <h4 className="font-serif italic text-lg sm:text-xl text-gold-400 font-normal leading-snug">
+                  <h4 className="font-sans uppercase text-sm sm:text-base text-white font-medium tracking-[0.12em] leading-snug">
                     {bev.name}
                   </h4>
                   
                   <div className="flex items-center justify-between pt-2">
-                    <span className="font-mono font-bold text-base text-gold-400">
-                      ${bev.price.toLocaleString('es-CO')}
+                    <span className="font-mono font-medium text-sm text-white">
+                      ${bev.price.toLocaleString('es-CO')} COP
                     </span>
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[4px] text-[10px] font-sans font-medium uppercase tracking-wider bg-emerald-950/60 text-emerald-400 border border-emerald-800/40">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    <span className="px-2 py-0.5 rounded-none text-[9px] font-sans font-medium uppercase tracking-[0.2em] bg-white/5 text-[#888888] border border-[#262626]">
                       Disponible
                     </span>
                   </div>
@@ -99,9 +101,9 @@ export default function BeveragesSection({ onSelectBeverage }) {
                 <button
                   type="button"
                   onClick={() => handleAdd(bev)}
-                  className="w-full bg-gold-400 hover:bg-gold-300 text-[#0e1311] font-sans font-semibold text-xs tracking-wider uppercase py-2.5 rounded-[4px] transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm active:scale-[0.98]"
+                  className="w-full bg-transparent hover:bg-white text-white hover:text-black border border-[#333333] hover:border-white font-sans font-medium text-xs tracking-[0.2em] uppercase py-2.5 rounded-none transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]"
                 >
-                  <Plus size={14} strokeWidth={2.5} />
+                  <Plus size={13} strokeWidth={2} />
                   <span>Agregar</span>
                 </button>
               </div>

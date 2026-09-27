@@ -52,7 +52,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0e1311] flex items-center justify-center px-4 py-20">
+    <div className="min-h-screen bg-[#000000] flex items-center justify-center px-4 py-20">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -63,16 +63,16 @@ export default function RegisterPage() {
             <img
               src="/logo.png"
               alt="Punto Fino Barbería"
-              className="w-20 h-20 object-contain rounded-[4px] border border-[#26302a] shadow-md mx-auto group-hover:scale-105 transition-transform"
+              className="w-20 h-20 object-contain rounded-none border border-[#1e1e1e] shadow-md mx-auto group-hover:scale-105 transition-transform"
             />
           </Link>
-          <h1 className="font-serif italic text-4xl font-normal text-white">Únete al Atelier</h1>
-          <p className="text-gold-400 mt-1.5 text-xs uppercase tracking-[0.25em] font-sans font-medium">
+          <h1 className="font-sans font-medium uppercase tracking-[0.2em] text-2xl text-white">Registro de Cliente</h1>
+          <p className="text-[#888888] mt-1.5 text-xs uppercase tracking-[0.25em] font-sans">
             Punto Fino · Barbería de Autor
           </p>
         </div>
 
-        <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-7 shadow-subtle">
+        <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-7">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <Input
               label="Nombre completo"
@@ -117,16 +117,16 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn-primary text-xs uppercase tracking-wider py-3.5 mt-2"
+              className="w-full btn-ferrari-primary text-xs uppercase tracking-[0.2em] py-3.5 mt-2 rounded-none cursor-pointer"
             >
               {loading ? 'Creando cuenta...' : 'Crear Cuenta de Cliente'}
             </button>
           </form>
 
-          <div className="mt-6 pt-5 border-t border-[#1f2723] text-center">
-            <p className="text-[#808080] text-xs font-sans">
+          <div className="mt-6 pt-5 border-t border-[#1e1e1e] text-center">
+            <p className="text-[#888888] text-xs font-sans">
               ¿Ya tienes cuenta?{' '}
-              <Link to="/login" className="text-gold-400 hover:text-white font-medium transition-colors underline underline-offset-4">
+              <Link to="/login" className="text-white hover:text-[#888888] font-medium transition-colors underline underline-offset-4">
                 Iniciar sesión
               </Link>
             </p>

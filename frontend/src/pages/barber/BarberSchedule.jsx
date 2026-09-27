@@ -103,49 +103,52 @@ export default function BarberSchedule() {
           }
           setSchedule(cleanSchedule);
         })
-        .catch(err => console.error(err))
+        .catch(() => {
+          const fallback = {};
+          DAYS_OF_WEEK.forEach(d => {
+            fallback[d.id] = { ...DEFAULT_SCHEDULE_DAY, isWorking: d.id !== 'sunday' };
+          });
+          setSchedule(fallback);
+        })
         .finally(() => setLoadingSchedule(false));
     }
-  }, [user]);
+  }, [user?._id]);
 
   useEffect(() => {
     if (activeTab === 'agenda') {
-      fetchAgenda();
+      setLoadingAgenda(true);
+      const dateStr = format(selectedDate, 'yyyy-MM-dd');
+      appointmentService.getBarberAppointments({ date: dateStr })
+        .then(res => {
+          setAppointments(res.appointments || res.data?.appointments || []);
+        })
+        .catch(() => {
+          setAppointments([]);
+        })
+        .finally(() => setLoadingAgenda(false));
     }
   }, [selectedDate, activeTab]);
-
-  const fetchAgenda = () => {
-    setLoadingAgenda(true);
-    const dateStr = format(selectedDate, 'yyyy-MM-dd');
-    appointmentService.getBarberAppointments({ date: dateStr })
-      .then(res => {
-        const apts = res.appointments || res.data?.appointments || [];
-        setAppointments(apts);
-      })
-      .catch(() => toast.error('Error cargando la agenda'))
-      .finally(() => setLoadingAgenda(false));
-  };
 
   const handleUpdateScheduleDay = (dayId, field, value) => {
     setSchedule(prev => ({
       ...prev,
       [dayId]: {
-        ...prev[dayId],
+        ...(prev[dayId] || DEFAULT_SCHEDULE_DAY),
         [field]: value
       }
     }));
   };
 
   const handleSaveSchedule = async () => {
-    setSavingSchedule(true);
     try {
-      const formattedSchedule = Object.entries(schedule).map(([dayId, config]) => ({
-        day: DAY_ID_TO_INDEX[dayId] !== undefined ? DAY_ID_TO_INDEX[dayId] : 1,
-        isWorking: config.isWorking !== false,
-        startTime: config.startTime || '09:00',
-        endTime: config.endTime || '20:00',
-        breakStart: config.breakStartTime || '13:00',
-        breakEnd: config.breakEndTime || '14:00',
+      setSavingSchedule(true);
+      const formattedSchedule = Object.entries(schedule).map(([dayId, dayData]) => ({
+        day: DAY_ID_TO_INDEX[dayId] !== undefined ? DAY_ID_TO_INDEX[dayId] : dayId,
+        isWorking: dayData.isWorking,
+        startTime: dayData.startTime,
+        endTime: dayData.endTime,
+        breakStartTime: dayData.breakStartTime,
+        breakEndTime: dayData.breakEndTime,
       }));
 
       await barberService.updateProfile({ schedule: formattedSchedule });
@@ -169,36 +172,36 @@ export default function BarberSchedule() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-2 pb-20">
         
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4 pb-6 border-b border-[#1f2723]">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4 pb-6 border-b border-[#1e1e1e]">
           <div>
-            <span className="editorial-tag text-gold-400 block mb-1">Control de Agenda</span>
-            <h1 className="font-serif italic text-3xl sm:text-4xl text-white">
+            <span className="eyebrow text-gold-400 block mb-1">Control de Agenda</span>
+            <h1 className="font-sans font-medium uppercase tracking-[0.16em] text-2xl sm:text-3xl text-white">
               Mi <span className="text-gold-400">Agenda & Horario</span>
             </h1>
-            <p className="text-[#8e9b94] text-xs font-sans mt-1">
-              Gestiona tus citas programadas y tus jornadas de trabajo disponibles
+            <p className="text-[#888888] text-xs font-sans mt-1">
+              Gestiona tus citas programadas y tus jornadas de trabajo disponibles.
             </p>
           </div>
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-2 mb-6 border-b border-[#1f2723] pb-4">
+        <div className="flex gap-2 mb-6 border-b border-[#1e1e1e] pb-4">
           <button
             onClick={() => setActiveTab('agenda')}
-            className={`px-5 py-2.5 text-xs font-sans uppercase tracking-wider rounded-[4px] transition-all cursor-pointer ${
+            className={`px-5 py-2.5 text-xs font-sans uppercase tracking-[0.16em] rounded-none transition-all cursor-pointer border ${
               activeTab === 'agenda' 
-                ? 'bg-gold-400 text-[#0e1311] font-semibold shadow-sm' 
-                : 'bg-[#161d19] text-[#b3b3b3] hover:text-white border border-[#222a26]'
+                ? 'bg-white text-black border-white font-medium' 
+                : 'bg-[#141414] text-[#888888] hover:text-white border-[#222222] hover:border-white/40'
             }`}
           >
             Agenda Diaria
           </button>
           <button
             onClick={() => setActiveTab('horario')}
-            className={`px-5 py-2.5 text-xs font-sans uppercase tracking-wider rounded-[4px] transition-all cursor-pointer ${
+            className={`px-5 py-2.5 text-xs font-sans uppercase tracking-[0.16em] rounded-none transition-all cursor-pointer border ${
               activeTab === 'horario' 
-                ? 'bg-gold-400 text-[#0e1311] font-semibold shadow-sm' 
-                : 'bg-[#161d19] text-[#b3b3b3] hover:text-white border border-[#222a26]'
+                ? 'bg-white text-black border-white font-medium' 
+                : 'bg-[#141414] text-[#888888] hover:text-white border-[#222222] hover:border-white/40'
             }`}
           >
             Configurar Horario
@@ -209,110 +212,99 @@ export default function BarberSchedule() {
           {activeTab === 'agenda' && (
             <motion.div
               key="agenda"
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
+              exit={{ opacity: 0, y: -8 }}
               className="space-y-6"
             >
               {/* Date Selector */}
-              <div className="flex items-center justify-between p-4 bg-[#121815] border border-[#1f2723] rounded-[4px]">
+              <div className="flex items-center justify-between p-4 bg-[#0a0a0a] border border-[#1e1e1e] rounded-none">
                 <button 
                   onClick={() => setSelectedDate(prev => subDays(prev, 1))}
-                  className="p-2 bg-[#161d19] hover:bg-[#1f2723] border border-[#2b3530] text-[#dfdbca] rounded-[4px] transition-colors cursor-pointer"
+                  className="p-2 bg-[#141414] hover:bg-[#1a1a1a] border border-[#222222] text-[#888888] hover:text-white rounded-none transition-colors cursor-pointer"
                   title="Día anterior"
                 >
-                  <ChevronLeft size={18} />
+                  <ChevronLeft size={16} />
                 </button>
                 <div className="text-center">
-                  <h3 className="font-serif italic text-xl text-white capitalize mb-1">
+                  <h3 className="font-sans font-medium uppercase tracking-[0.14em] text-base text-white mb-1">
                     {format(selectedDate, "EEEE d 'de' MMMM", { locale: es })}
                   </h3>
                   {isSameDay(selectedDate, new Date()) && (
-                    <span className="inline-block px-2.5 py-0.5 rounded-[4px] text-[10px] font-sans uppercase tracking-wider bg-gold-400/10 text-gold-400 border border-gold-400/30">
+                    <span className="inline-block px-2 py-0.5 rounded-none text-[10px] font-mono uppercase tracking-wider bg-white text-black">
                       Hoy
                     </span>
                   )}
                 </div>
                 <button 
                   onClick={() => setSelectedDate(prev => addDays(prev, 1))}
-                  className="p-2 bg-[#161d19] hover:bg-[#1f2723] border border-[#2b3530] text-[#dfdbca] rounded-[4px] transition-colors cursor-pointer"
+                  className="p-2 bg-[#141414] hover:bg-[#1a1a1a] border border-[#222222] text-[#888888] hover:text-white rounded-none transition-colors cursor-pointer"
                   title="Día siguiente"
                 >
-                  <ChevronRight size={18} />
+                  <ChevronRight size={16} />
                 </button>
               </div>
 
               {/* Stats for the day */}
               <div className="grid grid-cols-3 gap-4">
-                <div className="bg-[#121815] border border-[#1f2723] rounded-[4px] p-4 text-center">
-                  <p className="text-[#8e9b94] font-sans text-xs uppercase tracking-wider mb-1">Total Citas</p>
-                  <p className="font-mono text-2xl font-bold text-white">{stats.total}</p>
+                <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-4 text-center">
+                  <p className="text-[#888888] font-sans text-xs uppercase tracking-[0.16em] mb-1">Total Citas</p>
+                  <p className="font-mono text-2xl font-medium text-white">{stats.total}</p>
                 </div>
-                <div className="bg-[#121815] border border-[#1f2723] rounded-[4px] p-4 text-center">
-                  <p className="text-[#8e9b94] font-sans text-xs uppercase tracking-wider mb-1">Completadas</p>
-                  <p className="font-mono text-2xl font-bold text-emerald-400">{stats.completed}</p>
+                <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-4 text-center">
+                  <p className="text-[#888888] font-sans text-xs uppercase tracking-[0.16em] mb-1">Completadas</p>
+                  <p className="font-mono text-2xl font-medium text-emerald-400">{stats.completed}</p>
                 </div>
-                <div className="bg-[#121815] border border-[#1f2723] rounded-[4px] p-4 text-center">
-                  <p className="text-[#8e9b94] font-sans text-xs uppercase tracking-wider mb-1">Ingresos</p>
-                  <p className="font-mono text-2xl font-bold text-gold-400">${stats.earnings.toLocaleString('es-CO')}</p>
+                <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-4 text-center">
+                  <p className="text-[#888888] font-sans text-xs uppercase tracking-[0.16em] mb-1">Ingresos</p>
+                  <p className="font-mono text-2xl font-medium text-white">${stats.earnings.toLocaleString('es-CO')}</p>
                 </div>
               </div>
 
               {/* Timeline Container */}
-              <div className="bg-[#121815] border border-[#1f2723] rounded-[4px] overflow-hidden relative min-h-[300px]">
-                {/* Current time indicator (only if today) */}
-                {isSameDay(selectedDate, new Date()) && (
-                  <div className="absolute left-0 right-0 border-t border-dashed border-gold-400/40 z-10 pointer-events-none" 
-                       style={{ top: `${Math.max(10, (new Date().getHours() - 8) * 60 + new Date().getMinutes())}px` }} 
-                  >
-                    <div className="absolute -top-3 left-3 bg-[#0e1311] border border-gold-400/40 px-2 py-0.5 rounded-[2px] text-gold-400 font-mono font-semibold text-[10px] uppercase">
-                      Ahora
-                    </div>
-                  </div>
-                )}
-                
+              <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none overflow-hidden relative min-h-[300px]">
                 {loadingAgenda ? (
                   <div className="p-20 flex justify-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold-400"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border border-white border-t-transparent"></div>
                   </div>
                 ) : appointments.length === 0 ? (
                   <div className="p-16 text-center">
-                    <p className="font-serif italic text-xl text-white mb-1">Día Libre / Sin Citas</p>
-                    <p className="text-[#8e9b94] text-xs font-sans">No tienes citas agendadas para esta fecha.</p>
+                    <p className="font-sans font-medium uppercase tracking-[0.16em] text-sm text-white mb-1">Día Libre / Sin Citas</p>
+                    <p className="text-[#888888] text-xs font-sans">No tienes citas agendadas para esta fecha.</p>
                   </div>
                 ) : (
-                  <div className="divide-y divide-[#1f2723]">
+                  <div className="divide-y divide-[#161616]">
                     {appointments.map(apt => (
-                      <div key={apt._id} className="p-4 sm:p-5 flex flex-col sm:flex-row gap-4 hover:bg-[#161d19]/60 transition-colors">
+                      <div key={apt._id} className="p-4 sm:p-5 flex flex-col sm:flex-row gap-4 hover:bg-[#111111] transition-colors">
                         <div className="w-24 flex-shrink-0 pt-0.5">
-                          <p className="font-mono font-bold text-white text-base">{formatTime(apt.startTime)}</p>
-                          <p className="text-[#8e9b94] font-mono text-xs mt-0.5">
+                          <p className="font-mono font-medium text-white text-base">{formatTime(apt.startTime)}</p>
+                          <p className="text-[#888888] font-mono text-xs mt-0.5">
                             {Math.floor(apt.totalDuration / 60)}h {apt.totalDuration % 60}m
                           </p>
                         </div>
                         
                         <div className="flex-1 border-l-2 pl-4 py-0.5 flex flex-col justify-between" 
-                             style={{ borderColor: apt.status === 'completada' ? '#10b981' : apt.status === 'cancelada' ? '#f43f5e' : '#cfa53b' }}>
+                             style={{ borderColor: apt.status === 'completada' ? '#10b981' : apt.status === 'cancelada' ? '#f43f5e' : '#ffffff' }}>
                           <div>
                             <div className="flex justify-between items-start mb-1.5">
-                              <h4 className="font-serif italic text-lg text-white">{apt.client?.name}</h4>
-                              <span className={`px-2 py-0.5 rounded-[4px] text-[10px] font-sans uppercase tracking-wider border ${
-                                apt.status === 'completada' ? 'bg-emerald-950/50 text-emerald-400 border-emerald-800/40' :
-                                apt.status === 'confirmada' ? 'bg-blue-950/50 text-blue-400 border-blue-800/40' :
-                                apt.status === 'cancelada' ? 'bg-rose-950/50 text-rose-400 border-rose-800/40' :
-                                'bg-amber-950/50 text-gold-400 border-amber-800/40'
+                              <h4 className="font-sans font-medium uppercase tracking-[0.12em] text-sm text-white">{apt.client?.name}</h4>
+                              <span className={`px-2 py-0.5 rounded-none text-[10px] font-mono uppercase tracking-wider border ${
+                                apt.status === 'completada' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
+                                apt.status === 'confirmada' ? 'bg-blue-500/10 text-blue-400 border-blue-500/30' :
+                                apt.status === 'cancelada' ? 'bg-rose-500/10 text-rose-400 border-rose-500/30' :
+                                'bg-gold-400/10 text-gold-400 border-gold-400/30'
                               }`}>
                                 {apt.status}
                               </span>
                             </div>
-                            <p className="text-[#b3b3b3] text-xs mb-3">
+                            <p className="text-[#888888] text-xs mb-3 font-sans">
                               {apt.services?.map(s => s.name).join(', ')}
                             </p>
                           </div>
                           
-                          <div className="flex items-center justify-between text-xs font-mono border-t border-[#1f2723] pt-2 mt-2">
-                            <span className="text-[#8e9b94] uppercase">{apt.paymentMethod}</span>
-                            <span className="text-gold-400 font-bold">${apt.totalPrice?.toLocaleString('es-CO')}</span>
+                          <div className="flex items-center justify-between text-xs font-mono border-t border-[#1e1e1e] pt-2 mt-2">
+                            <span className="text-[#888888] uppercase">{apt.paymentMethod}</span>
+                            <span className="text-white font-medium">${apt.totalPrice?.toLocaleString('es-CO')}</span>
                           </div>
                         </div>
                       </div>
@@ -326,19 +318,19 @@ export default function BarberSchedule() {
           {activeTab === 'horario' && (
             <motion.div
               key="horario"
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
+              exit={{ opacity: 0, y: -8 }}
               className="space-y-6"
             >
-              <div className="bg-[#121815] border border-[#1f2723] rounded-[4px] p-6">
-                <div className="flex items-start gap-4 mb-6 pb-6 border-b border-[#1f2723]">
-                  <div className="w-10 h-10 bg-[#161d19] border border-gold-400/40 rounded-[4px] flex items-center justify-center flex-shrink-0 text-gold-400">
-                    <Clock size={20} />
+              <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-6">
+                <div className="flex items-start gap-4 mb-6 pb-6 border-b border-[#1e1e1e]">
+                  <div className="w-10 h-10 bg-[#141414] border border-[#222222] rounded-none flex items-center justify-center flex-shrink-0 text-white">
+                    <Clock size={18} />
                   </div>
                   <div>
-                    <h3 className="font-serif italic text-xl text-white mb-1">Horario Laboral y Descansos</h3>
-                    <p className="text-[#8e9b94] text-xs leading-relaxed">
+                    <h3 className="font-sans font-medium uppercase tracking-[0.16em] text-sm text-white mb-1">Horario Laboral y Descansos</h3>
+                    <p className="text-[#888888] text-xs leading-relaxed font-sans">
                       Configura los días en los que atiendes y tus intervalos de descanso. Los clientes solo podrán agendar dentro de estos rangos libres.
                     </p>
                   </div>
@@ -346,16 +338,16 @@ export default function BarberSchedule() {
 
                 {loadingSchedule ? (
                   <div className="p-10 flex justify-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold-400"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border border-white border-t-transparent"></div>
                   </div>
                 ) : (
                   <div className="space-y-4">
                     {DAYS_OF_WEEK.map(day => {
                       const daySchedule = schedule[day.id] || DEFAULT_SCHEDULE_DAY;
                       return (
-                        <div key={day.id} className="border border-[#1f2723] p-4 bg-[#161d19]/40 rounded-[4px]">
+                        <div key={day.id} className="border border-[#1e1e1e] p-4 bg-[#141414] rounded-none">
                           <div className="flex items-center justify-between mb-3">
-                            <h4 className="font-serif italic text-base text-white">{day.label}</h4>
+                            <h4 className="font-sans font-medium uppercase tracking-[0.14em] text-xs text-white">{day.label}</h4>
                             <label className="flex items-center cursor-pointer relative">
                               <input 
                                 type="checkbox" 
@@ -363,57 +355,57 @@ export default function BarberSchedule() {
                                 checked={daySchedule.isWorking}
                                 onChange={(e) => handleUpdateScheduleDay(day.id, 'isWorking', e.target.checked)}
                               />
-                              <div className={`w-11 h-6 rounded-[4px] border transition-colors ${daySchedule.isWorking ? 'bg-emerald-950/80 border-emerald-600' : 'bg-[#121815] border-[#222a26]'}`}></div>
-                              <div className={`absolute w-4 h-4 rounded-[2px] bg-gold-400 top-1 transition-transform ${daySchedule.isWorking ? 'translate-x-6' : 'translate-x-1 opacity-40'}`}></div>
+                              <div className={`w-11 h-6 rounded-none border transition-colors ${daySchedule.isWorking ? 'bg-white border-white' : 'bg-[#0a0a0a] border-[#222222]'}`}></div>
+                              <div className={`absolute w-4 h-4 rounded-none bg-black top-1 transition-transform ${daySchedule.isWorking ? 'translate-x-6' : 'translate-x-1 opacity-20'}`}></div>
                             </label>
                           </div>
 
                           {daySchedule.isWorking ? (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3 border-t border-[#1f2723]">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3 border-t border-[#1e1e1e]">
                               <div>
-                                <label className="text-[#8e9b94] font-sans text-[11px] uppercase tracking-wider mb-1.5 block">Jornada</label>
+                                <label className="text-[#888888] font-sans text-[11px] uppercase tracking-[0.16em] mb-1.5 block">Jornada</label>
                                 <div className="flex items-center gap-2">
                                   <input 
                                     type="time" 
                                     value={daySchedule.startTime}
                                     onChange={(e) => handleUpdateScheduleDay(day.id, 'startTime', e.target.value)}
-                                    className="bg-[#0e1311] border border-[#222a26] text-white focus:border-gold-400/50 rounded-[4px] py-1.5 px-2.5 flex-1 font-mono text-xs outline-none"
+                                    className="bg-[#0a0a0a] border border-[#222222] text-white focus:border-white/50 rounded-none py-1.5 px-2.5 flex-1 font-mono text-xs outline-none"
                                   />
                                   <span className="text-[#666]">-</span>
                                   <input 
                                     type="time" 
                                     value={daySchedule.endTime}
                                     onChange={(e) => handleUpdateScheduleDay(day.id, 'endTime', e.target.value)}
-                                    className="bg-[#0e1311] border border-[#222a26] text-white focus:border-gold-400/50 rounded-[4px] py-1.5 px-2.5 flex-1 font-mono text-xs outline-none"
+                                    className="bg-[#0a0a0a] border border-[#222222] text-white focus:border-white/50 rounded-none py-1.5 px-2.5 flex-1 font-mono text-xs outline-none"
                                   />
                                 </div>
                               </div>
                               
                               <div>
-                                <label className="text-[#8e9b94] font-sans text-[11px] uppercase tracking-wider mb-1.5 block flex justify-between">
+                                <label className="text-[#888888] font-sans text-[11px] uppercase tracking-[0.16em] mb-1.5 block flex justify-between">
                                   <span>Descanso</span>
-                                  <span className="text-[#666] font-normal lowercase">(opcional)</span>
+                                  <span className="text-[#666] font-normal lowercase font-mono">(opcional)</span>
                                 </label>
                                 <div className="flex items-center gap-2">
                                   <input 
                                     type="time" 
                                     value={daySchedule.breakStartTime}
                                     onChange={(e) => handleUpdateScheduleDay(day.id, 'breakStartTime', e.target.value)}
-                                    className="bg-[#0e1311] border border-[#222a26] text-white focus:border-gold-400/50 rounded-[4px] py-1.5 px-2.5 flex-1 font-mono text-xs outline-none"
+                                    className="bg-[#0a0a0a] border border-[#222222] text-white focus:border-white/50 rounded-none py-1.5 px-2.5 flex-1 font-mono text-xs outline-none"
                                   />
                                   <span className="text-[#666]">-</span>
                                   <input 
                                     type="time" 
                                     value={daySchedule.breakEndTime}
                                     onChange={(e) => handleUpdateScheduleDay(day.id, 'breakEndTime', e.target.value)}
-                                    className="bg-[#0e1311] border border-[#222a26] text-white focus:border-gold-400/50 rounded-[4px] py-1.5 px-2.5 flex-1 font-mono text-xs outline-none"
+                                    className="bg-[#0a0a0a] border border-[#222222] text-white focus:border-white/50 rounded-none py-1.5 px-2.5 flex-1 font-mono text-xs outline-none"
                                   />
                                 </div>
                               </div>
                             </div>
                           ) : (
-                            <div className="pt-3 border-t border-[#1f2723] text-center py-2">
-                              <span className="text-[#8e9b94] font-sans text-xs uppercase tracking-wider">
+                            <div className="pt-3 border-t border-[#1e1e1e] text-center py-2">
+                              <span className="text-[#888888] font-sans text-xs uppercase tracking-[0.16em]">
                                 Día Libre / Descanso
                               </span>
                             </div>
@@ -424,17 +416,17 @@ export default function BarberSchedule() {
                   </div>
                 )}
                 
-                <div className="mt-8 pt-6 border-t border-[#1f2723] flex justify-end">
+                <div className="mt-8 pt-6 border-t border-[#1e1e1e] flex justify-end">
                   <button 
                     onClick={handleSaveSchedule}
                     disabled={savingSchedule || loadingSchedule}
-                    className="bg-gold-400 hover:bg-gold-300 disabled:opacity-50 text-[#0e1311] font-sans font-semibold text-xs tracking-wider uppercase px-6 py-3 rounded-[4px] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm w-full sm:w-auto"
+                    className="btn-ferrari-primary text-xs !py-3 !px-6 w-full sm:w-auto"
                   >
                     {savingSchedule ? (
-                      <div className="w-4 h-4 border-2 border-[#0e1311] border-t-transparent rounded-full animate-spin" />
+                      <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
                     ) : (
                       <>
-                        <Save size={16} />
+                        <Save size={14} />
                         Guardar Horario
                       </>
                     )}

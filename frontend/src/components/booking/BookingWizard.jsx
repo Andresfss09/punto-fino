@@ -38,7 +38,7 @@ const STEPS = [
 
 const slideVariants = {
   enter: (direction) => ({
-    x: direction > 0 ? 80 : -80,
+    x: direction > 0 ? 60 : -60,
     opacity: 0,
   }),
   center: {
@@ -46,7 +46,7 @@ const slideVariants = {
     opacity: 1,
   },
   exit: (direction) => ({
-    x: direction < 0 ? 80 : -80,
+    x: direction < 0 ? 60 : -60,
     opacity: 0,
   }),
 };
@@ -98,257 +98,212 @@ const FALLBACK_SERVICES = [
   },
   {
     _id: '6ab429b351b742ce20f96ab8',
-    name: 'Perfilado de Cejas',
-    description: 'Limpieza y perfilado geométrico de cejas a navaja y tijera para realzar la mirada y armonizar la simetría natural del rostro.',
-    price: 5000,
-    duration: 10,
-    category: 'barba',
-    image: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=700&q=80',
+    name: 'Corte Tradicional',
+    description: 'Corte clásico con tijera y máquina, perfilado de contornos, lavado y peinado.',
+    price: 20000,
+    duration: 30,
+    category: 'corte',
+    image: 'https://s3.weibook.co/punto_fino/services/d9eb3738-2f6d-47bf-a98a-16135933c3f4.webp',
     isPopular: false,
     isActive: true,
   },
+  {
+    _id: '6ab429b351b742ce20f96ab9',
+    name: 'Limpieza Facial Profunda',
+    description: 'Vapor ozono, extracción de comedones, mascarilla de carbón activado, tónico y bloqueador solar.',
+    price: 35000,
+    duration: 40,
+    category: 'facial',
+    image: 'https://s3.weibook.co/punto_fino/services/f7e3bb87-4e93-4eed-8340-1a01e6fa0ff3.webp',
+    isPopular: false,
+    isActive: true,
+  }
 ];
 
-const BEVERAGE_PRICES = {
-  'Jugo Hit ($5.000)': 5000,
-  'Cerveza Águila Latón ($6.000)': 6000,
-  'Agua ($3.000)': 3000,
-};
-
-const FALLBACK_BARBERS = [
-  {
-    _id: '6ab429b62a8371bc3f9ee10c',
-    user: {
-      _id: '6ab429b52a8371bc3f9ee10b',
-      name: 'Juan David',
-      email: 'juan.david@puntofino.com',
-      phone: '3122398964',
-    },
-    bio: 'Master Barber y Asesor de Imagen. Especialista en la Experiencia Platinium, visagismo facial y cortes de alta precisión.',
-    specialties: ['Experiencia Platinium', 'visagismo', 'degradado'],
-    rating: { average: 4.9, count: 16 },
-    isAvailable: true,
-  },
-  {
-    _id: '6ab429b62a8371bc3f9ee115',
-    user: {
-      _id: '6ab429b62a8371bc3f9ee114',
-      name: 'Juan Diego',
-      email: 'juan.diego@puntofino.com',
-      phone: '3122398964',
-    },
-    bio: 'Especialista en Ritual de Barba & Corte. Maestro en afeitado tradicional a navaja, vapor ozono y diseño de barba.',
-    specialties: ['Ritual de Barba', 'navaja libre', 'vapor ozono'],
-    rating: { average: 5.0, count: 16 },
-    isAvailable: true,
-  },
-  {
-    _id: '6ab4239e4bfe1bd8baae880d',
-    user: {
-      _id: '6ab4239d4bfe1bd8baae880c',
-      name: 'Emanuel Torres',
-      email: 'emanuel@puntofino.com',
-      phone: '3122398964',
-    },
-    bio: 'Especialista en Tendencia & Textura. Experto en perfilado de cejas, cortes clásicos y texturizados en tendencia.',
-    specialties: ['corte clásico', 'cejas', 'tendencias'],
-    rating: { average: 4.9, count: 16 },
-    isAvailable: true,
-  },
-];
-
-export default function BookingWizard({ isEmbedded = false, initialServiceId = null }) {
-  const { user, isAuthenticated } = useAuthStore();
-
+export default function BookingWizard() {
+  const { user } = useAuthStore();
   const [step, setStep] = useState(1);
-  const [direction, setDirection] = useState(1);
+  const [direction, setDirection] = useState(0);
 
-  const [services, setServices] = useState(FALLBACK_SERVICES);
-  const [barbers, setBarbers] = useState(FALLBACK_BARBERS);
-  const [slots, setSlots] = useState([]);
-  const [loadingSlots, setLoadingSlots] = useState(false);
-  const [loadingServices, setLoadingServices] = useState(false);
-  const [loadingBarbers, setLoadingBarbers] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-
-  // Booking selections
+  // Selections
   const [selectedServices, setSelectedServices] = useState([]);
   const [selectedBarber, setSelectedBarber] = useState(null);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedSlot, setSelectedSlot] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState('efectivo');
   const [notes, setNotes] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState('efectivo');
   const [selectedBeverage, setSelectedBeverage] = useState('Sin bebida');
 
-  // Client Details Form (No need to create an account)
+  // Client Data
   const [clientData, setClientData] = useState({
-    name: user?.name || '',
+    name: user?.name || user?.nombre || '',
     email: user?.email || '',
-    phone: user?.phone || '',
-    address: user?.address || '',
+    phone: user?.phone || user?.telefono || '',
+    address: 'Cra. 12 #53-51, Villacolombia',
   });
 
-  // Success view state
+  // State lists
+  const [services, setServices] = useState([]);
+  const [barbers, setBarbers] = useState([]);
+  const [slots, setSlots] = useState([]);
+
+  // Loaders
+  const [loadingServices, setLoadingServices] = useState(true);
+  const [loadingBarbers, setLoadingBarbers] = useState(false);
+  const [loadingSlots, setLoadingSlots] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  // Confirmation Success State
   const [bookingSuccess, setBookingSuccess] = useState(null);
   const [copiedCode, setCopiedCode] = useState(false);
 
-  // Sync user info if logged in
+  // Fetch Services
   useEffect(() => {
-    if (user) {
-      setClientData((prev) => ({
-        name: prev.name || user.name || '',
-        email: prev.email || user.email || '',
-        phone: prev.phone || user.phone || '',
-        address: prev.address || user.address || '',
-      }));
-    }
-  }, [user]);
-
-  // Load services and barbers from API (updates seamlessly)
-  useEffect(() => {
-    serviceService
-      .getAll({ isActive: true })
-      .then((res) => {
-        const lista = res.services || res.data?.services || [];
-        if (Array.isArray(lista) && lista.length > 0) {
-          setServices(lista);
-          if (initialServiceId) {
-            const match = lista.find((s) => s._id === initialServiceId || s.name === initialServiceId);
-            if (match) setSelectedServices([match]);
-          }
+    const fetchServices = async () => {
+      try {
+        setLoadingServices(true);
+        const res = await serviceService.getAll();
+        const list = res.services || res.data?.services || (Array.isArray(res) ? res : []);
+        if (list && list.length > 0) {
+          setServices(list.filter(s => s.category?.toLowerCase() !== 'bebidas'));
+        } else {
+          setServices(FALLBACK_SERVICES);
         }
-      })
-      .catch((err) => {
-        console.warn('Servicios iniciales cargados desde Punto Fino:', err);
-      });
+      } catch (error) {
+        console.error('Error cargando servicios:', error);
+        setServices(FALLBACK_SERVICES);
+      } finally {
+        setLoadingServices(false);
+      }
+    };
+    fetchServices();
+  }, []);
 
-    barberService
-      .getAll()
-      .then((res) => {
-        const lista = res.barbers || res.data?.barbers || [];
-        if (Array.isArray(lista) && lista.length > 0) {
-          setBarbers(lista);
-        }
-      })
-      .catch((err) => {
-        console.warn('Barberos iniciales cargados desde Punto Fino:', err);
-      });
-  }, [initialServiceId]);
-
-  const totalDuration = selectedServices.reduce((sum, s) => sum + (s.duration || 40), 0);
-  const beveragePrice = BEVERAGE_PRICES[selectedBeverage] || 0;
-  const totalPrice = selectedServices.reduce((sum, s) => sum + (s.price || 0), 0) + beveragePrice;
-
-  // Load available time slots when barber, date and duration are set
+  // Fetch Barbers
   useEffect(() => {
-    if (selectedBarber && selectedDate && totalDuration > 0) {
-      setLoadingSlots(true);
-      setSelectedSlot('');
+    const fetchBarbers = async () => {
+      try {
+        setLoadingBarbers(true);
+        const res = await barberService.getAll();
+        const list = res.barbers || res.data?.barbers || [];
+        setBarbers(list);
+      } catch (error) {
+        console.error('Error cargando barberos:', error);
+        toast.error('Error al cargar la lista de barberos');
+      } finally {
+        setLoadingBarbers(false);
+      }
+    };
+    fetchBarbers();
+  }, []);
 
-      const barberId = selectedBarber._id === 'any' ? null : (selectedBarber.user?._id || selectedBarber._id);
-
-      const params = {
-        date: selectedDate,
-        duration: totalDuration,
-      };
-      if (barberId) params.barberId = barberId;
-
-      appointmentService
-        .getAvailableSlots(params)
-        .then((res) => {
-          const lista = res.slots || res.data?.slots || [];
-          setSlots(Array.isArray(lista) ? lista : []);
-        })
-        .catch((err) => {
-          console.error('Error al obtener horarios disponibles:', err);
-          setSlots([]);
-        })
-        .finally(() => setLoadingSlots(false));
+  // Fetch Time Slots
+  useEffect(() => {
+    if (!selectedDate) {
+      setSlots([]);
+      return;
     }
-  }, [selectedBarber, selectedDate, totalDuration]);
 
+    const fetchSlots = async () => {
+      try {
+        setLoadingSlots(true);
+        const barberId = selectedBarber && selectedBarber._id !== 'any' ? selectedBarber._id : undefined;
+        const totalDuration = selectedServices.reduce((sum, s) => sum + (s.duration || 30), 0) || 30;
+
+        const res = await appointmentService.getAvailableSlots({
+          date: selectedDate,
+          barberId,
+          serviceDuration: totalDuration,
+        });
+
+        const list = res.slots || res.data?.slots || res.availableSlots || [];
+        setSlots(list);
+      } catch (error) {
+        console.error('Error cargando horarios disponibles:', error);
+        toast.error('No se pudieron cargar los horarios para la fecha');
+      } finally {
+        setLoadingSlots(false);
+      }
+    };
+
+    fetchSlots();
+  }, [selectedDate, selectedBarber, selectedServices]);
+
+  // Handle Multi-Service toggle
   const toggleService = (service) => {
-    setSelectedServices((prev) =>
-      prev.find((s) => s._id === service._id)
-        ? prev.filter((s) => s._id !== service._id)
-        : [...prev, service]
-    );
+    setSelectedServices(prev => {
+      const exists = prev.find(s => s._id === service._id);
+      if (exists) {
+        return prev.filter(s => s._id !== service._id);
+      } else {
+        return [...prev, service];
+      }
+    });
   };
 
-  const getTodayDate = () => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
+  // Calculation helpers
+  const totalPrice = selectedServices.reduce((sum, s) => sum + (s.price || 0), 0);
+  const totalDuration = selectedServices.reduce((sum, s) => sum + (s.duration || 30), 0);
 
+  // Stepper navigation
   const canProceed = () => {
-    if (step === 1) return selectedServices.length > 0;
-    if (step === 2) return selectedBarber !== null;
-    if (step === 3) {
-      if (!selectedDate || !selectedSlot) return false;
-      if (selectedDate < getTodayDate()) return false;
-      return true;
+    switch (step) {
+      case 1:
+        return selectedServices.length > 0;
+      case 2:
+        return selectedBarber !== null;
+      case 3:
+        return selectedDate !== '' && selectedSlot !== '';
+      case 4:
+        return clientData.name.trim() !== '' && clientData.email.trim() !== '' && clientData.phone.trim() !== '';
+      default:
+        return false;
     }
-    return true;
   };
 
   const nextStep = () => {
     if (canProceed()) {
       setDirection(1);
-      setStep((s) => s + 1);
+      setStep(prev => prev + 1);
+    } else {
+      if (step === 1) toast.error('Selecciona al menos un servicio');
+      if (step === 2) toast.error('Selecciona un maestro barbero');
+      if (step === 3) toast.error('Selecciona la fecha y la hora deseada');
     }
   };
 
   const prevStep = () => {
     setDirection(-1);
-    setStep((s) => s - 1);
+    setStep(prev => Math.max(prev - 1, 1));
   };
 
-  // Submit appointment (Supports guest and logged in clients)
+  // Submit Booking
   const handleSubmit = async () => {
-    // Validate client details
-    if (!clientData.name?.trim()) {
-      toast.error('Por favor ingresa tu nombre completo');
-      return;
-    }
-    if (!clientData.email?.trim() || !clientData.email.includes('@')) {
-      toast.error('Por favor ingresa un correo electrónico válido');
-      return;
-    }
-    if (!clientData.phone?.trim() || clientData.phone.replace(/\D/g, '').length < 7) {
-      toast.error('Por favor ingresa un número de teléfono válido');
-      return;
-    }
-    if (!clientData.address?.trim()) {
-      toast.error('Por favor ingresa tu dirección');
+    if (!clientData.name || !clientData.email || !clientData.phone) {
+      toast.error('Por favor completa tu nombre, correo y teléfono');
       return;
     }
 
-    setSubmitting(true);
     try {
-      const finalNotes = selectedBeverage && selectedBeverage !== 'Sin bebida'
-        ? `[Bebida: ${selectedBeverage}] ${notes || ''}`.trim()
-        : (notes || '');
-
+      setSubmitting(true);
       const payload = {
-        barberId: selectedBarber._id === 'any' ? null : (selectedBarber.user?._id || selectedBarber._id),
-        serviceIds: selectedServices.map((s) => s._id),
+        services: selectedServices.map(s => s._id),
+        barberId: selectedBarber._id === 'any' ? undefined : selectedBarber._id,
         date: selectedDate,
         startTime: selectedSlot,
         paymentMethod,
-        notes: finalNotes,
-        clientName: clientData.name.trim(),
-        clientEmail: clientData.email.trim(),
-        clientPhone: clientData.phone.trim(),
-        clientAddress: clientData.address.trim(),
+        notes: [notes, selectedBeverage && selectedBeverage !== 'Sin bebida' ? `Bebida: ${selectedBeverage}` : ''].filter(Boolean).join(' | '),
+        clientName: clientData.name,
+        clientEmail: clientData.email,
+        clientPhone: clientData.phone,
+        clientAddress: clientData.address,
       };
 
-      const res = await appointmentService.create(payload);
+      const res = await appointmentService.createGuestAppointment(payload);
       const appointmentData = res.data || res;
+
       setBookingSuccess(appointmentData);
-      toast.success('¡Cita reservada exitosamente! Se envió confirmación a tu correo. 🎉');
+      toast.success('¡Cita reservada exitosamente! Se envió confirmación a tu correo.');
     } catch (error) {
       console.error('Error al reservar:', error);
       toast.error(error.message || 'Error al agendar la cita. Por favor intenta de nuevo.');
@@ -384,82 +339,82 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
 
     return (
       <div className="max-w-2xl mx-auto py-8">
-        <div className="bg-[#121815] border border-[#cfa53b]/40 rounded-[4px] text-center p-8 sm:p-12 relative overflow-hidden shadow-subtle">
+        <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none text-center p-8 sm:p-12 relative overflow-hidden">
           {/* Top Crown Badge */}
-          <div className="inline-flex items-center gap-2 bg-[#161d19] border border-gold-400/40 px-4 py-1.5 rounded-[4px] mb-6">
-            <Sparkles size={14} className="text-gold-400 animate-pulse" />
-            <span className="text-xs uppercase font-sans tracking-[0.2em] text-gold-400 font-semibold">
+          <div className="inline-flex items-center gap-2 bg-[#141414] border border-[#262626] px-4 py-1.5 rounded-none mb-6">
+            <Sparkles size={14} className="text-white" />
+            <span className="text-xs uppercase font-sans tracking-[0.2em] text-white font-medium">
               Reserva Confirmada · Punto Fino
             </span>
           </div>
 
-          <div className="w-16 h-16 bg-green-500/10 border border-green-500/40 rounded-full flex items-center justify-center mx-auto mb-5">
-            <CheckCircle2 size={36} className="text-green-400" />
+          <div className="w-14 h-14 bg-emerald-500/10 border border-emerald-500/30 rounded-none flex items-center justify-center mx-auto mb-5">
+            <CheckCircle2 size={30} className="text-emerald-400" />
           </div>
 
-          <h2 className="text-3xl sm:text-4xl font-serif italic text-white font-normal mb-3">
+          <h2 className="text-2xl sm:text-3xl font-sans font-medium uppercase tracking-[0.16em] text-white mb-3">
             ¡Tu Cita Ha Sido Agendada!
           </h2>
 
-          <p className="text-[#b3b3b3] text-xs sm:text-sm max-w-lg mx-auto mb-8 leading-relaxed font-sans">
-            Hemos enviado un correo con todos los detalles a <span className="text-gold-400 font-medium">{clientEmail}</span> y tu maestro barbero <span className="text-white font-medium">{barberName}</span> ha sido notificado.
+          <p className="text-[#888888] text-xs sm:text-sm max-w-lg mx-auto mb-8 leading-relaxed font-sans">
+            Hemos enviado un correo con todos los detalles a <span className="text-white font-medium">{clientEmail}</span> y tu maestro barbero <span className="text-white font-medium">{barberName}</span> ha sido notificado.
           </p>
 
           {/* Reservation Code Box */}
-          <div className="bg-[#161d19] border border-[#2b3530] p-4.5 rounded-[4px] max-w-sm mx-auto mb-8">
-            <p className="text-[11px] uppercase font-sans text-[#808080] font-medium tracking-wider mb-1">
+          <div className="bg-[#141414] border border-[#222222] p-4.5 rounded-none max-w-sm mx-auto mb-8">
+            <p className="text-[10px] uppercase font-sans text-[#888888] font-medium tracking-[0.16em] mb-1">
               Código Único de Reserva
             </p>
             <div className="flex items-center justify-center gap-3">
-              <span className="text-2xl font-mono text-gold-400 tracking-wider font-semibold">
+              <span className="text-2xl font-mono text-white tracking-wider font-medium">
                 {code}
               </span>
               <button
                 onClick={() => handleCopyCode(code)}
-                className="p-1.5 bg-[#1f2723] hover:bg-gold-400 hover:text-[#0e1311] border border-[#333d38] rounded-[4px] text-[#dfdbca] transition-all cursor-pointer"
+                className="p-1.5 bg-[#1c1c1c] hover:bg-white hover:text-black border border-[#2e2e2e] rounded-none text-white transition-all cursor-pointer"
                 title="Copiar código"
               >
-                {copiedCode ? <Check size={16} className="text-green-400" /> : <Copy size={16} />}
+                {copiedCode ? <Check size={15} className="text-emerald-400" /> : <Copy size={15} />}
               </button>
             </div>
           </div>
 
           {/* Compact Appointment Details */}
-          <div className="bg-[#161d19] border border-[#222a26] p-5 sm:p-6 rounded-[4px] text-left max-w-md mx-auto mb-8 space-y-3 font-sans text-xs">
-            <div className="flex justify-between items-center pb-2 border-b border-[#222a26]">
-              <span className="text-[#808080]">Cliente:</span>
-              <span className="font-medium text-white uppercase">{clientData.name}</span>
+          <div className="bg-[#141414] border border-[#222222] p-5 sm:p-6 rounded-none text-left max-w-md mx-auto mb-8 space-y-3 font-sans text-xs">
+            <div className="flex justify-between items-center pb-2 border-b border-[#222222]">
+              <span className="text-[#888888]">Cliente:</span>
+              <span className="font-medium text-white uppercase tracking-wider">{clientData.name}</span>
             </div>
-            <div className="flex justify-between items-center pb-2 border-b border-[#222a26]">
-              <span className="text-[#808080]">Barbero Asignado:</span>
-              <span className="font-serif italic text-sm text-gold-400">{barberName}</span>
+            <div className="flex justify-between items-center pb-2 border-b border-[#222222]">
+              <span className="text-[#888888]">Barbero Asignado:</span>
+              <span className="text-white font-medium uppercase tracking-wider">{barberName}</span>
             </div>
-            <div className="flex justify-between items-center pb-2 border-b border-[#222a26]">
-              <span className="text-[#808080]">Fecha y Hora:</span>
+            <div className="flex justify-between items-center pb-2 border-b border-[#222222]">
+              <span className="text-[#888888]">Fecha y Hora:</span>
               <span className="font-mono text-white capitalize">
                 {new Date(selectedDate + 'T12:00:00').toLocaleDateString('es-CO', { weekday: 'short', day: 'numeric', month: 'short' })} · {formatTime(selectedSlot)}
               </span>
             </div>
-            <div className="flex justify-between items-center pb-2 border-b border-[#222a26]">
-              <span className="text-[#808080]">Servicio(s):</span>
-              <span className="font-serif italic text-white text-right">
+            <div className="flex justify-between items-center pb-2 border-b border-[#222222]">
+              <span className="text-[#888888]">Servicio(s):</span>
+              <span className="text-white text-right">
                 {selectedServices.map((s) => s.name).join(' + ')}
               </span>
             </div>
             {clientData.address && (
-              <div className="flex justify-between items-center pb-2 border-b border-[#222a26]">
-                <span className="text-[#808080]">Dirección registrada:</span>
-                <span className="text-[#b3b3b3] text-right truncate max-w-[200px]">{clientData.address}</span>
+              <div className="flex justify-between items-center pb-2 border-b border-[#222222]">
+                <span className="text-[#888888]">Dirección registrada:</span>
+                <span className="text-[#888888] text-right truncate max-w-[200px]">{clientData.address}</span>
               </div>
             )}
             {selectedBeverage && selectedBeverage !== 'Sin bebida' && (
-              <div className="flex justify-between items-center pb-2 border-b border-[#222a26]">
-                <span className="text-[#808080]">Bebida solicitada:</span>
-                <span className="font-serif italic text-gold-400 text-right">{selectedBeverage}</span>
+              <div className="flex justify-between items-center pb-2 border-b border-[#222222]">
+                <span className="text-[#888888]">Bebida solicitada:</span>
+                <span className="text-gold-400 text-right font-mono">{selectedBeverage}</span>
               </div>
             )}
             <div className="flex justify-between items-center pt-1 text-sm">
-              <span className="text-[#dfdbca] uppercase font-sans text-xs font-semibold">Total:</span>
+              <span className="text-white uppercase font-sans text-xs font-semibold tracking-wider">Total:</span>
               <span className="price-pill">
                 {formatPrice(totalPrice)}
               </span>
@@ -470,7 +425,7 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
           <div className="flex flex-col sm:flex-row gap-3 justify-center items-center max-w-sm mx-auto">
             <button
               onClick={handleResetBooking}
-              className="w-full sm:w-auto btn-secondary text-xs uppercase tracking-wider py-2.5 px-5"
+              className="w-full sm:w-auto btn-ferrari-outline text-xs !py-2.5 !px-5"
             >
               <RotateCcw size={14} />
               Agendar Otra
@@ -479,7 +434,7 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
               href={`https://wa.me/573122398964?text=Hola,%20acabo%20de%20agendar%20mi%20cita%20con%20c%C3%B3digo%20${code}%20en%20Punto%20Fino`}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto btn-primary text-xs uppercase tracking-wider py-2.5 px-5"
+              className="w-full sm:w-auto btn-ferrari-primary text-xs !py-2.5 !px-5"
             >
               <MessageSquare size={14} />
               WhatsApp Atelier
@@ -495,9 +450,9 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
     <div className="w-full">
       {/* Stepper */}
       <div className="mb-10 relative px-2 max-w-2xl mx-auto">
-        <div className="absolute top-1/2 left-0 right-0 h-px bg-[#222a26] -translate-y-1/2 z-0" />
+        <div className="absolute top-1/2 left-0 right-0 h-px bg-[#222222] -translate-y-1/2 z-0" />
         <div
-          className="absolute top-1/2 left-0 h-px bg-gold-400 -translate-y-1/2 z-0 transition-all duration-500 ease-out"
+          className="absolute top-1/2 left-0 h-px bg-white -translate-y-1/2 z-0 transition-all duration-300 ease-out"
           style={{ width: `${((step - 1) / (STEPS.length - 1)) * 100}%` }}
         />
         <div className="flex justify-between relative z-10">
@@ -515,23 +470,23 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
                     }
                   }}
                   disabled={!isCompleted && !isActive}
-                  className={`w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center border transition-all duration-200 rounded-[4px] cursor-pointer ${
+                  className={`w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center border transition-all duration-200 rounded-none cursor-pointer ${
                     isActive
-                      ? 'bg-gold-400 border-gold-400 text-[#0e1311] shadow-sm font-semibold'
+                      ? 'bg-white border-white text-black font-medium'
                       : isCompleted
-                      ? 'bg-[#19221d] border-gold-400/50 text-gold-400'
-                      : 'bg-[#121815] border-[#222a26] text-[#808080] cursor-not-allowed'
+                      ? 'bg-[#141414] border-white text-white'
+                      : 'bg-[#0a0a0a] border-[#222222] text-[#666666] cursor-not-allowed'
                   }`}
                 >
                   {isCompleted ? (
-                    <Check size={18} strokeWidth={2.5} />
+                    <Check size={16} strokeWidth={2.5} />
                   ) : (
-                    <s.icon size={16} strokeWidth={isActive ? 2.5 : 2} />
+                    <s.icon size={15} strokeWidth={isActive ? 2.5 : 2} />
                   )}
                 </button>
                 <span
-                  className={`mt-2 font-sans text-[11px] uppercase tracking-wider hidden sm:block ${
-                    isActive ? 'text-gold-400 font-semibold' : isCompleted ? 'text-white' : 'text-[#808080]'
+                  className={`mt-2 font-sans text-[10px] uppercase tracking-[0.16em] hidden sm:block ${
+                    isActive ? 'text-white font-medium' : isCompleted ? 'text-[#888888]' : 'text-[#555555]'
                   }`}
                 >
                   {s.label}
@@ -552,7 +507,7 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ x: { type: 'spring', stiffness: 300, damping: 30 }, opacity: { duration: 0.2 } }}
+            transition={{ x: { type: 'spring', stiffness: 350, damping: 32 }, opacity: { duration: 0.15 } }}
             className="w-full"
           >
             {step === 1 && (
@@ -614,12 +569,12 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
 
       {/* Navigation Buttons for Steps 1-3 */}
       {step < 4 && (
-        <div className="flex justify-between items-center gap-4 mt-8 pt-6 border-t border-[#1f2723]">
+        <div className="flex justify-between items-center gap-4 mt-8 pt-6 border-t border-[#1e1e1e]">
           <button
             type="button"
             onClick={prevStep}
             disabled={step === 1}
-            className={`btn-secondary text-xs uppercase tracking-wider py-2.5 px-6 ${
+            className={`btn-ferrari-outline text-xs !py-2.5 !px-6 ${
               step === 1 ? 'opacity-30 cursor-not-allowed' : ''
             }`}
           >
@@ -630,8 +585,8 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
             type="button"
             onClick={nextStep}
             disabled={!canProceed()}
-            className={`btn-primary text-xs uppercase tracking-wider py-2.5 px-7 ${
-              !canProceed() ? 'opacity-40 cursor-not-allowed' : ''
+            className={`btn-ferrari-primary text-xs !py-2.5 !px-7 ${
+              !canProceed() ? 'opacity-30 cursor-not-allowed' : ''
             }`}
           >
             Continuar

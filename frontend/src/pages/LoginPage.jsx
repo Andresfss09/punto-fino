@@ -96,7 +96,7 @@ export default function LoginPage() {
   const activeRole = roles.find((r) => r.id === selectedRole);
 
   return (
-    <div className="min-h-screen bg-[#0e1311] flex items-center justify-center px-4 py-16">
+    <div className="min-h-screen bg-[#000000] flex items-center justify-center px-4 py-16">
       <div className="w-full max-w-md">
 
         {/* Logo Brand */}
@@ -109,13 +109,13 @@ export default function LoginPage() {
             <img
               src="/logo.png"
               alt="Punto Fino Barbería"
-              className="w-20 h-20 object-contain rounded-[4px] border border-[#26302a] shadow-md mx-auto group-hover:scale-105 transition-transform"
+              className="w-20 h-20 object-contain rounded-none border border-[#1e1e1e] shadow-md mx-auto group-hover:scale-105 transition-transform"
             />
           </Link>
-          <h1 className="font-serif italic text-4xl text-white tracking-tight leading-none">
+          <h1 className="font-sans font-medium uppercase tracking-[0.2em] text-2xl text-white">
             Punto Fino
           </h1>
-          <p className="text-gold-400 mt-1.5 text-xs tracking-[0.25em] uppercase font-sans font-medium">
+          <p className="text-[#888888] mt-1.5 text-xs tracking-[0.25em] uppercase font-sans">
             Barbería de Autor · Cali
           </p>
         </motion.div>
@@ -131,8 +131,8 @@ export default function LoginPage() {
               exit={{ opacity: 0, y: -15 }}
             >
               <div className="text-center mb-6">
-                <h2 className="font-serif italic text-2xl text-white">Portal de Acceso</h2>
-                <p className="text-[#808080] font-sans text-xs mt-1">Selecciona el perfil con el que deseas ingresar</p>
+                <h2 className="font-sans font-medium uppercase tracking-[0.16em] text-lg text-white">Portal de Acceso</h2>
+                <p className="text-[#888888] font-sans text-xs mt-1">Selecciona el perfil con el que deseas ingresar</p>
               </div>
 
               <div className="space-y-3">
@@ -144,19 +144,19 @@ export default function LoginPage() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.08 }}
                       onClick={() => handleRoleSelect(role.id)}
-                      className="w-full flex items-center gap-4 p-4 rounded-[4px] border border-[#222a26] bg-[#121815] hover:border-gold-400/60 hover:bg-[#151c18] transition-all duration-200 group text-left cursor-pointer"
+                      className="w-full flex items-center gap-4 p-4 rounded-none border border-[#1e1e1e] bg-[#0a0a0a] hover:border-white/40 hover:bg-[#141414] transition-all duration-200 group text-left cursor-pointer"
                     >
-                      <div className="w-11 h-11 bg-[#161d19] border border-[#2b3530] rounded-[4px] flex items-center justify-center flex-shrink-0 text-xl group-hover:border-gold-400/50 transition-colors">
+                      <div className="w-11 h-11 bg-[#141414] border border-[#222222] rounded-none flex items-center justify-center flex-shrink-0 text-xl group-hover:border-white/30 transition-colors">
                         {role.emoji}
                       </div>
                       <div className="flex-1">
-                        <p className="text-white font-serif italic text-lg leading-tight group-hover:text-gold-300 transition-colors">
+                        <p className="text-white font-sans font-medium uppercase tracking-[0.16em] text-xs leading-tight group-hover:text-white transition-colors">
                           {role.label}
                         </p>
-                        <p className="text-[#808080] text-xs font-sans mt-0.5">{role.description}</p>
+                        <p className="text-[#888888] text-xs font-sans mt-1">{role.description}</p>
                       </div>
-                      <div className="text-[#808080] group-hover:text-gold-400 transition-colors">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <div className="text-[#666666] group-hover:text-white transition-colors">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <path d="M9 18l6-6-6-6"/>
                         </svg>
                       </div>
@@ -165,9 +165,9 @@ export default function LoginPage() {
                 })}
               </div>
 
-              <p className="text-center text-[#808080] mt-8 text-xs font-sans">
+              <p className="text-center text-[#888888] mt-8 text-xs font-sans">
                 ¿Aún no tienes cuenta?{' '}
-                <Link to="/register" className="text-gold-400 hover:text-white font-medium transition-colors underline underline-offset-4">
+                <Link to="/register" className="text-white hover:text-[#888888] font-medium transition-colors underline underline-offset-4">
                   Crear cuenta de cliente
                 </Link>
               </p>
@@ -183,22 +183,22 @@ export default function LoginPage() {
               exit={{ opacity: 0, y: -15 }}
             >
               {/* Header del rol seleccionado */}
-              <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-4 mb-6 flex items-center justify-between">
+              <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-4 mb-6 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[#161d19] border border-[#2b3530] rounded-[4px] flex items-center justify-center text-lg">
+                  <div className="w-10 h-10 bg-[#141414] border border-[#222222] rounded-none flex items-center justify-center text-lg">
                     {activeRole.emoji}
                   </div>
                   <div>
-                    <span className="editorial-tag bg-[#161d19] border-[#2b3530] text-gold-400 mb-1">
+                    <span className="px-2 py-0.5 border border-[#222222] bg-[#141414] text-[10px] font-sans font-medium uppercase tracking-[0.16em] text-[#888888] mb-1 inline-block">
                       {activeRole.label}
                     </span>
-                    <p className="font-serif italic text-white text-lg leading-tight mt-0.5">Ingresar al Atelier</p>
+                    <p className="font-sans font-medium uppercase tracking-[0.16em] text-white text-xs leading-tight mt-0.5">Ingresar al Sistema</p>
                   </div>
                 </div>
                 <button
                   type="button"
                   onClick={() => setSelectedRole(null)}
-                  className="text-xs font-sans text-[#808080] hover:text-white transition-colors flex items-center gap-1 cursor-pointer"
+                  className="text-xs font-sans text-[#888888] hover:text-white transition-colors flex items-center gap-1 cursor-pointer"
                 >
                   <ArrowLeft size={13} /> Cambiar
                 </button>
@@ -217,7 +217,7 @@ export default function LoginPage() {
                 <div>
                   <label className="label">Contraseña</label>
                   <div className="relative">
-                    <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#808080] pointer-events-none z-10">
+                    <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#888888] pointer-events-none z-10">
                       <Lock size={16} />
                     </div>
                     <input
@@ -229,7 +229,7 @@ export default function LoginPage() {
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#808080] hover:text-white transition-colors z-10 cursor-pointer"
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#888888] hover:text-white transition-colors z-10 cursor-pointer"
                     >
                       {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
@@ -238,7 +238,7 @@ export default function LoginPage() {
                 </div>
 
                 <div className="flex justify-end">
-                  <Link to="/forgot-password" className="text-xs font-sans text-gold-400 hover:text-white transition-colors">
+                  <Link to="/forgot-password" className="text-xs font-sans text-[#888888] hover:text-white transition-colors">
                     ¿Olvidaste tu contraseña?
                   </Link>
                 </div>
@@ -246,16 +246,16 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full btn-primary text-xs uppercase tracking-wider py-3.5"
+                  className="w-full btn-ferrari-primary text-xs uppercase tracking-[0.2em] py-3.5 rounded-none cursor-pointer"
                 >
                   {loading ? 'Accediendo...' : `Iniciar Sesión (${activeRole.label})`}
                 </button>
               </form>
 
               {selectedRole === 'cliente' && (
-                <p className="text-center text-[#808080] mt-6 text-xs font-sans">
+                <p className="text-center text-[#888888] mt-6 text-xs font-sans">
                   ¿No tienes cuenta?{' '}
-                  <Link to="/register" className="text-gold-400 hover:text-white font-medium transition-colors underline underline-offset-4">
+                  <Link to="/register" className="text-white hover:text-[#888888] font-medium transition-colors underline underline-offset-4">
                     Regístrate gratis
                   </Link>
                 </p>

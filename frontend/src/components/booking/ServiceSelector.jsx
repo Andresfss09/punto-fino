@@ -7,12 +7,12 @@ const container = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.08 }
+    transition: { staggerChildren: 0.05 }
   }
 };
 
 const item = {
-  hidden: { opacity: 0, y: 15 },
+  hidden: { opacity: 0, y: 10 },
   show: { opacity: 1, y: 0 }
 };
 
@@ -22,16 +22,16 @@ export default function ServiceSelector({ services = [], selectedServices = [], 
   if (isLoading) {
     return (
       <div className="flex justify-center py-16">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold-400"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border border-white border-t-transparent"></div>
       </div>
     );
   }
 
   if (!services.length) {
     return (
-      <div className="text-center py-16 border border-[#222a26] rounded-[4px] bg-[#121815]">
-        <Scissors size={36} className="text-[#808080] mx-auto mb-3" />
-        <p className="text-[#b3b3b3] font-sans text-xs uppercase tracking-wider">No hay servicios disponibles en este momento</p>
+      <div className="text-center py-16 border border-[#1e1e1e] rounded-none bg-[#0a0a0a]">
+        <Scissors size={32} className="text-[#666666] mx-auto mb-3" />
+        <p className="text-[#888888] font-sans text-xs uppercase tracking-[0.16em]">No hay servicios disponibles en este momento</p>
       </div>
     );
   }
@@ -53,10 +53,10 @@ export default function ServiceSelector({ services = [], selectedServices = [], 
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-3.5 py-1.5 rounded-[4px] text-xs uppercase tracking-wider font-sans border transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-none text-xs uppercase tracking-[0.16em] font-sans border transition-all cursor-pointer ${
                 activeCategory === cat 
-                  ? 'bg-white text-[#0e1311] border-white font-semibold' 
-                  : 'bg-[#121815] text-[#b3b3b3] border-[#222a26] hover:text-white hover:border-[#38443e]'
+                  ? 'bg-white text-black border-white font-medium' 
+                  : 'bg-[#141414] text-[#888888] border-[#222222] hover:text-white hover:border-white/40'
               }`}
             >
               {cat}
@@ -66,13 +66,13 @@ export default function ServiceSelector({ services = [], selectedServices = [], 
       )}
 
       {/* Info Banner: Duración y Precios */}
-      <div className="mb-6 p-4 bg-[#121815] border border-[#222a26] rounded-[4px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-        <span className="text-[#dfdbca] flex items-center gap-2 font-sans">
-          <Clock size={14} className="text-gold-400" />
+      <div className="mb-6 p-4 bg-[#0a0a0a] border border-[#1e1e1e] rounded-none flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+        <span className="text-[#d4d4d4] flex items-center gap-2 font-sans">
+          <Clock size={14} className="text-white" />
           <span><strong>Estimación:</strong> 30 a 40 minutos en promedio por corte</span>
         </span>
-        <span className="text-gold-400 font-sans text-[11px] uppercase tracking-wider font-medium">
-          Tarifas oficiales en pesos colombianos (COP)
+        <span className="text-gold-400 font-mono text-[11px] uppercase tracking-wider font-medium">
+          Tarifas en pesos colombianos (COP)
         </span>
       </div>
 
@@ -89,38 +89,37 @@ export default function ServiceSelector({ services = [], selectedServices = [], 
               <motion.div key={service._id} layout variants={item}>
                 <div 
                   onClick={() => onToggleService(service)}
-                  className={`h-full flex flex-col justify-between p-5 rounded-[4px] border transition-all duration-200 cursor-pointer ${
+                  className={`h-full flex flex-col justify-between p-5 rounded-none border transition-all duration-200 cursor-pointer ${
                     isSelected 
-                      ? 'bg-[#151c18] border-gold-400/80 shadow-soft-glow' 
-                      : 'bg-[#121815] border-[#222a26] hover:border-[#38443e]'
+                      ? 'bg-[#141414] border-white shadow-sm' 
+                      : 'bg-[#0a0a0a] border-[#1e1e1e] hover:border-[#333333]'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <div className="flex-1">
-                      <h3 className="font-serif italic text-xl text-white mb-1.5 leading-snug">
+                      <h3 className="font-sans font-medium uppercase tracking-[0.14em] text-sm sm:text-base text-white mb-1.5 leading-snug">
                         {service.name}
                       </h3>
-                      {service.description && (
-                        <p className="text-[#b3b3b3] text-xs leading-relaxed line-clamp-3">
-                          {service.description}
-                        </p>
-                      )}
+                      <p className="text-[#888888] text-xs leading-relaxed line-clamp-3 font-sans">
+                        {service.description}
+                      </p>
                     </div>
-                    <div className={`w-7 h-7 flex-shrink-0 flex items-center justify-center rounded-[4px] border transition-all ${
+                    <div className={`w-5 h-5 flex-shrink-0 border flex items-center justify-center transition-colors rounded-none ${
                       isSelected 
-                        ? 'bg-gold-400 border-gold-400 text-[#0e1311]' 
-                        : 'border-[#2b3530] text-[#808080]'
+                        ? 'bg-white border-white text-black' 
+                        : 'border-[#2e2e2e] bg-[#141414]'
                     }`}>
-                      {isSelected ? <Check size={15} strokeWidth={2.5} /> : <Scissors size={13} className="rotate-45" />}
+                      {isSelected && <Check size={12} strokeWidth={3} />}
                     </div>
                   </div>
 
-                  <div className="mt-4 pt-3.5 flex items-center justify-between border-t border-[#1f2723]">
-                    <span className="text-[#808080] text-xs flex items-center gap-1.5 font-sans">
-                      <Clock size={12} className="text-gold-400" /> {service.duration} min
-                    </span>
-                    <span className="price-pill text-xs">
-                      ${service.price.toLocaleString('es-CO')}
+                  <div className="pt-3 border-t border-[#1e1e1e] flex items-center justify-between mt-auto">
+                    <div className="flex items-center gap-1.5 text-xs text-[#888888] font-mono">
+                      <Clock size={12} className="text-white" />
+                      <span>{service.duration || 40} min</span>
+                    </div>
+                    <span className="font-mono text-sm font-medium text-white">
+                      ${service.price?.toLocaleString('es-CO')}
                     </span>
                   </div>
                 </div>
@@ -130,30 +129,22 @@ export default function ServiceSelector({ services = [], selectedServices = [], 
         </AnimatePresence>
       </motion.div>
 
-      <AnimatePresence>
-        {selectedServices.length > 0 && (
-          <motion.div 
-            initial={{ y: 80, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 80, opacity: 0 }}
-            className="fixed sm:static bottom-0 left-0 right-0 p-4 sm:p-0 bg-[#0e1311] sm:bg-transparent border-t sm:border-0 border-[#1f2723] sm:mt-8 z-40"
-          >
-            <div className="bg-[#121815] border border-gold-400/40 rounded-[4px] flex items-center justify-between py-3.5 px-5 shadow-lg">
-              <div>
-                <p className="text-[#b3b3b3] font-sans text-xs uppercase tracking-wider mb-0.5">
-                  {selectedServices.length} {selectedServices.length === 1 ? 'Servicio seleccionado' : 'Servicios seleccionados'} · {totalDuration} min
-                </p>
-                <p className="font-serif italic text-white text-xl">
-                  {selectedServices.map(s => s.name).join(' + ')}
-                </p>
-              </div>
-              <span className="price-pill text-sm font-semibold">
-                Total: ${totalPrice.toLocaleString('es-CO')} COP
-              </span>
+      {/* Floating Bottom bar on mobile summary */}
+      {selectedServices.length > 0 && (
+        <div className="fixed bottom-0 left-0 right-0 sm:hidden bg-[#0a0a0a] border-t border-[#1e1e1e] p-4 flex items-center justify-between z-30">
+          <div>
+            <div className="text-[10px] text-[#888888] uppercase tracking-wider font-sans">
+              {selectedServices.length} {selectedServices.length === 1 ? 'servicio' : 'servicios'} • {totalDuration} min
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <div className="text-base font-mono font-medium text-white">
+              ${totalPrice.toLocaleString('es-CO')}
+            </div>
+          </div>
+          <span className="text-xs font-mono uppercase tracking-wider text-white">
+            Seleccionado
+          </span>
+        </div>
+      )}
     </div>
   );
 }

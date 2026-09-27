@@ -58,15 +58,15 @@ export default function BookingConfirmation({
     <div className="space-y-6">
       
       {/* Formulario de Datos del Cliente */}
-      <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-6 shadow-subtle">
-        <div className="flex items-center justify-between border-b border-[#1f2723] pb-4 mb-5">
+      <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-6">
+        <div className="flex items-center justify-between border-b border-[#1e1e1e] pb-4 mb-5">
           <div>
-            <h3 className="font-serif italic text-2xl text-white">Datos de Quien Reserva</h3>
-            <p className="text-xs text-[#8e9b94] font-sans mt-0.5">
+            <h3 className="font-sans font-medium uppercase tracking-[0.2em] text-sm text-white">Datos de Quien Reserva</h3>
+            <p className="text-xs text-[#888888] font-sans mt-0.5">
               Sin necesidad de crear cuenta previa. Te enviaremos la confirmación directa.
             </p>
           </div>
-          <span className="editorial-tag bg-[#161d19] border-[#2b3530] text-gold-400 font-sans hidden sm:inline-block">
+          <span className="px-2 py-0.5 border border-[#222222] bg-[#141414] text-[10px] font-sans font-medium uppercase tracking-[0.16em] text-[#888888] hidden sm:inline-block">
             Paso Obligatorio
           </span>
         </div>
@@ -74,11 +74,11 @@ export default function BookingConfirmation({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Nombre */}
           <div>
-            <label className="block text-xs font-sans uppercase tracking-wider text-[#dfdbca] mb-1.5 font-medium">
-              Nombre Completo <span className="text-gold-400">*</span>
+            <label className="block text-[11px] font-sans uppercase tracking-[0.16em] text-[#888888] mb-1.5 font-medium">
+              Nombre Completo <span className="text-white">*</span>
             </label>
             <div className="relative">
-              <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#808080]" />
+              <User size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#666666]" />
               <input
                 type="text"
                 name="name"
@@ -86,18 +86,18 @@ export default function BookingConfirmation({
                 onChange={handleInputChange}
                 placeholder="Ej: Nicolás Gómez"
                 required
-                className="w-full bg-[#101513] border border-[#26302a] focus:border-gold-400 rounded-[4px] text-white pl-10 pr-4 py-2.5 text-xs font-sans focus:outline-none transition-all"
+                className="w-full bg-[#000000] border border-[#222222] focus:border-white rounded-none text-white pl-10 pr-4 py-2.5 text-xs font-sans focus:outline-none transition-colors"
               />
             </div>
           </div>
 
           {/* Correo Electrónico */}
           <div>
-            <label className="block text-xs font-sans uppercase tracking-wider text-[#dfdbca] mb-1.5 font-medium">
-              Correo Electrónico <span className="text-gold-400">*</span>
+            <label className="block text-[11px] font-sans uppercase tracking-[0.16em] text-[#888888] mb-1.5 font-medium">
+              Correo Electrónico <span className="text-white">*</span>
             </label>
             <div className="relative">
-              <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#808080]" />
+              <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#666666]" />
               <input
                 type="email"
                 name="email"
@@ -105,21 +105,21 @@ export default function BookingConfirmation({
                 onChange={handleInputChange}
                 placeholder="Ej: nicolas@gmail.com"
                 required
-                className="w-full bg-[#101513] border border-[#26302a] focus:border-gold-400 rounded-[4px] text-white pl-10 pr-4 py-2.5 text-xs font-sans focus:outline-none transition-all"
+                className="w-full bg-[#000000] border border-[#222222] focus:border-white rounded-none text-white pl-10 pr-4 py-2.5 text-xs font-mono focus:outline-none transition-colors"
               />
             </div>
-            <span className="text-[10px] text-[#808080] font-sans mt-1 block">
+            <span className="text-[10px] text-[#666666] font-mono mt-1 block">
               Recibirás el comprobante con tu código de reserva
             </span>
           </div>
 
           {/* Teléfono */}
           <div>
-            <label className="block text-xs font-sans uppercase tracking-wider text-[#dfdbca] mb-1.5 font-medium">
-              Teléfono / WhatsApp <span className="text-gold-400">*</span>
+            <label className="block text-[11px] font-sans uppercase tracking-[0.16em] text-[#888888] mb-1.5 font-medium">
+              Teléfono / WhatsApp <span className="text-white">*</span>
             </label>
             <div className="relative">
-              <Phone size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#808080]" />
+              <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#666666]" />
               <input
                 type="tel"
                 name="phone"
@@ -127,18 +127,18 @@ export default function BookingConfirmation({
                 onChange={handleInputChange}
                 placeholder="Ej: 315 890 1234"
                 required
-                className="w-full bg-[#101513] border border-[#26302a] focus:border-gold-400 rounded-[4px] text-white pl-10 pr-4 py-2.5 text-xs font-sans focus:outline-none transition-all"
+                className="w-full bg-[#000000] border border-[#222222] focus:border-white rounded-none text-white pl-10 pr-4 py-2.5 text-xs font-mono focus:outline-none transition-colors"
               />
             </div>
           </div>
 
           {/* Dirección */}
           <div>
-            <label className="block text-xs font-sans uppercase tracking-wider text-[#dfdbca] mb-1.5 font-medium">
-              Dirección de Residencia <span className="text-gold-400">*</span>
+            <label className="block text-[11px] font-sans uppercase tracking-[0.16em] text-[#888888] mb-1.5 font-medium">
+              Dirección de Residencia <span className="text-white">*</span>
             </label>
             <div className="relative">
-              <MapPin size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#808080]" />
+              <MapPin size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#666666]" />
               <input
                 type="text"
                 name="address"
@@ -146,7 +146,7 @@ export default function BookingConfirmation({
                 onChange={handleInputChange}
                 placeholder="Ej: Cra. 12 #53-51, Cali"
                 required
-                className="w-full bg-[#101513] border border-[#26302a] focus:border-gold-400 rounded-[4px] text-white pl-10 pr-4 py-2.5 text-xs font-sans focus:outline-none transition-all"
+                className="w-full bg-[#000000] border border-[#222222] focus:border-white rounded-none text-white pl-10 pr-4 py-2.5 text-xs font-sans focus:outline-none transition-colors"
               />
             </div>
           </div>
@@ -154,56 +154,56 @@ export default function BookingConfirmation({
       </div>
 
       {/* Resumen de la Cita */}
-      <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-6 shadow-subtle">
-        <h3 className="font-serif italic text-2xl text-white mb-6 border-b border-[#1f2723] pb-4 flex items-center justify-between">
+      <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-6">
+        <h3 className="font-sans font-medium uppercase tracking-[0.2em] text-sm text-white mb-6 border-b border-[#1e1e1e] pb-4 flex items-center justify-between">
           <span>Resumen de la Cita</span>
-          <span className="editorial-tag bg-[#161d19] border-[#2b3530] text-gold-400 font-sans">
-            Atelier Punto Fino
+          <span className="px-2 py-0.5 border border-[#222222] bg-[#141414] text-[10px] font-sans font-medium uppercase tracking-[0.16em] text-[#888888]">
+            Punto Fino
           </span>
         </h3>
         
         {/* Timeline Details */}
-        <div className="space-y-3.5 font-sans text-xs">
-          <div className="p-3.5 bg-[#101513] border border-[#1f2723] rounded-[4px] flex justify-between items-center">
-            <span className="text-[#808080] flex items-center gap-2">
-              <Scissors size={14} className="text-gold-400" /> Servicios Seleccionados:
+        <div className="space-y-3 font-sans text-xs">
+          <div className="p-3.5 bg-[#000000] border border-[#1e1e1e] rounded-none flex justify-between items-center">
+            <span className="text-[#888888] flex items-center gap-2 uppercase tracking-wider text-[11px]">
+              <Scissors size={14} className="text-[#888888]" /> Servicios:
             </span>
-            <span className="font-serif italic text-sm text-white font-medium">
+            <span className="font-sans font-medium text-xs text-white uppercase tracking-wider">
               {selectedServices.map(s => s.name).join(' + ')}
             </span>
           </div>
 
-          <div className="p-3.5 bg-[#101513] border border-[#1f2723] rounded-[4px] flex justify-between items-center">
-            <span className="text-[#808080] flex items-center gap-2">
-              <User size={14} className="text-gold-400" /> Maestro Barbero:
+          <div className="p-3.5 bg-[#000000] border border-[#1e1e1e] rounded-none flex justify-between items-center">
+            <span className="text-[#888888] flex items-center gap-2 uppercase tracking-wider text-[11px]">
+              <User size={14} className="text-[#888888]" /> Barbero:
             </span>
-            <span className="font-serif italic text-sm text-gold-400 font-medium">
+            <span className="font-sans font-medium text-xs text-white uppercase tracking-wider">
               {selectedBarber?.user?.name || 'Cualquiera disponible'}
             </span>
           </div>
 
-          <div className="p-3.5 bg-[#101513] border border-[#1f2723] rounded-[4px] flex justify-between items-center">
-            <span className="text-[#808080] flex items-center gap-2">
-              <Calendar size={14} className="text-gold-400" /> Fecha y Horario:
+          <div className="p-3.5 bg-[#000000] border border-[#1e1e1e] rounded-none flex justify-between items-center">
+            <span className="text-[#888888] flex items-center gap-2 uppercase tracking-wider text-[11px]">
+              <Calendar size={14} className="text-[#888888]" /> Fecha y Horario:
             </span>
-            <span className="font-mono text-white capitalize">
+            <span className="font-mono text-xs text-white capitalize">
               {selectedDate ? new Date(selectedDate + 'T12:00:00').toLocaleDateString('es-CO', { weekday: 'short', day: 'numeric', month: 'short' }) : ''} · {formatTime(selectedSlot)}
             </span>
           </div>
 
-          <div className="p-3.5 bg-[#101513] border border-[#1f2723] rounded-[4px] flex justify-between items-center">
-            <span className="text-[#808080] flex items-center gap-2">
-              <Clock size={14} className="text-gold-400" /> Duración Estimada:
+          <div className="p-3.5 bg-[#000000] border border-[#1e1e1e] rounded-none flex justify-between items-center">
+            <span className="text-[#888888] flex items-center gap-2 uppercase tracking-wider text-[11px]">
+              <Clock size={14} className="text-[#888888]" /> Duración:
             </span>
-            <span className="text-white font-medium">{totalDuration} minutos</span>
+            <span className="font-mono text-xs text-white">{totalDuration} MIN</span>
           </div>
 
           {selectedBeverage && selectedBeverage !== 'Sin bebida' && (
-            <div className="p-3.5 bg-[#101513] border border-gold-400/30 rounded-[4px] flex justify-between items-center">
-              <span className="text-[#808080] flex items-center gap-2">
-                <ShoppingBag size={14} className="text-gold-400" /> Bebida Agregada (Nevera):
+            <div className="p-3.5 bg-[#000000] border border-[#1e1e1e] rounded-none flex justify-between items-center">
+              <span className="text-[#888888] flex items-center gap-2 uppercase tracking-wider text-[11px]">
+                <ShoppingBag size={14} className="text-[#888888]" /> Bebida Nevera:
               </span>
-              <span className="font-serif italic text-sm text-gold-400 font-medium">
+              <span className="font-sans font-medium text-xs text-white uppercase tracking-wider">
                 {selectedBeverage}
               </span>
             </div>
@@ -211,28 +211,28 @@ export default function BookingConfirmation({
         </div>
         
         {/* Total Price Pill */}
-        <div className="mt-6 pt-5 border-t border-[#1f2723] flex items-center justify-between">
-          <span className="text-xs uppercase tracking-wider font-sans text-[#dfdbca] font-semibold">
-            Inversión Total:
+        <div className="mt-6 pt-5 border-t border-[#1e1e1e] flex items-center justify-between">
+          <span className="text-xs uppercase tracking-[0.2em] font-sans text-[#888888] font-medium">
+            Total a Pagar:
           </span>
-          <span className="price-pill text-sm font-semibold">
+          <span className="font-mono text-lg font-bold text-white">
             {formatPrice(totalPrice)} COP
           </span>
         </div>
       </div>
 
       {/* Lo que usamos contigo (Sección de Bebidas Nevera en Cita) */}
-      <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-6 shadow-subtle">
-        <div className="flex items-start gap-3.5 border-b border-[#1f2723] pb-4 mb-5">
-          <div className="w-10 h-10 rounded-[4px] bg-[#161d19] border border-[#26302a] flex items-center justify-center shrink-0 text-gold-400">
-            <ShoppingBag size={20} />
+      <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-6">
+        <div className="flex items-start gap-3.5 border-b border-[#1e1e1e] pb-4 mb-5">
+          <div className="w-10 h-10 rounded-none bg-[#141414] border border-[#222222] flex items-center justify-center shrink-0 text-white">
+            <ShoppingBag size={18} />
           </div>
           <div>
-            <h4 className="font-serif italic text-xl sm:text-2xl text-gold-400 leading-tight">
-              Lo que usamos contigo
+            <h4 className="font-sans font-medium uppercase tracking-[0.2em] text-sm text-white">
+              Bebidas para tu cita
             </h4>
-            <p className="font-sans text-xs text-[#8e9b94] mt-0.5">
-              Añádelos a tu reserva y recógelos en tu cita
+            <p className="font-sans text-xs text-[#888888] mt-0.5">
+              Añádelas a tu reserva y recógelas en tu visita
             </p>
           </div>
         </div>
@@ -243,33 +243,33 @@ export default function BookingConfirmation({
             return (
               <div
                 key={bev.id}
-                className={`p-4 rounded-[4px] border transition-all flex flex-col justify-between ${
+                className={`p-4 rounded-none border transition-colors flex flex-col justify-between ${
                   isSelected
-                    ? 'bg-[#19231d] border-gold-400 shadow-sm'
-                    : 'bg-[#101513] border-[#222a26] hover:border-[#38443e]'
+                    ? 'bg-[#141414] border-white'
+                    : 'bg-[#000000] border-[#1e1e1e] hover:border-[#333333]'
                 }`}
               >
                 {/* Initials Box */}
-                <div className="w-full aspect-[4/3] bg-[#0e1311] border border-[#222a26] rounded-[4px] flex items-center justify-center mb-3">
-                  <span className="font-serif italic text-3xl font-bold text-white tracking-widest">
+                <div className="w-full aspect-[4/3] bg-[#050505] border border-[#1e1e1e] rounded-none flex items-center justify-center mb-3">
+                  <span className="font-mono text-2xl font-medium text-white tracking-widest">
                     {bev.initials}
                   </span>
                 </div>
 
                 <div className="space-y-1 mb-3">
-                  <span className="font-sans text-[10px] uppercase tracking-widest text-[#808080] font-medium block">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#666666] block">
                     {bev.category}
                   </span>
-                  <p className="font-serif italic text-base text-gold-400 font-normal leading-snug">
+                  <p className="font-sans font-medium uppercase tracking-[0.16em] text-xs text-white leading-snug">
                     {bev.name}
                   </p>
                   
                   <div className="flex items-center justify-between pt-1">
-                    <span className="font-mono font-bold text-sm text-gold-400">
+                    <span className="font-mono font-medium text-xs text-white">
                       ${bev.price.toLocaleString('es-CO')}
                     </span>
-                    <span className="px-1.5 py-0.5 rounded-[3px] text-[9px] font-sans uppercase tracking-wider bg-emerald-950/60 text-emerald-400 border border-emerald-800/40">
-                      Disponible
+                    <span className="px-1.5 py-0.5 rounded-none text-[9px] font-mono uppercase tracking-wider bg-[#141414] text-[#888888] border border-[#222222]">
+                      DISPONIBLE
                     </span>
                   </div>
                 </div>
@@ -277,10 +277,10 @@ export default function BookingConfirmation({
                 <button
                   type="button"
                   onClick={() => handleBeverageToggle(bev.id)}
-                  className={`w-full py-2 rounded-[4px] text-xs font-sans uppercase tracking-wider font-semibold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                  className={`w-full py-2 rounded-none text-xs font-sans uppercase tracking-[0.16em] font-medium transition-colors flex items-center justify-center gap-1.5 cursor-pointer ${
                     isSelected
-                      ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-600'
-                      : 'bg-gold-400 hover:bg-gold-300 text-[#0e1311]'
+                      ? 'bg-white text-black border border-white'
+                      : 'border border-[#222222] bg-[#141414] hover:bg-white hover:text-black text-white'
                   }`}
                 >
                   {isSelected ? (
@@ -291,7 +291,7 @@ export default function BookingConfirmation({
                   ) : (
                     <>
                       <Plus size={13} strokeWidth={2.5} />
-                      <span>+ Agregar</span>
+                      <span>Agregar</span>
                     </>
                   )}
                 </button>
@@ -301,30 +301,30 @@ export default function BookingConfirmation({
         </div>
 
         {selectedBeverage && selectedBeverage !== 'Sin bebida' && (
-          <div className="mt-4 pt-3 border-t border-[#1f2723] flex justify-between items-center">
-            <span className="text-xs text-[#8e9b94]">Bebida seleccionada: <strong className="text-gold-400 font-serif italic">{selectedBeverage}</strong></span>
+          <div className="mt-4 pt-3 border-t border-[#1e1e1e] flex justify-between items-center">
+            <span className="text-xs text-[#888888]">Bebida seleccionada: <strong className="text-white font-mono uppercase text-xs">{selectedBeverage}</strong></span>
             <button
               type="button"
               onClick={() => setSelectedBeverage('Sin bebida')}
-              className="text-[11px] text-rose-400 hover:text-rose-300 underline underline-offset-2 cursor-pointer font-sans"
+              className="text-[11px] text-rose-400 hover:text-rose-300 font-mono uppercase cursor-pointer"
             >
-              Quitar bebida
+              [ Quitar ]
             </button>
           </div>
         )}
       </div>
 
       {/* Forma de Pago */}
-      <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-6 shadow-subtle">
-        <h4 className="font-serif italic text-xl text-white mb-4">Forma de Pago</h4>
+      <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-6">
+        <h4 className="font-sans font-medium uppercase tracking-[0.2em] text-sm text-white mb-4">Forma de Pago</h4>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
           {paymentMethods.map(method => (
             <label 
               key={method.id}
-              className={`cursor-pointer flex items-center justify-center py-3 px-3 rounded-[4px] text-xs font-sans transition-all border text-center ${
+              className={`cursor-pointer flex items-center justify-center py-3 px-3 rounded-none text-xs font-sans uppercase tracking-[0.14em] transition-colors border text-center ${
                 paymentMethod === method.id
-                  ? 'bg-gold-400 text-[#0e1311] border-gold-400 font-semibold shadow-sm'
-                  : 'bg-[#101513] text-[#dfdbca] border-[#26302a] hover:border-gold-400/50'
+                  ? 'bg-white text-black border-white font-medium'
+                  : 'bg-[#000000] text-[#888888] border-[#222222] hover:border-white/50 hover:text-white'
               }`}
             >
               <input 
@@ -342,19 +342,19 @@ export default function BookingConfirmation({
       </div>
 
       {/* Notas Adicionales */}
-      <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-6 shadow-subtle">
-        <h4 className="font-serif italic text-xl text-white mb-3 flex items-center gap-2">
-          <Edit2 size={16} className="text-gold-400" /> Notas o Indicaciones Especiales
+      <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-6">
+        <h4 className="font-sans font-medium uppercase tracking-[0.2em] text-sm text-white mb-3 flex items-center gap-2">
+          <Edit2 size={14} className="text-[#888888]" /> Notas o Indicaciones Especiales
         </h4>
         <textarea
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          placeholder="Ej: Prefiero degradado medio en navaja, toalla caliente y perfilado fino de cejas..."
-          className="w-full bg-[#101513] border border-[#26302a] focus:border-gold-400 rounded-[4px] text-white p-3 text-xs font-sans h-20 resize-none focus:outline-none transition-all placeholder:text-[#808080]"
+          placeholder="Ej: Degradado medio, navaja..."
+          className="w-full bg-[#000000] border border-[#222222] focus:border-white rounded-none text-white p-3 text-xs font-sans h-20 resize-none focus:outline-none transition-colors placeholder:text-[#555555]"
           maxLength={300}
         />
         <div className="text-right mt-1">
-          <span className="text-[#808080] font-mono text-[11px]">{notes.length}/300</span>
+          <span className="text-[#666666] font-mono text-[11px]">{notes.length}/300</span>
         </div>
       </div>
 
@@ -362,18 +362,18 @@ export default function BookingConfirmation({
       <div className="flex flex-col sm:flex-row gap-3 pt-2">
         <button 
           onClick={onBack}
-          className="btn-secondary text-xs uppercase tracking-wider py-3 px-6 w-full sm:w-auto text-center cursor-pointer"
+          className="btn-ferrari-outline text-xs uppercase tracking-[0.2em] py-3.5 px-6 w-full sm:w-auto text-center cursor-pointer rounded-none"
           disabled={isSubmitting}
         >
           Atrás
         </button>
         <button 
           onClick={onConfirm}
-          className="btn-primary text-xs uppercase tracking-wider py-3.5 px-8 w-full flex-1 flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+          className="btn-ferrari-primary text-xs uppercase tracking-[0.2em] py-3.5 px-8 w-full flex-1 flex items-center justify-center gap-2 cursor-pointer rounded-none"
           disabled={isSubmitting}
         >
           {isSubmitting ? (
-            <div className="w-5 h-5 border-2 border-[#0e1311] border-t-transparent rounded-full animate-spin" />
+            <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
           ) : (
             <>
               <Check size={16} strokeWidth={2.5} />

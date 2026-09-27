@@ -6,12 +6,12 @@ const container = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.08 }
+    transition: { staggerChildren: 0.05 }
   }
 };
 
 const item = {
-  hidden: { opacity: 0, y: 15 },
+  hidden: { opacity: 0, y: 10 },
   show: { opacity: 1, y: 0 }
 };
 
@@ -19,16 +19,16 @@ export default function BarberSelector({ barbers = [], selectedBarber, onSelectB
   if (isLoading) {
     return (
       <div className="flex justify-center py-16">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold-400"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border border-white border-t-transparent"></div>
       </div>
     );
   }
 
   if (!barbers.length) {
     return (
-      <div className="text-center py-16 border border-[#222a26] rounded-[4px] bg-[#121815]">
-        <User size={36} className="text-[#808080] mx-auto mb-3" />
-        <p className="text-[#b3b3b3] font-sans text-xs uppercase tracking-wider">No hay barberos disponibles</p>
+      <div className="text-center py-16 border border-[#1e1e1e] rounded-none bg-[#0a0a0a]">
+        <User size={32} className="text-[#666666] mx-auto mb-3" />
+        <p className="text-[#888888] font-sans text-xs uppercase tracking-[0.16em]">No hay barberos disponibles</p>
       </div>
     );
   }
@@ -44,22 +44,22 @@ export default function BarberSelector({ barbers = [], selectedBarber, onSelectB
       <motion.div variants={item}>
         <div 
           onClick={() => onSelectBarber({ _id: 'any', user: { name: 'Cualquiera' } })}
-          className={`h-full flex items-center p-5 rounded-[4px] border transition-all duration-200 cursor-pointer ${
+          className={`h-full flex items-center p-5 rounded-none border transition-all duration-200 cursor-pointer ${
             selectedBarber?._id === 'any' 
-              ? 'bg-[#151c18] border-gold-400/80 shadow-soft-glow' 
-              : 'bg-[#121815] border-[#222a26] hover:border-[#38443e]'
+              ? 'bg-[#141414] border-white shadow-sm' 
+              : 'bg-[#0a0a0a] border-[#1e1e1e] hover:border-[#333333]'
           }`}
         >
-          <div className="w-12 h-12 rounded-[4px] border border-[#2b3530] flex items-center justify-center bg-[#161d19] mr-4 flex-shrink-0">
-            <User size={18} className="text-[#b3b3b3]" />
+          <div className="w-11 h-11 rounded-none border border-[#262626] flex items-center justify-center bg-[#141414] mr-4 flex-shrink-0">
+            <User size={16} className="text-white" />
           </div>
           <div className="flex-1">
-            <h3 className="font-serif italic text-lg text-white leading-tight">Cualquier Maestro</h3>
-            <p className="text-[#808080] text-xs font-sans mt-0.5">El primer barbero disponible</p>
+            <h3 className="font-sans font-medium uppercase tracking-[0.14em] text-sm text-white leading-tight">Cualquier Maestro</h3>
+            <p className="text-[#888888] text-xs font-sans mt-0.5">El primer barbero disponible</p>
           </div>
           {selectedBarber?._id === 'any' && (
-            <div className="w-6 h-6 flex-shrink-0 bg-gold-400 flex items-center justify-center ml-2 rounded-[4px]">
-              <Check size={14} className="text-[#0e1311]" strokeWidth={2.5} />
+            <div className="w-5 h-5 flex-shrink-0 bg-white flex items-center justify-center ml-2 rounded-none">
+              <Check size={13} className="text-black" strokeWidth={2.5} />
             </div>
           )}
         </div>
@@ -72,52 +72,52 @@ export default function BarberSelector({ barbers = [], selectedBarber, onSelectB
           <motion.div key={barber._id} variants={item}>
             <div 
               onClick={() => onSelectBarber(barber)}
-              className={`h-full flex flex-col justify-between p-5 rounded-[4px] border transition-all duration-200 cursor-pointer ${
+              className={`h-full flex flex-col justify-between p-5 rounded-none border transition-all duration-200 cursor-pointer ${
                 isSelected 
-                  ? 'bg-[#151c18] border-gold-400/80 shadow-soft-glow' 
-                  : 'bg-[#121815] border-[#222a26] hover:border-[#38443e]'
+                  ? 'bg-[#141414] border-white shadow-sm' 
+                  : 'bg-[#0a0a0a] border-[#1e1e1e] hover:border-[#333333]'
               }`}
             >
               <div className="flex items-start">
-                <div className={`w-14 h-14 rounded-[4px] border overflow-hidden flex items-center justify-center mr-4 flex-shrink-0 bg-[#161d19] ${
-                  isSelected ? 'border-gold-400/60' : 'border-[#2b3530]'
+                <div className={`w-12 h-12 rounded-none border overflow-hidden flex items-center justify-center mr-4 flex-shrink-0 bg-[#141414] ${
+                  isSelected ? 'border-white' : 'border-[#262626]'
                 }`}>
                   {barber.user?.avatar ? (
                     <img src={barber.user.avatar} alt={barber.user?.name} className="w-full h-full object-cover" />
                   ) : (
-                    <span className="font-serif italic text-2xl text-gold-400">
+                    <span className="font-mono text-base text-white font-medium">
                       {barber.user?.name?.charAt(0).toUpperCase()}
                     </span>
                   )}
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-serif italic text-xl text-white leading-tight">
+                  <h3 className="font-sans font-medium uppercase tracking-[0.14em] text-sm text-white leading-tight">
                     {barber.user?.name}
                   </h3>
                   <div className="flex items-center gap-1.5 mt-1">
-                    <Star size={12} className="text-gold-400 fill-gold-400" />
+                    <Star size={11} className="text-gold-400 fill-gold-400" />
                     <span className="font-mono text-xs text-white">
                       {barber.rating?.average?.toFixed(1) || '5.0'}
                     </span>
-                    <span className="font-sans text-[11px] text-[#808080]">
-                      ({barber.rating?.count || 42} citas)
+                    <span className="text-[#888888] text-[11px] font-mono">
+                      ({barber.rating?.count || 12} reseñas)
                     </span>
                   </div>
+                  <p className="text-[#888888] text-[11px] font-sans uppercase tracking-wider mt-1">
+                    Maestro Barbero
+                  </p>
                 </div>
                 {isSelected && (
-                  <div className="w-6 h-6 flex-shrink-0 bg-gold-400 flex items-center justify-center ml-2 rounded-[4px]">
-                    <Check size={14} className="text-[#0e1311]" strokeWidth={2.5} />
+                  <div className="w-5 h-5 flex-shrink-0 bg-white flex items-center justify-center ml-2 rounded-none">
+                    <Check size={13} className="text-black" strokeWidth={2.5} />
                   </div>
                 )}
               </div>
-              
+
               {barber.specialties && barber.specialties.length > 0 && (
-                <div className="mt-4 pt-3 border-t border-[#1f2723] flex flex-wrap gap-1.5">
-                  {barber.specialties.slice(0, 3).map((spec, i) => (
-                    <span 
-                      key={i} 
-                      className="px-2 py-0.5 text-[11px] font-sans text-[#dfdbca] bg-[#161d19] border border-[#26302a] rounded-[4px]"
-                    >
+                <div className="flex flex-wrap gap-1.5 mt-4 pt-3 border-t border-[#1e1e1e]">
+                  {barber.specialties.map(spec => (
+                    <span key={spec} className="inline-block px-2 py-0.5 rounded-none text-[10px] font-mono bg-[#141414] text-[#888888] border border-[#222222] uppercase">
                       {spec}
                     </span>
                   ))}

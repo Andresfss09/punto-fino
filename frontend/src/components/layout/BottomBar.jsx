@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, Calendar, Scissors, User, LayoutDashboard, Sparkles, Users } from 'lucide-react';
+import { Home, Calendar, Scissors, User, LayoutDashboard, Sparkles } from 'lucide-react';
 import useAuthStore from '../../store/useAuthStore';
 
 const BottomBar = () => {
@@ -37,7 +37,7 @@ const BottomBar = () => {
   }
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#0e1311] border-t border-[#1f2723] pb-safe z-40">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#0a0a0a] border-t border-[#1e1e1e] pb-safe z-40">
       <div className="flex justify-around items-center h-16">
         {links.map((link, idx) => (
           <NavLink
@@ -47,13 +47,13 @@ const BottomBar = () => {
             className={({ isActive }) => 
               `flex flex-col items-center justify-center flex-1 h-full min-w-[44px] transition-colors ${
                 isActive 
-                  ? 'text-gold-400 bg-[#161d19]/80 border-t-2 border-gold-400' 
-                  : 'text-[#808080] hover:text-[#dfdbca] border-t-2 border-transparent'
+                  ? 'text-white bg-[#141414] border-t-2 border-white' 
+                  : 'text-[#888888] hover:text-white border-t-2 border-transparent'
               }`
             }
           >
-            <link.icon className="w-5 h-5 mb-1" />
-            <span className="text-[10px] font-sans font-medium uppercase tracking-wider">{link.label}</span>
+            <link.icon className="w-4 h-4 mb-1" />
+            <span className="text-[10px] font-sans font-medium uppercase tracking-[0.14em]">{link.label}</span>
           </NavLink>
         ))}
       </div>

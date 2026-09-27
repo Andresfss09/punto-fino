@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -15,17 +13,17 @@
   }
 
   body {
-    @apply bg-[#0e1311] text-[#ffffff] font-sans antialiased;
+    @apply bg-[#000000] text-[#ffffff] font-sans antialiased;
     min-height: 100vh;
   }
 
-  /* Entradas y controles de formulario con fondo oscuro uniforme */
+  /* Entradas y controles de formulario estilo Geistlab */
   input, textarea, select {
-    @apply text-white bg-[#141a17];
+    @apply text-white bg-[#0d0d0d] border border-[#222222] focus:border-white/40 focus:outline-none transition-all;
     color-scheme: dark;
   }
 
-  /* Evitar que el autofill del navegador rompa el fondo oscuro */
+  /* Evitar autofill blanco */
   input:-webkit-autofill,
   input:-webkit-autofill:hover, 
   input:-webkit-autofill:focus,
@@ -36,151 +34,124 @@
   select:-webkit-autofill:hover,
   select:-webkit-autofill:focus {
     -webkit-text-fill-color: #ffffff !important;
-    -webkit-box-shadow: 0 0 0px 1000px #141a17 inset !important;
+    -webkit-box-shadow: 0 0 0px 1000px #0d0d0d inset !important;
     transition: background-color 5000s ease-in-out 0s;
   }
 
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #0e1311;
+    background: #000000;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #2a312d;
-    border-radius: 9999px;
+    background: #262626;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #cfa53b;
+    background: #404040;
   }
 }
 
 @layer components {
   /* ======================================================== */
-  /* EDITORIAL LUXURY DESIGN SYSTEM (ASSEMBLY STYLE)           */
+  /* FERRARI & GEISTLAB ARCHITECTURAL DESIGN SYSTEM           */
   /* ======================================================== */
 
-  .font-editorial {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-style: italic;
+  /* Ferrari Uppercase Tracked Displays */
+  .display-hero {
+    @apply font-sans uppercase font-medium tracking-[0.25em] text-white;
   }
 
-  .font-serif-italic {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-style: italic;
+  .eyebrow {
+    @apply font-sans uppercase font-normal tracking-[0.22em] text-[11px] text-[#888888];
   }
 
-  /* Price Pill Signature (Linen #f6f7f2 background, 60px radius) */
-  .price-pill {
-    @apply bg-[#f6f7f2] text-[#0e1311] font-sans text-xs font-semibold px-4 py-1.5 rounded-full inline-flex items-center tracking-tight shadow-sm;
+  .label-nav {
+    @apply font-sans uppercase font-normal tracking-[0.2em] text-xs text-[#ffffff];
   }
 
-  .price-pill-dark {
-    @apply bg-[#1a1f1d] text-gold-400 border border-[#2d3632] font-sans text-xs font-semibold px-4 py-1.5 rounded-full inline-flex items-center tracking-tight;
+  .label-cta {
+    @apply font-sans uppercase font-medium tracking-[0.18em] text-xs;
   }
 
-  /* Tag Badge Editorial (4px radius, uppercase 11px Inter) */
-  .editorial-tag {
-    @apply px-2.5 py-1 text-[11px] font-sans font-medium uppercase tracking-wider rounded-[4px] border inline-flex items-center gap-1.5;
-  }
-
-  /* Card base con bordes finos hairline (1px) y canvas obsidian */
-  .editorial-card {
-    @apply bg-[#121815] border border-[#222a26] hover:border-[#38443e] rounded-[4px] transition-all duration-300;
-  }
-
-  .card {
-    @apply bg-[#121815] border border-[#222a26] rounded-[4px] overflow-hidden;
+  /* Cards with Geistlab Shadow-as-Border philosophy */
+  .card-dark {
+    @apply bg-[#0d0d0d] border border-[#1e1e1e] rounded-none transition-all duration-200;
   }
 
   .card-hover {
-    @apply bg-[#121815] border border-[#222a26] hover:border-[#cfa53b]/50 rounded-[4px] transition-all duration-300;
+    @apply bg-[#0d0d0d] border border-[#1e1e1e] hover:border-[#383838] rounded-none transition-all duration-200;
   }
 
-  /* Botones primarios y secundarios de estilo editorial */
+  /* Ferrari / Geistlab Button Recipes */
+  .btn-ferrari-primary {
+    @apply bg-white hover:bg-[#e5e5e5] text-black font-sans font-medium uppercase tracking-[0.18em] text-xs px-6 py-3 rounded-none inline-flex items-center justify-center gap-3 transition-all cursor-pointer shadow-sm active:scale-[0.99];
+  }
+
+  .btn-ferrari-gold {
+    @apply bg-[#cfa53b] hover:bg-[#dfb54b] text-black font-sans font-semibold uppercase tracking-[0.18em] text-xs px-6 py-3 rounded-none inline-flex items-center justify-center gap-3 transition-all cursor-pointer shadow-sm active:scale-[0.99];
+  }
+
+  .btn-ferrari-outline {
+    @apply bg-transparent hover:bg-white/5 text-white border border-white/20 hover:border-white font-sans font-medium uppercase tracking-[0.18em] text-xs px-6 py-3 rounded-none inline-flex items-center justify-center gap-3 transition-all cursor-pointer active:scale-[0.99];
+  }
+
+  /* Circle Arrow Icon Button Companion (Ferrari Signature) */
+  .btn-circle-arrow {
+    @apply w-9 h-9 rounded-full border border-white/30 hover:border-white text-white bg-transparent flex items-center justify-center transition-all shrink-0 cursor-pointer;
+  }
+
+  /* Legacy utility classes mapping cleanly to Ferrari / Geistlab */
+  .editorial-tag {
+    @apply px-2.5 py-1 text-[10px] font-sans font-medium uppercase tracking-[0.18em] rounded-none border border-[#262626] bg-[#0d0d0d] text-[#ffffff] inline-flex items-center gap-1.5;
+  }
+
+  .editorial-card {
+    @apply bg-[#0d0d0d] border border-[#1e1e1e] hover:border-[#2e2e2e] rounded-none transition-all duration-200;
+  }
+
+  .card {
+    @apply bg-[#0d0d0d] border border-[#1e1e1e] rounded-none overflow-hidden;
+  }
+
   .btn-primary {
-    @apply bg-[#cfa53b] hover:bg-[#dfb54b] text-[#0e1311] font-sans font-semibold px-6 py-3 rounded-[4px]
-           transition-all duration-300 shadow-sm active:scale-[0.98] cursor-pointer inline-flex items-center justify-center gap-2;
+    @apply bg-white hover:bg-[#e5e5e5] text-black font-sans font-medium uppercase tracking-[0.18em] text-xs px-5 py-2.5 rounded-none transition-all cursor-pointer inline-flex items-center justify-center gap-2;
   }
 
   .btn-secondary {
-    @apply border border-[#333d38] hover:border-[#cfa53b] text-[#ffffff] hover:text-[#cfa53b] font-sans font-medium px-6 py-3 rounded-[4px]
-           bg-[#121815] hover:bg-[#18201c] transition-all duration-300 active:scale-[0.98] cursor-pointer inline-flex items-center justify-center gap-2;
+    @apply bg-transparent hover:bg-white/5 text-white border border-[#2e2e2e] hover:border-white/50 font-sans font-medium uppercase tracking-[0.18em] text-xs px-5 py-2.5 rounded-none transition-all cursor-pointer inline-flex items-center justify-center gap-2;
   }
 
   .btn-ghost {
-    @apply text-[#b3b3b3] hover:text-white font-sans font-medium px-4 py-2 rounded-[4px]
-           hover:bg-white/5 transition-all duration-200 cursor-pointer;
+    @apply text-[#888888] hover:text-white font-sans font-medium uppercase tracking-[0.18em] text-xs px-3 py-1.5 rounded-none transition-all cursor-pointer;
   }
 
-  /* Enlaces tipográficos en Serif Itálico (Signature action move) */
-  .editorial-link {
-    @apply font-serif italic text-white hover:text-gold-400 transition-colors underline-offset-4 hover:underline cursor-pointer;
+  .price-pill {
+    @apply bg-white text-black font-mono font-medium text-xs px-3.5 py-1.5 rounded-none inline-flex items-center tracking-tight;
   }
 
-  /* Adaptación de clases Brutal anteriores a la nueva estética refinada */
   .brutal-card {
-    @apply bg-[#121815] border border-[#242d28] rounded-[4px] transition-all;
-  }
-
-  .brutal-card-gold {
-    @apply bg-[#121815] border border-[#cfa53b]/50 rounded-[4px] transition-all;
-  }
-
-  .brutal-btn {
-    @apply transition-all duration-200 active:scale-[0.98] cursor-pointer rounded-[4px];
+    @apply bg-[#0d0d0d] border border-[#1e1e1e] rounded-none transition-all;
   }
 
   .brutal-btn-primary {
-    @apply bg-[#cfa53b] hover:bg-[#dfb54b] text-[#0e1311] font-semibold uppercase tracking-wider text-xs px-5 py-3 rounded-[4px] border border-[#cfa53b] transition-all cursor-pointer inline-flex items-center justify-center;
+    @apply bg-[#cfa53b] hover:bg-[#dfb54b] text-black font-medium uppercase tracking-[0.18em] text-xs px-5 py-2.5 rounded-none transition-all cursor-pointer inline-flex items-center justify-center gap-2;
   }
 
   .brutal-btn-outline {
-    @apply bg-[#121815] hover:bg-[#18201c] text-[#ffffff] hover:text-[#cfa53b] border border-[#2b3530] hover:border-[#cfa53b] font-medium uppercase tracking-wider text-xs px-5 py-3 rounded-[4px] transition-all cursor-pointer inline-flex items-center justify-center;
-  }
-
-  .brutal-input {
-    @apply bg-[#101513] border border-[#26302a] focus:border-[#cfa53b] text-white px-4 py-3 rounded-[4px] focus:outline-none transition-all placeholder:text-[#808080];
-  }
-
-  .brutal-badge {
-    @apply border border-[#2c3630] font-sans text-[11px] uppercase tracking-wider px-2.5 py-1 rounded-[4px] text-[#b3b3b3] bg-[#121815];
-  }
-
-  .brutal-divider {
-    @apply border-t border-[#1e2622];
+    @apply bg-[#0d0d0d] hover:bg-[#141414] text-white border border-[#262626] hover:border-white font-medium uppercase tracking-[0.18em] text-xs px-5 py-2.5 rounded-none transition-all cursor-pointer inline-flex items-center justify-center gap-2;
   }
 
   .input-field {
-    @apply w-full bg-[#101513] border border-[#26302a] rounded-[4px] px-4 py-3 text-white text-sm
-           placeholder:text-[#808080] focus:outline-none focus:border-[#cfa53b]
-           transition-all duration-200;
+    @apply w-full bg-[#0d0d0d] border border-[#222222] rounded-none px-3.5 py-2.5 text-white text-xs
+           placeholder:text-[#666666] focus:outline-none focus:border-white/50
+           transition-all duration-150;
   }
 
   .label {
-    @apply block text-xs uppercase tracking-wider font-sans font-medium text-[#b3b3b3] mb-1.5;
-  }
-
-  .section-title {
-    @apply font-serif italic text-3xl md:text-5xl text-white font-normal;
-  }
-
-  .gold-text {
-    @apply text-transparent bg-clip-text bg-gradient-to-r from-[#e5c158] to-[#cfa53b];
-  }
-
-  .gold-border {
-    @apply border border-[#cfa53b]/40;
-  }
-
-  .font-display {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-  }
-
-  .font-mono-price {
-    font-family: 'JetBrains Mono', monospace;
+    @apply block text-[11px] uppercase tracking-[0.18em] font-sans font-medium text-[#888888] mb-1.5;
   }
 }

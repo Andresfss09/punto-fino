@@ -1,47 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, ArrowRight, Play, Pause, Sparkles } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight, Play, Pause } from 'lucide-react';
 import AnimatedCounter from '../ui/AnimatedCounter';
 
 const SLIDES = [
   {
     id: 1,
-    tag: 'RITUAL DE BARBA & VAPOR OZONO — PUNTO FINO · CALI',
+    eyebrow: 'RITUAL DE BARBA & VAPOR OZONO',
     titleLine1: 'PURIFICACIÓN &',
     titleLine2: 'RASURADO CLÁSICO',
     desc: 'Apertura de poros mediante vapor ozonizado, bálsamos botánicos esenciales y perfilado geométrico con técnica tradicional a navaja.',
     buttonText: 'AGENDAR BARBA',
-    serviceTarget: 'Ritual de Barba',
     image: 'https://s3.weibook.co/punto_fino/services/0f55ddbc-1dd2-4eb0-8978-3a50b53fffbc.webp',
   },
   {
     id: 2,
-    tag: 'CORTE DE AUTOR & VISAGISMO — PUNTO FINO · CALI',
+    eyebrow: 'CORTE DE AUTOR & VISAGISMO',
     titleLine1: 'EXPERIENCIA',
     titleLine2: 'PUNTO FINO + BARBA',
-    desc: 'La combinación perfecta: corte milimétrico adaptado a tu morfología craneal, lavado capilar revitalizante y ritual completo de barba con toallas calientes.',
+    desc: 'Corte milimétrico adaptado a tu morfología craneal, lavado capilar revitalizante y ritual completo de barba con toallas calientes.',
     buttonText: 'AGENDAR EXPERIENCIA',
-    serviceTarget: 'Experiencia Punto Fino + Ritual de Barba',
     image: 'https://s3.weibook.co/punto_fino/services/241a43d5-f365-4a78-a32d-9e4ffaffb801.webp',
   },
   {
     id: 3,
-    tag: 'RITUAL SUPREMO VIP — PUNTO FINO · CALI',
+    eyebrow: 'RITUAL SUPREMO VIP',
     titleLine1: 'EXPERIENCIA PLATINIUM',
     titleLine2: 'GOL DE ORO',
-    desc: 'Corte, visagismo, exfoliación dérmica, vapor ozono dual, velo hidratante, mascarilla desintoxicante de puntos negros y masaje craneofacial.',
+    desc: 'Corte, visagismo, exfoliación dérmica, vapor ozono dual, velo hidratante, mascarilla desintoxicante y masaje craneofacial.',
     buttonText: 'AGENDAR PLATINIUM',
-    serviceTarget: 'Experiencia Platinium / Gol de Oro',
     image: 'https://s3.weibook.co/punto_fino/services/f7e3bb87-4e93-4eed-8340-1a01e6fa0ff3.webp',
   },
   {
     id: 4,
-    tag: 'SERVICIO INSIGNIA — PUNTO FINO · CALI',
+    eyebrow: 'SERVICIO INSIGNIA',
     titleLine1: 'CORTE DE PRECISIÓN &',
     titleLine2: 'PERFILADO DE CEJAS',
-    desc: 'Visagismo según morfología craneal, corte milimétrico de precisión, perfilado de cejas que enmarca tu rostro y peinado con producto profesional.',
+    desc: 'Visagismo craneal, corte milimétrico de precisión, perfilado de cejas que enmarca tu rostro y peinado con producto profesional.',
     buttonText: 'AGENDAR CORTE',
-    serviceTarget: 'Experiencia Punto Fino (Corte + Cejas)',
     image: 'https://s3.weibook.co/punto_fino/services/d9eb3738-2f6d-47bf-a98a-16135933c3f4.webp',
   },
 ];
@@ -69,14 +65,14 @@ export default function HeroSection() {
   const active = SLIDES[currentSlide];
 
   return (
-    <div className="w-full bg-[#0e1311] text-white pt-24 sm:pt-28">
-      {/* Cinematic Hero Slider Viewport */}
-      <div className="relative w-full h-[620px] sm:h-[680px] lg:h-[720px] overflow-hidden bg-[#0a0e0c] select-none border-b border-[#1f2723]">
+    <div className="w-full bg-[#000000] text-white pt-24">
+      {/* Full-Bleed Cinematic Hero Viewport (Ferrari Spec: 100vw, Photography is the container) */}
+      <div className="relative w-full h-[620px] sm:h-[680px] lg:h-[720px] overflow-hidden bg-black select-none border-b border-[#1e1e1e]">
         {/* Background Slide Image with Transitions */}
         <AnimatePresence mode="wait">
           <motion.div
             key={active.id}
-            initial={{ opacity: 0, scale: 1.05 }}
+            initial={{ opacity: 0, scale: 1.04 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.9, ease: 'easeOut' }}
@@ -85,11 +81,11 @@ export default function HeroSection() {
             <img
               src={active.image}
               alt={active.titleLine1}
-              className="w-full h-full object-cover object-center filter brightness-[0.75] contrast-[1.08]"
+              className="w-full h-full object-cover object-center filter brightness-[0.72] contrast-[1.1]"
             />
-            {/* Cinematic Gradient Overlays for Ultimate Text Legibility */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0e1311] via-[#0e1311]/70 to-transparent sm:w-4/5 lg:w-3/5" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0e1311] via-[#0e1311]/30 to-black/40" />
+            {/* Scrim Gradient Overlays */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/75 to-transparent sm:w-4/5 lg:w-3/5" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black/30" />
           </motion.div>
         </AnimatePresence>
 
@@ -98,40 +94,42 @@ export default function HeroSection() {
           <AnimatePresence mode="wait">
             <motion.div
               key={active.id}
-              initial={{ opacity: 0, y: 25 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
               className="max-w-2xl sm:max-w-3xl"
             >
-              {/* Category / Subtitle Tag */}
-              <div className="flex items-center gap-2 mb-4">
-                <span className="font-sans text-[11px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-gold-400">
-                  {active.tag}
+              {/* Category Eyebrow: 12px, weight 400, letterSpacing: 3px */}
+              <div className="mb-4">
+                <span className="font-sans text-[11px] sm:text-xs font-normal uppercase tracking-[0.28em] text-[#888888] block">
+                  {active.eyebrow} — PUNTO FINO · CALI
                 </span>
               </div>
 
-              {/* Main Headline */}
-              <h1 className="font-serif uppercase italic text-4xl sm:text-6xl lg:text-7xl font-normal tracking-tight text-white leading-[1.05] mb-5">
+              {/* Main Headline: Uppercase, weight 500, letterSpacing: 3px - 4px */}
+              <h1 className="font-sans uppercase text-3xl sm:text-5xl lg:text-6xl font-medium tracking-[0.16em] text-white leading-[1.1] mb-5">
                 <span>{active.titleLine1}</span>
                 <br />
                 <span className="text-white/95">{active.titleLine2}</span>
               </h1>
 
-              {/* Description Body */}
-              <p className="font-sans text-xs sm:text-sm lg:text-base text-[#dfdbca] max-w-xl mb-8 leading-relaxed">
+              {/* Description Body: 14px, weight 400, leading 20px */}
+              <p className="font-sans text-xs sm:text-sm text-[#cccccc] max-w-lg mb-8 leading-relaxed">
                 {active.desc}
               </p>
 
-              {/* Direct Booking Call to Action */}
+              {/* Ferrari CTA Recipe: Spaced Text Label + Circle Arrow Button */}
               <div className="flex items-center gap-4">
                 <a
                   href="#reservar"
-                  className="inline-flex items-center gap-2.5 bg-gold-400 hover:bg-gold-300 text-[#0e1311] font-sans font-semibold text-xs uppercase tracking-wider px-6 py-3.5 rounded-[4px] shadow-lg transition-all transform hover:scale-[1.02] cursor-pointer"
+                  className="group inline-flex items-center gap-3.5 bg-transparent text-white hover:text-white/80 transition-all cursor-pointer"
                 >
-                  <span>{active.buttonText}</span>
-                  <div className="w-5 h-5 rounded-full border border-[#0e1311]/40 flex items-center justify-center">
-                    <ArrowRight size={12} strokeWidth={2.5} />
+                  <span className="font-sans font-medium uppercase tracking-[0.22em] text-xs">
+                    {active.buttonText}
+                  </span>
+                  <div className="w-9 h-9 rounded-full border border-white/40 group-hover:border-white bg-transparent flex items-center justify-center transition-all group-hover:scale-105">
+                    <ArrowRight size={14} className="text-white" />
                   </div>
                 </a>
               </div>
@@ -139,97 +137,105 @@ export default function HeroSection() {
           </AnimatePresence>
         </div>
 
-        {/* Navigation Arrows (Left & Right) */}
+        {/* Carousel Indicators (Ferrari Spec: Red Ring for active, Solid Dots for inactive, Circle Pause) */}
+        <div className="absolute bottom-7 left-1/2 -translate-x-1/2 z-20 flex items-center gap-4">
+          <div className="flex items-center gap-2.5">
+            {SLIDES.map((s, idx) => {
+              const isActive = currentSlide === idx;
+              return (
+                <button
+                  key={s.id}
+                  onClick={() => setCurrentSlide(idx)}
+                  className="cursor-pointer flex items-center justify-center transition-all"
+                  aria-label={`Ir al corte ${idx + 1}`}
+                >
+                  {isActive ? (
+                    <div className="w-3.5 h-3.5 rounded-full border border-[#da291c] flex items-center justify-center">
+                      <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                    </div>
+                  ) : (
+                    <div className="w-2 h-2 rounded-full bg-white/50 hover:bg-white" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="w-px h-3 bg-white/20" />
+
+          {/* Circular Pause Button */}
+          <button
+            onClick={() => setIsPlaying(!isPlaying)}
+            className="w-8 h-8 rounded-full border border-white/30 hover:border-white text-white flex items-center justify-center transition-all cursor-pointer bg-transparent"
+            title={isPlaying ? 'Pausar slider' : 'Reproducir slider'}
+          >
+            {isPlaying ? <Pause size={10} /> : <Play size={10} />}
+          </button>
+        </div>
+
+        {/* Left / Right Nav Arrows (Circle Minimal) */}
         <button
           onClick={prevSlide}
           aria-label="Corte anterior"
-          className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#121815]/70 hover:bg-[#161d19] border border-[#26302a] hover:border-gold-400/60 text-white hover:text-gold-400 flex items-center justify-center transition-all backdrop-blur-sm cursor-pointer"
+          className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full border border-white/20 hover:border-white text-white flex items-center justify-center transition-all backdrop-blur-sm cursor-pointer bg-black/30 hover:bg-black/60"
         >
-          <ChevronLeft size={20} />
+          <ChevronLeft size={18} />
         </button>
 
         <button
           onClick={nextSlide}
           aria-label="Siguiente corte"
-          className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#121815]/70 hover:bg-[#161d19] border border-[#26302a] hover:border-gold-400/60 text-white hover:text-gold-400 flex items-center justify-center transition-all backdrop-blur-sm cursor-pointer"
+          className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full border border-white/20 hover:border-white text-white flex items-center justify-center transition-all backdrop-blur-sm cursor-pointer bg-black/30 hover:bg-black/60"
         >
-          <ChevronRight size={20} />
+          <ChevronRight size={18} />
         </button>
-
-        {/* Bottom Pagination Dots & Play/Pause (Matching Reference Image) */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-4 bg-[#121815]/70 border border-[#222a26] px-4 py-1.5 rounded-full backdrop-blur-md">
-          <div className="flex items-center gap-2">
-            {SLIDES.map((s, idx) => (
-              <button
-                key={s.id}
-                onClick={() => setCurrentSlide(idx)}
-                className={`transition-all rounded-full cursor-pointer ${
-                  currentSlide === idx
-                    ? 'w-6 h-2 bg-gold-400 border border-gold-400'
-                    : 'w-2 h-2 bg-white/40 hover:bg-white/80'
-                }`}
-                aria-label={`Ir al corte ${idx + 1}`}
-              />
-            ))}
-          </div>
-
-          <div className="w-px h-3.5 bg-[#2b3530]" />
-
-          <button
-            onClick={() => setIsPlaying(!isPlaying)}
-            className="text-[#8e9b94] hover:text-gold-400 transition-colors cursor-pointer"
-            title={isPlaying ? 'Pausar slider' : 'Reproducir slider'}
-          >
-            {isPlaying ? <Pause size={12} /> : <Play size={12} />}
-          </button>
-        </div>
       </div>
 
-      {/* Elegant Editorial Stats Strip */}
-      <section className="bg-[#121815] border-b border-[#1f2723] py-6 sm:py-7">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 grid grid-cols-3 gap-6 text-center divide-x divide-[#1f2723]">
+      {/* Geistlab Precision Stats Band */}
+      <section className="bg-[#0a0a0a] border-b border-[#1e1e1e] py-6 sm:py-8">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 grid grid-cols-3 gap-4 text-center divide-x divide-[#1e1e1e]">
           <div>
-            <div className="font-serif italic text-2xl sm:text-3xl text-white font-normal">
+            <div className="font-mono text-2xl sm:text-3xl text-white font-medium">
               <AnimatedCounter value={7} />+
             </div>
-            <div className="font-sans text-[10px] sm:text-xs uppercase tracking-wider text-[#8e9b94] mt-1">
+            <div className="font-sans text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#888888] mt-1 font-normal">
               Años de Maestría
             </div>
           </div>
           <div>
-            <div className="font-serif italic text-2xl sm:text-3xl text-white font-normal">
+            <div className="font-mono text-2xl sm:text-3xl text-white font-medium">
               <AnimatedCounter value={2500} />+
             </div>
-            <div className="font-sans text-[10px] sm:text-xs uppercase tracking-wider text-[#8e9b94] mt-1">
+            <div className="font-sans text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#888888] mt-1 font-normal">
               Servicios de Autor
             </div>
           </div>
           <div>
-            <div className="font-serif italic text-2xl sm:text-3xl text-gold-400 font-normal">
+            <div className="font-mono text-2xl sm:text-3xl text-white font-medium">
               <AnimatedCounter value={4.9} />
             </div>
-            <div className="font-sans text-[10px] sm:text-xs uppercase tracking-wider text-[#8e9b94] mt-1">
+            <div className="font-sans text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#888888] mt-1 font-normal">
               Calificación Promedio
             </div>
           </div>
         </div>
       </section>
 
-      {/* Editorial Manifesto Block */}
-      <section className="border-b border-[#1f2723] bg-[#0c100e] py-16 sm:py-24">
+      {/* Ferrari Section Band Dark — Manifesto */}
+      <section className="border-b border-[#1e1e1e] bg-[#000000] py-20 sm:py-28">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <span className="editorial-tag bg-[#161d19] border-[#2b3630] text-gold-400 mb-5">
-            Manifiesto Punto Fino
+          <span className="font-sans text-[11px] uppercase tracking-[0.28em] text-[#888888] block mb-6">
+            MANIFIESTO PUNTO FINO
           </span>
-          <blockquote className="font-serif italic text-xl sm:text-3xl lg:text-[34px] text-white font-normal leading-[1.35] text-balance">
+          <blockquote className="font-sans uppercase text-lg sm:text-2xl lg:text-3xl text-white font-medium tracking-[0.14em] leading-[1.5] text-balance">
             “Entendemos el corte de cabello como un ejercicio de visagismo y arquitectura. No perseguimos modas efímeras; esculpimos la presencia, la proporción y el carácter de cada hombre con técnica milimétrica y atención absoluta.”
           </blockquote>
-          <div className="mt-7 flex items-center justify-center gap-3">
-            <span className="w-8 h-px bg-gold-400/40"></span>
-            <span className="font-sans text-xs uppercase tracking-[0.25em] text-[#b3b3b3]">
+          <div className="mt-8 flex items-center justify-center gap-3">
+            <span className="w-8 h-px bg-[#333333]"></span>
+            <span className="font-sans text-[11px] uppercase tracking-[0.22em] text-[#888888]">
               Juan David · Master Barber & Asesor de Imagen
             </span>
-            <span className="w-8 h-px bg-gold-400/40"></span>
+            <span className="w-8 h-px bg-[#333333]"></span>
           </div>
         </div>
       </section>

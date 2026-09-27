@@ -28,24 +28,24 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' })
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-[#0e1311]/80 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
             onClick={onClose}
           />
           <motion.div
-            initial={{ opacity: 0, scale: 0.98, y: 10 }}
+            initial={{ opacity: 0, scale: 0.98, y: 8 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.98, y: 10 }}
-            transition={{ type: 'spring', damping: 25 }}
-            className={`relative w-full ${sizes[size]} bg-[#121815] border border-[#2b3530] rounded-[4px] shadow-2xl overflow-hidden`}
+            exit={{ opacity: 0, scale: 0.98, y: 8 }}
+            transition={{ duration: 0.2 }}
+            className={`relative w-full ${sizes[size]} bg-[#0a0a0a] border border-[#222222] rounded-none shadow-2xl overflow-hidden`}
           >
             {title && (
-              <div className="flex items-center justify-between px-6 py-4 border-b border-[#1f2723] bg-[#0e1311]/50">
-                <h2 className="font-serif italic text-xl text-white font-normal">{title}</h2>
+              <div className="flex items-center justify-between px-6 py-4 border-b border-[#1e1e1e] bg-[#0e0e0e]">
+                <h2 className="font-sans font-medium uppercase tracking-[0.16em] text-xs sm:text-sm text-white">{title}</h2>
                 <button
                   onClick={onClose}
-                  className="p-1.5 text-[#b3b3b3] hover:text-white hover:bg-white/5 rounded-[4px] transition-all cursor-pointer"
+                  className="p-1.5 text-[#888888] hover:text-white hover:bg-white/5 rounded-none border border-transparent hover:border-[#222222] transition-all cursor-pointer"
                 >
-                  <X size={18} />
+                  <X size={16} />
                 </button>
               </div>
             )}

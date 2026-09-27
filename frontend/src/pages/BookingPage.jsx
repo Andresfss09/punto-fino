@@ -27,17 +27,17 @@ export default function BookingPage() {
   return (
     <PageTransition>
       <Navbar />
-      <div className="min-h-screen bg-[#0e1311] text-white pt-28 pb-32 sm:pb-24">
+      <div className="min-h-screen bg-[#000000] text-white pt-28 pb-32 sm:pb-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="mb-12 text-center">
-            <span className="editorial-tag bg-[#161d19] border-[#2b3630] text-gold-400 mb-3">
+            <span className="px-2.5 py-0.5 border border-[#222222] bg-[#141414] text-[11px] font-sans font-medium uppercase tracking-[0.2em] text-[#888888] inline-block mb-4">
               Punto Fino · Barbería de Autor · Cali
             </span>
-            <h1 className="font-serif italic text-4xl sm:text-6xl text-white font-normal mb-3 leading-tight">
-              Agenda tu Cita de Autor
+            <h1 className="font-sans font-medium uppercase tracking-[0.2em] text-3xl sm:text-4xl text-white mb-3">
+              Agenda tu Cita
             </h1>
-            <p className="text-[#b3b3b3] font-sans text-xs sm:text-sm max-w-lg mx-auto leading-relaxed">
-              Elige tu corte o experiencia, tu maestro barbero y el horario de tu preferencia. Sin necesidad de crear cuenta previa.
+            <p className="text-[#888888] font-sans text-xs sm:text-sm max-w-lg mx-auto leading-relaxed">
+              Elige tu corte o experiencia, tu barbero y el horario de tu preferencia. Sin necesidad de crear cuenta previa.
             </p>
           </div>
 

@@ -17,9 +17,6 @@ import {
   TrendingUp, 
   Scissors, 
   AlertCircle,
-  ExternalLink,
-  ChevronRight,
-  Download,
   FileSpreadsheet
 } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -126,131 +123,122 @@ export default function BarberDashboard() {
 
   // Fetch Range Report
   const fetchRangeReport = useCallback(async (start, end) => {
-    if (!start || !end) {
-      toast.error('Selecciona una fecha de inicio y una fecha de fin');
-      return;
-    }
-    if (new Date(start) > new Date(end)) {
-      toast.error('La fecha inicial no puede ser posterior a la fecha final');
-      return;
-    }
-
     try {
       setLoadingRange(true);
-      const res = await barberService.getMyStats({ startDate: start, endDate: end });
+      const res = await barberService.getRangeReport({ startDate: start, endDate: end });
       const data = res.data || res;
-      if (data.rangeStats) {
-        setRangeStats(data.rangeStats);
-      }
+      setRangeStats({
+        totalCuts: data.totalCuts || 0,
+        totalRevenue: data.totalRevenue || 0,
+        totalAppointments: data.totalAppointments || 0,
+        uniqueClients: data.uniqueClients || 0,
+        appointments: data.appointments || [],
+      });
     } catch (error) {
       console.error('Error cargando reporte de rango:', error);
-      toast.error('Error al consultar estadísticas del rango');
+      toast.error('Error al consultar el rango seleccionado');
     } finally {
       setLoadingRange(false);
     }
   }, []);
 
-  // Initial load
   useEffect(() => {
     fetchStats();
     fetchAgenda(selectedDate);
-    fetchRangeReport(rangeStartDate, rangeEndDate);
-  }, []);
+  }, [fetchStats, fetchAgenda, selectedDate]);
 
-  // Reload agenda on date change
-  const handleDateChange = (newDate) => {
-    setSelectedDate(newDate);
-    fetchAgenda(newDate);
+  useEffect(() => {
+    if (activeTab === 'reporte') {
+      fetchRangeReport(rangeStartDate, rangeEndDate);
+    }
+  }, [activeTab, fetchRangeReport, rangeStartDate, rangeEndDate]);
+
+  // Handle Date changes in Agenda tab
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    fetchAgenda(date);
   };
 
-  // Status updates (Iniciar / Completar)
-  const handleUpdateStatus = async (appointmentId, newStatus) => {
+  // Quick range preset triggers
+  const setRangePreset = (type) => {
+    const today = new Date();
+    const end = today.toISOString().split('T')[0];
+    let start = end;
+
+    if (type === 'today') {
+      start = end;
+    } else if (type === 'week') {
+      const d = new Date();
+      const day = d.getDay();
+      const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+      d.setDate(diff);
+      start = d.toISOString().split('T')[0];
+    } else if (type === 'month') {
+      const d = new Date(today.getFullYear(), today.getMonth(), 1);
+      start = d.toISOString().split('T')[0];
+    } else if (type === 'last30') {
+      const d = new Date();
+      d.setDate(d.getDate() - 30);
+      start = d.toISOString().split('T')[0];
+    }
+
+    setRangeStartDate(start);
+    setRangeEndDate(end);
+    fetchRangeReport(start, end);
+  };
+
+  // Update appointment status handler
+  const handleUpdateStatus = async (id, newStatus) => {
     try {
-      setActionLoadingId(appointmentId);
-      await appointmentService.updateStatus(appointmentId, newStatus);
+      setActionLoadingId(id);
+      await appointmentService.updateStatus(id, newStatus);
       toast.success(
         newStatus === 'en_progreso'
-          ? 'Corte iniciado correctamente ✂️'
-          : '¡Corte completado con éxito! 🎉'
+          ? 'Corte iniciado'
+          : newStatus === 'completada'
+          ? 'Corte completado con éxito'
+          : `Estado actualizado a ${newStatus}`
       );
-      // Refresh agenda and KPIs
       fetchAgenda(selectedDate);
       fetchStats();
-      if (activeTab === 'reporte') {
-        fetchRangeReport(rangeStartDate, rangeEndDate);
-      }
+      if (activeTab === 'reporte') fetchRangeReport(rangeStartDate, rangeEndDate);
     } catch (error) {
       console.error('Error al actualizar estado:', error);
-      toast.error(error.response?.data?.message || 'Error al actualizar el estado de la cita');
+      toast.error(error.response?.data?.message || 'Error al actualizar estado de la cita');
     } finally {
       setActionLoadingId(null);
     }
   };
 
-  // Open Cancel Modal
-  const openCancelModal = (appointment) => {
-    setSelectedAppointmentToCancel(appointment);
+  // Cancel flow
+  const openCancelModal = (apt) => {
+    setSelectedAppointmentToCancel(apt);
     setCancelReason('');
     setCancelModalOpen(true);
   };
 
-  // Confirm Cancel
   const handleConfirmCancel = async () => {
     if (!selectedAppointmentToCancel) return;
     try {
       setActionLoadingId(selectedAppointmentToCancel._id);
-      await appointmentService.cancel(selectedAppointmentToCancel._id, cancelReason);
+      await appointmentService.updateStatus(selectedAppointmentToCancel._id, 'cancelada', cancelReason);
       toast.success('Cita cancelada correctamente');
       setCancelModalOpen(false);
-      setSelectedAppointmentToCancel(null);
       fetchAgenda(selectedDate);
       fetchStats();
     } catch (error) {
-      console.error('Error cancelando cita:', error);
-      toast.error(error.response?.data?.message || 'Error al cancelar la cita');
+      console.error('Error al cancelar cita:', error);
+      toast.error('Error al cancelar la cita');
     } finally {
       setActionLoadingId(null);
+      setSelectedAppointmentToCancel(null);
     }
   };
 
-  // Preset Date Range selector
-  const setRangePreset = (preset) => {
-    const today = new Date();
-    const todayISO = today.toISOString().split('T')[0];
-
-    if (preset === 'today') {
-      setRangeStartDate(todayISO);
-      setRangeEndDate(todayISO);
-      fetchRangeReport(todayISO, todayISO);
-    } else if (preset === 'week') {
-      const day = today.getDay();
-      const diffToMonday = day === 0 ? -6 : 1 - day;
-      const monday = new Date(today);
-      monday.setDate(today.getDate() + diffToMonday);
-      const startISO = monday.toISOString().split('T')[0];
-      setRangeStartDate(startISO);
-      setRangeEndDate(todayISO);
-      fetchRangeReport(startISO, todayISO);
-    } else if (preset === 'month') {
-      const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
-      const startISO = firstDay.toISOString().split('T')[0];
-      setRangeStartDate(startISO);
-      setRangeEndDate(todayISO);
-      fetchRangeReport(startISO, todayISO);
-    } else if (preset === 'last30') {
-      const past30 = new Date(today);
-      past30.setDate(today.getDate() - 30);
-      const startISO = past30.toISOString().split('T')[0];
-      setRangeStartDate(startISO);
-      setRangeEndDate(todayISO);
-      fetchRangeReport(startISO, todayISO);
-    }
-  };
-
-  // Export Range Report to CSV/Excel
+  // CSV Export for Range tab
   const handleExportExcel = () => {
     if (!rangeStats.appointments || rangeStats.appointments.length === 0) {
-      toast.error('No hay registros en el rango seleccionado para exportar.');
+      toast.error('No hay datos de citas para exportar en este rango');
       return;
     }
 
@@ -259,42 +247,34 @@ export default function BarberDashboard() {
         'Fecha',
         'Hora Inicio',
         'Hora Fin',
-        'Cliente Peluqueado',
-        'Teléfono',
-        'Email',
-        'Servicios Realizados',
-        'Método de Pago',
-        'Estado',
+        'Cliente',
+        'Telefono',
+        'Servicios',
+        'Metodo de Pago',
         'Total Cobrado (COP)',
       ];
 
       const rows = rangeStats.appointments.map((apt) => {
         const client = apt.client || {};
-        const dateStr = apt.date
-          ? new Date(apt.date).toLocaleDateString('es-CO')
-          : '';
-        const servicesStr = apt.services?.map((s) => s.service?.name || 'Servicio').join(' + ') || '';
+        const dateFormatted = apt.date ? new Date(apt.date).toLocaleDateString('es-CO') : 'N/A';
+        const serviceNames = (apt.services || []).map((s) => s.service?.name || 'Servicio').join(' + ');
 
         return [
-          `"${dateStr}"`,
+          `"${dateFormatted}"`,
           `"${apt.startTime || ''}"`,
           `"${apt.endTime || ''}"`,
           `"${(client.name || 'Sin nombre').replace(/"/g, '""')}"`,
           `"${(client.phone || '').replace(/"/g, '""')}"`,
-          `"${(client.email || '').replace(/"/g, '""')}"`,
-          `"${servicesStr.replace(/"/g, '""')}"`,
-          `"${(apt.paymentMethod || 'Efectivo').replace(/"/g, '""')}"`,
-          `"${(getStatusLabel(apt.status) || '').replace(/"/g, '""')}"`,
+          `"${serviceNames.replace(/"/g, '""')}"`,
+          `"${apt.paymentMethod || 'Efectivo'}"`,
           apt.totalPrice || 0,
         ];
       });
 
-      // Fila de resumen total al final
+      rows.push([]);
       rows.push([
-        '"TOTAL"',
+        '"TOTALES"',
         '""',
-        '""',
-        `"${rangeStats.uniqueClients} clientes únicos"`,
         '""',
         '""',
         `"${rangeStats.totalCuts} cortes finalizados"`,
@@ -303,7 +283,6 @@ export default function BarberDashboard() {
         rangeStats.totalRevenue || 0,
       ]);
 
-      // sep=; garantiza que Microsoft Excel abra las columnas separadas en cualquier idioma y SO
       const csvString = 'sep=;\r\n' + [headers.join(';'), ...rows.map((r) => r.join(';'))].join('\r\n');
       const blob = new Blob(['\uFEFF' + csvString], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
@@ -316,7 +295,7 @@ export default function BarberDashboard() {
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
 
-      toast.success('¡Reporte descargado exitosamente para Excel! 📊');
+      toast.success('Reporte descargado exitosamente para Excel');
     } catch (err) {
       console.error('Error al exportar a Excel:', err);
       toast.error('Ocurrió un error al generar el archivo');
@@ -333,14 +312,13 @@ export default function BarberDashboard() {
     return matchesStatus && matchesSearch;
   });
 
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { staggerChildren: 0.08 } },
+    show: { opacity: 1, transition: { staggerChildren: 0.05 } },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 15 },
+    hidden: { opacity: 0, y: 10 },
     show: { opacity: 1, y: 0 },
   };
 
@@ -348,18 +326,18 @@ export default function BarberDashboard() {
     <PageTransition>
       <div className="space-y-8 max-w-7xl mx-auto">
         {/* Top Header */}
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-[#121815] p-6 border border-[#222a26] rounded-[4px] shadow-subtle">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-[#0a0a0a] p-6 border border-[#1e1e1e] rounded-none">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="editorial-tag bg-[#161d19] text-gold-400 border-[#2b3530] flex items-center gap-1">
+              <span className="eyebrow text-gold-400 flex items-center gap-1">
                 <Scissors size={12} /> Maestro Barbero
               </span>
-              <span className="text-xs text-[#808080] font-sans">Punto Fino · Barbería de Autor</span>
+              <span className="text-xs text-[#666666] font-mono uppercase tracking-wider">Punto Fino · Atelier</span>
             </div>
-            <h1 className="text-3xl font-serif italic text-white font-normal">
+            <h1 className="text-2xl sm:text-3xl font-sans font-medium uppercase tracking-[0.16em] text-white">
               ¡Hola, <span className="text-gold-400">{user?.name ? user.name.split(' ')[0] : 'Barbero'}</span>!
             </h1>
-            <p className="text-[#b3b3b3] text-xs sm:text-sm mt-1 capitalize font-sans">
+            <p className="text-[#888888] text-xs sm:text-sm mt-1 uppercase font-mono tracking-wider">
               {new Date().toLocaleDateString('es-CO', {
                 weekday: 'long',
                 year: 'numeric',
@@ -376,16 +354,16 @@ export default function BarberDashboard() {
                 if (activeTab === 'agenda') fetchAgenda(selectedDate);
                 else fetchRangeReport(rangeStartDate, rangeEndDate);
               }}
-              className="p-2.5 bg-[#161d19] hover:bg-[#1f2723] text-[#dfdbca] hover:text-white border border-[#2b3530] hover:border-gold-400/50 rounded-[4px] flex items-center gap-2 text-xs transition-all cursor-pointer"
+              className="p-2.5 bg-[#141414] hover:bg-[#1a1a1a] text-[#888888] hover:text-white border border-[#222222] rounded-none flex items-center gap-2 text-xs transition-all cursor-pointer font-sans uppercase tracking-[0.16em]"
               title="Actualizar datos"
             >
-              <RefreshCw size={14} className={loadingStats || loadingAppointments || loadingRange ? 'animate-spin text-gold-400' : ''} />
-              <span className="hidden sm:inline font-sans uppercase tracking-wider text-[11px]">Refrescar</span>
+              <RefreshCw size={14} className={loadingStats || loadingAppointments || loadingRange ? 'animate-spin text-white' : ''} />
+              <span className="hidden sm:inline">Refrescar</span>
             </button>
           </div>
         </div>
 
-        {/* KPI Counter Cards: Cortes Hoy, Cortes Semana, Cortes Mes, Citas Pendientes */}
+        {/* KPI Counter Cards */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -394,23 +372,23 @@ export default function BarberDashboard() {
         >
           {/* Cortes Hoy */}
           <motion.div variants={itemVariants}>
-            <div className="bg-[#121815] border border-[#222a26] hover:border-gold-400/40 rounded-[4px] p-5 shadow-subtle flex flex-col justify-between h-full relative overflow-hidden transition-all">
+            <div className="bg-[#0a0a0a] border border-[#1e1e1e] hover:border-[#333333] rounded-none p-5 flex flex-col justify-between h-full transition-all">
               <div className="flex justify-between items-start mb-3">
-                <div className="p-2 border border-[#2b3530] bg-[#161d19] text-gold-400 rounded-[4px]">
+                <div className="w-9 h-9 border border-[#222222] bg-[#141414] text-white rounded-none flex items-center justify-center">
                   <Scissors className="w-4 h-4" />
                 </div>
-                <span className="editorial-tag bg-[#161d19] text-gold-400 border-[#2b3530]">
+                <span className="px-2 py-0.5 text-[10px] font-mono rounded-none uppercase tracking-wider bg-[#141414] text-gold-400 border border-gold-400/30">
                   Hoy
                 </span>
               </div>
               <div>
-                <div className="text-3xl font-mono font-bold text-white mb-1">
-                  {stats.cutsToday} <span className="text-sm font-normal text-[#808080] font-sans">cortes</span>
+                <div className="text-2xl sm:text-3xl font-mono font-medium text-white mb-1">
+                  {stats.cutsToday} <span className="text-xs text-[#888888] font-sans uppercase">cortes</span>
                 </div>
-                <p className="text-[11px] text-[#808080] uppercase tracking-wider font-sans">Cortes de Hoy</p>
-                <div className="mt-3 pt-2.5 border-t border-[#1f2723] flex items-center justify-between text-xs font-sans">
-                  <span className="text-[#808080]">Ingresos hoy:</span>
-                  <span className="font-mono font-bold text-gold-400">{formatPrice(stats.revenueToday)}</span>
+                <p className="text-[11px] text-[#888888] uppercase tracking-[0.16em] font-sans">Cortes de Hoy</p>
+                <div className="mt-3 pt-2.5 border-t border-[#1e1e1e] flex items-center justify-between text-xs font-sans">
+                  <span className="text-[#888888]">Ingresos hoy:</span>
+                  <span className="font-mono font-medium text-white">{formatPrice(stats.revenueToday)}</span>
                 </div>
               </div>
             </div>
@@ -418,23 +396,23 @@ export default function BarberDashboard() {
 
           {/* Cortes Esta Semana */}
           <motion.div variants={itemVariants}>
-            <div className="bg-[#121815] border border-[#222a26] hover:border-gold-400/40 rounded-[4px] p-5 shadow-subtle flex flex-col justify-between h-full transition-all">
+            <div className="bg-[#0a0a0a] border border-[#1e1e1e] hover:border-[#333333] rounded-none p-5 flex flex-col justify-between h-full transition-all">
               <div className="flex justify-between items-start mb-3">
-                <div className="p-2 border border-[#2b3530] bg-[#161d19] text-white rounded-[4px]">
+                <div className="w-9 h-9 border border-[#222222] bg-[#141414] text-white rounded-none flex items-center justify-center">
                   <TrendingUp className="w-4 h-4" />
                 </div>
-                <span className="editorial-tag bg-[#161d19] text-white border-[#2b3530]">
+                <span className="px-2 py-0.5 text-[10px] font-mono rounded-none uppercase tracking-wider bg-[#141414] text-white border border-[#262626]">
                   Semana
                 </span>
               </div>
               <div>
-                <div className="text-3xl font-mono font-bold text-white mb-1">
-                  {stats.cutsThisWeek} <span className="text-sm font-normal text-[#808080] font-sans">cortes</span>
+                <div className="text-2xl sm:text-3xl font-mono font-medium text-white mb-1">
+                  {stats.cutsThisWeek} <span className="text-xs text-[#888888] font-sans uppercase">cortes</span>
                 </div>
-                <p className="text-[11px] text-[#808080] uppercase tracking-wider font-sans">Esta Semana</p>
-                <div className="mt-3 pt-2.5 border-t border-[#1f2723] flex items-center justify-between text-xs font-sans">
-                  <span className="text-[#808080]">Generado:</span>
-                  <span className="font-mono font-bold text-[#dfdbca]">{formatPrice(stats.revenueThisWeek)}</span>
+                <p className="text-[11px] text-[#888888] uppercase tracking-[0.16em] font-sans">Esta Semana</p>
+                <div className="mt-3 pt-2.5 border-t border-[#1e1e1e] flex items-center justify-between text-xs font-sans">
+                  <span className="text-[#888888]">Generado:</span>
+                  <span className="font-mono font-medium text-white">{formatPrice(stats.revenueThisWeek)}</span>
                 </div>
               </div>
             </div>
@@ -442,23 +420,23 @@ export default function BarberDashboard() {
 
           {/* Cortes Este Mes */}
           <motion.div variants={itemVariants}>
-            <div className="bg-[#121815] border border-[#222a26] hover:border-gold-400/40 rounded-[4px] p-5 shadow-subtle flex flex-col justify-between h-full transition-all">
+            <div className="bg-[#0a0a0a] border border-[#1e1e1e] hover:border-[#333333] rounded-none p-5 flex flex-col justify-between h-full transition-all">
               <div className="flex justify-between items-start mb-3">
-                <div className="p-2 border border-[#2b3530] bg-[#161d19] text-emerald-400 rounded-[4px]">
+                <div className="w-9 h-9 border border-[#222222] bg-[#141414] text-emerald-400 rounded-none flex items-center justify-center">
                   <DollarSign className="w-4 h-4" />
                 </div>
-                <span className="editorial-tag bg-emerald-950/60 text-emerald-400 border-emerald-800/40">
+                <span className="px-2 py-0.5 text-[10px] font-mono rounded-none uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
                   Mes
                 </span>
               </div>
               <div>
-                <div className="text-3xl font-mono font-bold text-white mb-1">
-                  {stats.cutsThisMonth} <span className="text-sm font-normal text-[#808080] font-sans">cortes</span>
+                <div className="text-2xl sm:text-3xl font-mono font-medium text-white mb-1">
+                  {stats.cutsThisMonth} <span className="text-xs text-[#888888] font-sans uppercase">cortes</span>
                 </div>
-                <p className="text-[11px] text-[#808080] uppercase tracking-wider font-sans">Este Mes</p>
-                <div className="mt-3 pt-2.5 border-t border-[#1f2723] flex items-center justify-between text-xs font-sans">
-                  <span className="text-[#808080]">Generado:</span>
-                  <span className="font-mono font-bold text-gold-400">{formatPrice(stats.revenueThisMonth)}</span>
+                <p className="text-[11px] text-[#888888] uppercase tracking-[0.16em] font-sans">Este Mes</p>
+                <div className="mt-3 pt-2.5 border-t border-[#1e1e1e] flex items-center justify-between text-xs font-sans">
+                  <span className="text-[#888888]">Generado:</span>
+                  <span className="font-mono font-medium text-white">{formatPrice(stats.revenueThisMonth)}</span>
                 </div>
               </div>
             </div>
@@ -466,23 +444,23 @@ export default function BarberDashboard() {
 
           {/* Citas Pendientes Hoy */}
           <motion.div variants={itemVariants}>
-            <div className="bg-[#121815] border border-[#222a26] hover:border-gold-400/40 rounded-[4px] p-5 shadow-subtle flex flex-col justify-between h-full transition-all">
+            <div className="bg-[#0a0a0a] border border-[#1e1e1e] hover:border-[#333333] rounded-none p-5 flex flex-col justify-between h-full transition-all">
               <div className="flex justify-between items-start mb-3">
-                <div className="p-2 border border-[#2b3530] bg-[#161d19] text-gold-400 rounded-[4px]">
+                <div className="w-9 h-9 border border-[#222222] bg-[#141414] text-white rounded-none flex items-center justify-center">
                   <Clock className="w-4 h-4" />
                 </div>
-                <span className="editorial-tag bg-[#161d19] text-gold-400 border-[#2b3530]">
+                <span className="px-2 py-0.5 text-[10px] font-mono rounded-none uppercase tracking-wider bg-[#141414] text-gold-400 border border-gold-400/30">
                   Por Atender
                 </span>
               </div>
               <div>
-                <div className="text-3xl font-mono font-bold text-white mb-1">
-                  {stats.pendingToday} <span className="text-sm font-normal text-[#808080] font-sans">citas</span>
+                <div className="text-2xl sm:text-3xl font-mono font-medium text-white mb-1">
+                  {stats.pendingToday} <span className="text-xs text-[#888888] font-sans uppercase">citas</span>
                 </div>
-                <p className="text-[11px] text-[#808080] uppercase tracking-wider font-sans">Pendientes Hoy</p>
-                <div className="mt-3 pt-2.5 border-t border-[#1f2723] flex items-center justify-between text-xs font-sans">
-                  <span className="text-[#808080]">Total agendadas:</span>
-                  <span className="font-mono font-bold text-white">{stats.totalScheduledToday}</span>
+                <p className="text-[11px] text-[#888888] uppercase tracking-[0.16em] font-sans">Pendientes Hoy</p>
+                <div className="mt-3 pt-2.5 border-t border-[#1e1e1e] flex items-center justify-between text-xs font-sans">
+                  <span className="text-[#888888]">Total agendadas:</span>
+                  <span className="font-mono font-medium text-white">{stats.totalScheduledToday}</span>
                 </div>
               </div>
             </div>
@@ -490,19 +468,19 @@ export default function BarberDashboard() {
         </motion.div>
 
         {/* Tab Switcher Buttons */}
-        <div className="flex flex-wrap items-center gap-3 border-b border-[#1f2723] pb-4">
+        <div className="flex flex-wrap items-center gap-3 border-b border-[#1e1e1e] pb-4">
           <button
             onClick={() => setActiveTab('agenda')}
-            className={`px-5 py-2.5 font-sans font-medium uppercase tracking-wider text-xs flex items-center gap-2 rounded-[4px] transition-all cursor-pointer ${
+            className={`px-5 py-2.5 font-sans font-medium uppercase tracking-[0.16em] text-xs flex items-center gap-2 rounded-none transition-all cursor-pointer border ${
               activeTab === 'agenda'
-                ? 'bg-gold-400 text-[#0e1311] border border-gold-400 font-semibold shadow-sm'
-                : 'bg-[#161d19] text-[#b3b3b3] border border-[#26302a] hover:border-gold-400/50'
+                ? 'bg-white text-black border-white'
+                : 'bg-[#141414] text-[#888888] border-[#222222] hover:border-white/40 hover:text-white'
             }`}
           >
-            <Calendar size={15} />
+            <Calendar size={14} />
             Agenda de Reservas
             {appointments.length > 0 && (
-              <span className={`px-2 py-0.5 text-[10px] font-mono rounded-[4px] ${activeTab === 'agenda' ? 'bg-[#0e1311] text-gold-400' : 'bg-[#121815] text-[#dfdbca]'}`}>
+              <span className={`px-2 py-0.5 text-[10px] font-mono rounded-none ${activeTab === 'agenda' ? 'bg-black text-white' : 'bg-[#0a0a0a] text-white'}`}>
                 {appointments.length}
               </span>
             )}
@@ -510,13 +488,13 @@ export default function BarberDashboard() {
 
           <button
             onClick={() => setActiveTab('reporte')}
-            className={`px-5 py-2.5 font-sans font-medium uppercase tracking-wider text-xs flex items-center gap-2 rounded-[4px] transition-all cursor-pointer ${
+            className={`px-5 py-2.5 font-sans font-medium uppercase tracking-[0.16em] text-xs flex items-center gap-2 rounded-none transition-all cursor-pointer border ${
               activeTab === 'reporte'
-                ? 'bg-gold-400 text-[#0e1311] border border-gold-400 font-semibold shadow-sm'
-                : 'bg-[#161d19] text-[#b3b3b3] border border-[#26302a] hover:border-gold-400/50'
+                ? 'bg-white text-black border-white'
+                : 'bg-[#141414] text-[#888888] border-[#222222] hover:border-white/40 hover:text-white'
             }`}
           >
-            <CalendarRange size={15} />
+            <CalendarRange size={14} />
             Reporte por Rango & Ganancias
           </button>
         </div>
@@ -525,21 +503,21 @@ export default function BarberDashboard() {
         {activeTab === 'agenda' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
             {/* Filter controls row */}
-            <div className="bg-[#121815] p-5 border border-[#1f2723] rounded-[4px] shadow-subtle flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+            <div className="bg-[#0a0a0a] p-5 border border-[#1e1e1e] rounded-none flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
               {/* Date selection */}
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-[11px] uppercase font-sans tracking-wider text-[#808080]">Fecha:</span>
+                <span className="text-[11px] uppercase font-sans tracking-[0.16em] text-[#888888]">Fecha:</span>
                 <input
                   type="date"
                   value={selectedDate}
                   onChange={(e) => handleDateChange(e.target.value)}
-                  className="bg-[#161d19] border border-[#26302a] text-white py-1.5 px-3 text-xs rounded-[4px] font-mono focus:outline-none focus:border-gold-400"
+                  className="bg-[#141414] border border-[#222222] text-white py-1.5 px-3 text-xs rounded-none font-mono focus:outline-none focus:border-white/50"
                 />
                 <button
                   type="button"
                   onClick={() => handleDateChange(todayStr)}
-                  className={`px-3 py-1.5 text-xs font-sans uppercase tracking-wider rounded-[4px] border transition-all cursor-pointer ${
-                    selectedDate === todayStr ? 'bg-gold-400 text-[#0e1311] border-gold-400 font-semibold' : 'bg-[#161d19] text-[#b3b3b3] border-[#26302a] hover:border-gold-400/50'
+                  className={`px-3 py-1.5 text-xs font-sans uppercase tracking-[0.16em] rounded-none border transition-all cursor-pointer ${
+                    selectedDate === todayStr ? 'bg-white text-black border-white font-medium' : 'bg-[#141414] text-[#888888] border-[#222222] hover:border-white/40'
                   }`}
                 >
                   Hoy
@@ -551,7 +529,7 @@ export default function BarberDashboard() {
                     tom.setDate(tom.getDate() + 1);
                     handleDateChange(tom.toISOString().split('T')[0]);
                   }}
-                  className="px-3 py-1.5 text-xs font-sans uppercase tracking-wider rounded-[4px] bg-[#161d19] text-[#b3b3b3] border border-[#26302a] hover:border-gold-400/50 cursor-pointer"
+                  className="px-3 py-1.5 text-xs font-sans uppercase tracking-[0.16em] rounded-none bg-[#141414] text-[#888888] border border-[#222222] hover:border-white/40 cursor-pointer"
                 >
                   Mañana
                 </button>
@@ -559,13 +537,13 @@ export default function BarberDashboard() {
 
               {/* Search client input */}
               <div className="relative flex-1 max-w-md">
-                <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#808080]" />
+                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#888888]" />
                 <input
                   type="text"
                   placeholder="Buscar por cliente o teléfono..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="bg-[#161d19] border border-[#26302a] text-white pl-9 py-2 text-xs w-full rounded-[4px] font-sans focus:outline-none focus:border-gold-400 placeholder:text-[#808080]"
+                  className="bg-[#141414] border border-[#222222] text-white pl-9 py-2 text-xs w-full rounded-none font-sans focus:outline-none focus:border-white/50 placeholder:text-[#666666]"
                 />
               </div>
             </div>
@@ -583,10 +561,10 @@ export default function BarberDashboard() {
                 <button
                   key={st.id}
                   onClick={() => setStatusFilter(st.id)}
-                  className={`px-3 py-1.5 text-xs font-sans uppercase tracking-wider rounded-[4px] border transition-all cursor-pointer whitespace-nowrap ${
+                  className={`px-3 py-1.5 text-xs font-sans uppercase tracking-[0.16em] rounded-none border transition-all cursor-pointer whitespace-nowrap ${
                     statusFilter === st.id
-                      ? 'bg-gold-400 text-[#0e1311] border-gold-400 font-semibold'
-                      : 'bg-[#161d19] text-[#b3b3b3] border-[#26302a] hover:border-[#38443e]'
+                      ? 'bg-white text-black border-white font-medium'
+                      : 'bg-[#141414] text-[#888888] border-[#222222] hover:border-white/40'
                   }`}
                 >
                   {st.label}
@@ -596,15 +574,15 @@ export default function BarberDashboard() {
 
             {/* Appointment Cards list */}
             {loadingAppointments ? (
-              <div className="text-center py-16 bg-[#121815] border border-[#1f2723] rounded-[4px]">
-                <RefreshCw size={24} className="animate-spin text-gold-400 mx-auto mb-3" />
-                <p className="text-[#808080] font-mono text-xs uppercase tracking-wider">Cargando agenda de citas...</p>
+              <div className="text-center py-16 bg-[#0a0a0a] border border-[#1e1e1e] rounded-none">
+                <RefreshCw size={22} className="animate-spin text-white mx-auto mb-3" />
+                <p className="text-[#888888] font-mono text-xs uppercase tracking-wider">Cargando agenda de citas...</p>
               </div>
             ) : filteredAppointments.length === 0 ? (
-              <div className="text-center py-16 bg-[#121815] border border-[#1f2723] rounded-[4px] p-8">
-                <Scissors size={32} className="text-[#808080] mx-auto mb-3" />
-                <h3 className="text-xl font-serif italic text-white mb-2 font-normal">No hay reservas encontradas</h3>
-                <p className="text-[#808080] text-xs max-w-md mx-auto font-sans">
+              <div className="text-center py-16 bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-8">
+                <Scissors size={32} className="text-[#444444] mx-auto mb-3" />
+                <h3 className="text-sm font-sans font-medium uppercase tracking-[0.16em] text-white mb-2">No hay reservas encontradas</h3>
+                <p className="text-[#888888] text-xs max-w-md mx-auto font-sans">
                   {statusFilter !== 'todos' || searchQuery
                     ? 'No se encontraron citas que coincidan con los filtros aplicados.'
                     : `No tienes citas agendadas para el día ${selectedDate}.`}
@@ -612,7 +590,7 @@ export default function BarberDashboard() {
                 {selectedDate !== todayStr && (
                   <button
                     onClick={() => handleDateChange(todayStr)}
-                    className="mt-4 px-4 py-2 bg-gold-400 hover:bg-gold-300 text-[#0e1311] font-sans font-semibold text-xs uppercase tracking-wider rounded-[4px] cursor-pointer"
+                    className="mt-4 btn-ferrari-primary text-xs !py-2 !px-4"
                   >
                     Ver Citas de Hoy
                   </button>
@@ -629,23 +607,23 @@ export default function BarberDashboard() {
                   return (
                     <div
                       key={apt._id}
-                      className={`bg-[#121815] border rounded-[4px] p-5 sm:p-6 shadow-subtle transition-all ${
+                      className={`bg-[#0a0a0a] border rounded-none p-5 sm:p-6 transition-all ${
                         isCurrent
-                          ? 'border-gold-400/60 shadow-soft-glow'
+                          ? 'border-white'
                           : isCompleted
-                          ? 'border-[#1f2723] opacity-80'
-                          : 'border-[#222a26] hover:border-[#38443e]'
+                          ? 'border-[#1e1e1e] opacity-75'
+                          : 'border-[#1e1e1e] hover:border-[#333333]'
                       }`}
                     >
                       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
                         {/* Time & Client Column */}
                         <div className="flex items-start sm:items-center gap-4 w-full lg:w-auto">
                           {/* Time badge */}
-                          <div className="bg-[#161d19] border border-[#2b3530] px-3 py-2 text-center rounded-[4px] min-w-[90px]">
-                            <div className="text-gold-400 font-mono font-bold text-lg">
+                          <div className="bg-[#141414] border border-[#222222] px-3 py-2 text-center rounded-none min-w-[90px]">
+                            <div className="text-white font-mono font-medium text-base">
                               {apt.startTime}
                             </div>
-                            <div className="text-[10px] text-[#808080] font-mono">
+                            <div className="text-[10px] text-[#888888] font-mono">
                               hasta {apt.endTime}
                             </div>
                           </div>
@@ -653,33 +631,33 @@ export default function BarberDashboard() {
                           {/* Client details */}
                           <div className="space-y-1">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <h3 className="text-xl font-serif italic text-white font-normal">
+                              <h3 className="text-base font-sans font-medium uppercase tracking-[0.14em] text-white">
                                 {client.name || 'Cliente sin nombre'}
                               </h3>
-                              <span className={`editorial-tag ${
+                              <span className={`px-2 py-0.5 text-[10px] font-mono rounded-none uppercase tracking-wider border ${
                                 apt.status === 'completada'
-                                  ? 'bg-emerald-950/60 text-emerald-400 border-emerald-800/40'
+                                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
                                   : apt.status === 'cancelada'
-                                  ? 'bg-rose-950/50 text-rose-400 border-rose-800/40'
+                                  ? 'bg-rose-500/10 text-rose-400 border-rose-500/30'
                                   : isCurrent
-                                  ? 'bg-gold-500/15 text-gold-400 border-gold-500/40'
-                                  : 'bg-[#161d19] text-[#dfdbca] border-[#2b3530]'
+                                  ? 'bg-white text-black border-white'
+                                  : 'bg-[#141414] text-[#888888] border-[#222222]'
                               }`}>
                                 {getStatusLabel(apt.status)}
                               </span>
                               {client.loyaltyPoints > 0 && (
-                                <span className="editorial-tag bg-gold-400/10 text-gold-400 border-gold-400/30">
-                                  👑 {client.loyaltyPoints} pts
+                                <span className="px-2 py-0.5 text-[10px] font-mono rounded-none uppercase bg-gold-400/10 text-gold-400 border border-gold-400/30">
+                                  {client.loyaltyPoints} pts
                                 </span>
                               )}
                             </div>
 
                             {/* Contact links */}
-                            <div className="flex items-center gap-3 text-xs text-[#808080] flex-wrap font-sans">
+                            <div className="flex items-center gap-3 text-xs text-[#888888] flex-wrap font-sans">
                               {client.phone && (
                                 <a
                                   href={`tel:${client.phone}`}
-                                  className="flex items-center gap-1 hover:text-gold-400 transition-colors"
+                                  className="flex items-center gap-1 hover:text-white transition-colors font-mono"
                                 >
                                   <Phone size={12} /> {client.phone}
                                 </a>
@@ -689,13 +667,13 @@ export default function BarberDashboard() {
                                   href={`https://wa.me/57${client.phone.replace(/\D/g, '')}`}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300 font-medium transition-colors"
+                                  className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300 font-mono transition-colors"
                                 >
                                   <MessageSquare size={12} /> WhatsApp
                                 </a>
                               )}
                               {apt.paymentMethod && (
-                                <span className="font-mono text-[11px] uppercase bg-[#161d19] px-2 py-0.5 border border-[#26302a] text-[#dfdbca] rounded-[4px]">
+                                <span className="font-mono text-[10px] uppercase bg-[#141414] px-2 py-0.5 border border-[#222222] text-[#d4d4d4] rounded-none">
                                   {apt.paymentMethod}
                                 </span>
                               )}
@@ -706,70 +684,65 @@ export default function BarberDashboard() {
                         {/* Services & Price Column */}
                         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between lg:justify-end gap-6 w-full lg:w-auto">
                           <div className="text-left sm:text-right">
-                            <div className="text-xs font-sans text-[#dfdbca] max-w-xs">
+                            <div className="text-xs font-sans text-[#d4d4d4] max-w-xs">
                               {apt.services?.map((s) => s.service?.name || 'Servicio').join(' + ')}
                             </div>
-                            <div className="text-xl font-mono font-bold text-gold-400 mt-0.5">
+                            <div className="text-lg font-mono font-medium text-white mt-0.5">
                               {formatPrice(apt.totalPrice)}
                             </div>
-                            <div className="text-[11px] text-[#808080] font-mono">
+                            <div className="text-[10px] text-[#888888] font-mono">
                               {apt.totalDuration} min aprox.
                             </div>
                           </div>
 
                           {/* Quick Action buttons */}
                           <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-                            {/* Start appointment */}
                             {['pendiente', 'confirmada'].includes(apt.status) && (
                               <button
                                 onClick={() => handleUpdateStatus(apt._id, 'en_progreso')}
                                 disabled={actionLoadingId === apt._id}
-                                className="px-3.5 py-2 bg-[#161d19] hover:bg-[#1f2723] text-gold-400 border border-gold-400/40 hover:border-gold-400 text-xs font-sans font-medium uppercase tracking-wider rounded-[4px] flex items-center gap-1.5 transition-all cursor-pointer"
+                                className="px-3.5 py-2 bg-[#141414] hover:bg-[#1a1a1a] text-white border border-[#262626] text-xs font-sans font-medium uppercase tracking-[0.16em] rounded-none flex items-center gap-1.5 transition-all cursor-pointer"
                                 title="Iniciar corte ahora"
                               >
-                                <Play size={13} /> Iniciar
+                                <Play size={12} /> Iniciar
                               </button>
                             )}
 
-                            {/* Complete appointment */}
                             {apt.status === 'en_progreso' && (
                               <button
                                 onClick={() => handleUpdateStatus(apt._id, 'completada')}
                                 disabled={actionLoadingId === apt._id}
-                                className="px-4 py-2 bg-gold-400 hover:bg-gold-300 text-[#0e1311] text-xs font-sans font-semibold uppercase tracking-wider rounded-[4px] flex items-center gap-1.5 transition-all shadow-sm cursor-pointer"
+                                className="btn-ferrari-primary text-xs !py-2 !px-4"
                                 title="Marcar corte como terminado"
                               >
-                                <Check size={14} /> Finalizar
+                                <Check size={13} /> Finalizar
                               </button>
                             )}
 
-                            {/* Completed state indicator */}
                             {isCompleted && (
-                              <div className="editorial-tag bg-emerald-950/60 text-emerald-400 border-emerald-800/40">
-                                <CheckCircle size={12} /> Corte Realizado
+                              <div className="px-2.5 py-1 text-[10px] font-mono rounded-none uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                                <CheckCircle size={12} /> Concluido
                               </div>
                             )}
 
-                            {/* Cancel button */}
                             {!isCompleted && !isCancelled && (
                               <button
                                 onClick={() => openCancelModal(apt)}
                                 disabled={actionLoadingId === apt._id}
-                                className="p-2 bg-rose-950/40 hover:bg-rose-950/70 text-rose-400 border border-rose-800/40 rounded-[4px] transition-all cursor-pointer"
+                                className="p-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-none transition-all cursor-pointer"
                                 title="Cancelar cita"
                               >
-                                <X size={14} />
+                                <X size={13} />
                               </button>
                             )}
                           </div>
                         </div>
                       </div>
 
-                      {/* Client Note if provided */}
                       {apt.notes && (
-                        <div className="mt-3 pt-3 border-t border-[#1f2723] text-xs text-[#808080] flex items-start gap-2 font-sans">
-                          <span className="text-[#dfdbca] uppercase font-mono text-[11px]">Nota:</span>
-                          <span className="italic text-[#b3b3b3]">"{apt.notes}"</span>
+                        <div className="mt-3 pt-3 border-t border-[#1e1e1e] text-xs text-[#888888] flex items-start gap-2 font-sans">
+                          <span className="text-white uppercase font-mono text-[10px]">Nota:</span>
+                          <span className="text-[#a3a3a3]">"{apt.notes}"</span>
                         </div>
                       )}
                     </div>
@@ -784,38 +757,38 @@ export default function BarberDashboard() {
         {activeTab === 'reporte' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
             {/* Filter Box */}
-            <div className="bg-[#121815] p-6 border border-[#1f2723] rounded-[4px] shadow-subtle space-y-4">
+            <div className="bg-[#0a0a0a] p-6 border border-[#1e1e1e] rounded-none space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-serif italic text-white flex items-center gap-2 font-normal">
-                  <CalendarRange className="text-gold-400" size={18} />
+                <h2 className="text-sm font-sans font-medium uppercase tracking-[0.16em] text-white flex items-center gap-2">
+                  <CalendarRange className="text-white" size={15} />
                   Filtrar Ganancias & Cortes por Rango
                 </h2>
-                <span className="text-xs text-[#808080] font-sans hidden sm:inline">Tu perfil personal</span>
+                <span className="text-xs text-[#888888] font-mono hidden sm:inline">Tu perfil personal</span>
               </div>
 
               {/* Date pickers & submit */}
               <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
                 <div className="sm:col-span-4">
-                  <label className="block text-[11px] uppercase font-sans tracking-wider text-[#808080] mb-1">
+                  <label className="block text-[11px] uppercase font-sans tracking-[0.16em] text-[#888888] mb-1">
                     Desde (Fecha inicial)
                   </label>
                   <input
                     type="date"
                     value={rangeStartDate}
                     onChange={(e) => setRangeStartDate(e.target.value)}
-                    className="w-full bg-[#161d19] border border-[#26302a] text-white py-2 px-3 text-xs rounded-[4px] font-mono focus:outline-none focus:border-gold-400"
+                    className="w-full bg-[#141414] border border-[#222222] text-white py-2 px-3 text-xs rounded-none font-mono focus:outline-none focus:border-white/50"
                   />
                 </div>
 
                 <div className="sm:col-span-4">
-                  <label className="block text-[11px] uppercase font-sans tracking-wider text-[#808080] mb-1">
+                  <label className="block text-[11px] uppercase font-sans tracking-[0.16em] text-[#888888] mb-1">
                     Hasta (Fecha final)
                   </label>
                   <input
                     type="date"
                     value={rangeEndDate}
                     onChange={(e) => setRangeEndDate(e.target.value)}
-                    className="w-full bg-[#161d19] border border-[#26302a] text-white py-2 px-3 text-xs rounded-[4px] font-mono focus:outline-none focus:border-gold-400"
+                    className="w-full bg-[#141414] border border-[#222222] text-white py-2 px-3 text-xs rounded-none font-mono focus:outline-none focus:border-white/50"
                   />
                 </div>
 
@@ -823,42 +796,42 @@ export default function BarberDashboard() {
                   <button
                     onClick={() => fetchRangeReport(rangeStartDate, rangeEndDate)}
                     disabled={loadingRange}
-                    className="w-full py-2.5 bg-gold-400 hover:bg-gold-300 text-[#0e1311] text-xs font-sans font-semibold uppercase tracking-wider rounded-[4px] flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm"
+                    className="w-full btn-ferrari-primary text-xs !py-2.5 flex items-center justify-center gap-2"
                   >
-                    <Search size={14} />
+                    <Search size={13} />
                     {loadingRange ? 'Consultando...' : 'Consultar Rango'}
                   </button>
                 </div>
               </div>
 
               {/* Quick Presets */}
-              <div className="flex items-center gap-2 pt-2 border-t border-[#1f2723] flex-wrap">
-                <span className="text-[11px] text-[#808080] font-sans uppercase tracking-wider">Accesos rápidos:</span>
+              <div className="flex items-center gap-2 pt-2 border-t border-[#1e1e1e] flex-wrap">
+                <span className="text-[11px] text-[#888888] font-sans uppercase tracking-[0.16em]">Accesos rápidos:</span>
                 <button
                   type="button"
                   onClick={() => setRangePreset('today')}
-                  className="text-xs px-3 py-1 bg-[#161d19] text-[#dfdbca] border border-[#26302a] hover:border-gold-400/50 rounded-[4px] font-sans uppercase tracking-wider cursor-pointer"
+                  className="text-xs px-3 py-1 bg-[#141414] text-[#888888] border border-[#222222] hover:text-white hover:border-white/40 rounded-none font-sans uppercase tracking-[0.16em] cursor-pointer"
                 >
                   Hoy
                 </button>
                 <button
                   type="button"
                   onClick={() => setRangePreset('week')}
-                  className="text-xs px-3 py-1 bg-[#161d19] text-[#dfdbca] border border-[#26302a] hover:border-gold-400/50 rounded-[4px] font-sans uppercase tracking-wider cursor-pointer"
+                  className="text-xs px-3 py-1 bg-[#141414] text-[#888888] border border-[#222222] hover:text-white hover:border-white/40 rounded-none font-sans uppercase tracking-[0.16em] cursor-pointer"
                 >
                   Esta Semana
                 </button>
                 <button
                   type="button"
                   onClick={() => setRangePreset('month')}
-                  className="text-xs px-3 py-1 bg-[#161d19] text-[#dfdbca] border border-[#26302a] hover:border-gold-400/50 rounded-[4px] font-sans uppercase tracking-wider cursor-pointer"
+                  className="text-xs px-3 py-1 bg-[#141414] text-[#888888] border border-[#222222] hover:text-white hover:border-white/40 rounded-none font-sans uppercase tracking-[0.16em] cursor-pointer"
                 >
                   Este Mes
                 </button>
                 <button
                   type="button"
                   onClick={() => setRangePreset('last30')}
-                  className="text-xs px-3 py-1 bg-[#161d19] text-[#dfdbca] border border-[#26302a] hover:border-gold-400/50 rounded-[4px] font-sans uppercase tracking-wider cursor-pointer"
+                  className="text-xs px-3 py-1 bg-[#141414] text-[#888888] border border-[#222222] hover:text-white hover:border-white/40 rounded-none font-sans uppercase tracking-[0.16em] cursor-pointer"
                 >
                   Últimos 30 días
                 </button>
@@ -867,97 +840,96 @@ export default function BarberDashboard() {
 
             {/* Results Financial Summary Banner */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="bg-[#121815] border border-[#222a26] hover:border-gold-400/40 rounded-[4px] p-5 shadow-subtle transition-all">
-                <div className="text-[11px] uppercase tracking-wider font-sans text-[#808080] mb-1">
-                  💰 Total Generado
+              <div className="bg-[#0a0a0a] border border-[#1e1e1e] hover:border-[#333333] rounded-none p-5 transition-all">
+                <div className="text-[11px] uppercase tracking-[0.16em] font-sans text-[#888888] mb-1">
+                  Total Generado
                 </div>
-                <div className="text-3xl font-mono font-bold text-gold-400">
+                <div className="text-2xl sm:text-3xl font-mono font-medium text-white">
                   {formatPrice(rangeStats.totalRevenue)}
                 </div>
-                <div className="text-[11px] text-[#808080] font-sans mt-2">
+                <div className="text-[10px] text-[#888888] font-mono mt-2">
                   Del {rangeStartDate} al {rangeEndDate}
                 </div>
               </div>
 
-              <div className="bg-[#121815] border border-[#222a26] hover:border-gold-400/40 rounded-[4px] p-5 shadow-subtle transition-all">
-                <div className="text-[11px] uppercase tracking-wider font-sans text-[#808080] mb-1">
-                  ✂ Cortes Realizados
+              <div className="bg-[#0a0a0a] border border-[#1e1e1e] hover:border-[#333333] rounded-none p-5 transition-all">
+                <div className="text-[11px] uppercase tracking-[0.16em] font-sans text-[#888888] mb-1">
+                  Cortes Realizados
                 </div>
-                <div className="text-3xl font-mono font-bold text-white">
+                <div className="text-2xl sm:text-3xl font-mono font-medium text-white">
                   {rangeStats.totalCuts}
                 </div>
-                <div className="text-[11px] text-[#808080] font-sans mt-2">
+                <div className="text-[10px] text-[#888888] font-mono mt-2">
                   Citas completadas
                 </div>
               </div>
 
-              <div className="bg-[#121815] border border-[#222a26] hover:border-gold-400/40 rounded-[4px] p-5 shadow-subtle transition-all">
-                <div className="text-[11px] uppercase tracking-wider font-sans text-[#808080] mb-1">
-                  👤 Clientes Atendidos
+              <div className="bg-[#0a0a0a] border border-[#1e1e1e] hover:border-[#333333] rounded-none p-5 transition-all">
+                <div className="text-[11px] uppercase tracking-[0.16em] font-sans text-[#888888] mb-1">
+                  Clientes Atendidos
                 </div>
-                <div className="text-3xl font-mono font-bold text-[#dfdbca]">
+                <div className="text-2xl sm:text-3xl font-mono font-medium text-white">
                   {rangeStats.uniqueClients}
                 </div>
-                <div className="text-[11px] text-[#808080] font-sans mt-2">
+                <div className="text-[10px] text-[#888888] font-mono mt-2">
                   Clientes distintos
                 </div>
               </div>
 
-              <div className="bg-[#121815] border border-[#222a26] hover:border-gold-400/40 rounded-[4px] p-5 shadow-subtle transition-all">
-                <div className="text-[11px] uppercase tracking-wider font-sans text-[#808080] mb-1">
-                  📊 Promedio por Corte
+              <div className="bg-[#0a0a0a] border border-[#1e1e1e] hover:border-[#333333] rounded-none p-5 transition-all">
+                <div className="text-[11px] uppercase tracking-[0.16em] font-sans text-[#888888] mb-1">
+                  Promedio por Corte
                 </div>
-                <div className="text-3xl font-mono font-bold text-emerald-400">
+                <div className="text-2xl sm:text-3xl font-mono font-medium text-emerald-400">
                   {rangeStats.totalCuts > 0
                     ? formatPrice(Math.round(rangeStats.totalRevenue / rangeStats.totalCuts))
                     : '$ 0'}
                 </div>
-                <div className="text-[11px] text-[#808080] font-sans mt-2">
+                <div className="text-[10px] text-[#888888] font-mono mt-2">
                   Ticket promedio
                 </div>
               </div>
             </div>
 
-            {/* Detailed Table / Cards of clients in the range */}
+            {/* Detailed Table */}
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <h3 className="text-xl font-serif italic text-white font-normal flex items-center gap-2">
-                  <Users size={18} className="text-gold-400" />
+                <h3 className="text-sm font-sans font-medium uppercase tracking-[0.16em] text-white flex items-center gap-2">
+                  <Users size={15} className="text-white" />
                   Clientes Atendidos en el Periodo ({rangeStats.appointments?.length || 0})
                 </h3>
 
                 {rangeStats.appointments?.length > 0 && (
                   <button
                     onClick={handleExportExcel}
-                    className="px-4 py-2 bg-[#14231b] hover:bg-[#1a3024] text-emerald-400 border border-[#2a4d38] font-sans text-xs uppercase tracking-wider rounded-[4px] flex items-center gap-2 cursor-pointer shadow-sm transition-all"
-                    title="Descargar reporte en formato compatible con Microsoft Excel"
+                    className="px-4 py-2 bg-[#141414] hover:bg-[#1a1a1a] text-emerald-400 border border-emerald-500/30 font-sans text-xs uppercase tracking-[0.16em] rounded-none flex items-center gap-2 cursor-pointer transition-all"
                   >
-                    <FileSpreadsheet size={15} />
+                    <FileSpreadsheet size={14} />
                     Exportar a Excel (.csv)
                   </button>
                 )}
               </div>
 
               {loadingRange ? (
-                <div className="text-center py-16 bg-[#121815] border border-[#1f2723] rounded-[4px]">
-                  <RefreshCw size={24} className="animate-spin text-gold-400 mx-auto mb-3" />
-                  <p className="text-[#808080] font-mono text-xs uppercase">Consultando datos del rango...</p>
+                <div className="text-center py-16 bg-[#0a0a0a] border border-[#1e1e1e] rounded-none">
+                  <RefreshCw size={22} className="animate-spin text-white mx-auto mb-3" />
+                  <p className="text-[#888888] font-mono text-xs uppercase">Consultando datos del rango...</p>
                 </div>
               ) : rangeStats.appointments?.length === 0 ? (
-                <div className="text-center py-16 bg-[#121815] border border-[#1f2723] rounded-[4px] p-8">
-                  <AlertCircle size={32} className="text-[#808080] mx-auto mb-3" />
-                  <h4 className="text-xl font-serif italic text-white mb-2 font-normal">
+                <div className="text-center py-16 bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-8">
+                  <AlertCircle size={32} className="text-[#444444] mx-auto mb-3" />
+                  <h4 className="text-sm font-sans font-medium uppercase tracking-[0.16em] text-white mb-2">
                     No se registran cortes en este rango
                   </h4>
-                  <p className="text-[#808080] text-xs max-w-md mx-auto font-sans">
+                  <p className="text-[#888888] text-xs max-w-md mx-auto font-sans">
                     No se encontraron servicios ni ingresos para el periodo comprendido entre {rangeStartDate} y {rangeEndDate}.
                   </p>
                 </div>
               ) : (
-                <div className="overflow-x-auto bg-[#121815] border border-[#1f2723] rounded-[4px] shadow-subtle">
+                <div className="overflow-x-auto bg-[#0a0a0a] border border-[#1e1e1e] rounded-none">
                   <table className="w-full text-left text-xs font-sans">
                     <thead>
-                      <tr className="border-b border-[#1f2723] bg-[#0f1512] text-[10px] font-sans uppercase tracking-wider text-[#808080]">
+                      <tr className="border-b border-[#1e1e1e] bg-[#0e0e0e] text-[10px] font-sans uppercase tracking-[0.16em] text-[#888888]">
                         <th className="py-3 px-4">Fecha y Hora</th>
                         <th className="py-3 px-4">Cliente Peluqueado</th>
                         <th className="py-3 px-4">Contacto</th>
@@ -966,7 +938,7 @@ export default function BarberDashboard() {
                         <th className="py-3 px-4 text-right">Plata Generada</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#18201c]">
+                    <tbody className="divide-y divide-[#161616]">
                       {rangeStats.appointments.map((apt) => {
                         const client = apt.client || {};
                         const dateStr = apt.date
@@ -978,15 +950,15 @@ export default function BarberDashboard() {
                           : 'N/A';
 
                         return (
-                          <tr key={apt._id} className="hover:bg-[#161d19]/60 transition-colors">
+                          <tr key={apt._id} className="hover:bg-[#111111] transition-colors">
                             <td className="py-3 px-4 whitespace-nowrap">
-                              <div className="font-mono font-bold text-white">{dateStr}</div>
-                              <div className="text-[11px] text-gold-400 font-mono">{apt.startTime} - {apt.endTime}</div>
+                              <div className="font-mono font-medium text-white">{dateStr}</div>
+                              <div className="text-[11px] text-[#888888] font-mono">{apt.startTime} - {apt.endTime}</div>
                             </td>
 
                             <td className="py-3 px-4 whitespace-nowrap">
                               <div className="font-sans font-medium text-white">{client.name || 'Sin nombre'}</div>
-                              <div className="text-[11px] text-[#808080]">{client.email || ''}</div>
+                              <div className="text-[11px] text-[#888888]">{client.email || ''}</div>
                             </td>
 
                             <td className="py-3 px-4 whitespace-nowrap">
@@ -994,7 +966,7 @@ export default function BarberDashboard() {
                                 <div className="flex items-center gap-2">
                                   <a
                                     href={`tel:${client.phone}`}
-                                    className="font-mono text-[#dfdbca] hover:text-gold-400 transition-colors"
+                                    className="font-mono text-[#d4d4d4] hover:text-white transition-colors"
                                   >
                                     {client.phone}
                                   </a>
@@ -1009,24 +981,24 @@ export default function BarberDashboard() {
                                   </a>
                                 </div>
                               ) : (
-                                <span className="text-[#808080] text-xs">Sin teléfono</span>
+                                <span className="text-[#888888] text-xs">Sin teléfono</span>
                               )}
                             </td>
 
                             <td className="py-3 px-4">
-                              <div className="text-xs text-[#dfdbca]">
+                              <div className="text-xs text-[#d4d4d4]">
                                 {apt.services?.map((s) => s.service?.name || 'Servicio').join(', ')}
                               </div>
                             </td>
 
                             <td className="py-3 px-4 whitespace-nowrap">
-                              <span className="editorial-tag bg-[#161d19] border-[#2b3530] text-[#dfdbca]">
+                              <span className="px-2 py-0.5 text-[10px] font-mono uppercase bg-[#141414] border border-[#222222] text-[#d4d4d4]">
                                 {apt.paymentMethod || 'Efectivo'}
                               </span>
                             </td>
 
                             <td className="py-3 px-4 text-right whitespace-nowrap">
-                              <span className="font-mono font-bold text-gold-400 text-xs">
+                              <span className="font-mono font-medium text-white text-xs">
                                 {formatPrice(apt.totalPrice)}
                               </span>
                             </td>
@@ -1045,17 +1017,17 @@ export default function BarberDashboard() {
         <Modal
           isOpen={cancelModalOpen}
           onClose={() => setCancelModalOpen(false)}
-          title="Cancelar Cita"
+          title="CANCELAR CITA"
         >
           <div className="space-y-4">
-            <p className="text-xs text-[#dfdbca] font-sans leading-relaxed">
+            <p className="text-xs text-[#d4d4d4] font-sans leading-relaxed">
               ¿Estás seguro de que deseas cancelar la cita de{' '}
               <strong className="text-white">{selectedAppointmentToCancel?.client?.name}</strong> programada para las{' '}
-              <strong className="text-gold-400">{selectedAppointmentToCancel?.startTime}</strong>?
+              <strong className="text-white">{selectedAppointmentToCancel?.startTime}</strong>?
             </p>
 
             <div>
-              <label className="block text-[11px] font-sans uppercase tracking-wider text-[#808080] mb-1.5">
+              <label className="block text-[11px] font-sans uppercase tracking-[0.16em] text-[#888888] mb-1.5">
                 Motivo de la cancelación:
               </label>
               <textarea
@@ -1063,15 +1035,15 @@ export default function BarberDashboard() {
                 onChange={(e) => setCancelReason(e.target.value)}
                 placeholder="Ej: Calamidad doméstica, cambio de horario coordinado con cliente..."
                 rows={3}
-                className="bg-[#161d19] border border-[#26302a] text-white rounded-[4px] p-3 text-xs font-sans w-full focus:outline-none focus:border-gold-400 placeholder:text-[#808080]"
+                className="bg-[#141414] border border-[#222222] text-white rounded-none p-3 text-xs font-sans w-full focus:outline-none focus:border-white/50 placeholder:text-[#666666]"
               />
             </div>
 
-            <div className="flex justify-end gap-3 pt-4 border-t border-[#1f2723]">
+            <div className="flex justify-end gap-3 pt-4 border-t border-[#1e1e1e]">
               <button
                 type="button"
                 onClick={() => setCancelModalOpen(false)}
-                className="px-4 py-2 bg-[#161d19] hover:bg-[#1f2723] text-[#dfdbca] border border-[#2b3530] text-xs font-sans uppercase tracking-wider rounded-[4px] cursor-pointer transition-all"
+                className="px-4 py-2 bg-[#141414] hover:bg-[#1a1a1a] text-[#888888] hover:text-white border border-[#222222] text-xs font-sans uppercase tracking-[0.16em] rounded-none cursor-pointer transition-all"
               >
                 Volver
               </button>
@@ -1079,7 +1051,7 @@ export default function BarberDashboard() {
                 type="button"
                 onClick={handleConfirmCancel}
                 disabled={actionLoadingId !== null}
-                className="px-4 py-2 bg-rose-950/60 hover:bg-rose-950/90 text-rose-300 border border-rose-800/60 text-xs font-sans uppercase tracking-wider rounded-[4px] cursor-pointer transition-all shadow-sm"
+                className="px-4 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-sans uppercase tracking-[0.16em] rounded-none cursor-pointer transition-all"
               >
                 Confirmar Cancelación
               </button>

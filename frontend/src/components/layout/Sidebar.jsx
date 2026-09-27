@@ -43,17 +43,17 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="hidden md:flex flex-col w-64 h-screen bg-[#0e1311] border-r border-[#1f2723] flex-shrink-0 z-40 relative">
+    <aside className="hidden md:flex flex-col w-64 h-screen bg-[#0a0a0a] border-r border-[#1e1e1e] flex-shrink-0 z-40 relative">
       {/* Logo Area */}
-      <div className="h-18 py-3 flex items-center gap-3 px-5 border-b border-[#1f2723]">
+      <div className="h-16 py-3 flex items-center gap-3 px-5 border-b border-[#1e1e1e]">
         <img
           src="/logo.png"
           alt="Punto Fino"
-          className="w-10 h-10 object-contain rounded-[4px] border border-[#26302a]"
+          className="w-8 h-8 object-contain rounded-none border border-[#222222]"
         />
         <div>
-          <h2 className="font-serif italic text-xl text-white tracking-tight leading-none">Punto Fino</h2>
-          <span className="text-[10px] text-gold-400 tracking-[0.2em] font-medium uppercase block mt-1">Barbería de Autor</span>
+          <h2 className="font-sans font-medium uppercase tracking-[0.2em] text-xs text-white leading-none">PUNTO FINO</h2>
+          <span className="text-[9px] text-gold-400 tracking-[0.22em] font-medium uppercase block mt-1">Barbería de Autor</span>
         </div>
       </div>
 
@@ -65,10 +65,10 @@ export default function Sidebar() {
             to={link.path}
             end={link.path === '/cliente' || link.path === '/barber' || link.path === '/admin'}
             className={({ isActive }) =>
-              `flex items-center px-3.5 py-2.5 rounded-[4px] text-xs font-sans uppercase tracking-wider transition-all duration-150 ${
+              `flex items-center px-3.5 py-2.5 rounded-none text-xs font-sans uppercase tracking-[0.16em] transition-all duration-150 ${
                 isActive
-                  ? 'bg-[#161d19] border border-gold-400/50 text-gold-400 font-medium'
-                  : 'text-[#b3b3b3] hover:text-white hover:bg-white/5 border border-transparent'
+                  ? 'bg-[#141414] border border-[#2e2e2e] text-white font-medium'
+                  : 'text-[#888888] hover:text-white hover:bg-white/5 border border-transparent'
               }`
             }
           >
@@ -79,10 +79,10 @@ export default function Sidebar() {
       </nav>
 
       {/* Bottom Area - User info & Logout */}
-      <div className="p-3 border-t border-[#1f2723] flex flex-col gap-2">
+      <div className="p-3 border-t border-[#1e1e1e] flex flex-col gap-2">
         <button 
           onClick={handleLogout}
-          className="flex items-center px-3.5 py-2.5 rounded-[4px] text-xs font-sans uppercase tracking-wider text-red-400 hover:text-red-300 hover:bg-red-500/10 border border-transparent transition-colors w-full text-left cursor-pointer"
+          className="flex items-center px-3.5 py-2.5 rounded-none text-xs font-sans uppercase tracking-[0.16em] text-red-400 hover:text-red-300 hover:bg-red-500/10 border border-transparent transition-colors w-full text-left cursor-pointer"
         >
           <LogOut className="w-4 h-4 mr-3 flex-shrink-0" />
           <span>Cerrar Sesión</span>
