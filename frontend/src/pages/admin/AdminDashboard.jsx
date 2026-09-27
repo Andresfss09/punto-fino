@@ -492,20 +492,20 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
     <PageTransition>
       <div className="max-w-7xl mx-auto space-y-8 pb-16">
         {/* HEADER PRINCIPAL */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b-2 border-[#333]">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-[#1f2723]">
           <div>
-            <div className="flex items-center gap-3 mb-1">
+            <div className="flex items-center gap-2 mb-2">
               <span className="editorial-tag bg-[#161d19] border-[#2b3530] text-gold-400">
-                ADMINISTRACIÓN & CONTABILIDAD
+                Administración & Contabilidad
               </span>
               <span className="text-xs text-[#808080] font-sans">
-                Punto Fino Barbería de Autor
+                Punto Fino · Barbería de Autor
               </span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-display font-bold uppercase tracking-wider text-white">
-              NÓMINA & <span className="text-gold-500">ESTADÍSTICAS</span>
+            <h1 className="text-3xl sm:text-4xl font-serif italic text-white font-normal leading-tight">
+              Nómina & <span className="text-gold-400">Estadísticas</span>
             </h1>
-            <p className="text-gray-400 text-sm font-sans mt-1">
+            <p className="text-[#b3b3b3] text-xs sm:text-sm font-sans mt-1">
               Control de pagos a trabajadores, comisiones, liquidaciones y balance de servicios prestados.
             </p>
           </div>
@@ -515,48 +515,48 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
             <button
               onClick={() => fetchData(true)}
               disabled={refreshing || loading}
-              className="brutal-btn-outline p-3 flex items-center gap-2 text-xs"
+              className="p-2.5 bg-[#161d19] hover:bg-[#1f2723] text-[#dfdbca] hover:text-white border border-[#2b3530] hover:border-gold-400/50 rounded-[4px] flex items-center gap-2 text-xs transition-all cursor-pointer"
               title="Refrescar datos"
             >
-              <RefreshCw size={16} className={refreshing ? 'animate-spin text-gold-500' : ''} />
-              <span className="hidden sm:inline">Actualizar</span>
+              <RefreshCw size={14} className={refreshing ? 'animate-spin text-gold-400' : ''} />
+              <span className="hidden sm:inline font-sans uppercase tracking-wider text-[11px]">Actualizar</span>
             </button>
 
             <button
               onClick={handleExportExcel}
               disabled={exportingExcel || loading}
-              className="px-4 py-3 bg-[#107c41] hover:bg-[#0d6535] text-white border-2 border-black font-bold uppercase text-xs tracking-wider flex items-center gap-2 shadow-brutal-sm hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
+              className="px-4 py-2.5 bg-[#14231b] hover:bg-[#1a3024] text-emerald-400 border border-[#2a4d38] font-sans font-medium uppercase text-xs tracking-wider rounded-[4px] flex items-center gap-2 transition-all cursor-pointer shadow-sm"
             >
-              <FileSpreadsheet size={16} />
+              <FileSpreadsheet size={15} />
               <span>Descargar Excel</span>
             </button>
 
             <button
               onClick={handleExportPdf}
               disabled={exportingPdf || loading}
-              className="px-4 py-3 bg-gold-500 hover:bg-gold-400 text-black border-2 border-black font-bold uppercase text-xs tracking-wider flex items-center gap-2 shadow-brutal-sm hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
+              className="px-4 py-2.5 bg-[#cfa53b] hover:bg-[#dfb54b] text-[#0e1311] font-sans font-semibold uppercase text-xs tracking-wider rounded-[4px] flex items-center gap-2 transition-all cursor-pointer shadow-sm"
             >
-              <FileText size={16} />
+              <FileText size={15} />
               <span>Descargar PDF</span>
             </button>
           </div>
         </div>
 
         {/* SELECTOR DE PERÍODOS Y FILTROS RÁPIDOS */}
-        <div className="bg-[#111111] border-2 border-[#333] p-4 rounded-xl space-y-4">
+        <div className="bg-[#121815] border border-[#1f2723] p-4 rounded-[4px] space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs uppercase font-mono font-bold text-gray-400 mr-2 flex items-center gap-1.5">
-                <Calendar size={15} className="text-gold-500" /> Período:
+              <span className="text-[11px] uppercase font-sans tracking-wider text-[#808080] mr-2 flex items-center gap-1.5">
+                <Calendar size={13} className="text-gold-400" /> Período:
               </span>
               {PERIOD_OPTIONS.map((opt) => (
                 <button
                   key={opt.id}
                   onClick={() => setPeriod(opt.id)}
-                  className={`px-3 py-1.5 text-xs font-bold uppercase border-2 transition-all ${
+                  className={`px-3 py-1.5 text-xs font-sans uppercase tracking-wider rounded-[4px] border transition-all cursor-pointer ${
                     period === opt.id
-                      ? 'bg-gold-500 text-black border-gold-500 shadow-brutal-gold-sm'
-                      : 'bg-[#1a1a1a] text-gray-300 border-[#333] hover:border-gold-500/50'
+                      ? 'bg-gold-400 text-[#0e1311] border-gold-400 font-semibold'
+                      : 'bg-[#161d19] text-[#b3b3b3] border-[#26302a] hover:border-gold-400/50'
                   }`}
                 >
                   {opt.label}
@@ -566,13 +566,13 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
 
             {/* Selector de barbero para filtrar todo */}
             <div className="flex items-center gap-2">
-              <span className="text-xs uppercase font-mono font-bold text-gray-400">
+              <span className="text-[11px] uppercase font-sans tracking-wider text-[#808080]">
                 Barbero:
               </span>
               <select
                 value={barberFilter}
                 onChange={(e) => setBarberFilter(e.target.value)}
-                className="brutal-input py-1.5 px-3 text-xs bg-[#1a1a1a] font-sans"
+                className="py-1.5 px-3 text-xs bg-[#161d19] border border-[#26302a] text-white rounded-[4px] font-sans focus:outline-none focus:border-gold-400"
               >
                 <option value="all">Todos los Barberos</option>
                 {data.barbersPayroll.map((b) => (
@@ -589,29 +589,29 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
-              className="pt-3 border-t border-[#333] flex flex-wrap items-center gap-4"
+              className="pt-3 border-t border-[#1f2723] flex flex-wrap items-center gap-4"
             >
               <div className="flex items-center gap-2">
-                <label className="text-xs text-gray-400 uppercase font-mono">Desde:</label>
+                <label className="text-xs text-[#808080] uppercase font-mono">Desde:</label>
                 <input
                   type="date"
                   value={customStartDate}
                   onChange={(e) => setCustomStartDate(e.target.value)}
-                  className="brutal-input py-1 px-2 text-xs"
+                  className="bg-[#161d19] border border-[#26302a] text-white py-1 px-2.5 text-xs rounded-[4px] font-mono focus:outline-none focus:border-gold-400"
                 />
               </div>
               <div className="flex items-center gap-2">
-                <label className="text-xs text-gray-400 uppercase font-mono">Hasta:</label>
+                <label className="text-xs text-[#808080] uppercase font-mono">Hasta:</label>
                 <input
                   type="date"
                   value={customEndDate}
                   onChange={(e) => setCustomEndDate(e.target.value)}
-                  className="brutal-input py-1 px-2 text-xs"
+                  className="bg-[#161d19] border border-[#26302a] text-white py-1 px-2.5 text-xs rounded-[4px] font-mono focus:outline-none focus:border-gold-400"
                 />
               </div>
               <button
                 onClick={() => fetchData(false)}
-                className="brutal-btn-primary py-1 px-4 text-xs"
+                className="py-1.5 px-4 bg-gold-400 hover:bg-gold-300 text-[#0e1311] font-sans font-semibold uppercase text-xs tracking-wider rounded-[4px] cursor-pointer transition-all"
               >
                 Aplicar Rango
               </button>
@@ -620,24 +620,24 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
         </div>
 
         {/* TABS DE NAVEGACIÓN */}
-        <div className="flex border-b-2 border-[#333] gap-2 overflow-x-auto">
+        <div className="flex border-b border-[#1f2723] gap-2 overflow-x-auto">
           <button
             onClick={() => setActiveTab('stats')}
-            className={`py-3.5 px-6 font-bold text-sm uppercase tracking-wider transition-all border-b-4 flex items-center gap-2 whitespace-nowrap ${
+            className={`py-3 px-5 font-sans font-medium text-xs uppercase tracking-wider transition-all border-b-2 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
               activeTab === 'stats'
-                ? 'text-gold-500 border-gold-500 -mb-[2px] bg-gold-500/5'
-                : 'text-gray-400 border-transparent hover:text-white'
+                ? 'text-gold-400 border-gold-400 -mb-[1px] bg-gold-400/5'
+                : 'text-[#808080] border-transparent hover:text-white'
             }`}
           >
-            <TrendingUp size={18} />
+            <TrendingUp size={15} />
             <span>Estadísticas & Balance</span>
           </button>
 
           <button
             onClick={() => setActiveTab('payroll')}
-            className={`py-3.5 px-6 font-bold text-sm uppercase tracking-wider transition-all border-b-4 flex items-center gap-2 whitespace-nowrap ${
+            className={`py-3 px-5 font-sans font-medium text-xs uppercase tracking-wider transition-all border-b-2 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
               activeTab === 'payroll'
-                ? 'text-gold-500 border-gold-500 -mb-[2px] bg-gold-500/5'
+                ? 'text-gold-400 border-gold-400 -mb-[1px] bg-gold-400/5'
                 : 'text-gray-400 border-transparent hover:text-white'
             }`}
           >
@@ -652,13 +652,13 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
 
           <button
             onClick={() => setActiveTab('services')}
-            className={`py-3.5 px-6 font-bold text-sm uppercase tracking-wider transition-all border-b-4 flex items-center gap-2 whitespace-nowrap ${
+            className={`py-3 px-5 font-sans font-medium text-xs uppercase tracking-wider transition-all border-b-2 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
               activeTab === 'services'
-                ? 'text-gold-500 border-gold-500 -mb-[2px] bg-gold-500/5'
-                : 'text-gray-400 border-transparent hover:text-white'
+                ? 'text-gold-400 border-gold-400 -mb-[1px] bg-gold-400/5'
+                : 'text-[#808080] border-transparent hover:text-white'
             }`}
           >
-            <Receipt size={18} />
+            <Receipt size={15} />
             <span>Servicios Recolectados ({filteredAppointments.length})</span>
           </button>
         </div>
@@ -666,8 +666,8 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
         {/* CONTENIDO DE CADA TAB */}
         {loading ? (
           <div className="py-24 flex flex-col items-center justify-center space-y-4">
-            <div className="w-12 h-12 border-4 border-gold-500 border-t-transparent rounded-full animate-spin" />
-            <p className="text-gray-400 font-mono text-xs uppercase tracking-widest">
+            <div className="w-10 h-10 border-2 border-gold-400 border-t-transparent rounded-full animate-spin" />
+            <p className="text-[#808080] font-mono text-xs uppercase tracking-widest">
               Calculando nómina y consolidados contables...
             </p>
           </div>
@@ -687,106 +687,106 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                 {/* TARJETAS DE KPIS PRINCIPALES */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {/* Ingresos Brutos */}
-                  <BrutalCard className="p-5 border-green-500/50 relative overflow-hidden bg-gradient-to-br from-[#121212] to-[#1a1a1a]">
+                  <div className="bg-[#121815] border border-[#222a26] hover:border-gold-400/40 rounded-[4px] p-5 shadow-subtle transition-all">
                     <div className="flex justify-between items-start mb-3">
-                      <div className="p-2.5 bg-green-500/10 border border-green-500/30 text-green-400 rounded-lg">
-                        <DollarSign size={22} />
+                      <div className="p-2 bg-[#161d19] border border-[#2b3530] text-emerald-400 rounded-[4px]">
+                        <DollarSign size={18} />
                       </div>
-                      <span className="text-[10px] font-mono uppercase px-2 py-0.5 bg-green-500/20 text-green-400 rounded border border-green-500/30 font-bold">
+                      <span className="editorial-tag bg-emerald-950/60 text-emerald-400 border-emerald-800/40">
                         Total Facturado
                       </span>
                     </div>
-                    <p className="text-xs uppercase font-mono text-gray-400 font-bold mb-1">
+                    <p className="text-[11px] uppercase font-sans tracking-wider text-[#808080] mb-1">
                       Ingresos Brutos
                     </p>
-                    <p className="text-2xl sm:text-3xl font-mono-price font-bold text-white tracking-tight">
+                    <p className="text-2xl sm:text-3xl font-mono font-bold text-white tracking-tight">
                       {formatCurrency(data.summary.grossRevenue)}
                     </p>
-                    <div className="mt-3 pt-2 border-t border-white/10 text-xs text-gray-400 flex justify-between">
+                    <div className="mt-3 pt-2.5 border-t border-[#1f2723] text-xs text-[#808080] flex justify-between font-sans">
                       <span>Cortes Realizados:</span>
                       <span className="text-white font-mono font-bold">{data.summary.completedCuts || 0}</span>
                     </div>
-                  </BrutalCard>
+                  </div>
 
                   {/* Nómina a Pagar */}
-                  <BrutalCard className="p-5 border-gold-500/50 relative overflow-hidden bg-gradient-to-br from-[#121212] to-[#1a1a1a]">
+                  <div className="bg-[#121815] border border-[#222a26] hover:border-gold-400/40 rounded-[4px] p-5 shadow-subtle transition-all">
                     <div className="flex justify-between items-start mb-3">
-                      <div className="p-2.5 bg-gold-500/10 border border-gold-500/30 text-gold-400 rounded-lg">
-                        <Users size={22} />
+                      <div className="p-2 bg-[#161d19] border border-[#2b3530] text-gold-400 rounded-[4px]">
+                        <Users size={18} />
                       </div>
-                      <span className="text-[10px] font-mono uppercase px-2 py-0.5 bg-gold-500/20 text-gold-400 rounded border border-gold-500/30 font-bold">
+                      <span className="editorial-tag bg-[#161d19] text-gold-400 border-[#2b3530]">
                         Comisiones
                       </span>
                     </div>
-                    <p className="text-xs uppercase font-mono text-gray-400 font-bold mb-1">
+                    <p className="text-[11px] uppercase font-sans tracking-wider text-[#808080] mb-1">
                       Nómina Trabajadores
                     </p>
-                    <p className="text-2xl sm:text-3xl font-mono-price font-bold text-gold-400 tracking-tight">
+                    <p className="text-2xl sm:text-3xl font-mono font-bold text-gold-400 tracking-tight">
                       {formatCurrency(data.summary.totalBarbersPayout)}
                     </p>
-                    <div className="mt-3 pt-2 border-t border-white/10 text-xs text-gray-400 flex justify-between">
+                    <div className="mt-3 pt-2.5 border-t border-[#1f2723] text-xs text-[#808080] flex justify-between font-sans">
                       <span>Pendiente por pagar:</span>
-                      <span className="text-red-400 font-mono font-bold">
+                      <span className="text-rose-400 font-mono font-bold">
                         {formatCurrency(data.summary.totalPendingPayout)}
                       </span>
                     </div>
-                  </BrutalCard>
+                  </div>
 
                   {/* Ganancia Neta */}
-                  <BrutalCard className="p-5 border-blue-500/50 relative overflow-hidden bg-gradient-to-br from-[#121212] to-[#1a1a1a]">
+                  <div className="bg-[#121815] border border-[#222a26] hover:border-gold-400/40 rounded-[4px] p-5 shadow-subtle transition-all">
                     <div className="flex justify-between items-start mb-3">
-                      <div className="p-2.5 bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-lg">
-                        <TrendingUp size={22} />
+                      <div className="p-2 bg-[#161d19] border border-[#2b3530] text-white rounded-[4px]">
+                        <TrendingUp size={18} />
                       </div>
-                      <span className="text-[10px] font-mono uppercase px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded border border-blue-500/30 font-bold">
+                      <span className="editorial-tag bg-[#161d19] text-white border-[#2b3530]">
                         Utilidad Neta
                       </span>
                     </div>
-                    <p className="text-xs uppercase font-mono text-gray-400 font-bold mb-1">
+                    <p className="text-[11px] uppercase font-sans tracking-wider text-[#808080] mb-1">
                       Ganancia Punto Fino
                     </p>
-                    <p className="text-2xl sm:text-3xl font-mono-price font-bold text-blue-400 tracking-tight">
+                    <p className="text-2xl sm:text-3xl font-mono font-bold text-[#dfdbca] tracking-tight">
                       {formatCurrency(data.summary.netBarbershopEarnings)}
                     </p>
-                    <div className="mt-3 pt-2 border-t border-white/10 text-xs text-gray-400 flex justify-between">
+                    <div className="mt-3 pt-2.5 border-t border-[#1f2723] text-xs text-[#808080] flex justify-between font-sans">
                       <span>Ticket Promedio:</span>
                       <span className="text-white font-mono font-bold">
                         {formatCurrency(data.summary.averageTicket)}
                       </span>
                     </div>
-                  </BrutalCard>
+                  </div>
 
-                  {/* Estado de Liquidación */}
-                  <BrutalCard className="p-5 border-purple-500/50 relative overflow-hidden bg-gradient-to-br from-[#121212] to-[#1a1a1a]">
+                  {/* Clientes & Equipo */}
+                  <div className="bg-[#121815] border border-[#222a26] hover:border-gold-400/40 rounded-[4px] p-5 shadow-subtle transition-all">
                     <div className="flex justify-between items-start mb-3">
-                      <div className="p-2.5 bg-purple-500/10 border border-purple-500/30 text-purple-400 rounded-lg">
-                        <ShieldCheck size={22} />
+                      <div className="p-2 bg-[#161d19] border border-[#2b3530] text-gold-400 rounded-[4px]">
+                        <ShieldCheck size={18} />
                       </div>
-                      <span className="text-[10px] font-mono uppercase px-2 py-0.5 bg-purple-500/20 text-purple-400 rounded border border-purple-500/30 font-bold">
+                      <span className="editorial-tag bg-[#161d19] text-gold-400 border-[#2b3530]">
                         Clientes & Equipo
                       </span>
                     </div>
-                    <p className="text-xs uppercase font-mono text-gray-400 font-bold mb-1">
+                    <p className="text-[11px] uppercase font-sans tracking-wider text-[#808080] mb-1">
                       Clientes Atendidos
                     </p>
-                    <p className="text-2xl sm:text-3xl font-mono-price font-bold text-white tracking-tight">
+                    <p className="text-2xl sm:text-3xl font-mono font-bold text-white tracking-tight">
                       {data.summary.uniqueClients || 0}
                     </p>
-                    <div className="mt-3 pt-2 border-t border-white/10 text-xs text-gray-400 flex justify-between">
+                    <div className="mt-3 pt-2.5 border-t border-[#1f2723] text-xs text-[#808080] flex justify-between font-sans">
                       <span>Barberos Activos:</span>
                       <span className="text-gold-400 font-mono font-bold">
                         {data.summary.activeBarbersCount || 0}
                       </span>
                     </div>
-                  </BrutalCard>
+                  </div>
                 </div>
 
                 {/* FILA DE DESGLOSES: MÉTODOS DE PAGO Y TOP SERVICIOS */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {/* Desglose de Métodos de Pago */}
-                  <BrutalCard className="p-6">
-                    <h3 className="font-display text-xl uppercase tracking-wider text-white mb-4 flex items-center gap-2 border-b border-[#333] pb-3">
-                      <CreditCard size={18} className="text-gold-500" />
+                  <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-6 shadow-subtle">
+                    <h3 className="font-serif italic text-xl text-white font-normal mb-4 flex items-center gap-2 border-b border-[#1f2723] pb-3">
+                      <CreditCard size={17} className="text-gold-400" />
                       Recaudación por Método de Pago
                     </h3>
 
@@ -797,20 +797,20 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
 
                         return (
                           <div key={key} className="space-y-1.5">
-                            <div className="flex justify-between items-center text-sm">
-                              <span className="uppercase font-mono font-bold text-gray-200">
+                            <div className="flex justify-between items-center text-xs">
+                              <span className="uppercase font-sans tracking-wider text-[#dfdbca]">
                                 {key} ({item.count} pagos)
                               </span>
                               <div className="text-right">
-                                <span className="font-mono-price font-bold text-gold-400 mr-2">
+                                <span className="font-mono font-bold text-gold-400 mr-2">
                                   {formatCurrency(item.total)}
                                 </span>
-                                <span className="text-xs text-gray-400 font-mono">({percentage}%)</span>
+                                <span className="text-[11px] text-[#808080] font-mono">({percentage}%)</span>
                               </div>
                             </div>
-                            <div className="w-full h-2 bg-[#222] rounded-full overflow-hidden border border-[#333]">
+                            <div className="w-full h-1.5 bg-[#161d19] rounded-full overflow-hidden border border-[#222a26]">
                               <div
-                                className="h-full bg-gold-500 transition-all duration-500"
+                                className="h-full bg-gold-400 transition-all duration-500 rounded-full"
                                 style={{ width: `${Math.min(percentage, 100)}%` }}
                               />
                             </div>
@@ -818,37 +818,37 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                         );
                       })}
                     </div>
-                  </BrutalCard>
+                  </div>
 
                   {/* Servicios Más Solicitados */}
-                  <BrutalCard className="p-6">
-                    <h3 className="font-display text-xl uppercase tracking-wider text-white mb-4 flex items-center gap-2 border-b border-[#333] pb-3">
-                      <Sparkles size={18} className="text-gold-500" />
+                  <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-6 shadow-subtle">
+                    <h3 className="font-serif italic text-xl text-white font-normal mb-4 flex items-center gap-2 border-b border-[#1f2723] pb-3">
+                      <Sparkles size={17} className="text-gold-400" />
                       Servicios Más Solicitados
                     </h3>
 
                     {data.servicesBreakdown.length === 0 ? (
-                      <p className="text-sm text-gray-400 py-8 text-center">
+                      <p className="text-xs text-[#808080] py-8 text-center font-sans">
                         No hay servicios completados en este período.
                       </p>
                     ) : (
-                      <div className="divide-y divide-[#222] space-y-2">
+                      <div className="divide-y divide-[#18201c] space-y-2">
                         {data.servicesBreakdown.slice(0, 5).map((srv, idx) => (
                           <div key={idx} className="pt-2 flex items-center justify-between">
                             <div>
-                              <p className="text-sm font-bold text-white uppercase">{srv.name}</p>
-                              <span className="text-xs text-gray-400 font-mono">
+                              <p className="text-xs font-sans font-medium text-white">{srv.name}</p>
+                              <span className="text-[11px] text-[#808080] font-mono">
                                 Realizado {srv.count} veces
                               </span>
                             </div>
-                            <span className="font-mono-price text-sm font-bold text-gold-400">
+                            <span className="font-mono text-xs font-bold text-gold-400">
                               {formatCurrency(srv.totalRevenue)}
                             </span>
                           </div>
                         ))}
                       </div>
                     )}
-                  </BrutalCard>
+                  </div>
                 </div>
               </motion.div>
             )}
@@ -866,16 +866,16 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
-                    <h3 className="text-xl font-display uppercase tracking-wider text-white">
+                    <h3 className="text-xl font-serif italic text-white font-normal">
                       Liquidación de Nómina del Equipo
                     </h3>
-                    <p className="text-xs text-gray-400 font-sans">
+                    <p className="text-xs text-[#808080] font-sans mt-0.5">
                       Comisiones calculadas según los cortes finalizados en el período seleccionado.
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-xs text-gray-400 font-mono">
-                      Total a liquidar: <strong className="text-red-400">{formatCurrency(data.summary.totalPendingPayout)}</strong>
+                    <span className="text-xs text-[#b3b3b3] font-sans">
+                      Total a liquidar: <strong className="text-rose-400 font-mono font-bold">{formatCurrency(data.summary.totalPendingPayout)}</strong>
                     </span>
                   </div>
                 </div>
@@ -886,24 +886,24 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                     const hasPending = barber.pendingCommission > 0;
 
                     return (
-                      <BrutalCard
+                      <div
                         key={barber.barberId}
-                        className={`p-6 flex flex-col justify-between transition-all ${
-                          hasPending ? 'border-gold-500/60' : 'border-[#333]'
+                        className={`bg-[#121815] border rounded-[4px] p-6 flex flex-col justify-between transition-all duration-300 shadow-subtle ${
+                          hasPending ? 'border-gold-400/50 hover:border-gold-400' : 'border-[#222a26] hover:border-[#38443e]'
                         }`}
                       >
                         <div>
                           {/* Barber Header */}
-                          <div className="flex items-start justify-between gap-3 mb-4 pb-4 border-b border-[#333]">
+                          <div className="flex items-start justify-between gap-3 mb-4 pb-4 border-b border-[#1f2723]">
                             <div className="flex items-center gap-3">
-                              <div className="w-12 h-12 rounded-xl bg-[#222] border-2 border-gold-500 flex items-center justify-center font-bold text-gold-500 text-lg">
+                              <div className="w-11 h-11 rounded-[4px] bg-[#161d19] border border-[#2b3530] flex items-center justify-center font-serif italic font-bold text-gold-400 text-lg">
                                 {barber.name.charAt(0)}
                               </div>
                               <div>
-                                <h4 className="font-display text-lg text-white uppercase font-bold leading-tight">
+                                <h4 className="font-serif italic text-xl text-white font-normal leading-tight">
                                   {barber.name}
                                 </h4>
-                                <p className="text-xs text-gray-400 font-mono">{barber.phone || barber.email}</p>
+                                <p className="text-xs text-[#808080] font-mono mt-0.5">{barber.phone || barber.email}</p>
                               </div>
                             </div>
 
@@ -916,48 +916,48 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                                   newRate: barber.commissionRate,
                                 })
                               }
-                              className="px-2.5 py-1 bg-gold-500/10 hover:bg-gold-500/20 text-gold-400 border border-gold-500/30 rounded-lg text-xs font-mono font-bold flex items-center gap-1 transition-all"
+                              className="editorial-tag bg-[#161d19] hover:bg-[#1f2723] text-gold-400 border-[#2b3530] hover:border-gold-400/60 transition-all cursor-pointer"
                               title="Modificar % de comisión"
                             >
-                              <Percent size={12} />
-                              <span>{barber.commissionRate}%</span>
-                              <Edit2 size={10} className="ml-0.5 opacity-60" />
+                              <Percent size={11} />
+                              <span className="font-mono">{barber.commissionRate}%</span>
+                              <Edit2 size={9} className="opacity-60" />
                             </button>
                           </div>
 
                           {/* Métricas de Nómina del Barbero */}
                           <div className="space-y-2.5 text-xs font-sans mb-6">
-                            <div className="flex justify-between text-gray-300">
-                              <span>Cortes Realizados:</span>
+                            <div className="flex justify-between text-[#dfdbca]">
+                              <span className="text-[#808080]">Cortes Realizados:</span>
                               <span className="font-bold text-white font-mono">{barber.totalCuts}</span>
                             </div>
-                            <div className="flex justify-between text-gray-300">
-                              <span>Total Generado en Clientes:</span>
+                            <div className="flex justify-between text-[#dfdbca]">
+                              <span className="text-[#808080]">Total Facturado:</span>
                               <span className="font-mono font-bold text-white">
                                 {formatCurrency(barber.grossRevenue)}
                               </span>
                             </div>
-                            <div className="flex justify-between text-gray-300">
-                              <span>Ganancia para Punto Fino:</span>
-                              <span className="font-mono text-gray-400">
+                            <div className="flex justify-between text-[#dfdbca]">
+                              <span className="text-[#808080]">Ganancia Punto Fino:</span>
+                              <span className="font-mono text-[#808080]">
                                 {formatCurrency(barber.barbershopShare)}
                               </span>
                             </div>
 
-                            <div className="pt-2 border-t border-[#333] flex justify-between items-baseline">
-                              <span className="font-mono uppercase font-bold text-gray-300">
-                                Total Nómina Barbero:
+                            <div className="pt-2.5 border-t border-[#1f2723] flex justify-between items-baseline">
+                              <span className="font-sans text-[11px] uppercase tracking-wider text-[#b3b3b3]">
+                                Nómina Barbero:
                               </span>
-                              <span className="font-mono-price text-base font-bold text-gold-400">
+                              <span className="font-mono text-base font-bold text-gold-400">
                                 {formatCurrency(barber.commissionAmount)}
                               </span>
                             </div>
 
                             <div className="flex justify-between items-center text-[11px] pt-1">
-                              <span className="text-green-400 flex items-center gap-1">
+                              <span className="text-emerald-400 flex items-center gap-1 font-mono">
                                 <CheckCircle2 size={12} /> Pagado: {formatCurrency(barber.paidCommission)}
                               </span>
-                              <span className="text-red-400 flex items-center gap-1 font-bold">
+                              <span className="text-rose-400 flex items-center gap-1 font-mono font-bold">
                                 <Clock size={12} /> Pendiente: {formatCurrency(barber.pendingCommission)}
                               </span>
                             </div>
@@ -965,31 +965,31 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                         </div>
 
                         {/* Botones de Acción */}
-                        <div className="space-y-2 pt-4 border-t border-[#222]">
+                        <div className="space-y-2 pt-4 border-t border-[#1f2723]">
                           {hasPending ? (
                             <button
                               onClick={() => handleOpenPayoutModal(barber)}
-                              className="w-full py-2.5 px-3 bg-gold-500 hover:bg-gold-400 text-black border-2 border-black font-bold uppercase text-xs tracking-wider flex items-center justify-center gap-2 transition-all shadow-brutal-sm"
+                              className="w-full py-2.5 px-3 bg-gold-400 hover:bg-gold-300 text-[#0e1311] font-sans font-semibold uppercase text-xs tracking-wider rounded-[4px] flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm"
                             >
-                              <DollarSign size={15} />
+                              <DollarSign size={14} />
                               <span>Liquidar Nómina ({formatCurrency(barber.pendingCommission)})</span>
                             </button>
                           ) : (
-                            <div className="w-full py-2 px-3 bg-[#181818] border border-green-500/30 text-green-400 text-xs font-mono text-center rounded flex items-center justify-center gap-1.5">
-                              <CheckCircle2 size={14} />
+                            <div className="w-full py-2 px-3 bg-[#14231b] border border-[#2a4d38] text-emerald-400 text-xs font-mono text-center rounded-[4px] flex items-center justify-center gap-1.5">
+                              <CheckCircle2 size={13} />
                               <span>Al día · Sin saldos pendientes</span>
                             </div>
                           )}
 
                           <button
                             onClick={() => handleExportSingleBarberPdf(barber)}
-                            className="w-full py-2 px-3 brutal-btn-outline text-xs text-gray-300 flex items-center justify-center gap-1.5"
+                            className="w-full py-2 px-3 bg-[#161d19] hover:bg-[#1f2723] text-[#dfdbca] hover:text-white border border-[#2b3530] hover:border-gold-400/40 rounded-[4px] text-xs font-sans uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                           >
                             <FileText size={13} />
                             <span>Descargar Desprendible PDF</span>
                           </button>
                         </div>
-                      </BrutalCard>
+                      </div>
                     );
                   })}
                 </div>
@@ -1008,26 +1008,26 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                 className="space-y-4"
               >
                 {/* BARRA DE BÚSQUEDA Y FILTROS */}
-                <div className="bg-[#111111] border-2 border-[#333] p-4 rounded-xl flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+                <div className="bg-[#121815] border border-[#1f2723] p-4 rounded-[4px] flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
                   {/* Buscador */}
                   <div className="relative flex-1">
-                    <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                    <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#808080]" />
                     <input
                       type="text"
                       placeholder="Buscar por cliente, teléfono, barbero, código o servicio..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="brutal-input pl-9 w-full text-xs"
+                      className="bg-[#161d19] border border-[#26302a] text-white pl-9 pr-4 py-2 w-full text-xs rounded-[4px] font-sans focus:outline-none focus:border-gold-400 placeholder:text-[#808080]"
                     />
                   </div>
 
                   {/* Filtro Estado Cita */}
                   <div className="flex items-center gap-2">
-                    <span className="text-xs uppercase font-mono text-gray-400">Estado:</span>
+                    <span className="text-[11px] uppercase font-sans tracking-wider text-[#808080]">Estado:</span>
                     <select
                       value={statusFilter}
                       onChange={(e) => setStatusFilter(e.target.value)}
-                      className="brutal-input py-1.5 px-3 text-xs bg-[#1a1a1a]"
+                      className="py-1.5 px-3 text-xs bg-[#161d19] border border-[#26302a] text-white rounded-[4px] font-sans focus:outline-none focus:border-gold-400"
                     >
                       <option value="todos">Todos los Estados</option>
                       <option value="completada">Completada</option>
@@ -1039,11 +1039,11 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
 
                   {/* Filtro Liquidación */}
                   <div className="flex items-center gap-2">
-                    <span className="text-xs uppercase font-mono text-gray-400">Nómina:</span>
+                    <span className="text-[11px] uppercase font-sans tracking-wider text-[#808080]">Nómina:</span>
                     <select
                       value={commissionStatusFilter}
                       onChange={(e) => setCommissionStatusFilter(e.target.value)}
-                      className="brutal-input py-1.5 px-3 text-xs bg-[#1a1a1a]"
+                      className="py-1.5 px-3 text-xs bg-[#161d19] border border-[#26302a] text-white rounded-[4px] font-sans focus:outline-none focus:border-gold-400"
                     >
                       <option value="todos">Todos los Pagos</option>
                       <option value="pendiente">Comisión Pendiente</option>
@@ -1052,70 +1052,70 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                   </div>
                 </div>
 
-                {/* TABLA BRUTALIST DE CITAS */}
-                <BrutalCard className="p-0 overflow-hidden">
+                {/* TABLA DE CITAS */}
+                <div className="bg-[#121815] border border-[#1f2723] rounded-[4px] overflow-hidden shadow-subtle">
                   <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs font-sans">
-                      <thead className="bg-[#181818] border-b-2 border-[#333] text-gray-300 font-mono uppercase tracking-wider text-[11px]">
+                      <thead className="bg-[#0f1512] border-b border-[#1f2723] text-[#808080] font-sans uppercase tracking-wider text-[10px]">
                         <tr>
-                          <th className="py-3.5 px-4">CÓDIGO / FECHA</th>
-                          <th className="py-3.5 px-4">BARBERO</th>
-                          <th className="py-3.5 px-4">CLIENTE</th>
-                          <th className="py-3.5 px-4">SERVICIOS PRESTADOS</th>
-                          <th className="py-3.5 px-4">PAGO / MÉTODO</th>
-                          <th className="py-3.5 px-4 text-right">TOTAL</th>
-                          <th className="py-3.5 px-4 text-right">NÓMINA BARBERO</th>
-                          <th className="py-3.5 px-4 text-center">ESTADO CITA</th>
-                          <th className="py-3.5 px-4 text-center">LIQUIDACIÓN</th>
+                          <th className="py-3 px-4">CÓDIGO / FECHA</th>
+                          <th className="py-3 px-4">BARBERO</th>
+                          <th className="py-3 px-4">CLIENTE</th>
+                          <th className="py-3 px-4">SERVICIOS PRESTADOS</th>
+                          <th className="py-3 px-4">PAGO / MÉTODO</th>
+                          <th className="py-3 px-4 text-right">TOTAL</th>
+                          <th className="py-3 px-4 text-right">NÓMINA BARBERO</th>
+                          <th className="py-3 px-4 text-center">ESTADO CITA</th>
+                          <th className="py-3 px-4 text-center">LIQUIDACIÓN</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-[#222]">
+                      <tbody className="divide-y divide-[#18201c]">
                         {filteredAppointments.length === 0 ? (
                           <tr>
-                            <td colSpan={9} className="py-12 text-center text-gray-400">
+                            <td colSpan={9} className="py-12 text-center text-[#808080] font-sans">
                               No se encontraron servicios con los filtros aplicados.
                             </td>
                           </tr>
                         ) : (
                           filteredAppointments.map((apt) => (
-                            <tr key={apt._id} className="hover:bg-[#1a1a1a] transition-colors">
+                            <tr key={apt._id} className="hover:bg-[#161d19]/60 transition-colors">
                               {/* Código y Fecha */}
-                              <td className="py-3.5 px-4">
+                              <td className="py-3 px-4">
                                 <span className="font-mono font-bold text-gold-400 block">
                                   {apt.confirmationCode}
                                 </span>
-                                <span className="text-[11px] text-gray-400 font-mono">
+                                <span className="text-[11px] text-[#808080] font-mono">
                                   {new Date(apt.date).toLocaleDateString('es-CO')} · {formatTime(apt.startTime)}
                                 </span>
                               </td>
 
                               {/* Barbero */}
-                              <td className="py-3.5 px-4">
-                                <span className="font-bold text-white block uppercase">
+                              <td className="py-3 px-4">
+                                <span className="font-sans font-medium text-white block">
                                   {apt.barber?.name || 'Barbero'}
                                 </span>
-                                <span className="text-[10px] text-gray-400 font-mono">
+                                <span className="text-[10px] text-[#808080] font-mono">
                                   Comisión: {apt.commissionRate}%
                                 </span>
                               </td>
 
                               {/* Cliente */}
-                              <td className="py-3.5 px-4">
-                                <span className="font-bold text-white block">
+                              <td className="py-3 px-4">
+                                <span className="font-sans font-medium text-white block">
                                   {apt.client?.name || 'Cliente'}
                                 </span>
-                                <span className="text-[11px] text-gray-400 font-mono block">
+                                <span className="text-[11px] text-[#808080] font-mono block">
                                   {apt.client?.phone || 'Sin tel'}
                                 </span>
                               </td>
 
                               {/* Servicios */}
-                              <td className="py-3.5 px-4 max-w-xs">
-                                <div className="space-y-0.5">
+                              <td className="py-3 px-4 max-w-xs">
+                                <div className="flex flex-wrap gap-1">
                                   {(apt.services || []).map((s, idx) => (
                                     <span
                                       key={idx}
-                                      className="inline-block px-1.5 py-0.5 bg-[#222] border border-[#333] rounded text-[10px] text-gray-300 mr-1 mb-0.5"
+                                      className="inline-block px-2 py-0.5 bg-[#161d19] border border-[#26302a] rounded-[4px] text-[10px] text-[#dfdbca]"
                                     >
                                       {s.name}
                                     </span>
@@ -1124,35 +1124,35 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                               </td>
 
                               {/* Método de Pago */}
-                              <td className="py-3.5 px-4">
-                                <span className="px-2 py-0.5 rounded text-[10px] uppercase font-mono font-bold border border-white/10 bg-[#222] text-gray-300">
+                              <td className="py-3 px-4">
+                                <span className="editorial-tag bg-[#161d19] border-[#2b3530] text-[#dfdbca]">
                                   {apt.paymentMethod || 'Efectivo'}
                                 </span>
                               </td>
 
                               {/* Total Cobrado */}
-                              <td className="py-3.5 px-4 text-right font-mono-price font-bold text-white text-sm">
+                              <td className="py-3 px-4 text-right font-mono font-bold text-white text-xs">
                                 {formatCurrency(apt.totalPrice)}
                               </td>
 
                               {/* Comisión / Nómina Barbero */}
-                              <td className="py-3.5 px-4 text-right">
-                                <span className="font-mono-price font-bold text-gold-400 block text-sm">
+                              <td className="py-3 px-4 text-right">
+                                <span className="font-mono font-bold text-gold-400 block text-xs">
                                   {formatCurrency(apt.barberCut)}
                                 </span>
-                                <span className="text-[10px] text-gray-400 font-mono">
+                                <span className="text-[10px] text-[#808080] font-mono">
                                   Negocio: {formatCurrency(apt.barbershopCut)}
                                 </span>
                               </td>
 
                               {/* Estado Cita */}
-                              <td className="py-3.5 px-4 text-center">
+                              <td className="py-3 px-4 text-center">
                                 <span
-                                  className={`px-2 py-0.5 rounded text-[10px] font-mono uppercase font-bold border ${
+                                  className={`editorial-tag ${
                                     apt.status === 'completada'
-                                      ? 'bg-green-500/10 text-green-400 border-green-500/30'
+                                      ? 'bg-emerald-950/60 text-emerald-400 border-emerald-800/40'
                                       : apt.status === 'cancelada'
-                                      ? 'bg-red-500/10 text-red-400 border-red-500/30'
+                                      ? 'bg-rose-950/50 text-rose-400 border-rose-800/40'
                                       : 'bg-gold-500/10 text-gold-400 border-gold-500/30'
                                   }`}
                                 >
@@ -1161,31 +1161,31 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                               </td>
 
                               {/* Estado Liquidación y Botón Toggle */}
-                              <td className="py-3.5 px-4 text-center">
+                              <td className="py-3 px-4 text-center">
                                 {apt.status === 'completada' ? (
                                   <button
                                     onClick={() => handleToggleAppointmentPayout(apt)}
-                                    className={`px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase transition-all flex items-center justify-center gap-1 mx-auto border ${
+                                    className={`px-2.5 py-1 rounded-[4px] text-[10px] font-mono font-bold uppercase transition-all flex items-center justify-center gap-1 mx-auto border cursor-pointer ${
                                       apt.commissionPaid
-                                        ? 'bg-green-500/20 text-green-400 border-green-500 hover:bg-red-500/20 hover:text-red-400 hover:border-red-500'
-                                        : 'bg-red-500/20 text-red-400 border-red-500 hover:bg-green-500/20 hover:text-green-400 hover:border-green-500'
+                                        ? 'bg-[#14231b] text-emerald-400 border-[#2a4d38] hover:bg-rose-950/40 hover:text-rose-400 hover:border-rose-800/50'
+                                        : 'bg-rose-950/40 text-rose-400 border-rose-800/50 hover:bg-[#14231b] hover:text-emerald-400 hover:border-[#2a4d38]'
                                     }`}
                                     title="Haz clic para cambiar estado de liquidación"
                                   >
                                     {apt.commissionPaid ? (
                                       <>
-                                        <CheckCircle2 size={12} />
+                                        <CheckCircle2 size={11} />
                                         <span>Pagado</span>
                                       </>
                                     ) : (
                                       <>
-                                        <Clock size={12} />
+                                        <Clock size={11} />
                                         <span>Pendiente</span>
                                       </>
                                     )}
                                   </button>
                                 ) : (
-                                  <span className="text-gray-500 text-[10px] font-mono">N/A</span>
+                                  <span className="text-[#808080] text-[10px] font-mono">N/A</span>
                                 )}
                               </td>
                             </tr>
@@ -1194,7 +1194,7 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                       </tbody>
                     </table>
                   </div>
-                </BrutalCard>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
@@ -1207,23 +1207,23 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
             !submittingPayout &&
             setPayoutModal({ isOpen: false, barber: null, pendingAppointments: [], totalPayout: 0 })
           }
-          title={`LIQUIDAR NÓMINA · ${payoutModal.barber?.name?.toUpperCase()}`}
+          title={`Liquidar Nómina · ${payoutModal.barber?.name || ''}`}
         >
           <div className="space-y-4">
-            <p className="text-sm text-gray-300 font-sans">
+            <p className="text-xs text-[#dfdbca] font-sans leading-relaxed">
               Vas a registrar el pago de nómina para{' '}
               <strong className="text-gold-400">{payoutModal.barber?.name}</strong> correspondiente a{' '}
               <strong className="text-white">{payoutModal.pendingAppointments?.length} cortes completados</strong>.
             </p>
 
-            <div className="bg-[#141414] border-2 border-gold-500 p-4 rounded-xl text-center space-y-1">
-              <span className="text-xs uppercase font-mono text-gray-400 font-bold block">
-                Total a Transferir / Pagar
+            <div className="bg-[#161d19] border border-gold-400/40 p-5 rounded-[4px] text-center space-y-1">
+              <span className="text-[11px] uppercase font-sans tracking-wider text-[#808080] block">
+                Total a Transferir / Liquidar
               </span>
-              <span className="text-3xl font-mono-price font-bold text-gold-400 block">
+              <span className="text-3xl font-mono font-bold text-gold-400 block">
                 {formatCurrency(payoutModal.totalPayout)}
               </span>
-              <span className="text-[11px] text-gray-400 font-mono">
+              <span className="text-[11px] text-[#808080] font-mono">
                 Comisión acordada: {payoutModal.barber?.commissionRate}%
               </span>
             </div>
@@ -1235,7 +1235,7 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                   setPayoutModal({ isOpen: false, barber: null, pendingAppointments: [], totalPayout: 0 })
                 }
                 disabled={submittingPayout}
-                className="brutal-btn-outline flex-1 py-3 text-xs"
+                className="flex-1 py-2.5 px-4 bg-[#161d19] hover:bg-[#1f2723] text-[#dfdbca] border border-[#2b3530] text-xs font-sans uppercase tracking-wider rounded-[4px] transition-all cursor-pointer"
               >
                 Cancelar
               </button>
@@ -1243,13 +1243,13 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                 type="button"
                 onClick={handleConfirmBarberPayout}
                 disabled={submittingPayout}
-                className="brutal-btn-primary flex-1 py-3 text-xs flex items-center justify-center gap-2"
+                className="flex-1 py-2.5 px-4 bg-gold-400 hover:bg-gold-300 text-[#0e1311] font-sans font-semibold text-xs uppercase tracking-wider rounded-[4px] flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm"
               >
                 {submittingPayout ? (
-                  <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-[#0e1311] border-t-transparent rounded-full animate-spin" />
                 ) : (
                   <>
-                    <Check size={16} strokeWidth={3} />
+                    <Check size={14} />
                     <span>Confirmar y Liquidar</span>
                   </>
                 )}
@@ -1265,19 +1265,19 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
             !submittingCommission &&
             setCommissionModal({ isOpen: false, barber: null, newRate: 50 })
           }
-          title={`AJUSTAR COMISIÓN · ${commissionModal.barber?.name?.toUpperCase()}`}
+          title={`Ajustar Comisión · ${commissionModal.barber?.name || ''}`}
         >
           <div className="space-y-4">
-            <p className="text-sm text-gray-300 font-sans">
-              Define el porcentaje de comisión que recibirá este barbero por cada corte de pelo o servicio realizado.
+            <p className="text-xs text-[#dfdbca] font-sans leading-relaxed">
+              Define el porcentaje de comisión que recibirá este barbero por cada corte de pelo o servicio realizado en Punto Fino.
             </p>
 
             <div>
-              <label className="block text-xs font-mono font-bold uppercase text-gray-300 mb-1">
+              <label className="block text-[11px] font-sans uppercase tracking-wider text-[#808080] mb-1.5">
                 Porcentaje de Comisión (%)
               </label>
               <div className="relative">
-                <Percent size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <Percent size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#808080]" />
                 <input
                   type="number"
                   min="0"
@@ -1286,13 +1286,13 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                   onChange={(e) =>
                     setCommissionModal((prev) => ({ ...prev, newRate: e.target.value }))
                   }
-                  className="brutal-input pl-9 w-full text-base font-mono"
+                  className="bg-[#161d19] border border-[#26302a] text-white pl-9 pr-4 py-2.5 w-full text-sm font-mono rounded-[4px] focus:outline-none focus:border-gold-400"
                   placeholder="Ej: 50"
                   required
                 />
               </div>
-              <span className="text-[11px] text-gray-400 font-sans mt-1 block">
-                Por ejemplo: 50% significa que el 50% del valor del servicio va para el barbero y el 50% para la barbería.
+              <span className="text-[11px] text-[#808080] font-sans mt-1.5 block">
+                Por ejemplo: 50% significa que la mitad del cobro va para el barbero y la otra mitad para la barbería.
               </span>
             </div>
 
@@ -1303,7 +1303,7 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                   setCommissionModal({ isOpen: false, barber: null, newRate: 50 })
                 }
                 disabled={submittingCommission}
-                className="brutal-btn-outline flex-1 py-3 text-xs"
+                className="flex-1 py-2.5 px-4 bg-[#161d19] hover:bg-[#1f2723] text-[#dfdbca] border border-[#2b3530] text-xs font-sans uppercase tracking-wider rounded-[4px] transition-all cursor-pointer"
               >
                 Cancelar
               </button>
@@ -1311,13 +1311,13 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                 type="button"
                 onClick={handleSaveCommissionRate}
                 disabled={submittingCommission}
-                className="brutal-btn-primary flex-1 py-3 text-xs flex items-center justify-center gap-2"
+                className="flex-1 py-2.5 px-4 bg-gold-400 hover:bg-gold-300 text-[#0e1311] font-sans font-semibold text-xs uppercase tracking-wider rounded-[4px] flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm"
               >
                 {submittingCommission ? (
-                  <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-[#0e1311] border-t-transparent rounded-full animate-spin" />
                 ) : (
                   <>
-                    <Check size={16} strokeWidth={3} />
+                    <Check size={14} />
                     <span>Guardar Comisión</span>
                   </>
                 )}

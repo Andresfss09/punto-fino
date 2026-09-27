@@ -376,11 +376,11 @@ export default function BarberDashboard() {
                 if (activeTab === 'agenda') fetchAgenda(selectedDate);
                 else fetchRangeReport(rangeStartDate, rangeEndDate);
               }}
-              className="brutal-btn bg-dark-300 text-white border-[#333] px-4 py-2.5 flex items-center gap-2 hover:border-gold-500 text-sm"
+              className="p-2.5 bg-[#161d19] hover:bg-[#1f2723] text-[#dfdbca] hover:text-white border border-[#2b3530] hover:border-gold-400/50 rounded-[4px] flex items-center gap-2 text-xs transition-all cursor-pointer"
               title="Actualizar datos"
             >
-              <RefreshCw size={16} className={loadingStats || loadingAppointments || loadingRange ? 'animate-spin text-gold-500' : ''} />
-              <span className="hidden sm:inline">Refrescar</span>
+              <RefreshCw size={14} className={loadingStats || loadingAppointments || loadingRange ? 'animate-spin text-gold-400' : ''} />
+              <span className="hidden sm:inline font-sans uppercase tracking-wider text-[11px]">Refrescar</span>
             </button>
           </div>
         </div>
@@ -394,115 +394,115 @@ export default function BarberDashboard() {
         >
           {/* Cortes Hoy */}
           <motion.div variants={itemVariants}>
-            <BrutalCard variant="gold" className="flex flex-col justify-between h-full relative overflow-hidden">
+            <div className="bg-[#121815] border border-[#222a26] hover:border-gold-400/40 rounded-[4px] p-5 shadow-subtle flex flex-col justify-between h-full relative overflow-hidden transition-all">
               <div className="flex justify-between items-start mb-3">
-                <div className="p-2 border-2 border-gold-500/40 bg-gold-500/10 text-gold-500">
-                  <Scissors className="w-5 h-5" />
+                <div className="p-2 border border-[#2b3530] bg-[#161d19] text-gold-400 rounded-[4px]">
+                  <Scissors className="w-4 h-4" />
                 </div>
-                <span className="brutal-badge bg-gold-500/20 text-gold-400 border-gold-500">
+                <span className="editorial-tag bg-[#161d19] text-gold-400 border-[#2b3530]">
                   Hoy
                 </span>
               </div>
               <div>
-                <div className="text-4xl font-mono-price font-bold text-white mb-1">
-                  {stats.cutsToday} <span className="text-base font-normal text-gold-500">cortes</span>
+                <div className="text-3xl font-mono font-bold text-white mb-1">
+                  {stats.cutsToday} <span className="text-sm font-normal text-[#808080] font-sans">cortes</span>
                 </div>
-                <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold">Cortes de Hoy</p>
-                <div className="mt-3 pt-2 border-t border-[#333] flex items-center justify-between text-xs">
-                  <span className="text-gray-400">Ingresos hoy:</span>
-                  <span className="font-mono-price font-bold text-gold-400">{formatPrice(stats.revenueToday)}</span>
+                <p className="text-[11px] text-[#808080] uppercase tracking-wider font-sans">Cortes de Hoy</p>
+                <div className="mt-3 pt-2.5 border-t border-[#1f2723] flex items-center justify-between text-xs font-sans">
+                  <span className="text-[#808080]">Ingresos hoy:</span>
+                  <span className="font-mono font-bold text-gold-400">{formatPrice(stats.revenueToday)}</span>
                 </div>
               </div>
-            </BrutalCard>
+            </div>
           </motion.div>
 
           {/* Cortes Esta Semana */}
           <motion.div variants={itemVariants}>
-            <BrutalCard className="flex flex-col justify-between h-full">
+            <div className="bg-[#121815] border border-[#222a26] hover:border-gold-400/40 rounded-[4px] p-5 shadow-subtle flex flex-col justify-between h-full transition-all">
               <div className="flex justify-between items-start mb-3">
-                <div className="p-2 border-2 border-[#333] bg-[#0a0a0a] text-blue-400">
-                  <TrendingUp className="w-5 h-5" />
+                <div className="p-2 border border-[#2b3530] bg-[#161d19] text-white rounded-[4px]">
+                  <TrendingUp className="w-4 h-4" />
                 </div>
-                <span className="brutal-badge bg-blue-500/10 text-blue-400 border-blue-500/20">
+                <span className="editorial-tag bg-[#161d19] text-white border-[#2b3530]">
                   Semana
                 </span>
               </div>
               <div>
-                <div className="text-4xl font-mono-price font-bold text-white mb-1">
-                  {stats.cutsThisWeek} <span className="text-base font-normal text-gray-400">cortes</span>
+                <div className="text-3xl font-mono font-bold text-white mb-1">
+                  {stats.cutsThisWeek} <span className="text-sm font-normal text-[#808080] font-sans">cortes</span>
                 </div>
-                <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold">Esta Semana</p>
-                <div className="mt-3 pt-2 border-t border-[#333] flex items-center justify-between text-xs">
-                  <span className="text-gray-400">Generado:</span>
-                  <span className="font-mono-price font-bold text-white">{formatPrice(stats.revenueThisWeek)}</span>
+                <p className="text-[11px] text-[#808080] uppercase tracking-wider font-sans">Esta Semana</p>
+                <div className="mt-3 pt-2.5 border-t border-[#1f2723] flex items-center justify-between text-xs font-sans">
+                  <span className="text-[#808080]">Generado:</span>
+                  <span className="font-mono font-bold text-[#dfdbca]">{formatPrice(stats.revenueThisWeek)}</span>
                 </div>
               </div>
-            </BrutalCard>
+            </div>
           </motion.div>
 
           {/* Cortes Este Mes */}
           <motion.div variants={itemVariants}>
-            <BrutalCard className="flex flex-col justify-between h-full">
+            <div className="bg-[#121815] border border-[#222a26] hover:border-gold-400/40 rounded-[4px] p-5 shadow-subtle flex flex-col justify-between h-full transition-all">
               <div className="flex justify-between items-start mb-3">
-                <div className="p-2 border-2 border-[#333] bg-[#0a0a0a] text-green-400">
-                  <DollarSign className="w-5 h-5" />
+                <div className="p-2 border border-[#2b3530] bg-[#161d19] text-emerald-400 rounded-[4px]">
+                  <DollarSign className="w-4 h-4" />
                 </div>
-                <span className="brutal-badge bg-green-500/10 text-green-400 border-green-500/20">
+                <span className="editorial-tag bg-emerald-950/60 text-emerald-400 border-emerald-800/40">
                   Mes
                 </span>
               </div>
               <div>
-                <div className="text-4xl font-mono-price font-bold text-white mb-1">
-                  {stats.cutsThisMonth} <span className="text-base font-normal text-gray-400">cortes</span>
+                <div className="text-3xl font-mono font-bold text-white mb-1">
+                  {stats.cutsThisMonth} <span className="text-sm font-normal text-[#808080] font-sans">cortes</span>
                 </div>
-                <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold">Este Mes</p>
-                <div className="mt-3 pt-2 border-t border-[#333] flex items-center justify-between text-xs">
-                  <span className="text-gray-400">Generado:</span>
-                  <span className="font-mono-price font-bold text-green-400">{formatPrice(stats.revenueThisMonth)}</span>
+                <p className="text-[11px] text-[#808080] uppercase tracking-wider font-sans">Este Mes</p>
+                <div className="mt-3 pt-2.5 border-t border-[#1f2723] flex items-center justify-between text-xs font-sans">
+                  <span className="text-[#808080]">Generado:</span>
+                  <span className="font-mono font-bold text-gold-400">{formatPrice(stats.revenueThisMonth)}</span>
                 </div>
               </div>
-            </BrutalCard>
+            </div>
           </motion.div>
 
           {/* Citas Pendientes Hoy */}
           <motion.div variants={itemVariants}>
-            <BrutalCard className="flex flex-col justify-between h-full">
+            <div className="bg-[#121815] border border-[#222a26] hover:border-gold-400/40 rounded-[4px] p-5 shadow-subtle flex flex-col justify-between h-full transition-all">
               <div className="flex justify-between items-start mb-3">
-                <div className="p-2 border-2 border-[#333] bg-[#0a0a0a] text-yellow-500">
-                  <Clock className="w-5 h-5" />
+                <div className="p-2 border border-[#2b3530] bg-[#161d19] text-gold-400 rounded-[4px]">
+                  <Clock className="w-4 h-4" />
                 </div>
-                <span className="brutal-badge bg-yellow-500/10 text-yellow-400 border-yellow-500/20">
+                <span className="editorial-tag bg-[#161d19] text-gold-400 border-[#2b3530]">
                   Por Atender
                 </span>
               </div>
               <div>
-                <div className="text-4xl font-mono-price font-bold text-white mb-1">
-                  {stats.pendingToday} <span className="text-base font-normal text-gray-400">citas</span>
+                <div className="text-3xl font-mono font-bold text-white mb-1">
+                  {stats.pendingToday} <span className="text-sm font-normal text-[#808080] font-sans">citas</span>
                 </div>
-                <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold">Pendientes Hoy</p>
-                <div className="mt-3 pt-2 border-t border-[#333] flex items-center justify-between text-xs">
-                  <span className="text-gray-400">Total agendadas:</span>
-                  <span className="font-mono-price font-bold text-white">{stats.totalScheduledToday}</span>
+                <p className="text-[11px] text-[#808080] uppercase tracking-wider font-sans">Pendientes Hoy</p>
+                <div className="mt-3 pt-2.5 border-t border-[#1f2723] flex items-center justify-between text-xs font-sans">
+                  <span className="text-[#808080]">Total agendadas:</span>
+                  <span className="font-mono font-bold text-white">{stats.totalScheduledToday}</span>
                 </div>
               </div>
-            </BrutalCard>
+            </div>
           </motion.div>
         </motion.div>
 
         {/* Tab Switcher Buttons */}
-        <div className="flex flex-wrap items-center gap-3 border-b-2 border-[#333] pb-4">
+        <div className="flex flex-wrap items-center gap-3 border-b border-[#1f2723] pb-4">
           <button
             onClick={() => setActiveTab('agenda')}
-            className={`brutal-btn px-6 py-3 font-display font-bold uppercase tracking-wider text-sm flex items-center gap-2 ${
+            className={`px-5 py-2.5 font-sans font-medium uppercase tracking-wider text-xs flex items-center gap-2 rounded-[4px] transition-all cursor-pointer ${
               activeTab === 'agenda'
-                ? 'bg-[#d4af37] text-black border-black shadow-[4px_4px_0_#d4af37]'
-                : 'bg-[#141414] text-gray-300 border-[#333] hover:border-gold-500'
+                ? 'bg-gold-400 text-[#0e1311] border border-gold-400 font-semibold shadow-sm'
+                : 'bg-[#161d19] text-[#b3b3b3] border border-[#26302a] hover:border-gold-400/50'
             }`}
           >
-            <Calendar size={18} />
+            <Calendar size={15} />
             Agenda de Reservas
             {appointments.length > 0 && (
-              <span className={`px-2 py-0.5 text-xs font-mono rounded ${activeTab === 'agenda' ? 'bg-black text-[#d4af37]' : 'bg-[#222] text-white'}`}>
+              <span className={`px-2 py-0.5 text-[10px] font-mono rounded-[4px] ${activeTab === 'agenda' ? 'bg-[#0e1311] text-gold-400' : 'bg-[#121815] text-[#dfdbca]'}`}>
                 {appointments.length}
               </span>
             )}
@@ -510,13 +510,13 @@ export default function BarberDashboard() {
 
           <button
             onClick={() => setActiveTab('reporte')}
-            className={`brutal-btn px-6 py-3 font-display font-bold uppercase tracking-wider text-sm flex items-center gap-2 ${
+            className={`px-5 py-2.5 font-sans font-medium uppercase tracking-wider text-xs flex items-center gap-2 rounded-[4px] transition-all cursor-pointer ${
               activeTab === 'reporte'
-                ? 'bg-[#d4af37] text-black border-black shadow-[4px_4px_0_#d4af37]'
-                : 'bg-[#141414] text-gray-300 border-[#333] hover:border-gold-500'
+                ? 'bg-gold-400 text-[#0e1311] border border-gold-400 font-semibold shadow-sm'
+                : 'bg-[#161d19] text-[#b3b3b3] border border-[#26302a] hover:border-gold-400/50'
             }`}
           >
-            <CalendarRange size={18} />
+            <CalendarRange size={15} />
             Reporte por Rango & Ganancias
           </button>
         </div>
@@ -525,21 +525,21 @@ export default function BarberDashboard() {
         {activeTab === 'agenda' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
             {/* Filter controls row */}
-            <div className="bg-[#111111] p-5 border-2 border-[#333] shadow-[4px_4px_0_#333] flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+            <div className="bg-[#121815] p-5 border border-[#1f2723] rounded-[4px] shadow-subtle flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
               {/* Date selection */}
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-xs uppercase font-bold text-gray-400 font-mono">Fecha:</span>
+                <span className="text-[11px] uppercase font-sans tracking-wider text-[#808080]">Fecha:</span>
                 <input
                   type="date"
                   value={selectedDate}
                   onChange={(e) => handleDateChange(e.target.value)}
-                  className="brutal-input py-2 text-sm bg-[#0a0a0a]"
+                  className="bg-[#161d19] border border-[#26302a] text-white py-1.5 px-3 text-xs rounded-[4px] font-mono focus:outline-none focus:border-gold-400"
                 />
                 <button
                   type="button"
                   onClick={() => handleDateChange(todayStr)}
-                  className={`brutal-btn text-xs px-3 py-2 font-bold uppercase ${
-                    selectedDate === todayStr ? 'bg-gold-500 text-black border-black' : 'bg-[#1a1a1a] text-gray-300 border-[#333]'
+                  className={`px-3 py-1.5 text-xs font-sans uppercase tracking-wider rounded-[4px] border transition-all cursor-pointer ${
+                    selectedDate === todayStr ? 'bg-gold-400 text-[#0e1311] border-gold-400 font-semibold' : 'bg-[#161d19] text-[#b3b3b3] border-[#26302a] hover:border-gold-400/50'
                   }`}
                 >
                   Hoy
@@ -551,7 +551,7 @@ export default function BarberDashboard() {
                     tom.setDate(tom.getDate() + 1);
                     handleDateChange(tom.toISOString().split('T')[0]);
                   }}
-                  className="brutal-btn text-xs px-3 py-2 font-bold uppercase bg-[#1a1a1a] text-gray-300 border-[#333] hover:border-gold-500"
+                  className="px-3 py-1.5 text-xs font-sans uppercase tracking-wider rounded-[4px] bg-[#161d19] text-[#b3b3b3] border border-[#26302a] hover:border-gold-400/50 cursor-pointer"
                 >
                   Mañana
                 </button>
@@ -559,13 +559,13 @@ export default function BarberDashboard() {
 
               {/* Search client input */}
               <div className="relative flex-1 max-w-md">
-                <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#808080]" />
                 <input
                   type="text"
                   placeholder="Buscar por cliente o teléfono..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="brutal-input pl-9 py-2 text-sm w-full bg-[#0a0a0a]"
+                  className="bg-[#161d19] border border-[#26302a] text-white pl-9 py-2 text-xs w-full rounded-[4px] font-sans focus:outline-none focus:border-gold-400 placeholder:text-[#808080]"
                 />
               </div>
             </div>
@@ -583,10 +583,10 @@ export default function BarberDashboard() {
                 <button
                   key={st.id}
                   onClick={() => setStatusFilter(st.id)}
-                  className={`px-3 py-1.5 text-xs font-mono uppercase tracking-wider border-2 transition-all cursor-pointer whitespace-nowrap ${
+                  className={`px-3 py-1.5 text-xs font-sans uppercase tracking-wider rounded-[4px] border transition-all cursor-pointer whitespace-nowrap ${
                     statusFilter === st.id
-                      ? 'bg-gold-500 text-black border-gold-500 font-bold'
-                      : 'bg-[#141414] text-gray-400 border-[#333] hover:border-gray-500'
+                      ? 'bg-gold-400 text-[#0e1311] border-gold-400 font-semibold'
+                      : 'bg-[#161d19] text-[#b3b3b3] border-[#26302a] hover:border-[#38443e]'
                   }`}
                 >
                   {st.label}
@@ -596,15 +596,15 @@ export default function BarberDashboard() {
 
             {/* Appointment Cards list */}
             {loadingAppointments ? (
-              <div className="text-center py-16 bg-[#111111] border-2 border-[#333]">
-                <RefreshCw size={32} className="animate-spin text-gold-500 mx-auto mb-3" />
-                <p className="text-gray-400 font-mono text-sm uppercase tracking-wider">Cargando agenda de citas...</p>
+              <div className="text-center py-16 bg-[#121815] border border-[#1f2723] rounded-[4px]">
+                <RefreshCw size={24} className="animate-spin text-gold-400 mx-auto mb-3" />
+                <p className="text-[#808080] font-mono text-xs uppercase tracking-wider">Cargando agenda de citas...</p>
               </div>
             ) : filteredAppointments.length === 0 ? (
-              <div className="text-center py-16 bg-[#111111] border-2 border-[#333] p-8">
-                <Scissors size={40} className="text-gray-600 mx-auto mb-3" />
-                <h3 className="text-xl font-display font-bold uppercase text-white mb-2">No hay reservas encontradas</h3>
-                <p className="text-gray-400 text-sm max-w-md mx-auto">
+              <div className="text-center py-16 bg-[#121815] border border-[#1f2723] rounded-[4px] p-8">
+                <Scissors size={32} className="text-[#808080] mx-auto mb-3" />
+                <h3 className="text-xl font-serif italic text-white mb-2 font-normal">No hay reservas encontradas</h3>
+                <p className="text-[#808080] text-xs max-w-md mx-auto font-sans">
                   {statusFilter !== 'todos' || searchQuery
                     ? 'No se encontraron citas que coincidan con los filtros aplicados.'
                     : `No tienes citas agendadas para el día ${selectedDate}.`}
@@ -612,7 +612,7 @@ export default function BarberDashboard() {
                 {selectedDate !== todayStr && (
                   <button
                     onClick={() => handleDateChange(todayStr)}
-                    className="brutal-btn-primary px-4 py-2 mt-4 text-xs font-bold"
+                    className="mt-4 px-4 py-2 bg-gold-400 hover:bg-gold-300 text-[#0e1311] font-sans font-semibold text-xs uppercase tracking-wider rounded-[4px] cursor-pointer"
                   >
                     Ver Citas de Hoy
                   </button>
@@ -627,20 +627,25 @@ export default function BarberDashboard() {
                   const isCancelled = apt.status === 'cancelada';
 
                   return (
-                    <BrutalCard
+                    <div
                       key={apt._id}
-                      variant={isCurrent ? 'gold' : 'default'}
-                      className={`transition-all ${isCompleted ? 'opacity-85' : ''}`}
+                      className={`bg-[#121815] border rounded-[4px] p-5 sm:p-6 shadow-subtle transition-all ${
+                        isCurrent
+                          ? 'border-gold-400/60 shadow-soft-glow'
+                          : isCompleted
+                          ? 'border-[#1f2723] opacity-80'
+                          : 'border-[#222a26] hover:border-[#38443e]'
+                      }`}
                     >
                       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
                         {/* Time & Client Column */}
                         <div className="flex items-start sm:items-center gap-4 w-full lg:w-auto">
                           {/* Time badge */}
-                          <div className="bg-[#0a0a0a] border-2 border-[#333] px-3 py-2 text-center rounded-[2px] min-w-[90px]">
-                            <div className="text-gold-500 font-mono-price font-bold text-lg">
+                          <div className="bg-[#161d19] border border-[#2b3530] px-3 py-2 text-center rounded-[4px] min-w-[90px]">
+                            <div className="text-gold-400 font-mono font-bold text-lg">
                               {apt.startTime}
                             </div>
-                            <div className="text-[10px] text-gray-500 font-mono">
+                            <div className="text-[10px] text-[#808080] font-mono">
                               hasta {apt.endTime}
                             </div>
                           </div>
@@ -648,27 +653,35 @@ export default function BarberDashboard() {
                           {/* Client details */}
                           <div className="space-y-1">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <h3 className="text-lg font-display font-bold uppercase text-white tracking-wide">
+                              <h3 className="text-xl font-serif italic text-white font-normal">
                                 {client.name || 'Cliente sin nombre'}
                               </h3>
-                              <span className={`brutal-badge ${getStatusColor(apt.status)}`}>
+                              <span className={`editorial-tag ${
+                                apt.status === 'completada'
+                                  ? 'bg-emerald-950/60 text-emerald-400 border-emerald-800/40'
+                                  : apt.status === 'cancelada'
+                                  ? 'bg-rose-950/50 text-rose-400 border-rose-800/40'
+                                  : isCurrent
+                                  ? 'bg-gold-500/15 text-gold-400 border-gold-500/40'
+                                  : 'bg-[#161d19] text-[#dfdbca] border-[#2b3530]'
+                              }`}>
                                 {getStatusLabel(apt.status)}
                               </span>
                               {client.loyaltyPoints > 0 && (
-                                <span className="brutal-badge bg-gold-500/10 text-gold-500 border-gold-500/20">
+                                <span className="editorial-tag bg-gold-400/10 text-gold-400 border-gold-400/30">
                                   👑 {client.loyaltyPoints} pts
                                 </span>
                               )}
                             </div>
 
                             {/* Contact links */}
-                            <div className="flex items-center gap-3 text-xs text-gray-400 flex-wrap">
+                            <div className="flex items-center gap-3 text-xs text-[#808080] flex-wrap font-sans">
                               {client.phone && (
                                 <a
                                   href={`tel:${client.phone}`}
-                                  className="flex items-center gap-1 hover:text-gold-500 transition-colors"
+                                  className="flex items-center gap-1 hover:text-gold-400 transition-colors"
                                 >
-                                  <Phone size={13} /> {client.phone}
+                                  <Phone size={12} /> {client.phone}
                                 </a>
                               )}
                               {client.phone && (
@@ -676,14 +689,14 @@ export default function BarberDashboard() {
                                   href={`https://wa.me/57${client.phone.replace(/\D/g, '')}`}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="flex items-center gap-1 text-green-400 hover:text-green-300 font-bold transition-colors"
+                                  className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300 font-medium transition-colors"
                                 >
-                                  <MessageSquare size={13} /> WhatsApp
+                                  <MessageSquare size={12} /> WhatsApp
                                 </a>
                               )}
                               {apt.paymentMethod && (
-                                <span className="font-mono text-[11px] uppercase bg-[#1e1e1e] px-2 py-0.5 border border-[#333]">
-                                  Pago: {apt.paymentMethod}
+                                <span className="font-mono text-[11px] uppercase bg-[#161d19] px-2 py-0.5 border border-[#26302a] text-[#dfdbca] rounded-[4px]">
+                                  {apt.paymentMethod}
                                 </span>
                               )}
                             </div>
@@ -693,13 +706,13 @@ export default function BarberDashboard() {
                         {/* Services & Price Column */}
                         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between lg:justify-end gap-6 w-full lg:w-auto">
                           <div className="text-left sm:text-right">
-                            <div className="text-sm font-semibold text-gray-200">
+                            <div className="text-xs font-sans text-[#dfdbca] max-w-xs">
                               {apt.services?.map((s) => s.service?.name || 'Servicio').join(' + ')}
                             </div>
-                            <div className="text-xl font-mono-price font-bold text-gold-500">
+                            <div className="text-xl font-mono font-bold text-gold-400 mt-0.5">
                               {formatPrice(apt.totalPrice)}
                             </div>
-                            <div className="text-[11px] text-gray-500 font-mono">
+                            <div className="text-[11px] text-[#808080] font-mono">
                               {apt.totalDuration} min aprox.
                             </div>
                           </div>
@@ -711,10 +724,10 @@ export default function BarberDashboard() {
                               <button
                                 onClick={() => handleUpdateStatus(apt._id, 'en_progreso')}
                                 disabled={actionLoadingId === apt._id}
-                                className="brutal-btn bg-blue-600/30 text-blue-400 border-blue-500 px-4 py-2 hover:bg-blue-600/40 text-xs font-bold uppercase flex items-center gap-1.5"
+                                className="px-3.5 py-2 bg-[#161d19] hover:bg-[#1f2723] text-gold-400 border border-gold-400/40 hover:border-gold-400 text-xs font-sans font-medium uppercase tracking-wider rounded-[4px] flex items-center gap-1.5 transition-all cursor-pointer"
                                 title="Iniciar corte ahora"
                               >
-                                <Play size={14} /> Iniciar
+                                <Play size={13} /> Iniciar
                               </button>
                             )}
 
@@ -723,17 +736,17 @@ export default function BarberDashboard() {
                               <button
                                 onClick={() => handleUpdateStatus(apt._id, 'completada')}
                                 disabled={actionLoadingId === apt._id}
-                                className="brutal-btn bg-green-500 text-black border-black px-4 py-2 hover:bg-green-400 text-xs font-bold uppercase flex items-center gap-1.5 shadow-[3px_3px_0_#22c55e]"
+                                className="px-4 py-2 bg-gold-400 hover:bg-gold-300 text-[#0e1311] text-xs font-sans font-semibold uppercase tracking-wider rounded-[4px] flex items-center gap-1.5 transition-all shadow-sm cursor-pointer"
                                 title="Marcar corte como terminado"
                               >
-                                <Check size={16} /> Finalizar
+                                <Check size={14} /> Finalizar
                               </button>
                             )}
 
                             {/* Completed state indicator */}
                             {isCompleted && (
-                              <div className="flex items-center gap-1 text-green-500 text-xs font-mono uppercase bg-green-500/10 px-3 py-2 border border-green-500/30">
-                                <CheckCircle size={14} /> Corte Realizado
+                              <div className="editorial-tag bg-emerald-950/60 text-emerald-400 border-emerald-800/40">
+                                <CheckCircle size={12} /> Corte Realizado
                               </div>
                             )}
 
@@ -742,7 +755,7 @@ export default function BarberDashboard() {
                               <button
                                 onClick={() => openCancelModal(apt)}
                                 disabled={actionLoadingId === apt._id}
-                                className="brutal-btn bg-transparent text-red-400 border-red-500/40 px-3 py-2 hover:bg-red-500/10 text-xs font-bold uppercase"
+                                className="p-2 bg-rose-950/40 hover:bg-rose-950/70 text-rose-400 border border-rose-800/40 rounded-[4px] transition-all cursor-pointer"
                                 title="Cancelar cita"
                               >
                                 <X size={14} />
@@ -754,12 +767,12 @@ export default function BarberDashboard() {
 
                       {/* Client Note if provided */}
                       {apt.notes && (
-                        <div className="mt-3 pt-3 border-t border-[#222] text-xs text-gray-400 flex items-start gap-2">
-                          <span className="font-bold text-gray-500 uppercase font-mono">Nota cliente:</span>
-                          <span className="italic">"{apt.notes}"</span>
+                        <div className="mt-3 pt-3 border-t border-[#1f2723] text-xs text-[#808080] flex items-start gap-2 font-sans">
+                          <span className="text-[#dfdbca] uppercase font-mono text-[11px]">Nota:</span>
+                          <span className="italic text-[#b3b3b3]">"{apt.notes}"</span>
                         </div>
                       )}
-                    </BrutalCard>
+                    </div>
                   );
                 })}
               </div>
@@ -771,38 +784,38 @@ export default function BarberDashboard() {
         {activeTab === 'reporte' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
             {/* Filter Box */}
-            <div className="bg-[#111111] p-6 border-2 border-[#333] shadow-[4px_4px_0_#333] space-y-4">
+            <div className="bg-[#121815] p-6 border border-[#1f2723] rounded-[4px] shadow-subtle space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-display font-bold uppercase text-white flex items-center gap-2">
-                  <CalendarRange className="text-gold-500" />
+                <h2 className="text-xl font-serif italic text-white flex items-center gap-2 font-normal">
+                  <CalendarRange className="text-gold-400" size={18} />
                   Filtrar Ganancias & Cortes por Rango
                 </h2>
-                <span className="text-xs text-gray-400 font-mono hidden sm:inline">Tu perfil personal</span>
+                <span className="text-xs text-[#808080] font-sans hidden sm:inline">Tu perfil personal</span>
               </div>
 
               {/* Date pickers & submit */}
               <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
                 <div className="sm:col-span-4">
-                  <label className="block text-xs uppercase font-bold text-gray-400 font-mono mb-1">
+                  <label className="block text-[11px] uppercase font-sans tracking-wider text-[#808080] mb-1">
                     Desde (Fecha inicial)
                   </label>
                   <input
                     type="date"
                     value={rangeStartDate}
                     onChange={(e) => setRangeStartDate(e.target.value)}
-                    className="brutal-input w-full py-2.5 text-sm bg-[#0a0a0a]"
+                    className="w-full bg-[#161d19] border border-[#26302a] text-white py-2 px-3 text-xs rounded-[4px] font-mono focus:outline-none focus:border-gold-400"
                   />
                 </div>
 
                 <div className="sm:col-span-4">
-                  <label className="block text-xs uppercase font-bold text-gray-400 font-mono mb-1">
+                  <label className="block text-[11px] uppercase font-sans tracking-wider text-[#808080] mb-1">
                     Hasta (Fecha final)
                   </label>
                   <input
                     type="date"
                     value={rangeEndDate}
                     onChange={(e) => setRangeEndDate(e.target.value)}
-                    className="brutal-input w-full py-2.5 text-sm bg-[#0a0a0a]"
+                    className="w-full bg-[#161d19] border border-[#26302a] text-white py-2 px-3 text-xs rounded-[4px] font-mono focus:outline-none focus:border-gold-400"
                   />
                 </div>
 
@@ -810,42 +823,42 @@ export default function BarberDashboard() {
                   <button
                     onClick={() => fetchRangeReport(rangeStartDate, rangeEndDate)}
                     disabled={loadingRange}
-                    className="brutal-btn-primary w-full py-3 text-sm font-bold flex items-center justify-center gap-2"
+                    className="w-full py-2.5 bg-gold-400 hover:bg-gold-300 text-[#0e1311] text-xs font-sans font-semibold uppercase tracking-wider rounded-[4px] flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm"
                   >
-                    <Search size={16} />
+                    <Search size={14} />
                     {loadingRange ? 'Consultando...' : 'Consultar Rango'}
                   </button>
                 </div>
               </div>
 
               {/* Quick Presets */}
-              <div className="flex items-center gap-2 pt-2 border-t border-[#222] flex-wrap">
-                <span className="text-xs text-gray-500 font-mono uppercase">Accesos rápidos:</span>
+              <div className="flex items-center gap-2 pt-2 border-t border-[#1f2723] flex-wrap">
+                <span className="text-[11px] text-[#808080] font-sans uppercase tracking-wider">Accesos rápidos:</span>
                 <button
                   type="button"
                   onClick={() => setRangePreset('today')}
-                  className="brutal-btn text-xs px-3 py-1 bg-[#1a1a1a] text-gray-300 border-[#333] hover:border-gold-500 font-mono"
+                  className="text-xs px-3 py-1 bg-[#161d19] text-[#dfdbca] border border-[#26302a] hover:border-gold-400/50 rounded-[4px] font-sans uppercase tracking-wider cursor-pointer"
                 >
                   Hoy
                 </button>
                 <button
                   type="button"
                   onClick={() => setRangePreset('week')}
-                  className="brutal-btn text-xs px-3 py-1 bg-[#1a1a1a] text-gray-300 border-[#333] hover:border-gold-500 font-mono"
+                  className="text-xs px-3 py-1 bg-[#161d19] text-[#dfdbca] border border-[#26302a] hover:border-gold-400/50 rounded-[4px] font-sans uppercase tracking-wider cursor-pointer"
                 >
                   Esta Semana
                 </button>
                 <button
                   type="button"
                   onClick={() => setRangePreset('month')}
-                  className="brutal-btn text-xs px-3 py-1 bg-[#1a1a1a] text-gray-300 border-[#333] hover:border-gold-500 font-mono"
+                  className="text-xs px-3 py-1 bg-[#161d19] text-[#dfdbca] border border-[#26302a] hover:border-gold-400/50 rounded-[4px] font-sans uppercase tracking-wider cursor-pointer"
                 >
                   Este Mes
                 </button>
                 <button
                   type="button"
                   onClick={() => setRangePreset('last30')}
-                  className="brutal-btn text-xs px-3 py-1 bg-[#1a1a1a] text-gray-300 border-[#333] hover:border-gold-500 font-mono"
+                  className="text-xs px-3 py-1 bg-[#161d19] text-[#dfdbca] border border-[#26302a] hover:border-gold-400/50 rounded-[4px] font-sans uppercase tracking-wider cursor-pointer"
                 >
                   Últimos 30 días
                 </button>
@@ -854,106 +867,106 @@ export default function BarberDashboard() {
 
             {/* Results Financial Summary Banner */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <BrutalCard variant="gold" className="bg-[#141414]">
-                <div className="text-xs uppercase font-bold text-gray-400 font-mono mb-1">
-                  💰 Total Dinero Generado
+              <div className="bg-[#121815] border border-[#222a26] hover:border-gold-400/40 rounded-[4px] p-5 shadow-subtle transition-all">
+                <div className="text-[11px] uppercase tracking-wider font-sans text-[#808080] mb-1">
+                  💰 Total Generado
                 </div>
-                <div className="text-3xl font-mono-price font-bold text-gold-500">
+                <div className="text-3xl font-mono font-bold text-gold-400">
                   {formatPrice(rangeStats.totalRevenue)}
                 </div>
-                <div className="text-[11px] text-gray-400 mt-2">
-                  En el rango del {rangeStartDate} al {rangeEndDate}
+                <div className="text-[11px] text-[#808080] font-sans mt-2">
+                  Del {rangeStartDate} al {rangeEndDate}
                 </div>
-              </BrutalCard>
+              </div>
 
-              <BrutalCard className="bg-[#141414]">
-                <div className="text-xs uppercase font-bold text-gray-400 font-mono mb-1">
+              <div className="bg-[#121815] border border-[#222a26] hover:border-gold-400/40 rounded-[4px] p-5 shadow-subtle transition-all">
+                <div className="text-[11px] uppercase tracking-wider font-sans text-[#808080] mb-1">
                   ✂ Cortes Realizados
                 </div>
-                <div className="text-3xl font-mono-price font-bold text-white">
+                <div className="text-3xl font-mono font-bold text-white">
                   {rangeStats.totalCuts}
                 </div>
-                <div className="text-[11px] text-gray-400 mt-2">
-                  Citas con estado completada
+                <div className="text-[11px] text-[#808080] font-sans mt-2">
+                  Citas completadas
                 </div>
-              </BrutalCard>
+              </div>
 
-              <BrutalCard className="bg-[#141414]">
-                <div className="text-xs uppercase font-bold text-gray-400 font-mono mb-1">
+              <div className="bg-[#121815] border border-[#222a26] hover:border-gold-400/40 rounded-[4px] p-5 shadow-subtle transition-all">
+                <div className="text-[11px] uppercase tracking-wider font-sans text-[#808080] mb-1">
                   👤 Clientes Atendidos
                 </div>
-                <div className="text-3xl font-mono-price font-bold text-blue-400">
+                <div className="text-3xl font-mono font-bold text-[#dfdbca]">
                   {rangeStats.uniqueClients}
                 </div>
-                <div className="text-[11px] text-gray-400 mt-2">
-                  Clientes distintos peluqueados
+                <div className="text-[11px] text-[#808080] font-sans mt-2">
+                  Clientes distintos
                 </div>
-              </BrutalCard>
+              </div>
 
-              <BrutalCard className="bg-[#141414]">
-                <div className="text-xs uppercase font-bold text-gray-400 font-mono mb-1">
+              <div className="bg-[#121815] border border-[#222a26] hover:border-gold-400/40 rounded-[4px] p-5 shadow-subtle transition-all">
+                <div className="text-[11px] uppercase tracking-wider font-sans text-[#808080] mb-1">
                   📊 Promedio por Corte
                 </div>
-                <div className="text-3xl font-mono-price font-bold text-green-400">
+                <div className="text-3xl font-mono font-bold text-emerald-400">
                   {rangeStats.totalCuts > 0
                     ? formatPrice(Math.round(rangeStats.totalRevenue / rangeStats.totalCuts))
                     : '$ 0'}
                 </div>
-                <div className="text-[11px] text-gray-400 mt-2">
-                  Ticket promedio por servicio
+                <div className="text-[11px] text-[#808080] font-sans mt-2">
+                  Ticket promedio
                 </div>
-              </BrutalCard>
+              </div>
             </div>
 
-            {/* Detailed Table / Cards of clients peluqueados in the range */}
+            {/* Detailed Table / Cards of clients in the range */}
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <h3 className="text-xl font-display font-bold uppercase text-white flex items-center gap-2">
-                  <Users size={20} className="text-gold-500" />
+                <h3 className="text-xl font-serif italic text-white font-normal flex items-center gap-2">
+                  <Users size={18} className="text-gold-400" />
                   Clientes Atendidos en el Periodo ({rangeStats.appointments?.length || 0})
                 </h3>
 
                 {rangeStats.appointments?.length > 0 && (
                   <button
                     onClick={handleExportExcel}
-                    className="brutal-btn bg-green-500/15 text-green-400 border-green-500/50 hover:bg-green-500/25 px-4 py-2 text-xs font-bold uppercase flex items-center gap-2 shadow-[3px_3px_0_#22c55e] cursor-pointer"
+                    className="px-4 py-2 bg-[#14231b] hover:bg-[#1a3024] text-emerald-400 border border-[#2a4d38] font-sans text-xs uppercase tracking-wider rounded-[4px] flex items-center gap-2 cursor-pointer shadow-sm transition-all"
                     title="Descargar reporte en formato compatible con Microsoft Excel"
                   >
-                    <FileSpreadsheet size={16} />
+                    <FileSpreadsheet size={15} />
                     Exportar a Excel (.csv)
                   </button>
                 )}
               </div>
 
               {loadingRange ? (
-                <div className="text-center py-16 bg-[#111111] border-2 border-[#333]">
-                  <RefreshCw size={32} className="animate-spin text-gold-500 mx-auto mb-3" />
-                  <p className="text-gray-400 font-mono text-sm uppercase">Consultando datos del rango...</p>
+                <div className="text-center py-16 bg-[#121815] border border-[#1f2723] rounded-[4px]">
+                  <RefreshCw size={24} className="animate-spin text-gold-400 mx-auto mb-3" />
+                  <p className="text-[#808080] font-mono text-xs uppercase">Consultando datos del rango...</p>
                 </div>
               ) : rangeStats.appointments?.length === 0 ? (
-                <div className="text-center py-16 bg-[#111111] border-2 border-[#333] p-8">
-                  <AlertCircle size={40} className="text-gray-600 mx-auto mb-3" />
-                  <h4 className="text-xl font-display font-bold uppercase text-white mb-2">
+                <div className="text-center py-16 bg-[#121815] border border-[#1f2723] rounded-[4px] p-8">
+                  <AlertCircle size={32} className="text-[#808080] mx-auto mb-3" />
+                  <h4 className="text-xl font-serif italic text-white mb-2 font-normal">
                     No se registran cortes en este rango
                   </h4>
-                  <p className="text-gray-400 text-sm max-w-md mx-auto">
+                  <p className="text-[#808080] text-xs max-w-md mx-auto font-sans">
                     No se encontraron servicios ni ingresos para el periodo comprendido entre {rangeStartDate} y {rangeEndDate}.
                   </p>
                 </div>
               ) : (
-                <div className="overflow-x-auto bg-[#111111] border-2 border-[#333] shadow-[4px_4px_0_#333]">
-                  <table className="w-full text-left border-collapse">
+                <div className="overflow-x-auto bg-[#121815] border border-[#1f2723] rounded-[4px] shadow-subtle">
+                  <table className="w-full text-left text-xs font-sans">
                     <thead>
-                      <tr className="border-b-2 border-[#333] bg-[#0a0a0a] text-xs font-mono uppercase text-gray-400">
-                        <th className="p-4">Fecha y Hora</th>
-                        <th className="p-4">Cliente Peluqueado</th>
-                        <th className="p-4">Contacto</th>
-                        <th className="p-4">Servicio(s)</th>
-                        <th className="p-4">Método de Pago</th>
-                        <th className="p-4 text-right">Plata Generada</th>
+                      <tr className="border-b border-[#1f2723] bg-[#0f1512] text-[10px] font-sans uppercase tracking-wider text-[#808080]">
+                        <th className="py-3 px-4">Fecha y Hora</th>
+                        <th className="py-3 px-4">Cliente Peluqueado</th>
+                        <th className="py-3 px-4">Contacto</th>
+                        <th className="py-3 px-4">Servicio(s)</th>
+                        <th className="py-3 px-4">Método de Pago</th>
+                        <th className="py-3 px-4 text-right">Plata Generada</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#222] text-sm">
+                    <tbody className="divide-y divide-[#18201c]">
                       {rangeStats.appointments.map((apt) => {
                         const client = apt.client || {};
                         const dateStr = apt.date
@@ -965,23 +978,23 @@ export default function BarberDashboard() {
                           : 'N/A';
 
                         return (
-                          <tr key={apt._id} className="hover:bg-white/[0.02] transition-colors">
-                            <td className="p-4 whitespace-nowrap">
+                          <tr key={apt._id} className="hover:bg-[#161d19]/60 transition-colors">
+                            <td className="py-3 px-4 whitespace-nowrap">
                               <div className="font-mono font-bold text-white">{dateStr}</div>
-                              <div className="text-xs text-gold-500 font-mono">{apt.startTime} - {apt.endTime}</div>
+                              <div className="text-[11px] text-gold-400 font-mono">{apt.startTime} - {apt.endTime}</div>
                             </td>
 
-                            <td className="p-4 whitespace-nowrap">
-                              <div className="font-bold text-white uppercase">{client.name || 'Sin nombre'}</div>
-                              <div className="text-xs text-gray-400">{client.email || ''}</div>
+                            <td className="py-3 px-4 whitespace-nowrap">
+                              <div className="font-sans font-medium text-white">{client.name || 'Sin nombre'}</div>
+                              <div className="text-[11px] text-[#808080]">{client.email || ''}</div>
                             </td>
 
-                            <td className="p-4 whitespace-nowrap">
+                            <td className="py-3 px-4 whitespace-nowrap">
                               {client.phone ? (
                                 <div className="flex items-center gap-2">
                                   <a
                                     href={`tel:${client.phone}`}
-                                    className="font-mono text-gray-300 hover:text-gold-500 transition-colors"
+                                    className="font-mono text-[#dfdbca] hover:text-gold-400 transition-colors"
                                   >
                                     {client.phone}
                                   </a>
@@ -989,31 +1002,31 @@ export default function BarberDashboard() {
                                     href={`https://wa.me/57${client.phone.replace(/\D/g, '')}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-green-400 hover:text-green-300"
+                                    className="text-emerald-400 hover:text-emerald-300"
                                     title="Contactar por WhatsApp"
                                   >
-                                    <MessageSquare size={14} />
+                                    <MessageSquare size={13} />
                                   </a>
                                 </div>
                               ) : (
-                                <span className="text-gray-500 text-xs">Sin teléfono</span>
+                                <span className="text-[#808080] text-xs">Sin teléfono</span>
                               )}
                             </td>
 
-                            <td className="p-4">
-                              <div className="font-medium text-gray-200">
+                            <td className="py-3 px-4">
+                              <div className="text-xs text-[#dfdbca]">
                                 {apt.services?.map((s) => s.service?.name || 'Servicio').join(', ')}
                               </div>
                             </td>
 
-                            <td className="p-4 whitespace-nowrap">
-                              <span className="font-mono text-xs uppercase bg-[#1e1e1e] px-2 py-1 border border-[#333] text-gray-300">
+                            <td className="py-3 px-4 whitespace-nowrap">
+                              <span className="editorial-tag bg-[#161d19] border-[#2b3530] text-[#dfdbca]">
                                 {apt.paymentMethod || 'Efectivo'}
                               </span>
                             </td>
 
-                            <td className="p-4 text-right whitespace-nowrap">
-                              <span className="font-mono-price font-bold text-gold-400 text-base">
+                            <td className="py-3 px-4 text-right whitespace-nowrap">
+                              <span className="font-mono font-bold text-gold-400 text-xs">
                                 {formatPrice(apt.totalPrice)}
                               </span>
                             </td>
@@ -1035,14 +1048,14 @@ export default function BarberDashboard() {
           title="Cancelar Cita"
         >
           <div className="space-y-4">
-            <p className="text-sm text-gray-300">
+            <p className="text-xs text-[#dfdbca] font-sans leading-relaxed">
               ¿Estás seguro de que deseas cancelar la cita de{' '}
-              <strong className="text-white uppercase">{selectedAppointmentToCancel?.client?.name}</strong> programada para las{' '}
-              <strong className="text-gold-500">{selectedAppointmentToCancel?.startTime}</strong>?
+              <strong className="text-white">{selectedAppointmentToCancel?.client?.name}</strong> programada para las{' '}
+              <strong className="text-gold-400">{selectedAppointmentToCancel?.startTime}</strong>?
             </p>
 
             <div>
-              <label className="block text-xs uppercase font-bold text-gray-400 font-mono mb-2">
+              <label className="block text-[11px] font-sans uppercase tracking-wider text-[#808080] mb-1.5">
                 Motivo de la cancelación:
               </label>
               <textarea
@@ -1050,15 +1063,15 @@ export default function BarberDashboard() {
                 onChange={(e) => setCancelReason(e.target.value)}
                 placeholder="Ej: Calamidad doméstica, cambio de horario coordinado con cliente..."
                 rows={3}
-                className="brutal-input w-full text-sm bg-[#0d0d0d]"
+                className="bg-[#161d19] border border-[#26302a] text-white rounded-[4px] p-3 text-xs font-sans w-full focus:outline-none focus:border-gold-400 placeholder:text-[#808080]"
               />
             </div>
 
-            <div className="flex justify-end gap-3 pt-4 border-t border-[#333]">
+            <div className="flex justify-end gap-3 pt-4 border-t border-[#1f2723]">
               <button
                 type="button"
                 onClick={() => setCancelModalOpen(false)}
-                className="brutal-btn bg-dark-300 text-gray-300 border-[#333] px-4 py-2 text-xs font-bold uppercase"
+                className="px-4 py-2 bg-[#161d19] hover:bg-[#1f2723] text-[#dfdbca] border border-[#2b3530] text-xs font-sans uppercase tracking-wider rounded-[4px] cursor-pointer transition-all"
               >
                 Volver
               </button>
@@ -1066,7 +1079,7 @@ export default function BarberDashboard() {
                 type="button"
                 onClick={handleConfirmCancel}
                 disabled={actionLoadingId !== null}
-                className="brutal-btn bg-red-600 text-white border-black px-4 py-2 text-xs font-bold uppercase shadow-[3px_3px_0_#991b1b]"
+                className="px-4 py-2 bg-rose-950/60 hover:bg-rose-950/90 text-rose-300 border border-rose-800/60 text-xs font-sans uppercase tracking-wider rounded-[4px] cursor-pointer transition-all shadow-sm"
               >
                 Confirmar Cancelación
               </button>

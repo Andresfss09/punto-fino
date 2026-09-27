@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, Filter, Scissors, Star, Clock, User, Check, X } from 'lucide-react';
+import { Calendar, Filter, Star, User, Check, X } from 'lucide-react';
 import PageTransition from '../../components/ui/PageTransition';
-import BrutalCard from '../../components/ui/BrutalCard';
 import Modal from '../../components/ui/Modal';
 import { appointmentService } from '../../services/appointmentService';
 import { reviewService } from '../../services/reviewService';
@@ -40,7 +39,7 @@ export default function MyAppointments() {
       await appointmentService.cancel(cancelModal.appointmentId, cancelReason);
       toast.success('Cita cancelada correctamente');
       setCancelModal({ open: false, appointmentId: null });
-      setCancelReason('');
+      setCancelReason('Cambio de planes');
       fetchAppointments();
     } catch (error) {
       toast.error(error.message || 'Error al cancelar la cita');
@@ -78,13 +77,18 @@ export default function MyAppointments() {
     { value: 'cancelada', label: 'Canceladas' },
   ];
 
-  const getStatusStyle = (status) => {
+  const getStatusBadge = (status) => {
     switch (status) {
-      case 'completada': return 'border-[#22c55e] text-[#22c55e]';
-      case 'confirmada': return 'border-[#3b82f6] text-[#3b82f6]';
-      case 'pendiente': return 'border-[#d4af37] text-[#d4af37]';
-      case 'cancelada': return 'border-[#ef4444] text-[#ef4444]';
-      default: return 'border-[#a0a0a0] text-[#a0a0a0]';
+      case 'completada':
+        return 'bg-emerald-950/50 text-emerald-400 border-emerald-800/40';
+      case 'confirmada':
+        return 'bg-blue-950/50 text-blue-400 border-blue-800/40';
+      case 'pendiente':
+        return 'bg-amber-950/50 text-gold-400 border-amber-800/40';
+      case 'cancelada':
+        return 'bg-rose-950/50 text-rose-400 border-rose-800/40';
+      default:
+        return 'bg-[#161d19] text-[#b3b3b3] border-[#222a26]';
     }
   };
 
@@ -94,28 +98,32 @@ export default function MyAppointments() {
 
   return (
     <PageTransition>
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-20">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-20">
         
-        <div className="mb-8">
-          <h1 className="font-display text-4xl sm:text-5xl uppercase text-white mb-2 leading-tight">
-            MIS <span className="text-[#d4af37]">CITAS</span>
-          </h1>
-          <p className="text-[#a0a0a0] font-mono text-sm uppercase tracking-widest">
-            HISTORIAL Y GESTIÓN
-          </p>
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4 pb-6 border-b border-[#1f2723]">
+          <div>
+            <span className="editorial-tag text-gold-400 block mb-1">Historial & Citas</span>
+            <h1 className="font-serif italic text-3xl sm:text-4xl text-white">
+              Mis <span className="text-gold-400">Citas</span>
+            </h1>
+            <p className="text-[#8e9b94] text-xs font-sans mt-1">
+              Gestiona tus reservas, consulta el estado o califica a tu barbero
+            </p>
+          </div>
         </div>
 
         {/* Filters */}
         <div className="flex items-center gap-2 mb-8 overflow-x-auto pb-2 scrollbar-hide">
-          <Filter size={16} className="text-[#a0a0a0] flex-shrink-0 mr-2" />
+          <Filter size={15} className="text-[#8e9b94] flex-shrink-0 mr-1" />
           {statuses.map(({ value, label }) => (
             <button
               key={value}
               onClick={() => setStatusFilter(value)}
-              className={`brutal-badge cursor-pointer px-4 py-2 transition-all whitespace-nowrap ${
+              className={`px-3.5 py-1.5 rounded-[4px] text-xs font-sans uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
                 statusFilter === value
-                  ? 'bg-[#d4af37] text-[#0a0a0a] border-[#d4af37] shadow-[2px_2px_0_#0a0a0a]'
-                  : 'bg-transparent text-[#a0a0a0] border-[#333] hover:border-[#d4af37]'
+                  ? 'bg-gold-400 text-[#0e1311] font-semibold shadow-sm'
+                  : 'bg-[#161d19] text-[#b3b3b3] hover:text-white border border-[#222a26]'
               }`}
             >
               {label}
@@ -126,13 +134,13 @@ export default function MyAppointments() {
         {/* Appointments List */}
         {loading ? (
           <div className="flex justify-center py-20">
-            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#d4af37]"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold-400"></div>
           </div>
         ) : appointments.length === 0 ? (
-          <div className="text-center py-20 border-2 border-dashed border-[#333]">
-            <Calendar size={48} className="text-[#333] mx-auto mb-4" />
-            <p className="text-[#a0a0a0] font-bold uppercase tracking-wider text-lg">No hay citas</p>
-            <p className="text-[#666] font-mono text-sm mt-2">Intenta cambiando los filtros o agenda una nueva.</p>
+          <div className="text-center py-20 bg-[#121815] border border-[#1f2723] rounded-[4px] p-8">
+            <Calendar size={40} className="text-gold-400/40 mx-auto mb-3" />
+            <p className="font-serif italic text-xl text-white mb-1">Sin Citas Registradas</p>
+            <p className="text-[#8e9b94] text-xs font-sans mt-1">Intenta cambiando el filtro o reserva tu próxima experiencia en Punto Fino.</p>
           </div>
         ) : (
           <motion.div 
@@ -144,84 +152,89 @@ export default function MyAppointments() {
                 <motion.div
                   key={apt._id}
                   layout
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
                 >
-                  <BrutalCard className="p-5 sm:p-6 flex flex-col sm:flex-row gap-6">
+                  <div className="bg-[#121815] border border-[#1f2723] hover:border-[#2b3530] transition-colors rounded-[4px] p-5 sm:p-6 flex flex-col sm:flex-row gap-6">
                     {/* Date/Time Column */}
-                    <div className="flex sm:flex-col justify-between sm:justify-start items-center sm:items-start min-w-[140px] border-b-2 sm:border-b-0 sm:border-r-2 border-dashed border-[#333] pb-4 sm:pb-0 sm:pr-6">
+                    <div className="flex sm:flex-col justify-between sm:justify-start items-center sm:items-start min-w-[140px] border-b sm:border-b-0 sm:border-r border-[#1f2723] pb-4 sm:pb-0 sm:pr-6">
                       <div>
-                        <p className="font-display text-2xl text-white uppercase leading-none mb-1">
+                        <p className="font-serif italic text-3xl text-white leading-none mb-1">
                           {new Date(apt.date + 'T12:00:00').getDate().toString().padStart(2, '0')}
                         </p>
-                        <p className="text-[#d4af37] font-bold text-xs uppercase tracking-wider">
+                        <p className="text-gold-400 font-sans text-xs uppercase tracking-wider">
                           {new Date(apt.date + 'T12:00:00').toLocaleDateString('es-CO', { month: 'short', year: 'numeric' })}
                         </p>
                       </div>
                       <div className="text-right sm:text-left sm:mt-4">
-                        <span className="inline-block px-2 py-1 border-2 border-[#333] font-mono-price text-sm text-white mb-2">
+                        <span className="inline-block px-2.5 py-1 border border-[#222a26] bg-[#0e1311] font-mono text-xs text-white mb-2 rounded-[4px]">
                           {formatTime(apt.startTime)}
                         </span>
-                        <div className={`brutal-badge text-center ${getStatusStyle(apt.status)}`}>
-                          {getStatusText(apt.status)}
+                        <div>
+                          <span className={`inline-block px-2.5 py-0.5 rounded-[4px] text-[10px] font-sans uppercase tracking-wider border ${getStatusBadge(apt.status)}`}>
+                            {getStatusText(apt.status)}
+                          </span>
                         </div>
                       </div>
                     </div>
 
                     {/* Details Column */}
-                    <div className="flex-1 space-y-4">
+                    <div className="flex-1 flex flex-col justify-between space-y-4">
                       <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <User size={14} className="text-[#a0a0a0]" />
-                          <span className="text-white font-medium uppercase">{apt.barber?.user?.name}</span>
+                        <div className="flex items-center gap-2 mb-2">
+                          <User size={15} className="text-gold-400" />
+                          <span className="font-serif italic text-lg text-white">
+                            {apt.barber?.user?.name || 'Barbero Asignado'}
+                          </span>
                         </div>
-                        <div className="flex flex-wrap gap-1 mt-2">
-                          {apt.services.map((s, i) => (
-                            <span key={i} className="text-xs bg-[#1a1a1a] border border-[#333] text-[#a0a0a0] px-2 py-1 uppercase">
+                        <div className="flex flex-wrap gap-1.5 mt-2">
+                          {apt.services?.map((s, i) => (
+                            <span key={i} className="text-xs bg-[#161d19] border border-[#222a26] text-[#dfdbca] px-2.5 py-1 rounded-[4px]">
                               {s.name}
                             </span>
                           ))}
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-between border-t-2 border-[#333] pt-4 mt-auto">
-                        <span className="text-[#a0a0a0] font-mono text-xs">
-                          {apt.paymentMethod}
+                      <div className="flex items-center justify-between border-t border-[#1f2723] pt-3 mt-4">
+                        <span className="text-[#8e9b94] font-mono text-xs uppercase">
+                          Pago: {apt.paymentMethod}
                         </span>
-                        <span className="font-mono-price font-bold text-[#d4af37] text-lg">
+                        <span className="font-mono font-bold text-gold-400 text-lg">
                           ${apt.totalPrice?.toLocaleString('es-CO')}
                         </span>
                       </div>
                     </div>
 
                     {/* Actions Column */}
-                    <div className="flex sm:flex-col gap-2 pt-4 sm:pt-0 sm:pl-4 justify-end">
+                    <div className="flex sm:flex-col gap-2 pt-4 sm:pt-0 sm:pl-4 justify-end sm:border-l sm:border-[#1f2723]">
                       {(apt.status === 'pendiente' || apt.status === 'confirmada') && (
                         <button
                           onClick={() => setCancelModal({ open: true, appointmentId: apt._id })}
-                          className="brutal-btn bg-transparent text-[#ef4444] border-[#ef4444] shadow-[3px_3px_0_#ef4444] px-4 py-2 font-bold uppercase text-xs w-full"
+                          className="bg-rose-950/40 hover:bg-rose-950/70 text-rose-400 border border-rose-800/40 px-4 py-2 text-xs font-sans uppercase tracking-wider rounded-[4px] transition-colors w-full cursor-pointer"
                         >
-                          Cancelar
+                          Cancelar Cita
                         </button>
                       )}
                       
                       {apt.status === 'completada' && !apt.isReviewed && (
                         <button
                           onClick={() => setReviewModal({ open: true, appointment: apt })}
-                          className="brutal-btn bg-transparent text-[#d4af37] border-[#d4af37] shadow-[3px_3px_0_#d4af37] px-4 py-2 font-bold uppercase text-xs w-full"
+                          className="bg-gold-400 hover:bg-gold-300 text-[#0e1311] font-sans font-semibold px-4 py-2 text-xs uppercase tracking-wider rounded-[4px] transition-colors w-full cursor-pointer shadow-sm"
                         >
                           Reseñar
                         </button>
                       )}
                       
                       {apt.status === 'completada' && apt.isReviewed && (
-                        <div className="px-4 py-2 border-2 border-[#333] text-[#a0a0a0] font-bold uppercase text-xs w-full text-center flex items-center justify-center gap-1 bg-[#1a1a1a]">
-                          <Check size={12} /> Reseñada
+                        <div className="px-4 py-2 border border-[#222a26] text-[#8e9b94] font-sans text-xs uppercase tracking-wider w-full text-center flex items-center justify-center gap-1.5 bg-[#161d19] rounded-[4px]">
+                          <Check size={14} className="text-emerald-400" />
+                          <span>Reseñada</span>
                         </div>
                       )}
                     </div>
-                  </BrutalCard>
+                  </div>
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -230,18 +243,20 @@ export default function MyAppointments() {
       </div>
 
       {/* Cancel Modal */}
-      <Modal isOpen={cancelModal.open} onClose={() => setCancelModal({ open: false, appointmentId: null })} title="CANCELAR CITA">
+      <Modal isOpen={cancelModal.open} onClose={() => setCancelModal({ open: false, appointmentId: null })} title="Cancelar Cita">
         <div className="p-6">
-          <p className="text-white mb-6 font-medium">¿Estás seguro que deseas cancelar esta cita?</p>
+          <p className="text-[#dfdbca] mb-5 text-sm font-sans">
+            ¿Estás seguro de que deseas cancelar esta reserva? Por favor cuéntanos el motivo:
+          </p>
           
-          <div className="space-y-3 mb-8">
+          <div className="space-y-2.5 mb-6">
             {['Cambio de planes', 'Encontré otro lugar', 'Motivos personales', 'Otro'].map(reason => (
               <label 
                 key={reason}
-                className={`cursor-pointer flex items-center p-3 border-2 transition-all ${
+                className={`cursor-pointer flex items-center p-3 rounded-[4px] border transition-all ${
                   cancelReason === reason 
-                    ? 'border-[#ef4444] bg-[#ef4444]/10' 
-                    : 'border-[#333] bg-[#111111]'
+                    ? 'border-rose-500/60 bg-rose-950/20 text-white' 
+                    : 'border-[#222a26] bg-[#161d19]/50 text-[#8e9b94] hover:border-[#2b3530]'
                 }`}
               >
                 <input 
@@ -252,83 +267,82 @@ export default function MyAppointments() {
                   onChange={(e) => setCancelReason(e.target.value)}
                   className="hidden"
                 />
-                <div className={`w-4 h-4 border-2 mr-3 flex items-center justify-center ${cancelReason === reason ? 'border-[#ef4444]' : 'border-[#666]'}`}>
-                  {cancelReason === reason && <div className="w-2 h-2 bg-[#ef4444]" />}
+                <div className={`w-4 h-4 rounded-[2px] border mr-3 flex items-center justify-center ${cancelReason === reason ? 'border-rose-400 bg-rose-400' : 'border-[#444]'}`}>
+                  {cancelReason === reason && <div className="w-1.5 h-1.5 bg-[#0e1311]" />}
                 </div>
-                <span className={`text-sm uppercase font-bold ${cancelReason === reason ? 'text-[#ef4444]' : 'text-[#a0a0a0]'}`}>
+                <span className="text-xs font-sans uppercase tracking-wider">
                   {reason}
                 </span>
               </label>
             ))}
           </div>
 
-          <div className="flex gap-4">
+          <div className="flex gap-3">
             <button 
               onClick={() => setCancelModal({ open: false, appointmentId: null })}
-              className="brutal-btn-outline flex-1 py-3 uppercase text-sm"
+              className="bg-[#161d19] hover:bg-[#1f2723] text-[#dfdbca] border border-[#2b3530] text-xs font-sans uppercase tracking-wider flex-1 py-2.5 rounded-[4px] transition-colors cursor-pointer"
             >
-              Cerrar
+              Volver
             </button>
             <button 
               onClick={handleCancel}
               disabled={actionLoading}
-              className="brutal-btn bg-[#ef4444] text-[#0a0a0a] border-[#0a0a0a] shadow-[4px_4px_0_#0a0a0a] font-bold uppercase tracking-wider flex-1 py-3 text-sm flex items-center justify-center gap-2"
+              className="bg-rose-950/60 hover:bg-rose-950/90 text-rose-400 border border-rose-800/60 font-sans font-semibold uppercase tracking-wider flex-1 py-2.5 text-xs rounded-[4px] flex items-center justify-center gap-2 cursor-pointer transition-colors"
             >
-              {actionLoading ? <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" /> : <><X size={16} strokeWidth={3} /> Cancelar Cita</>}
+              {actionLoading ? <div className="w-4 h-4 border-2 border-rose-400 border-t-transparent rounded-full animate-spin" /> : <><X size={15} /> Confirmar Cancelación</>}
             </button>
           </div>
         </div>
       </Modal>
 
       {/* Review Modal */}
-      <Modal isOpen={reviewModal.open} onClose={() => setReviewModal({ open: false, appointment: null })} title="CALIFICAR SERVICIO">
+      <Modal isOpen={reviewModal.open} onClose={() => setReviewModal({ open: false, appointment: null })} title="Calificar Experiencia">
         <div className="p-6">
-          <p className="text-white mb-6 text-sm text-center">
-            ¿Qué tal te pareció el servicio con <span className="font-bold text-[#d4af37] uppercase">{reviewModal.appointment?.barber?.user?.name}</span>?
+          <p className="text-[#dfdbca] mb-5 text-sm text-center">
+            ¿Cómo fue tu experiencia con <span className="font-serif italic text-gold-400 text-base">{reviewModal.appointment?.barber?.user?.name}</span>?
           </p>
           
-          <div className="flex justify-center gap-2 mb-8">
+          <div className="flex justify-center gap-2 mb-6">
             {[1, 2, 3, 4, 5].map((star) => (
               <button
                 key={star}
                 onClick={() => setReviewRating(star)}
-                className="transition-transform hover:scale-110 focus:outline-none"
+                className="transition-transform hover:scale-110 focus:outline-none cursor-pointer p-1"
               >
                 <Star
-                  size={36}
-                  strokeWidth={1.5}
-                  className={star <= reviewRating ? 'fill-[#d4af37] text-[#d4af37]' : 'text-[#333] fill-transparent'}
+                  size={32}
+                  className={star <= reviewRating ? 'fill-gold-400 text-gold-400' : 'text-[#333] fill-transparent'}
                 />
               </button>
             ))}
           </div>
 
-          <div className="mb-8">
-            <label className="text-[#a0a0a0] font-bold uppercase text-xs tracking-wider mb-2 block">
-              Comentario (Opcional)
+          <div className="mb-6">
+            <label className="text-[#8e9b94] font-sans text-[11px] uppercase tracking-wider mb-2 block">
+              Comentario u Opinión (Opcional)
             </label>
             <textarea
               value={reviewComment}
               onChange={(e) => setReviewComment(e.target.value)}
-              placeholder="Ej: Excelente servicio, muy profesional..."
-              className="brutal-input w-full h-24 resize-none"
+              placeholder="Ej: Excelente servicio, gran atención y precisión en el corte..."
+              className="w-full bg-[#0e1311] border border-[#222a26] text-white focus:border-gold-400/50 rounded-[4px] p-3 text-xs outline-none h-24 resize-none transition-colors"
               maxLength={200}
             />
           </div>
 
-          <div className="flex gap-4">
+          <div className="flex gap-3">
             <button 
               onClick={() => setReviewModal({ open: false, appointment: null })}
-              className="brutal-btn-outline flex-1 py-3 uppercase text-sm"
+              className="bg-[#161d19] hover:bg-[#1f2723] text-[#dfdbca] border border-[#2b3530] text-xs font-sans uppercase tracking-wider flex-1 py-2.5 rounded-[4px] transition-colors cursor-pointer"
             >
               Cancelar
             </button>
             <button 
               onClick={handleReview}
               disabled={actionLoading}
-              className="brutal-btn-primary flex-1 py-3 text-sm flex items-center justify-center gap-2"
+              className="bg-gold-400 hover:bg-gold-300 text-[#0e1311] font-sans font-semibold text-xs uppercase tracking-wider flex-1 py-2.5 rounded-[4px] flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-sm"
             >
-              {actionLoading ? <div className="w-4 h-4 border-2 border-[#0a0a0a] border-t-transparent rounded-full animate-spin" /> : <><Check size={16} strokeWidth={3} /> Enviar</>}
+              {actionLoading ? <div className="w-4 h-4 border-2 border-[#0e1311] border-t-transparent rounded-full animate-spin" /> : <><Check size={15} /> Publicar Reseña</>}
             </button>
           </div>
         </div>

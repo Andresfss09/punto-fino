@@ -37,7 +37,7 @@ const BottomBar = () => {
   }
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#0a0a0a] border-t-3 border-[#333] pb-safe z-40">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#0e1311] border-t border-[#1f2723] pb-safe z-40">
       <div className="flex justify-around items-center h-16">
         {links.map((link, idx) => (
           <NavLink
@@ -45,15 +45,15 @@ const BottomBar = () => {
             to={link.path}
             end={link.path === '/cliente' || link.path === '/barber' || link.path === '/admin'}
             className={({ isActive }) => 
-              `flex flex-col items-center justify-center flex-1 h-full min-w-[44px] border-t-3 transition-colors ${
+              `flex flex-col items-center justify-center flex-1 h-full min-w-[44px] transition-colors ${
                 isActive 
-                  ? 'border-[#d4af37] text-[#d4af37] bg-[#d4af37]/5' 
-                  : 'border-transparent text-[#a0a0a0] hover:text-white'
+                  ? 'text-gold-400 bg-[#161d19]/80 border-t-2 border-gold-400' 
+                  : 'text-[#808080] hover:text-[#dfdbca] border-t-2 border-transparent'
               }`
             }
           >
-            <link.icon className="w-6 h-6 mb-1" />
-            <span className="text-[10px] font-medium uppercase tracking-wider">{link.label}</span>
+            <link.icon className="w-5 h-5 mb-1" />
+            <span className="text-[10px] font-sans font-medium uppercase tracking-wider">{link.label}</span>
           </NavLink>
         ))}
       </div>

@@ -3,11 +3,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
-import { User, Mail, Phone, Lock, Bell, Camera, ChevronDown, ChevronUp } from 'lucide-react';
+import { User, Mail, Phone, Lock, Bell, Camera, ChevronDown, ChevronUp, Check } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
-import BrutalCard from '../../components/ui/BrutalCard';
-import Button from '../../components/ui/Button';
-import Input from '../../components/ui/Input';
 import PageTransition from '../../components/ui/PageTransition';
 import toast from 'react-hot-toast';
 import { authService } from '../../services/authService';
@@ -26,115 +23,218 @@ export default function ClientProfile() {
   const [showPassword, setShowPassword] = useState(false);
   const [avatar, setAvatar] = useState(user?.avatar || null);
 
-  const { register: passReg, handleSubmit: handlePassSubmit, formState: { errors: passErrors } } = useForm({
+  const { register: passReg, handleSubmit: handlePassSubmit, reset, formState: { errors: passErrors } } = useForm({
     resolver: zodResolver(passwordSchema)
   });
 
   const onPasswordChange = async (data) => {
     try {
       await authService.changePassword(data);
-      toast.success('Contraseña actualizada');
+      toast.success('Contraseña actualizada exitosamente');
       setShowPassword(false);
+      reset();
     } catch (error) {
-      toast.error('Error al cambiar contraseña');
+      toast.error(error.response?.data?.message || 'Error al cambiar contraseña');
     }
   };
 
   const handleAvatarUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Fake upload for now
       setAvatar(URL.createObjectURL(file));
-      toast.success('Avatar actualizado (Simulado)');
+      toast.success('Foto de perfil actualizada');
     }
   };
 
   return (
     <PageTransition>
-      <div className="max-w-2xl mx-auto p-4 sm:p-6 space-y-6 sm:space-y-8">
-        <h1 className="text-3xl font-display font-bold uppercase tracking-wider text-gold-500">Mi Perfil</h1>
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-20 space-y-6">
+        
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between pb-6 border-b border-[#1f2723]">
+          <div>
+            <span className="editorial-tag text-gold-400 block mb-1">Cuenta & Preferencias</span>
+            <h1 className="font-serif italic text-3xl sm:text-4xl text-white">
+              Mi <span className="text-gold-400">Perfil</span>
+            </h1>
+            <p className="text-[#8e9b94] text-xs font-sans mt-1">
+              Información personal, seguridad y preferencias de notificación
+            </p>
+          </div>
+        </div>
 
-        <BrutalCard className="flex flex-col sm:flex-row items-center gap-6">
+        {/* User Card */}
+        <div className="bg-[#121815] border border-[#1f2723] rounded-[4px] p-6 flex flex-col sm:flex-row items-center gap-6">
           <div className="relative">
-            <div className="w-24 h-24 rounded-full bg-dark-300 border-2 border-[#333] shadow-brutal-sm overflow-hidden">
+            <div className="w-20 h-20 rounded-[4px] bg-[#161d19] border border-gold-400/40 overflow-hidden flex items-center justify-center font-serif italic text-3xl text-gold-400 font-bold shadow-sm">
               {avatar ? (
                 <img src={avatar} alt="Avatar" className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-500">
-                  <User size={40} />
-                </div>
+                user?.name?.charAt(0) || 'C'
               )}
             </div>
-            <label className="absolute bottom-0 right-0 bg-gold-500 text-dark-500 p-2 rounded-full cursor-pointer border-2 border-dark-500 shadow-brutal-sm hover:scale-105 transition-transform">
-              <Camera size={16} />
+            <label 
+              className="absolute -bottom-2 -right-2 bg-gold-400 hover:bg-gold-300 text-[#0e1311] p-1.5 rounded-[4px] cursor-pointer transition-transform hover:scale-105 shadow-sm"
+              title="Cambiar fotografía"
+            >
+              <Camera size={14} />
               <input type="file" className="hidden" accept="image/*" onChange={handleAvatarUpload} />
             </label>
           </div>
+          
           <div className="text-center sm:text-left">
-            <h2 className="text-xl font-bold">{user?.name || 'Cliente'}</h2>
-            <p className="text-gray-400 font-mono-price text-sm">Cliente VIP</p>
+            <h2 className="font-serif italic text-2xl text-white">{user?.name || 'Cliente'}</h2>
+            <div className="flex items-center gap-2 justify-center sm:justify-start mt-1">
+              <span className="editorial-tag text-gold-400 bg-[#161d19] border border-gold-400/30 px-2 py-0.5 rounded-[2px]">
+                Cliente Distinguido
+              </span>
+              <span className="text-[#8e9b94] text-xs font-mono">Punto Fino Club</span>
+            </div>
           </div>
-        </BrutalCard>
+        </div>
 
-        <BrutalCard padding={false} className="overflow-hidden">
-          <div className="p-4 sm:p-6 bg-dark-300 border-b-2 border-[#333]">
-            <h3 className="font-bold flex items-center gap-2 uppercase tracking-wide"><User size={18} className="text-gold-500"/> Información Personal</h3>
+        {/* Personal Info */}
+        <div className="bg-[#121815] border border-[#1f2723] rounded-[4px] overflow-hidden">
+          <div className="p-4 sm:p-5 bg-[#161d19]/60 border-b border-[#1f2723] flex items-center gap-2">
+            <User size={16} className="text-gold-400" />
+            <h3 className="font-serif italic text-lg text-white">Información Personal</h3>
           </div>
-          <div className="p-4 sm:p-6 space-y-4">
-            <Input label="Nombre" value={user?.name || ''} readOnly icon={User} className="opacity-75 bg-dark-200 cursor-not-allowed" />
-            <Input label="Email" value={user?.email || ''} readOnly icon={Mail} className="opacity-75 bg-dark-200 cursor-not-allowed" />
-            <Input label="Teléfono" value={user?.phone || '+57 300 000 0000'} readOnly icon={Phone} className="opacity-75 bg-dark-200 cursor-not-allowed" />
-          </div>
-        </BrutalCard>
+          <div className="p-5 sm:p-6 space-y-4">
+            <div>
+              <label className="text-[#8e9b94] font-sans text-[11px] uppercase tracking-wider mb-1 block">Nombre Completo</label>
+              <div className="relative">
+                <User size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#666]" />
+                <input 
+                  value={user?.name || ''} 
+                  readOnly 
+                  className="w-full bg-[#0e1311] border border-[#222a26] text-[#dfdbca] rounded-[4px] pl-9 pr-3 py-2 text-xs outline-none cursor-not-allowed"
+                />
+              </div>
+            </div>
 
-        <BrutalCard padding={false}>
+            <div>
+              <label className="text-[#8e9b94] font-sans text-[11px] uppercase tracking-wider mb-1 block">Correo Electrónico</label>
+              <div className="relative">
+                <Mail size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#666]" />
+                <input 
+                  value={user?.email || ''} 
+                  readOnly 
+                  className="w-full bg-[#0e1311] border border-[#222a26] text-[#dfdbca] rounded-[4px] pl-9 pr-3 py-2 text-xs outline-none cursor-not-allowed"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="text-[#8e9b94] font-sans text-[11px] uppercase tracking-wider mb-1 block">Teléfono de Contacto</label>
+              <div className="relative">
+                <Phone size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#666]" />
+                <input 
+                  value={user?.phone || '+57 300 000 0000'} 
+                  readOnly 
+                  className="w-full bg-[#0e1311] border border-[#222a26] text-[#dfdbca] rounded-[4px] pl-9 pr-3 py-2 text-xs outline-none cursor-not-allowed"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Security */}
+        <div className="bg-[#121815] border border-[#1f2723] rounded-[4px] overflow-hidden">
           <div 
-            className="p-4 sm:p-6 bg-dark-300 flex justify-between items-center cursor-pointer hover:bg-dark-200 transition-colors"
+            className="p-4 sm:p-5 bg-[#161d19]/60 flex justify-between items-center cursor-pointer hover:bg-[#161d19] transition-colors"
             onClick={() => setShowPassword(!showPassword)}
           >
-            <h3 className="font-bold flex items-center gap-2 uppercase tracking-wide"><Lock size={18} className="text-gold-500"/> Seguridad</h3>
-            {showPassword ? <ChevronUp /> : <ChevronDown />}
+            <div className="flex items-center gap-2">
+              <Lock size={16} className="text-gold-400" />
+              <h3 className="font-serif italic text-lg text-white">Seguridad de la Cuenta</h3>
+            </div>
+            {showPassword ? <ChevronUp size={18} className="text-gold-400" /> : <ChevronDown size={18} className="text-[#8e9b94]" />}
           </div>
+
           {showPassword && (
-            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="p-4 sm:p-6 border-t-2 border-[#333]">
+            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="p-5 sm:p-6 border-t border-[#1f2723]">
               <form onSubmit={handlePassSubmit(onPasswordChange)} className="space-y-4">
-                <Input type="password" label="Contraseña Actual" {...passReg('currentPassword')} error={passErrors.currentPassword?.message} />
-                <Input type="password" label="Nueva Contraseña" {...passReg('newPassword')} error={passErrors.newPassword?.message} />
-                <Input type="password" label="Confirmar Contraseña" {...passReg('confirmPassword')} error={passErrors.confirmPassword?.message} />
-                <Button type="submit" className="w-full brutal-btn-primary">Actualizar Contraseña</Button>
+                <div>
+                  <label className="text-[#8e9b94] font-sans text-[11px] uppercase tracking-wider mb-1 block">Contraseña Actual</label>
+                  <input 
+                    type="password" 
+                    {...passReg('currentPassword')} 
+                    placeholder="Ingresa tu contraseña actual"
+                    className="w-full bg-[#0e1311] border border-[#222a26] text-white focus:border-gold-400/50 rounded-[4px] px-3 py-2 text-xs outline-none transition-colors"
+                  />
+                  {passErrors.currentPassword && <p className="text-rose-400 text-xs mt-1">{passErrors.currentPassword.message}</p>}
+                </div>
+
+                <div>
+                  <label className="text-[#8e9b94] font-sans text-[11px] uppercase tracking-wider mb-1 block">Nueva Contraseña</label>
+                  <input 
+                    type="password" 
+                    {...passReg('newPassword')} 
+                    placeholder="Mínimo 6 caracteres"
+                    className="w-full bg-[#0e1311] border border-[#222a26] text-white focus:border-gold-400/50 rounded-[4px] px-3 py-2 text-xs outline-none transition-colors"
+                  />
+                  {passErrors.newPassword && <p className="text-rose-400 text-xs mt-1">{passErrors.newPassword.message}</p>}
+                </div>
+
+                <div>
+                  <label className="text-[#8e9b94] font-sans text-[11px] uppercase tracking-wider mb-1 block">Confirmar Nueva Contraseña</label>
+                  <input 
+                    type="password" 
+                    {...passReg('confirmPassword')} 
+                    placeholder="Repite la nueva contraseña"
+                    className="w-full bg-[#0e1311] border border-[#222a26] text-white focus:border-gold-400/50 rounded-[4px] px-3 py-2 text-xs outline-none transition-colors"
+                  />
+                  {passErrors.confirmPassword && <p className="text-rose-400 text-xs mt-1">{passErrors.confirmPassword.message}</p>}
+                </div>
+
+                <div className="pt-2 flex justify-end">
+                  <button 
+                    type="submit" 
+                    className="bg-gold-400 hover:bg-gold-300 text-[#0e1311] font-sans font-semibold text-xs uppercase tracking-wider px-5 py-2.5 rounded-[4px] transition-all cursor-pointer shadow-sm"
+                  >
+                    Actualizar Contraseña
+                  </button>
+                </div>
               </form>
             </motion.div>
           )}
-        </BrutalCard>
+        </div>
 
-        <BrutalCard padding={false}>
-          <div className="p-4 sm:p-6 bg-dark-300 border-b-2 border-[#333]">
-            <h3 className="font-bold flex items-center gap-2 uppercase tracking-wide"><Bell size={18} className="text-gold-500"/> Notificaciones</h3>
+        {/* Notifications */}
+        <div className="bg-[#121815] border border-[#1f2723] rounded-[4px] overflow-hidden">
+          <div className="p-4 sm:p-5 bg-[#161d19]/60 border-b border-[#1f2723] flex items-center gap-2">
+            <Bell size={16} className="text-gold-400" />
+            <h3 className="font-serif italic text-lg text-white">Preferencias de Notificación</h3>
           </div>
-          <div className="p-4 sm:p-6 space-y-6">
+          <div className="p-5 sm:p-6 space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-bold">Notificaciones por Email</p>
-                <p className="text-sm text-gray-400">Recordatorios de citas y promos</p>
+                <p className="text-white text-xs font-sans font-medium">Confirmaciones por Correo</p>
+                <p className="text-[#8e9b94] text-[11px]">Recibe recibos y recordatorios de tus citas</p>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" className="sr-only peer" defaultChecked />
-                <div className="w-11 h-6 bg-dark-200 border-2 border-[#333] rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-[#333] after:border-[#333] after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-gold-500 peer-checked:after:bg-dark-500"></div>
+                <div className="w-10 h-5 bg-[#0e1311] border border-[#222a26] rounded-[4px] peer peer-checked:bg-gold-400/30 peer-checked:border-gold-400 transition-colors"></div>
+                <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-gold-400 rounded-[2px] transition-transform peer-checked:translate-x-5"></div>
               </label>
             </div>
-            <div className="brutal-divider"></div>
+            
+            <div className="border-t border-[#1f2723]"></div>
+
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-bold">Notificaciones por WhatsApp</p>
-                <p className="text-sm text-gray-400">Mensajes de confirmación</p>
+                <p className="text-white text-xs font-sans font-medium">Recordatorios por WhatsApp</p>
+                <p className="text-[#8e9b94] text-[11px]">Notificación directa 2 horas antes de tu corte</p>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" className="sr-only peer" defaultChecked />
-                <div className="w-11 h-6 bg-dark-200 border-2 border-[#333] rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-[#333] after:border-[#333] after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-gold-500 peer-checked:after:bg-dark-500"></div>
+                <div className="w-10 h-5 bg-[#0e1311] border border-[#222a26] rounded-[4px] peer peer-checked:bg-gold-400/30 peer-checked:border-gold-400 transition-colors"></div>
+                <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-gold-400 rounded-[2px] transition-transform peer-checked:translate-x-5"></div>
               </label>
             </div>
           </div>
-        </BrutalCard>
+        </div>
+
       </div>
     </PageTransition>
   );

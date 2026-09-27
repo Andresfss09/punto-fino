@@ -162,34 +162,40 @@ export default function ClientDashboard() {
           <div className="lg:col-span-2 space-y-6">
             {/* PRÓXIMA CITA CARD */}
             {loading ? (
-              <div className="text-center py-16 bg-[#111111] border-2 border-[#333]">
-                <RefreshCw size={28} className="animate-spin text-gold-500 mx-auto mb-2" />
-                <p className="text-gray-400 font-mono text-xs uppercase">Cargando tu próxima cita...</p>
+              <div className="text-center py-16 bg-[#121815] border border-[#1f2723] rounded-[4px]">
+                <RefreshCw size={24} className="animate-spin text-gold-400 mx-auto mb-2" />
+                <p className="text-[#808080] font-mono text-xs uppercase">Cargando tu próxima cita...</p>
               </div>
             ) : nextAppointment ? (
-              <BrutalCard variant="gold" className="relative overflow-hidden p-6">
-                <div className="flex items-center justify-between gap-2 border-b-2 border-[#333] pb-3 mb-4">
-                  <span className="brutal-badge bg-gold-500 text-black border-black font-bold text-xs uppercase">
+              <div className="bg-[#121815] border border-gold-400/50 rounded-[4px] p-6 shadow-subtle relative overflow-hidden">
+                <div className="flex items-center justify-between gap-2 border-b border-[#1f2723] pb-3 mb-4">
+                  <span className="editorial-tag bg-gold-400 text-[#0e1311] border-gold-400 font-semibold text-xs uppercase">
                     👑 Tu Próxima Cita
                   </span>
-                  <span className={`brutal-badge ${getStatusColor(nextAppointment.status)}`}>
+                  <span className={`editorial-tag ${
+                    nextAppointment.status === 'completada'
+                      ? 'bg-emerald-950/60 text-emerald-400 border-emerald-800/40'
+                      : nextAppointment.status === 'cancelada'
+                      ? 'bg-rose-950/50 text-rose-400 border-rose-800/40'
+                      : 'bg-gold-500/10 text-gold-400 border-gold-500/30'
+                  }`}>
                     {getStatusLabel(nextAppointment.status)}
                   </span>
                 </div>
 
                 <div className="mb-4">
-                  <h3 className="text-2xl font-display font-bold uppercase text-white leading-tight">
+                  <h3 className="text-2xl sm:text-3xl font-serif italic text-white font-normal leading-tight">
                     {nextAppointment.services?.map((s) => s.service?.name || 'Servicio').join(' + ')}
                   </h3>
-                  <p className="text-xs text-gray-400 font-mono mt-1">
-                    Código: <span className="text-gold-500 font-bold">{nextAppointment.confirmationCode}</span>
+                  <p className="text-xs text-[#808080] font-mono mt-1">
+                    Código: <span className="text-gold-400 font-bold">{nextAppointment.confirmationCode}</span>
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 bg-[#0d0d0d] border-2 border-[#222] font-mono-price mb-5">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 bg-[#161d19] border border-[#26302a] rounded-[4px] mb-5">
                   <div>
-                    <p className="text-gray-500 text-[11px] uppercase font-sans font-bold mb-1">Fecha</p>
-                    <p className="text-base text-white capitalize">
+                    <p className="text-[#808080] text-[11px] uppercase font-sans tracking-wider mb-1">Fecha</p>
+                    <p className="text-sm font-sans font-medium text-white capitalize">
                       {new Date(nextAppointment.date).toLocaleDateString('es-CO', {
                         day: 'numeric',
                         month: 'short',
@@ -198,14 +204,14 @@ export default function ClientDashboard() {
                     </p>
                   </div>
                   <div>
-                    <p className="text-gray-500 text-[11px] uppercase font-sans font-bold mb-1">Hora</p>
-                    <p className="text-base text-gold-500 font-bold">
+                    <p className="text-[#808080] text-[11px] uppercase font-sans tracking-wider mb-1">Hora</p>
+                    <p className="text-sm font-mono text-gold-400 font-bold">
                       {nextAppointment.startTime} - {nextAppointment.endTime}
                     </p>
                   </div>
                   <div>
-                    <p className="text-gray-500 text-[11px] uppercase font-sans font-bold mb-1">Barbero Asignado</p>
-                    <p className="text-base text-white uppercase">
+                    <p className="text-[#808080] text-[11px] uppercase font-sans tracking-wider mb-1">Barbero Asignado</p>
+                    <p className="text-sm font-serif italic text-white">
                       {nextAppointment.barber?.name || 'Por asignar'}
                     </p>
                   </div>
@@ -213,17 +219,17 @@ export default function ClientDashboard() {
 
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
                   <div className="flex items-center gap-3">
-                    <span className="text-xs text-gray-400">Total a pagar:</span>
-                    <span className="text-xl font-mono-price font-bold text-gold-400">
+                    <span className="text-xs text-[#808080] font-sans">Total a pagar:</span>
+                    <span className="text-xl font-mono font-bold text-gold-400">
                       {formatPrice(nextAppointment.totalPrice)}
                     </span>
-                    <span className="text-[11px] text-gray-500 font-mono">({nextAppointment.paymentMethod || 'Efectivo'})</span>
+                    <span className="text-[11px] text-[#808080] font-mono">({nextAppointment.paymentMethod || 'Efectivo'})</span>
                   </div>
 
                   <div className="flex gap-2 w-full sm:w-auto">
                     <Link
                       to="/cliente/citas"
-                      className="brutal-btn bg-dark-300 text-gray-200 border-[#333] hover:border-gold-500 px-4 py-2 uppercase font-bold text-xs flex-1 sm:flex-none text-center"
+                      className="px-4 py-2 bg-[#161d19] hover:bg-[#1f2723] text-[#dfdbca] border border-[#2b3530] text-xs font-sans uppercase tracking-wider rounded-[4px] flex-1 sm:flex-none text-center transition-all cursor-pointer"
                     >
                       Ver Detalles
                     </Link>
@@ -234,59 +240,59 @@ export default function ClientDashboard() {
                           setCancelReason('');
                           setCancelModalOpen(true);
                         }}
-                        className="brutal-btn bg-red-500/10 text-red-400 border-red-500/40 hover:bg-red-500/20 px-4 py-2 uppercase font-bold text-xs flex-1 sm:flex-none"
+                        className="px-4 py-2 bg-rose-950/40 hover:bg-rose-950/70 text-rose-400 border border-rose-800/40 text-xs font-sans uppercase tracking-wider rounded-[4px] flex-1 sm:flex-none cursor-pointer transition-all"
                       >
                         Cancelar
                       </button>
                     )}
                   </div>
                 </div>
-              </BrutalCard>
+              </div>
             ) : (
-              <BrutalCard variant="default" className="text-center p-8">
-                <Scissors size={36} className="text-gold-400 mx-auto mb-3" />
-                <h3 className="text-xl font-serif italic text-white mb-2">
+              <div className="text-center p-8 bg-[#121815] border border-[#222a26] rounded-[4px] shadow-subtle">
+                <Scissors size={32} className="text-gold-400 mx-auto mb-3" />
+                <h3 className="text-xl font-serif italic text-white mb-2 font-normal">
                   No tienes citas próximas agendadas
                 </h3>
-                <p className="text-[#b3b3b3] text-xs max-w-md mx-auto mb-6">
+                <p className="text-[#b3b3b3] text-xs max-w-md mx-auto mb-6 font-sans">
                   Elige tu servicio de corte o experiencia, tu barbero de confianza y agenda en Punto Fino en menos de un minuto.
                 </p>
                 <Link
                   to="/reservar"
-                  className="btn-primary px-7 py-3 text-xs uppercase tracking-wider inline-flex items-center gap-2"
+                  className="px-6 py-2.5 bg-gold-400 hover:bg-gold-300 text-[#0e1311] font-sans font-semibold text-xs uppercase tracking-wider rounded-[4px] inline-flex items-center gap-2 transition-all shadow-sm"
                 >
-                  <CalendarPlus size={16} />
+                  <CalendarPlus size={15} />
                   Agendar Mi Corte Ahora
                 </Link>
-              </BrutalCard>
+              </div>
             )}
 
             {/* Quick Action Navigation Buttons */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Link to="/reservar" className="block group">
-                <BrutalCard variant="interactive" className="flex items-center justify-between p-5 group-hover:border-gold-400/60 transition-all">
+                <div className="bg-[#121815] border border-[#222a26] group-hover:border-gold-400/50 rounded-[4px] flex items-center justify-between p-5 transition-all shadow-subtle">
                   <div>
                     <span className="text-[11px] font-sans uppercase text-gold-400 font-medium block mb-1">Cortes & Barba</span>
                     <h3 className="font-serif italic text-lg text-white">Reservar Cita</h3>
-                    <p className="text-[#808080] text-xs mt-0.5">Elige tu barbero, fecha y hora</p>
+                    <p className="text-[#808080] text-xs mt-0.5 font-sans">Elige tu barbero, fecha y hora</p>
                   </div>
                   <div className="w-10 h-10 bg-gold-400 text-[#0e1311] flex items-center justify-center rounded-[4px] group-hover:scale-105 transition-transform">
                     <CalendarPlus size={18} />
                   </div>
-                </BrutalCard>
+                </div>
               </Link>
 
               <Link to="/cliente/citas" className="block group">
-                <BrutalCard variant="interactive" className="flex items-center justify-between p-5 group-hover:border-gold-400/60 transition-all">
+                <div className="bg-[#121815] border border-[#222a26] group-hover:border-gold-400/50 rounded-[4px] flex items-center justify-between p-5 transition-all shadow-subtle">
                   <div>
                     <span className="text-[11px] font-sans uppercase text-[#808080] font-medium block mb-1">Tus Reservas</span>
                     <h3 className="font-serif italic text-lg text-white">Historial de Citas</h3>
-                    <p className="text-[#808080] text-xs mt-0.5">Ver citas pasadas y activas</p>
+                    <p className="text-[#808080] text-xs mt-0.5 font-sans">Ver citas pasadas y activas</p>
                   </div>
                   <div className="w-10 h-10 bg-[#161d19] text-[#dfdbca] flex items-center justify-center border border-[#2b3530] rounded-[4px] group-hover:scale-105 transition-transform">
                     <History size={18} />
                   </div>
-                </BrutalCard>
+                </div>
               </Link>
             </div>
           </div>
@@ -294,9 +300,9 @@ export default function ClientDashboard() {
           {/* Right Column: Fidelidad & Últimas Citas */}
           <div className="space-y-6">
             {/* Loyalty Card */}
-            <BrutalCard padding={false} className="overflow-hidden">
+            <div className="bg-[#121815] border border-[#222a26] rounded-[4px] overflow-hidden shadow-subtle">
               <div className="p-4 bg-[#161d19] border-b border-[#222a26] flex items-center justify-between">
-                <h3 className="font-serif italic text-base flex items-center gap-2 text-white">
+                <h3 className="font-serif italic text-base flex items-center gap-2 text-white font-normal">
                   <Star size={15} className="text-gold-400 fill-gold-400" /> Fidelidad Punto Fino
                 </h3>
                 <span className="text-xs font-mono text-gold-400 font-semibold">{loyaltyTier}</span>
@@ -308,7 +314,7 @@ export default function ClientDashboard() {
                     {points} <span className="text-xs text-[#808080] font-normal">pts</span>
                   </span>
                 </div>
-                <div className="w-full h-2 bg-[#101513] border border-[#222a26] rounded-full overflow-hidden">
+                <div className="w-full h-1.5 bg-[#101513] border border-[#222a26] rounded-full overflow-hidden">
                   <div
                     className="h-full bg-gold-400 transition-all duration-500 rounded-full"
                     style={{ width: `${progressPercent}%` }}
@@ -318,42 +324,48 @@ export default function ClientDashboard() {
                   Ganas <strong className="text-white">1 punto por cada $1.000 COP</strong> en servicios completados. ¡Canjéalos por beneficios exclusivos en Punto Fino!
                 </p>
               </div>
-            </BrutalCard>
+            </div>
 
             {/* Recents List */}
-            <BrutalCard padding={false} className="overflow-hidden">
-              <div className="p-4 bg-[#141414] border-b-2 border-[#333] flex items-center justify-between">
-                <h3 className="font-display font-bold uppercase tracking-wider text-sm flex items-center gap-2 text-white">
-                  <History size={16} className="text-gray-400" /> Actividad Reciente
+            <div className="bg-[#121815] border border-[#222a26] rounded-[4px] overflow-hidden shadow-subtle">
+              <div className="p-4 bg-[#161d19] border-b border-[#222a26] flex items-center justify-between">
+                <h3 className="font-serif italic text-base flex items-center gap-2 text-white font-normal">
+                  <History size={15} className="text-[#808080]" /> Actividad Reciente
                 </h3>
-                <Link to="/cliente/citas" className="text-xs font-mono text-gold-500 hover:underline">
+                <Link to="/cliente/citas" className="text-xs font-sans uppercase tracking-wider text-gold-400 hover:underline">
                   Ver todas
                 </Link>
               </div>
-              <div className="divide-y-2 divide-dashed divide-[#222]">
+              <div className="divide-y divide-[#18201c]">
                 {loading ? (
-                  <div className="p-6 text-center text-xs text-gray-500 font-mono">Cargando...</div>
+                  <div className="p-6 text-center text-xs text-[#808080] font-mono">Cargando...</div>
                 ) : appointments.slice(0, 4).length === 0 ? (
-                  <div className="p-6 text-center text-xs text-gray-500 font-mono">Aún no tienes actividad registrada</div>
+                  <div className="p-6 text-center text-xs text-[#808080] font-mono">Aún no tienes actividad registrada</div>
                 ) : (
                   appointments.slice(0, 4).map((apt) => (
-                    <div key={apt._id} className="p-4 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                    <div key={apt._id} className="p-4 flex items-center justify-between hover:bg-[#161d19]/60 transition-colors">
                       <div>
-                        <p className="font-bold uppercase text-xs text-white">
+                        <p className="text-xs font-sans font-medium text-white">
                           {apt.services?.map((s) => s.service?.name || 'Servicio').join(', ')}
                         </p>
-                        <p className="text-[11px] text-gray-400 font-mono mt-0.5">
+                        <p className="text-[11px] text-[#808080] font-mono mt-0.5">
                           {new Date(apt.date).toLocaleDateString('es-CO', { day: 'numeric', month: 'short' })} • {apt.startTime} • {apt.barber?.name || 'Barbero'}
                         </p>
                       </div>
-                      <span className={`brutal-badge text-[10px] ${getStatusColor(apt.status)}`}>
+                      <span className={`editorial-tag ${
+                        apt.status === 'completada'
+                          ? 'bg-emerald-950/60 text-emerald-400 border-emerald-800/40'
+                          : apt.status === 'cancelada'
+                          ? 'bg-rose-950/50 text-rose-400 border-rose-800/40'
+                          : 'bg-gold-500/10 text-gold-400 border-gold-500/30'
+                      }`}>
                         {getStatusLabel(apt.status)}
                       </span>
                     </div>
                   ))
                 )}
               </div>
-            </BrutalCard>
+            </div>
           </div>
         </div>
 
@@ -364,17 +376,17 @@ export default function ClientDashboard() {
           title="Cancelar Cita"
         >
           <div className="space-y-4">
-            <p className="text-sm text-gray-300">
+            <p className="text-xs text-[#dfdbca] font-sans leading-relaxed">
               ¿Estás seguro de que deseas cancelar tu cita del{' '}
               <strong className="text-white">
                 {selectedAptToCancel?.date && new Date(selectedAptToCancel.date).toLocaleDateString('es-CO')}
               </strong>{' '}
-              a las <strong className="text-gold-500">{selectedAptToCancel?.startTime}</strong> con{' '}
-              <strong className="text-white uppercase">{selectedAptToCancel?.barber?.name}</strong>?
+              a las <strong className="text-gold-400">{selectedAptToCancel?.startTime}</strong> con{' '}
+              <strong className="text-white">{selectedAptToCancel?.barber?.name}</strong>?
             </p>
 
             <div>
-              <label className="block text-xs uppercase font-bold text-gray-400 font-mono mb-2">
+              <label className="block text-[11px] font-sans uppercase tracking-wider text-[#808080] mb-1.5">
                 Motivo (opcional):
               </label>
               <textarea
@@ -382,15 +394,15 @@ export default function ClientDashboard() {
                 onChange={(e) => setCancelReason(e.target.value)}
                 placeholder="Ej: Cambio de planes, imprevisto laboral..."
                 rows={3}
-                className="brutal-input w-full text-sm bg-[#0d0d0d]"
+                className="bg-[#161d19] border border-[#26302a] text-white rounded-[4px] p-3 text-xs font-sans w-full focus:outline-none focus:border-gold-400 placeholder:text-[#808080]"
               />
             </div>
 
-            <div className="flex justify-end gap-3 pt-4 border-t border-[#333]">
+            <div className="flex justify-end gap-3 pt-4 border-t border-[#1f2723]">
               <button
                 type="button"
                 onClick={() => setCancelModalOpen(false)}
-                className="brutal-btn bg-dark-300 text-gray-300 border-[#333] px-4 py-2 text-xs font-bold uppercase"
+                className="px-4 py-2 bg-[#161d19] hover:bg-[#1f2723] text-[#dfdbca] border border-[#2b3530] text-xs font-sans uppercase tracking-wider rounded-[4px] cursor-pointer transition-all"
               >
                 Volver
               </button>
@@ -398,7 +410,7 @@ export default function ClientDashboard() {
                 type="button"
                 onClick={handleConfirmCancel}
                 disabled={cancelling}
-                className="brutal-btn bg-red-600 text-white border-black px-4 py-2 text-xs font-bold uppercase shadow-[3px_3px_0_#991b1b]"
+                className="px-4 py-2 bg-rose-950/60 hover:bg-rose-950/90 text-rose-300 border border-rose-800/60 text-xs font-sans uppercase tracking-wider rounded-[4px] cursor-pointer transition-all shadow-sm"
               >
                 {cancelling ? 'Cancelando...' : 'Confirmar Cancelación'}
               </button>
