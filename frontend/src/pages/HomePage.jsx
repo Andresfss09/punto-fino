@@ -4,28 +4,28 @@ import HeroSection from '../components/home/HeroSection';
 import ServicesSection from '../components/home/ServicesSection';
 import BarbersSection from '../components/home/BarbersSection';
 import ReviewsSection from '../components/home/ReviewsSection';
+import LocationSection from '../components/home/LocationSection';
 import BookingWizard from '../components/booking/BookingWizard';
 
 export default function HomePage() {
   return (
-    <div className="bg-dark-400">
+    <div className="bg-[#0e1311]">
       <Navbar />
       <HeroSection />
       <ServicesSection />
 
-      {/* Sección de Reserva directa en la página principal (Sin necesidad de crear cuenta) */}
-      <section id="reservar" className="py-24 bg-[#0d0d0d] border-t-2 border-white/5 relative scroll-mt-16">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gold-500/10 via-transparent to-transparent pointer-events-none" />
+      {/* Sección de Reserva directa en la página principal */}
+      <section id="reservar" className="py-24 sm:py-32 bg-[#0c100e] border-b border-[#1f2723] relative scroll-mt-16">
         <div className="container mx-auto px-4 max-w-5xl relative z-10">
           <div className="text-center mb-12">
-            <span className="text-xs uppercase font-mono tracking-[0.3em] text-gold-500 font-bold block mb-2">
-              RESERVA RÁPIDA Y DIRECTA
+            <span className="editorial-tag bg-[#161d19] border-[#2b3630] text-gold-400 mb-3">
+              Reserva en Línea · Punto Fino
             </span>
-            <h2 className="text-3xl md:text-5xl font-display font-bold uppercase tracking-wider text-white">
-              Agenda tu <span className="text-gold-500">Cita</span>
+            <h2 className="font-serif italic text-4xl sm:text-5xl text-white font-normal leading-tight">
+              Agenda tu Experiencia
             </h2>
-            <p className="text-gray-400 text-sm md:text-base max-w-xl mx-auto mt-3 font-sans">
-              Selecciona tu servicio, tu barbero favorito y la hora. No requieres crear cuenta previa; llena tus datos y te enviaremos la confirmación a tu correo.
+            <p className="text-[#b3b3b3] text-xs sm:text-sm max-w-xl mx-auto mt-3 font-sans leading-relaxed">
+              Selecciona tu servicio, tu barbero favorito y el horario ideal. No requieres crear cuenta; incluye bebida de cortesía y confirmación por correo y WhatsApp.
             </p>
           </div>
 
@@ -35,6 +35,7 @@ export default function HomePage() {
 
       <BarbersSection />
       <ReviewsSection />
+      <LocationSection />
     </div>
   );
 }

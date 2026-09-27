@@ -58,6 +58,28 @@ const services = [
     isActive: true,
     order: 5,
   },
+  {
+    name: 'Servicio de Bar & Café de Especialidad',
+    description: 'En cada cita tienes incluida una bebida de cortesía: café espresso recién molido o agua mineral purificada servida a la temperatura ideal.',
+    price: 0,
+    duration: 10,
+    category: 'bar',
+    image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=700&q=80',
+    isPopular: false,
+    isActive: true,
+    order: 6,
+  },
+  {
+    name: 'Cerveza Premium Fría & Coctelería de Bar',
+    description: 'Acompaña tu sesión con una cerveza fría (Corona, Heineken, Club Colombia) o trago de autor on the rocks. Incluida en Experiencia Platinium.',
+    price: 8000,
+    duration: 10,
+    category: 'bar',
+    image: 'https://images.unsplash.com/photo-1608270116645-a75d5069f257?auto=format&fit=crop&w=700&q=80',
+    isPopular: false,
+    isActive: true,
+    order: 7,
+  },
 ];
 
 const seed = async () => {

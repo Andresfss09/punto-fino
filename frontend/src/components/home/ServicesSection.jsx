@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Clock, ArrowRight, Sparkles } from 'lucide-react';
 
-const CATEGORIES = ['Todos', 'Experiencias', 'Cortes', 'Barba & Cuidado'];
+const CATEGORIES = ['Todos', 'Experiencias', 'Cortes', 'Barba & Cuidado', 'Bar & Bebidas'];
 
 const SERVICES = [
   {
@@ -11,7 +11,7 @@ const SERVICES = [
     badge: 'Ritual Supremo 👑',
     badgeType: 'gold', // #cfa53b
     image: 'https://s3.weibook.co/punto_fino/services/f7e3bb87-4e93-4eed-8340-1a01e6fa0ff3.webp',
-    desc: 'Una experiencia integral para verse y sentirse en su mejor versión. Incluye orientación personalizada, corte de cabello, cejas, afeitado facial, exfoliación, vapor ozono frío/caliente, mascarilla para puntos negros, velo hidratante, lavado capilar y masaje relajante.',
+    desc: 'Una experiencia integral para verse y sentirse en su mejor versión. Incluye orientación personalizada, corte de cabello, cejas, afeitado facial, exfoliación, vapor ozono frío/caliente, mascarilla para puntos negros, velo hidratante, lavado capilar, masaje relajante y bebida de cortesía (café o cerveza fría).',
     price: 55000,
     time: 60,
     cat: 'Experiencias',
@@ -23,7 +23,7 @@ const SERVICES = [
     badge: 'Recomendada',
     badgeType: 'lichen', // #cadcac
     image: 'https://s3.weibook.co/punto_fino/services/241a43d5-f365-4a78-a32d-9e4ffaffb801.webp',
-    desc: 'La combinación perfecta para una imagen impecable. Orientación personalizada, corte de cabello, lavado capilar y producto profesional. Además, Ritual de Barba con vapor ozono frío y caliente, exfoliación facial, suave afeitado a navaja y aceites hidratantes.',
+    desc: 'La combinación perfecta para una imagen impecable. Orientación personalizada, corte de cabello, lavado capilar y producto profesional. Además, Ritual de Barba con vapor ozono frío y caliente, exfoliación facial, suave afeitado a navaja, aceites hidratantes y café de cortesía.',
     price: 34000,
     time: 45,
     cat: 'Experiencias',
@@ -60,6 +60,28 @@ const SERVICES = [
     price: 5000,
     time: 10,
     cat: 'Barba & Cuidado',
+  },
+  {
+    id: 6,
+    name: 'Servicio de Bar & Café de Especialidad',
+    badge: 'Cortesía Atelier ☕',
+    badgeType: 'citron',
+    image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=700&q=80',
+    desc: 'En cada cita en Punto Fino tienes incluida una bebida de cortesía: café espresso recién molido de grano selecto, cappuccino cremoso o agua mineral purificada, servida a la temperatura ideal mientras disfrutas de tu sesión.',
+    price: 0,
+    time: 10,
+    cat: 'Bar & Bebidas',
+  },
+  {
+    id: 7,
+    name: 'Cerveza Premium Fría & Coctelería de Bar',
+    badge: 'Bar Selection 🍺',
+    badgeType: 'gold',
+    image: 'https://images.unsplash.com/photo-1608270116645-a75d5069f257?auto=format&fit=crop&w=700&q=80',
+    desc: 'Acompaña tu corte con una cerveza premium bien fría (Corona, Heineken, Stella Artois, Club Colombia) o trago de autor on the rocks servido en vaso de cristal. Incluida en la Experiencia Platinium o disponible a la carta.',
+    price: 8000,
+    time: 10,
+    cat: 'Bar & Bebidas',
   },
 ];
 

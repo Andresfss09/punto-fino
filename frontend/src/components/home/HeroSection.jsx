@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Scissors, Sparkles, MessageCircle, Calendar } from 'lucide-react';
+import { ArrowUpRight, Scissors, Sparkles, MessageCircle, Calendar, MapPin, Clock, Coffee } from 'lucide-react';
 import AnimatedCounter from '../ui/AnimatedCounter';
 
 export default function HeroSection() {
@@ -18,7 +18,7 @@ export default function HeroSection() {
     {
       title: 'Experiencia Platinium / Gol de Oro',
       category: 'Ritual Supremo VIP',
-      notes: 'Visagismo, exfoliación profunda, vapor ozono frío y caliente, mascarilla de puntos negros, velo hidratante y masaje relajante.',
+      notes: 'Visagismo, exfoliación profunda, vapor ozono dual, mascarilla, masaje relajante y bebida de cortesía.',
       href: '#servicios',
       price: '$55.000 COP',
     },
@@ -42,6 +42,13 @@ export default function HeroSection() {
       notes: 'Diseño geométrico a navaja clásica, exfoliación facial, vapor ozono dual y nutrición dérmica con aceites botánicos.',
       href: '#servicios',
       price: '$12.000 COP',
+    },
+    {
+      title: 'Servicio de Bar & Bebidas',
+      category: 'Cortesía & Bar Premium',
+      notes: 'Café espresso recién molido o agua mineral de cortesía. Cerveza premium fría o whisky on the rocks disponible.',
+      href: '#servicios',
+      price: 'Cortesía / Bar',
     },
   ];
 
@@ -112,6 +119,76 @@ export default function HeroSection() {
               </div>
             </motion.div>
           </div>
+
+          {/* High-Visibility Atelier Address, WhatsApp & Courtesy Drinks Bar */}
+          <motion.div 
+            variants={item}
+            className="bg-[#121815] border border-[#26302a] rounded-[4px] p-4 sm:p-5 shadow-subtle grid grid-cols-1 md:grid-cols-3 gap-5 divide-y md:divide-y-0 md:divide-x divide-[#1f2723]"
+          >
+            {/* Address */}
+            <div className="flex items-center gap-3.5 pr-0 md:pr-4">
+              <div className="w-11 h-11 rounded-[4px] bg-[#161d19] border border-[#2b3630] flex items-center justify-center text-gold-400 shrink-0">
+                <MapPin size={20} />
+              </div>
+              <div>
+                <span className="font-sans text-[10px] uppercase tracking-widest text-[#808080] font-medium block">
+                  Sede Villacolombia · Cali
+                </span>
+                <span className="font-sans text-xs sm:text-sm text-white font-medium block mt-0.5">
+                  Cra. 12 #53-51, Cali
+                </span>
+                <a
+                  href="https://maps.google.com/?q=Cra.+12+%2353-51,+Villacolombia,+Cali"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-sans text-[11px] text-gold-400 hover:text-white underline underline-offset-2 transition-colors mt-0.5 inline-block"
+                >
+                  Ver en Google Maps →
+                </a>
+              </div>
+            </div>
+
+            {/* Direct WhatsApp Line */}
+            <div className="flex items-center gap-3.5 pt-4 md:pt-0 px-0 md:px-4">
+              <div className="w-11 h-11 rounded-[4px] bg-[#16221c] border border-[#25D366]/40 flex items-center justify-center text-[#25D366] shrink-0">
+                <MessageCircle size={20} />
+              </div>
+              <div className="flex-1">
+                <span className="font-sans text-[10px] uppercase tracking-widest text-[#808080] font-medium block">
+                  Línea WhatsApp Directo
+                </span>
+                <a
+                  href="https://wa.me/573122398964?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Punto%20Fino"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-base sm:text-lg font-bold text-[#25D366] hover:text-white transition-colors block mt-0.5"
+                >
+                  +57 312 239 8964
+                </a>
+                <span className="font-sans text-[11px] text-[#b3b3b3]">
+                  Agenda inmediata y atención directa
+                </span>
+              </div>
+            </div>
+
+            {/* Courtesy Drinks & Bar */}
+            <div className="flex items-center gap-3.5 pt-4 md:pt-0 pl-0 md:pl-4">
+              <div className="w-11 h-11 rounded-[4px] bg-[#161d19] border border-[#2b3630] flex items-center justify-center text-gold-400 shrink-0">
+                <Coffee size={20} />
+              </div>
+              <div>
+                <span className="font-sans text-[10px] uppercase tracking-widest text-gold-400 font-medium block">
+                  Servicio de Bar & Bebidas
+                </span>
+                <span className="font-sans text-xs sm:text-sm text-white font-medium block mt-0.5">
+                  Café de Especialidad & Cerveza
+                </span>
+                <span className="font-sans text-[11px] text-[#808080]">
+                  Bebida de cortesía incluida en cada corte
+                </span>
+              </div>
+            </div>
+          </motion.div>
 
           {/* Two-Column Editorial Hero Layout (Table of Contents + Studio Visual) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start">

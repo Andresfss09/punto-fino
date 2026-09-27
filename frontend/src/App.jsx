@@ -24,6 +24,8 @@ import AdminServices from './pages/admin/AdminServices';
 import AdminBarbers from './pages/admin/AdminBarbers';
 import AdminUsers from './pages/admin/AdminUsers';
 
+import FloatingWhatsApp from './components/ui/FloatingWhatsApp';
+
 // Rutas protegidas por rol
 function PrivateRoute({ children, allowedRoles }) {
   const { isAuthenticated, user } = useAuthStore();
@@ -35,13 +37,14 @@ function PrivateRoute({ children, allowedRoles }) {
 export default function App() {
   const location = useLocation();
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        {/* Públicas */}
-        <Route path="/" element={<PageTransition><HomePage /><Footer /></PageTransition>} />
-        <Route path="/login" element={<PageTransition><LoginPage /><Footer /></PageTransition>} />
-        <Route path="/register" element={<PageTransition><RegisterPage /><Footer /></PageTransition>} />
-        <Route path="/reservar" element={<PageTransition><BookingPage /><Footer /></PageTransition>} />
+    <>
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          {/* Públicas */}
+          <Route path="/" element={<PageTransition><HomePage /><Footer /></PageTransition>} />
+          <Route path="/login" element={<PageTransition><LoginPage /><Footer /></PageTransition>} />
+          <Route path="/register" element={<PageTransition><RegisterPage /><Footer /></PageTransition>} />
+          <Route path="/reservar" element={<PageTransition><BookingPage /><Footer /></PageTransition>} />
 
         {/* Dashboard Layout wrapper para las rutas de usuarios */}
         <Route element={<DashboardLayout />}>
@@ -114,5 +117,7 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </AnimatePresence>
+    <FloatingWhatsApp />
+    </>
   );
 }

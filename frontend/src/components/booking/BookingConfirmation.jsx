@@ -1,5 +1,5 @@
 import React from 'react';
-import { Scissors, User, Calendar, Clock, Check, Edit2, Mail, Phone, MapPin, Sparkles } from 'lucide-react';
+import { Scissors, User, Calendar, Clock, Check, Edit2, Mail, Phone, MapPin, Sparkles, Coffee } from 'lucide-react';
 import { formatTime, formatPrice } from '../../utils/formatters';
 
 export default function BookingConfirmation({ 
@@ -21,7 +21,17 @@ export default function BookingConfirmation({
     setNotes,
     clientData, 
     setClientData,
+    selectedBeverage,
+    setSelectedBeverage,
   } = bookingData;
+
+  const BEVERAGES = [
+    { id: 'Café Espresso recién molido (Cortesía)', label: 'Café Espresso recién molido', tag: 'Cortesía Atelier', icon: '☕' },
+    { id: 'Cerveza Fría Premium (Corona / Heineken)', label: 'Cerveza Fría Premium', tag: 'Bar Selection', icon: '🍺' },
+    { id: 'Trago de Whisky On The Rocks', label: 'Whisky On The Rocks', tag: 'VIP Selection', icon: '🥃' },
+    { id: 'Agua mineral con gas / fría (Cortesía)', label: 'Agua Mineral / Botánica', tag: 'Cortesía Atelier', icon: '💧' },
+    { id: 'Sin bebida', label: 'Sin bebida por el momento', tag: 'Opcional', icon: '—' },
+  ];
 
   const paymentMethods = [
     { id: 'efectivo', label: 'Efectivo en el Atelier' },
@@ -181,6 +191,17 @@ export default function BookingConfirmation({
             </span>
             <span className="text-white font-medium">{totalDuration} minutos</span>
           </div>
+
+          {selectedBeverage && selectedBeverage !== 'Sin bebida' && (
+            <div className="p-3.5 bg-[#101513] border border-[#1f2723] rounded-[4px] flex justify-between items-center">
+              <span className="text-[#808080] flex items-center gap-2">
+                <Coffee size={14} className="text-gold-400" /> Bebida en Atelier:
+              </span>
+              <span className="font-serif italic text-sm text-gold-400 font-medium">
+                {selectedBeverage}
+              </span>
+            </div>
+          )}
         </div>
         
         {/* Total Price Pill */}
@@ -191,6 +212,52 @@ export default function BookingConfirmation({
           <span className="price-pill text-sm font-semibold">
             {formatPrice(totalPrice)} COP
           </span>
+        </div>
+      </div>
+
+      {/* Selección de Bebida durante tu Cita */}
+      <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-6 shadow-subtle">
+        <div className="flex items-center justify-between border-b border-[#1f2723] pb-3 mb-4">
+          <div className="flex items-center gap-2.5">
+            <Coffee size={18} className="text-gold-400" />
+            <h4 className="font-serif italic text-xl text-white">Servicio de Bar & Bebida durante tu Cita</h4>
+          </div>
+          <span className="editorial-tag bg-[#161d19] border-[#2b3530] text-gold-400 font-sans">
+            Cortesía Atelier
+          </span>
+        </div>
+        <p className="font-sans text-xs text-[#b3b3b3] mb-4 leading-relaxed">
+          En Punto Fino te recibimos con una bebida a la temperatura perfecta para disfrutar mientras esculpimos tu estilo. Selecciona tu preferencia:
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+          {BEVERAGES.map((bev) => (
+            <label
+              key={bev.id}
+              className={`cursor-pointer p-3 rounded-[4px] border transition-all flex items-start gap-3 ${
+                selectedBeverage === bev.id
+                  ? 'bg-[#19231d] border-gold-400 text-white shadow-sm'
+                  : 'bg-[#101513] border-[#222a26] text-[#b3b3b3] hover:border-[#38443e] hover:text-white'
+              }`}
+            >
+              <input
+                type="radio"
+                name="selectedBeverage"
+                value={bev.id}
+                checked={selectedBeverage === bev.id}
+                onChange={() => setSelectedBeverage && setSelectedBeverage(bev.id)}
+                className="hidden"
+              />
+              <span className="text-xl shrink-0">{bev.icon}</span>
+              <div className="flex-1 min-w-0">
+                <span className="font-sans text-xs font-medium block text-white truncate">
+                  {bev.label}
+                </span>
+                <span className="font-sans text-[10px] text-gold-400 uppercase tracking-wider block mt-0.5">
+                  {bev.tag}
+                </span>
+              </div>
+            </label>
+          ))}
         </div>
       </div>
 

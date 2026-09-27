@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Bell, LogOut, Calendar, Settings, LayoutDashboard, Sparkles } from 'lucide-react';
+import { Menu, X, Bell, LogOut, Calendar, Settings, LayoutDashboard, Sparkles, MessageCircle, MapPin, Phone } from 'lucide-react';
 import useAuthStore from '../../store/useAuthStore';
 import useAppStore from '../../store/useAppStore';
 import Badge from '../ui/Badge';
@@ -32,17 +32,43 @@ export default function Navbar() {
     { label: 'Servicios & Experiencias', path: '/#servicios' },
     ...(!isStaff ? [{ label: 'Reservar Cita', path: '/#reservar' }] : []),
     { label: 'Maestros Barberos', path: '/#barberos' },
+    { label: 'Sede & Contacto', path: '/#ubicacion' },
   ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40">
-      {/* Top Utility Announcement Bar — Assembly Coffee / Editorial Atelier */}
-      <div className="bg-[#121815] text-[#dfdbca] text-[11px] sm:text-xs font-sans tracking-[0.18em] uppercase py-2 px-4 text-center border-b border-[#1f2723] flex items-center justify-center gap-3">
-        <span className="truncate">Punto Fino · Atelier de Corte & Visagismo Masculino · Cali</span>
-        <span className="hidden md:inline text-gold-400">◆</span>
-        <span className="hidden md:inline font-sans text-[11px] text-[#b3b3b3] normal-case tracking-normal">
-          Cra. 12 #53-51, Villacolombia, Cali · WhatsApp: 312 239 8964
-        </span>
+      {/* Top Utility Announcement Bar — High Visibility Location & WhatsApp */}
+      <div className="bg-[#121815] text-[#dfdbca] text-[11px] sm:text-xs font-sans py-2 px-3 sm:px-6 border-b border-[#1f2723]">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
+          {/* Address with MapPin */}
+          <a
+            href="https://maps.google.com/?q=Cra.+12+%2353-51,+Villacolombia,+Cali"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 hover:text-white transition-colors"
+          >
+            <MapPin size={12} className="text-gold-400 shrink-0" />
+            <span className="font-medium tracking-wide">
+              Cra. 12 #53-51, Villacolombia, Cali
+            </span>
+          </a>
+
+          {/* WhatsApp Direct Line */}
+          <div className="flex items-center gap-4">
+            <span className="hidden md:inline font-sans text-[11px] text-[#808080]">
+              Lun-Sáb 8:00–20:30 · Dom 9:00–16:00
+            </span>
+            <a
+              href="https://wa.me/573122398964?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Punto%20Fino"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 font-mono text-[#25D366] hover:text-white font-semibold transition-colors bg-[#19231d] px-2.5 py-0.5 rounded-[3px] border border-[#2b3a30]"
+            >
+              <MessageCircle size={12} className="text-[#25D366] shrink-0" />
+              <span>WhatsApp: 312 239 8964</span>
+            </a>
+          </div>
+        </div>
       </div>
 
       {/* Main Navigation Bar */}
@@ -201,7 +227,17 @@ export default function Navbar() {
                   </div>
                 </>
               ) : (
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2.5">
+                  <a
+                    href="https://wa.me/573122398964?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Punto%20Fino"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-[4px] border border-[#2b3a30] hover:border-[#25D366]/60 bg-[#121815] text-[#25D366] hover:bg-[#16201b] font-mono text-xs font-medium transition-all"
+                    title="Chatear con Punto Fino por WhatsApp"
+                  >
+                    <MessageCircle size={13} className="text-[#25D366]" />
+                    <span>312 239 8964</span>
+                  </a>
                   <Link 
                     to="/login" 
                     className="font-sans text-xs uppercase tracking-wider text-[#b3b3b3] hover:text-white px-3 py-2 transition-colors"
@@ -259,6 +295,23 @@ export default function Navbar() {
                   Ir al Panel ({isBarber() ? 'Barbero' : isAdmin() ? 'Administrador' : 'Cliente'})
                 </Link>
               )}
+
+              {/* Mobile Contact Quick Card */}
+              <div className="mt-3 p-3.5 bg-[#121815] border border-[#2b3530] rounded-[4px] space-y-2.5">
+                <div className="flex items-center gap-2 text-xs text-[#dfdbca]">
+                  <MapPin size={13} className="text-gold-400 shrink-0" />
+                  <span>Cra. 12 #53-51, Villacolombia, Cali</span>
+                </div>
+                <a
+                  href="https://wa.me/573122398964?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Punto%20Fino"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2 bg-[#19231d] hover:bg-[#202d25] border border-[#25D366]/50 text-[#25D366] py-2 px-3 rounded-[4px] font-mono text-xs font-semibold transition-all"
+                >
+                  <MessageCircle size={14} />
+                  <span>WhatsApp: 312 239 8964</span>
+                </a>
+              </div>
             </div>
           </motion.div>
         )}

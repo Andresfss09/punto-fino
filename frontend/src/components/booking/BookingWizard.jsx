@@ -107,6 +107,28 @@ const FALLBACK_SERVICES = [
     isPopular: false,
     isActive: true,
   },
+  {
+    _id: '6ab429b351b742ce20f96ab9',
+    name: 'Servicio de Bar & Café de Cortesía',
+    description: 'Bebida de cortesía: café espresso recién molido o agua mineral purificada incluida en tu sesión.',
+    price: 0,
+    duration: 10,
+    category: 'bebidas',
+    image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=700&q=80',
+    isPopular: false,
+    isActive: true,
+  },
+  {
+    _id: '6ab429b351b742ce20f96aba',
+    name: 'Cerveza Premium Fría & Coctelería',
+    description: 'Cerveza fría importada (Corona, Heineken, Club Colombia) o whisky de autor servido on the rocks.',
+    price: 8000,
+    duration: 10,
+    category: 'bebidas',
+    image: 'https://images.unsplash.com/photo-1608270116645-a75d5069f257?auto=format&fit=crop&w=700&q=80',
+    isPopular: false,
+    isActive: true,
+  },
 ];
 
 const FALLBACK_BARBERS = [
@@ -172,6 +194,7 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
   const [selectedSlot, setSelectedSlot] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('efectivo');
   const [notes, setNotes] = useState('');
+  const [selectedBeverage, setSelectedBeverage] = useState('Café Espresso recién molido (Cortesía)');
 
   // Client Details Form (No need to create an account)
   const [clientData, setClientData] = useState({
@@ -320,13 +343,17 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
 
     setSubmitting(true);
     try {
+      const finalNotes = selectedBeverage && selectedBeverage !== 'Sin bebida'
+        ? `[Bebida: ${selectedBeverage}] ${notes || ''}`.trim()
+        : (notes || '');
+
       const payload = {
         barberId: selectedBarber._id === 'any' ? null : (selectedBarber.user?._id || selectedBarber._id),
         serviceIds: selectedServices.map((s) => s._id),
         date: selectedDate,
         startTime: selectedSlot,
         paymentMethod,
-        notes,
+        notes: finalNotes,
         clientName: clientData.name.trim(),
         clientEmail: clientData.email.trim(),
         clientPhone: clientData.phone.trim(),
@@ -438,6 +465,12 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
               <div className="flex justify-between items-center pb-2 border-b border-[#222a26]">
                 <span className="text-[#808080]">Dirección registrada:</span>
                 <span className="text-[#b3b3b3] text-right truncate max-w-[200px]">{clientData.address}</span>
+              </div>
+            )}
+            {selectedBeverage && selectedBeverage !== 'Sin bebida' && (
+              <div className="flex justify-between items-center pb-2 border-b border-[#222a26]">
+                <span className="text-[#808080]">Bebida solicitada:</span>
+                <span className="font-serif italic text-gold-400 text-right">{selectedBeverage}</span>
               </div>
             )}
             <div className="flex justify-between items-center pt-1 text-sm">
@@ -582,6 +615,8 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
                   setNotes,
                   clientData,
                   setClientData,
+                  selectedBeverage,
+                  setSelectedBeverage,
                 }}
                 onConfirm={handleSubmit}
                 onBack={prevStep}
