@@ -27,20 +27,22 @@ export default function BookingPage() {
   return (
     <PageTransition>
       <Navbar />
-      <div className="max-w-4xl mx-auto px-4 pt-24 pb-32 sm:pb-20">
-        <div className="mb-10 text-center">
-          <span className="text-gold-500 font-mono text-xs uppercase tracking-[0.3em] font-bold block mb-2">
-            STEEL HOUSE BARBERIA'S 👑 · CALI
-          </span>
-          <h1 className="font-display text-4xl sm:text-5xl uppercase text-white mb-2 leading-tight">
-            AGENDA TU <span className="text-gold-500">CITA</span>
-          </h1>
-          <p className="text-gray-400 font-sans text-sm max-w-lg mx-auto">
-            Elige tu corte, barbero preferido y horario disponible. Sin necesidad de crear cuenta previa.
-          </p>
-        </div>
+      <div className="min-h-screen bg-[#0e1311] text-white pt-28 pb-32 sm:pb-24">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <div className="mb-12 text-center">
+            <span className="editorial-tag bg-[#161d19] border-[#2b3630] text-gold-400 mb-3">
+              Punto Fino · Barbería de Autor · Cali
+            </span>
+            <h1 className="font-serif italic text-4xl sm:text-6xl text-white font-normal mb-3 leading-tight">
+              Agenda tu Cita de Autor
+            </h1>
+            <p className="text-[#b3b3b3] font-sans text-xs sm:text-sm max-w-lg mx-auto leading-relaxed">
+              Elige tu corte o experiencia, tu maestro barbero y el horario de tu preferencia. Sin necesidad de crear cuenta previa.
+            </p>
+          </div>
 
-        <BookingWizard />
+          <BookingWizard />
+        </div>
       </div>
     </PageTransition>
   );

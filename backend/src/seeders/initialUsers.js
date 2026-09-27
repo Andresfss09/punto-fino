@@ -7,24 +7,24 @@ const seedUsers = async () => {
   try {
     await connectDB();
 
-    // 1. Admin Steel House
-    const adminEmail = 'admin@steelhouse.com';
-    let admin = await User.findOne({ email: adminEmail });
+    // 1. Admin Punto Fino
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@puntofino.com';
+    let admin = await User.findOne({ email: { $in: [adminEmail, 'admin@steelhouse.com'] } });
     if (!admin) {
       admin = await User.create({
-        name: 'Admin Steel House',
+        name: 'Admin Punto Fino',
         email: adminEmail,
         phone: '3001112233',
         password: 'admin123456',
         role: 'admin',
         isVerified: true,
       });
-      console.log('✅ Admin creado: admin@steelhouse.com / admin123456');
+      console.log(`✅ Admin creado: ${adminEmail} / admin123456`);
     }
 
     // 2. Barbero 1 (Juan Muñeton)
-    const barber1Email = 'juan@steelhouse.com';
-    let barberUser1 = await User.findOne({ email: barber1Email });
+    const barber1Email = 'juan@puntofino.com';
+    let barberUser1 = await User.findOne({ email: { $in: [barber1Email, 'juan@steelhouse.com'] } });
     if (!barberUser1) {
       barberUser1 = await User.create({
         name: 'Juan Muñeton',
@@ -41,12 +41,12 @@ const seedUsers = async () => {
         rating: { average: 5.0, count: 42 },
         isAvailable: true,
       });
-      console.log('✅ Barbero Juan Muñeton creado: juan@steelhouse.com / barbero123');
+      console.log('✅ Barbero Juan Muñeton creado: juan@puntofino.com / barbero123');
     }
 
     // 3. Barbero 2 (Carlos Mendoza)
-    const barber2Email = 'carlos@steelhouse.com';
-    let barberUser2 = await User.findOne({ email: barber2Email });
+    const barber2Email = 'carlos@puntofino.com';
+    let barberUser2 = await User.findOne({ email: { $in: [barber2Email, 'carlos@steelhouse.com'] } });
     if (!barberUser2) {
       barberUser2 = await User.create({
         name: 'Carlos Mendoza',
@@ -63,12 +63,12 @@ const seedUsers = async () => {
         rating: { average: 4.9, count: 28 },
         isAvailable: true,
       });
-      console.log('✅ Barbero Carlos creado: carlos@steelhouse.com / barbero123');
+      console.log('✅ Barbero Carlos creado: carlos@puntofino.com / barbero123');
     }
 
-    // 4. Cliente Steel House
-    const clientEmail = 'cliente@steelhouse.com';
-    let client = await User.findOne({ email: clientEmail });
+    // 4. Cliente Punto Fino
+    const clientEmail = 'cliente@puntofino.com';
+    let client = await User.findOne({ email: { $in: [clientEmail, 'cliente@steelhouse.com'] } });
     if (!client) {
       client = await User.create({
         name: 'Nicolás Cliente',
@@ -79,10 +79,10 @@ const seedUsers = async () => {
         isVerified: true,
         loyaltyPoints: 100,
       });
-      console.log('✅ Cliente creado: cliente@steelhouse.com / cliente123');
+      console.log('✅ Cliente creado: cliente@puntofino.com / cliente123');
     }
 
-    console.log('🎉 Seed de usuarios de Steel House finalizado con éxito.');
+    console.log('🎉 Seed de usuarios de Punto Fino finalizado con éxito.');
     process.exit(0);
   } catch (error) {
     console.error('❌ Error en seedUsers:', error.message);

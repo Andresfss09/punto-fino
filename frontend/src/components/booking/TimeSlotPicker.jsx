@@ -1,6 +1,5 @@
 import React from 'react';
 import { Calendar as CalendarIcon, Clock } from 'lucide-react';
-import BrutalCard from '../ui/BrutalCard';
 import { formatTime } from '../../utils/formatters';
 
 export default function TimeSlotPicker({ 
@@ -52,9 +51,10 @@ export default function TimeSlotPicker({
 
   return (
     <div className="space-y-6">
-      <BrutalCard variant="default" className="p-4 sm:p-6">
-        <label className="font-display text-white text-lg uppercase block mb-3 flex items-center gap-2">
-          <CalendarIcon size={18} className="text-[#d4af37]" /> Fecha
+      <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-5 sm:p-6 shadow-subtle">
+        <label className="font-serif italic text-white text-xl block mb-3 flex items-center gap-2">
+          <CalendarIcon size={18} className="text-gold-400" />
+          <span>Selecciona la Fecha</span>
         </label>
         <input
           type="date"
@@ -62,26 +62,27 @@ export default function TimeSlotPicker({
           min={getTodayDate()}
           max={getMaxDate()}
           onChange={(e) => onSelectDate(e.target.value)}
-          className="brutal-input w-full font-mono text-lg py-4"
+          className="w-full bg-[#101513] border border-[#26302a] focus:border-gold-400 rounded-[4px] text-white px-4 py-3 font-mono text-base focus:outline-none transition-all"
         />
-      </BrutalCard>
+      </div>
 
       {selectedDate && (
-        <BrutalCard variant="default" className="p-4 sm:p-6">
-          <label className="font-display text-white text-lg uppercase block mb-4 flex items-center gap-2">
-            <Clock size={18} className="text-[#d4af37]" /> Horas disponibles
+        <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-5 sm:p-6 shadow-subtle">
+          <label className="font-serif italic text-white text-xl block mb-4 flex items-center gap-2">
+            <Clock size={18} className="text-gold-400" />
+            <span>Horarios Disponibles</span>
           </label>
           
           {isLoading ? (
-            <div className="grid grid-cols-3 gap-3 animate-pulse">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="h-12 bg-[#333] border-2 border-[#1a1a1a]" />
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 animate-pulse">
+              {[...Array(8)].map((_, i) => (
+                <div key={i} className="h-11 bg-[#1a1f1d] border border-[#222a26] rounded-[4px]" />
               ))}
             </div>
           ) : effectiveSlots.length === 0 ? (
-            <div className="text-center py-8 border-2 border-dashed border-[#333]">
-              <p className="text-[#a0a0a0] font-bold uppercase">No hay horarios disponibles</p>
-              <p className="text-[#a0a0a0] text-sm mt-1">Intenta con otra fecha</p>
+            <div className="text-center py-8 border border-dashed border-[#2b3530] rounded-[4px]">
+              <p className="text-white font-serif italic text-lg">No hay horarios disponibles para esta fecha</p>
+              <p className="text-[#808080] text-xs font-sans mt-1">Por favor elige otro día en el calendario</p>
             </div>
           ) : (
             <div className="space-y-6">
@@ -89,18 +90,18 @@ export default function TimeSlotPicker({
                 if (periodSlots.length === 0) return null;
                 return (
                   <div key={period}>
-                    <h4 className="text-[#a0a0a0] font-bold uppercase tracking-wider text-xs mb-3 border-b-2 border-dashed border-[#333] pb-1">
+                    <h4 className="text-gold-400 font-sans font-medium uppercase tracking-wider text-[11px] mb-3 pb-1 border-b border-[#1f2723]">
                       {period}
                     </h4>
-                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2.5">
                       {periodSlots.map(slot => (
                         <button
                           key={slot}
                           onClick={() => onSelectSlot(slot)}
-                          className={`py-3 px-1 border-2 font-mono-price text-sm font-bold transition-all ${
+                          className={`py-2.5 px-2 rounded-[4px] font-mono text-xs font-medium border transition-all cursor-pointer ${
                             selectedSlot === slot
-                              ? 'bg-[#d4af37] text-[#0a0a0a] border-[#d4af37] shadow-[2px_2px_0_#0a0a0a] scale-[1.02]'
-                              : 'bg-[#111111] text-white border-[#333] hover:border-[#d4af37]'
+                              ? 'bg-gold-400 text-[#0e1311] border-gold-400 shadow-sm font-semibold'
+                              : 'bg-[#101513] text-[#dfdbca] border-[#26302a] hover:border-gold-400/50 hover:text-white'
                           }`}
                         >
                           {formatTime(slot)}
@@ -112,7 +113,7 @@ export default function TimeSlotPicker({
               })}
             </div>
           )}
-        </BrutalCard>
+        </div>
       )}
     </div>
   );

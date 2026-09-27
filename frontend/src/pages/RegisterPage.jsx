@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
-import { Mail, Lock, User, Phone, Scissors } from 'lucide-react';
+import { Mail, Lock, User, Phone, Sparkles } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { authService } from '../services/authService';
 import useAuthStore from '../store/useAuthStore';
@@ -42,7 +42,7 @@ export default function RegisterPage() {
         role: 'cliente',
       });
       setAuth(response.user, response.token);
-      toast.success('¡Cuenta creada! Bienvenido a Punto Fino 🔥');
+      toast.success('¡Cuenta creada! Bienvenido a Punto Fino');
       navigate('/cliente');
     } catch (error) {
       toast.error(error.message || 'Error al crear la cuenta');
@@ -52,9 +52,9 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-400 flex items-center justify-center px-4 py-20">
+    <div className="min-h-screen bg-[#0e1311] flex items-center justify-center px-4 py-20">
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md"
       >
@@ -62,18 +62,18 @@ export default function RegisterPage() {
           <Link to="/" className="inline-block group mb-3">
             <img
               src="/logo.png"
-              alt="Steel House Barberia's"
-              className="w-20 h-20 object-contain rounded-full border-2 border-gold-500 shadow-brutal-gold-sm mx-auto group-hover:scale-105 transition-transform"
+              alt="Punto Fino Barbería"
+              className="w-16 h-16 object-contain rounded-full border border-gold-400/40 mx-auto group-hover:scale-105 transition-transform"
             />
           </Link>
-          <h1 className="font-display text-3xl font-bold text-white">Crea tu cuenta</h1>
-          <p className="text-gold-500 mt-1 text-xs uppercase tracking-widest font-semibold">
-            Steel House Barberia's 👑
+          <h1 className="font-serif italic text-4xl font-normal text-white">Únete al Atelier</h1>
+          <p className="text-gold-400 mt-1.5 text-xs uppercase tracking-[0.25em] font-sans font-medium">
+            Punto Fino · Barbería de Autor
           </p>
         </div>
 
-        <div className="card p-8">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-7 shadow-subtle">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <Input
               label="Nombre completo"
               placeholder="Juan Pérez"
@@ -82,7 +82,7 @@ export default function RegisterPage() {
               {...register('name')}
             />
             <Input
-              label="Email"
+              label="Correo electrónico"
               type="email"
               placeholder="tu@email.com"
               icon={Mail}
@@ -90,7 +90,7 @@ export default function RegisterPage() {
               {...register('email')}
             />
             <Input
-              label="Teléfono"
+              label="Teléfono / WhatsApp"
               placeholder="3001234567"
               icon={Phone}
               maxLength={10}
@@ -114,17 +114,23 @@ export default function RegisterPage() {
               {...register('confirmPassword')}
             />
 
-            <Button type="submit" loading={loading} className="w-full mt-2">
-              Crear cuenta gratis
-            </Button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full btn-primary text-xs uppercase tracking-wider py-3.5 mt-2"
+            >
+              {loading ? 'Creando cuenta...' : 'Crear Cuenta de Cliente'}
+            </button>
           </form>
 
-          <p className="text-center text-gray-400 mt-6 text-sm">
-            ¿Ya tienes cuenta?{' '}
-            <Link to="/login" className="text-gold-400 hover:text-gold-300 font-medium transition-colors">
-              Inicia sesión
-            </Link>
-          </p>
+          <div className="mt-6 pt-5 border-t border-[#1f2723] text-center">
+            <p className="text-[#808080] text-xs font-sans">
+              ¿Ya tienes cuenta?{' '}
+              <Link to="/login" className="text-gold-400 hover:text-white font-medium transition-colors underline underline-offset-4">
+                Iniciar sesión
+              </Link>
+            </p>
+          </div>
         </div>
       </motion.div>
     </div>

@@ -102,36 +102,36 @@ export default function ClientDashboard() {
     <PageTransition>
       <div className="space-y-8 max-w-6xl mx-auto">
         {/* Welcome Banner */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#111111] p-6 border-2 border-[#333] shadow-[4px_4px_0_#333]">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#121815] p-6 border border-[#222a26] rounded-[4px] shadow-subtle">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="brutal-badge bg-gold-500/10 text-gold-500 border-gold-500/30 flex items-center gap-1">
-                <Scissors size={12} /> Cliente Steel House
+              <span className="editorial-tag bg-[#161d19] text-gold-400 border-[#2b3530] flex items-center gap-1">
+                <Scissors size={12} /> Cliente Punto Fino
               </span>
-              <span className="text-xs text-gray-400 font-mono">Cali, Colombia</span>
+              <span className="text-xs text-[#808080] font-sans">Cali, Colombia</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-display font-bold uppercase tracking-wider text-white">
-              ¡HOLA, <span className="text-gold-500">{user?.name ? user.name.split(' ')[0] : 'CLIENTE'}</span>!
+            <h1 className="text-3xl sm:text-4xl font-serif italic font-normal text-white">
+              ¡Hola, <span className="text-gold-400">{user?.name ? user.name.split(' ')[0] : 'Cliente'}</span>!
             </h1>
-            <p className="text-gray-400 text-sm mt-1 font-sans">
-              Bienvenido a tu panel de reservas personal en Steel House Barberia's
+            <p className="text-[#b3b3b3] text-xs sm:text-sm mt-1 font-sans">
+              Bienvenido a tu panel de reservas personal en Punto Fino Barbería de Autor
             </p>
           </div>
 
           <div className="flex items-center gap-3 w-full sm:w-auto">
             <button
               onClick={fetchAppointments}
-              className="brutal-btn bg-dark-300 text-white border-[#333] px-3.5 py-2 flex items-center gap-1.5 hover:border-gold-500 text-xs font-mono uppercase"
+              className="btn-secondary text-xs uppercase tracking-wider py-2 px-3.5 flex items-center gap-1.5"
               title="Actualizar datos"
             >
-              <RefreshCw size={14} className={loading ? 'animate-spin text-gold-500' : ''} />
+              <RefreshCw size={13} className={loading ? 'animate-spin text-gold-400' : ''} />
               Refrescar
             </button>
             <Link
               to="/reservar"
-              className="brutal-btn-primary px-5 py-2.5 text-xs font-bold uppercase flex items-center gap-2 flex-1 sm:flex-none justify-center"
+              className="btn-primary text-xs uppercase tracking-wider py-2 px-4 flex items-center gap-2 flex-1 sm:flex-none justify-center"
             >
-              <CalendarPlus size={16} /> Agendar Cita
+              <CalendarPlus size={15} /> Agendar Cita
             </Link>
           </div>
         </div>
@@ -243,19 +243,19 @@ export default function ClientDashboard() {
                 </div>
               </BrutalCard>
             ) : (
-              <BrutalCard variant="default" className="text-center p-8 border-2 border-[#333]">
-                <Scissors size={40} className="text-gold-500 mx-auto mb-3" />
-                <h3 className="text-xl font-display font-bold uppercase text-white mb-2">
+              <BrutalCard variant="default" className="text-center p-8">
+                <Scissors size={36} className="text-gold-400 mx-auto mb-3" />
+                <h3 className="text-xl font-serif italic text-white mb-2">
                   No tienes citas próximas agendadas
                 </h3>
-                <p className="text-gray-400 text-sm max-w-md mx-auto mb-6">
-                  Elige tu servicio favorito, escoge tu barbero de confianza y reserva tu horario en Steel House en menos de un minuto.
+                <p className="text-[#b3b3b3] text-xs max-w-md mx-auto mb-6">
+                  Elige tu servicio de corte o experiencia, tu barbero de confianza y agenda en Punto Fino en menos de un minuto.
                 </p>
                 <Link
                   to="/reservar"
-                  className="brutal-btn-primary px-8 py-3.5 text-sm font-bold uppercase inline-flex items-center gap-2"
+                  className="btn-primary px-7 py-3 text-xs uppercase tracking-wider inline-flex items-center gap-2"
                 >
-                  <CalendarPlus size={18} />
+                  <CalendarPlus size={16} />
                   Agendar Mi Corte Ahora
                 </Link>
               </BrutalCard>
@@ -264,27 +264,27 @@ export default function ClientDashboard() {
             {/* Quick Action Navigation Buttons */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Link to="/reservar" className="block group">
-                <BrutalCard variant="interactive" className="flex items-center justify-between p-6 group-hover:border-gold-500 transition-all">
+                <BrutalCard variant="interactive" className="flex items-center justify-between p-5 group-hover:border-gold-400/60 transition-all">
                   <div>
-                    <span className="text-[11px] font-mono uppercase text-gold-500 font-bold block mb-1">Cortes & Barba</span>
-                    <h3 className="font-display font-bold uppercase text-lg text-white">Reservar Cita</h3>
-                    <p className="text-gray-400 text-xs mt-1">Elige tu barbero, fecha y hora</p>
+                    <span className="text-[11px] font-sans uppercase text-gold-400 font-medium block mb-1">Cortes & Barba</span>
+                    <h3 className="font-serif italic text-lg text-white">Reservar Cita</h3>
+                    <p className="text-[#808080] text-xs mt-0.5">Elige tu barbero, fecha y hora</p>
                   </div>
-                  <div className="w-12 h-12 bg-gold-500 text-black flex items-center justify-center border-2 border-black group-hover:scale-105 transition-transform shadow-[2px_2px_0_#d4af37]">
-                    <CalendarPlus size={22} />
+                  <div className="w-10 h-10 bg-gold-400 text-[#0e1311] flex items-center justify-center rounded-[4px] group-hover:scale-105 transition-transform">
+                    <CalendarPlus size={18} />
                   </div>
                 </BrutalCard>
               </Link>
 
               <Link to="/cliente/citas" className="block group">
-                <BrutalCard variant="interactive" className="flex items-center justify-between p-6 group-hover:border-gold-500 transition-all">
+                <BrutalCard variant="interactive" className="flex items-center justify-between p-5 group-hover:border-gold-400/60 transition-all">
                   <div>
-                    <span className="text-[11px] font-mono uppercase text-gray-400 font-bold block mb-1">Tus Reservas</span>
-                    <h3 className="font-display font-bold uppercase text-lg text-white">Historial de Citas</h3>
-                    <p className="text-gray-400 text-xs mt-1">Ver citas pasadas y activas</p>
+                    <span className="text-[11px] font-sans uppercase text-[#808080] font-medium block mb-1">Tus Reservas</span>
+                    <h3 className="font-serif italic text-lg text-white">Historial de Citas</h3>
+                    <p className="text-[#808080] text-xs mt-0.5">Ver citas pasadas y activas</p>
                   </div>
-                  <div className="w-12 h-12 bg-[#1a1a1a] text-white flex items-center justify-center border-2 border-[#333] group-hover:scale-105 transition-transform">
-                    <History size={22} />
+                  <div className="w-10 h-10 bg-[#161d19] text-[#dfdbca] flex items-center justify-center border border-[#2b3530] rounded-[4px] group-hover:scale-105 transition-transform">
+                    <History size={18} />
                   </div>
                 </BrutalCard>
               </Link>
@@ -295,27 +295,27 @@ export default function ClientDashboard() {
           <div className="space-y-6">
             {/* Loyalty Card */}
             <BrutalCard padding={false} className="overflow-hidden">
-              <div className="p-4 bg-[#141414] border-b-2 border-[#333] flex items-center justify-between">
-                <h3 className="font-display font-bold uppercase tracking-wider text-sm flex items-center gap-2 text-white">
-                  <Star size={16} className="text-gold-500 fill-gold-500" /> Fidelidad Steel House
+              <div className="p-4 bg-[#161d19] border-b border-[#222a26] flex items-center justify-between">
+                <h3 className="font-serif italic text-base flex items-center gap-2 text-white">
+                  <Star size={15} className="text-gold-400 fill-gold-400" /> Fidelidad Punto Fino
                 </h3>
-                <span className="text-xs font-mono text-gold-400 font-bold">{loyaltyTier}</span>
+                <span className="text-xs font-mono text-gold-400 font-semibold">{loyaltyTier}</span>
               </div>
               <div className="p-5 space-y-4">
                 <div className="flex justify-between items-end">
-                  <span className="text-xs text-gray-400 uppercase font-bold">Puntos Acumulados</span>
-                  <span className="font-mono-price text-2xl text-gold-500 font-bold">
-                    {points} <span className="text-xs text-gray-400 font-normal">pts</span>
+                  <span className="text-xs text-[#808080] uppercase tracking-wider font-sans">Puntos Acumulados</span>
+                  <span className="font-mono text-2xl text-gold-400 font-bold">
+                    {points} <span className="text-xs text-[#808080] font-normal">pts</span>
                   </span>
                 </div>
-                <div className="w-full h-3 bg-[#0d0d0d] border-2 border-[#333] overflow-hidden">
+                <div className="w-full h-2 bg-[#101513] border border-[#222a26] rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-gold-500 transition-all duration-500"
+                    className="h-full bg-gold-400 transition-all duration-500 rounded-full"
                     style={{ width: `${progressPercent}%` }}
                   />
                 </div>
-                <p className="text-xs text-gray-400 leading-relaxed font-sans">
-                  Ganas <strong className="text-white">1 punto por cada $1.000 COP</strong> en servicios completados. ¡Canjéalos por descuentos exclusivos en Steel House!
+                <p className="text-xs text-[#b3b3b3] leading-relaxed font-sans">
+                  Ganas <strong className="text-white">1 punto por cada $1.000 COP</strong> en servicios completados. ¡Canjéalos por beneficios exclusivos en Punto Fino!
                 </p>
               </div>
             </BrutalCard>

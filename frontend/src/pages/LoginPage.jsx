@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Lock, Scissors, Eye, EyeOff, Shield, User, Crown } from 'lucide-react';
+import { Mail, Lock, Scissors, Eye, EyeOff, User, Crown, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { authService } from '../services/authService';
 import useAuthStore from '../store/useAuthStore';
@@ -20,34 +20,34 @@ const roles = [
   {
     id: 'cliente',
     label: 'Cliente',
-    description: 'Reserva y gestiona tus citas',
+    description: 'Reserva y gestiona tus citas personales',
     icon: User,
-    color: 'from-blue-500 to-blue-700',
-    border: 'border-blue-500',
-    bg: 'bg-blue-500/10',
-    text: 'text-blue-400',
+    color: 'from-amber-600 to-amber-800',
+    border: 'border-[#333d38]',
+    bg: 'bg-[#121815]',
+    text: 'text-gold-400',
     emoji: '💈',
   },
   {
     id: 'barbero',
-    label: 'Barbero',
-    description: 'Gestiona tu agenda y clientes',
+    label: 'Maestro Barbero',
+    description: 'Controla tu agenda diaria y clientes',
     icon: Scissors,
     color: 'from-gold-500 to-gold-700',
-    border: 'border-gold-500',
-    bg: 'bg-gold-500/10',
+    border: 'border-gold-400/40',
+    bg: 'bg-[#121815]',
     text: 'text-gold-400',
     emoji: '✂️',
   },
   {
     id: 'admin',
     label: 'Administrador',
-    description: 'Control total de la plataforma',
+    description: 'Gestión total, nómina y métricas del atelier',
     icon: Crown,
-    color: 'from-purple-500 to-purple-700',
-    border: 'border-purple-500',
-    bg: 'bg-purple-500/10',
-    text: 'text-purple-400',
+    color: 'from-zinc-700 to-zinc-900',
+    border: 'border-[#333d38]',
+    bg: 'bg-[#121815]',
+    text: 'text-[#dfdbca]',
     emoji: '👑',
   },
 ];
@@ -81,7 +81,7 @@ export default function LoginPage() {
       }
 
       setAuth(response.user, response.token);
-      toast.success(`¡Bienvenido, ${response.user.name.split(' ')[0]}!`);
+      toast.success(`¡Bienvenido a Punto Fino, ${response.user.name.split(' ')[0]}!`);
 
       if (userRole === 'admin') navigate('/admin');
       else if (userRole === 'barbero') navigate('/barber');
@@ -96,25 +96,27 @@ export default function LoginPage() {
   const activeRole = roles.find((r) => r.id === selectedRole);
 
   return (
-    <div className="min-h-screen bg-dark-400 flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-[#0e1311] flex items-center justify-center px-4 py-16">
       <div className="w-full max-w-md">
 
-        {/* Logo */}
+        {/* Logo Brand */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
           <Link to="/" className="inline-block group mb-3">
             <img
               src="/logo.png"
-              alt="Steel House Barberia's"
-              className="w-20 h-20 object-contain rounded-full border-2 border-gold-500 shadow-brutal-gold-sm mx-auto group-hover:scale-105 transition-transform"
+              alt="Punto Fino Barbería"
+              className="w-16 h-16 object-contain rounded-full border border-gold-400/40 mx-auto group-hover:scale-105 transition-transform"
             />
           </Link>
-          <h1 className="font-display text-3xl font-bold text-white tracking-wide">Steel House</h1>
-          <p className="text-gold-500 mt-1 text-xs tracking-[0.25em] uppercase font-semibold">
-            BARBERIA'S 👑 · CALI
+          <h1 className="font-serif italic text-4xl text-white tracking-tight leading-none">
+            Punto Fino
+          </h1>
+          <p className="text-gold-400 mt-1.5 text-xs tracking-[0.25em] uppercase font-sans font-medium">
+            Barbería de Autor · Cali
           </p>
         </motion.div>
 
@@ -124,34 +126,37 @@ export default function LoginPage() {
           {!selectedRole && (
             <motion.div
               key="role-selector"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
+              exit={{ opacity: 0, y: -15 }}
             >
-              <h2 className="text-2xl font-bold text-white text-center mb-2">¿Cómo ingresas?</h2>
-              <p className="text-gray-400 text-center text-sm mb-8">Selecciona tu tipo de cuenta</p>
+              <div className="text-center mb-6">
+                <h2 className="font-serif italic text-2xl text-white">Portal de Acceso</h2>
+                <p className="text-[#808080] font-sans text-xs mt-1">Selecciona el perfil con el que deseas ingresar</p>
+              </div>
 
               <div className="space-y-3">
                 {roles.map((role, index) => {
-                  const Icon = role.icon;
                   return (
                     <motion.button
                       key={role.id}
-                      initial={{ opacity: 0, x: -20 }}
+                      initial={{ opacity: 0, x: -15 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
+                      transition={{ delay: index * 0.08 }}
                       onClick={() => handleRoleSelect(role.id)}
-                      className={`w-full flex items-center gap-4 p-5 rounded-2xl border border-white/10 bg-dark-100 hover:border-white/20 hover:bg-dark-50 transition-all duration-200 group`}
+                      className="w-full flex items-center gap-4 p-4 rounded-[4px] border border-[#222a26] bg-[#121815] hover:border-gold-400/60 hover:bg-[#151c18] transition-all duration-200 group text-left cursor-pointer"
                     >
-                      <div className={`w-14 h-14 bg-gradient-to-br ${role.color} rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-105 transition-transform`}>
-                        <span className="text-2xl">{role.emoji}</span>
+                      <div className="w-11 h-11 bg-[#161d19] border border-[#2b3530] rounded-[4px] flex items-center justify-center flex-shrink-0 text-xl group-hover:border-gold-400/50 transition-colors">
+                        {role.emoji}
                       </div>
-                      <div className="text-left flex-1">
-                        <p className="text-white font-semibold text-lg">{role.label}</p>
-                        <p className="text-gray-400 text-sm">{role.description}</p>
+                      <div className="flex-1">
+                        <p className="text-white font-serif italic text-lg leading-tight group-hover:text-gold-300 transition-colors">
+                          {role.label}
+                        </p>
+                        <p className="text-[#808080] text-xs font-sans mt-0.5">{role.description}</p>
                       </div>
-                      <div className="text-gray-600 group-hover:text-gray-400 transition-colors">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <div className="text-[#808080] group-hover:text-gold-400 transition-colors">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <path d="M9 18l6-6-6-6"/>
                         </svg>
                       </div>
@@ -160,10 +165,10 @@ export default function LoginPage() {
                 })}
               </div>
 
-              <p className="text-center text-gray-500 mt-8 text-sm">
-                ¿No tienes cuenta?{' '}
-                <Link to="/register" className="text-gold-400 hover:text-gold-300 font-medium transition-colors">
-                  Regístrate gratis
+              <p className="text-center text-[#808080] mt-8 text-xs font-sans">
+                ¿Aún no tienes cuenta?{' '}
+                <Link to="/register" className="text-gold-400 hover:text-white font-medium transition-colors underline underline-offset-4">
+                  Crear cuenta de cliente
                 </Link>
               </p>
             </motion.div>
@@ -173,32 +178,37 @@ export default function LoginPage() {
           {selectedRole && (
             <motion.div
               key="login-form"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
+              exit={{ opacity: 0, y: -15 }}
             >
               {/* Header del rol seleccionado */}
-              <div className={`${activeRole.bg} border ${activeRole.border}/30 rounded-2xl p-5 mb-8 flex items-center gap-4`}>
-                <div className={`w-14 h-14 bg-gradient-to-br ${activeRole.color} rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg`}>
-                  <span className="text-2xl">{activeRole.emoji}</span>
+              <div className="bg-[#121815] border border-[#222a26] rounded-[4px] p-4 mb-6 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-[#161d19] border border-[#2b3530] rounded-[4px] flex items-center justify-center text-lg">
+                    {activeRole.emoji}
+                  </div>
+                  <div>
+                    <span className="editorial-tag bg-[#161d19] border-[#2b3530] text-gold-400 mb-1">
+                      {activeRole.label}
+                    </span>
+                    <p className="font-serif italic text-white text-lg leading-tight mt-0.5">Ingresar al Atelier</p>
+                  </div>
                 </div>
-                <div>
-                  <p className={`${activeRole.text} text-xs font-medium tracking-widest uppercase`}>
-                    Acceso
-                  </p>
-                  <p className="text-white font-bold text-xl">{activeRole.label}</p>
-                  <p className="text-gray-400 text-sm">{activeRole.description}</p>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedRole(null)}
+                  className="text-xs font-sans text-[#808080] hover:text-white transition-colors flex items-center gap-1 cursor-pointer"
+                >
+                  <ArrowLeft size={13} /> Cambiar
+                </button>
               </div>
-
-              <h2 className="text-2xl font-bold text-white mb-1">Iniciar sesión</h2>
-              <p className="text-gray-400 text-sm mb-6">Ingresa tus credenciales de {activeRole.label.toLowerCase()}</p>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <Input
-                  label="Email"
+                  label="Correo Electrónico"
                   type="email"
-                  placeholder={`email@ejemplo.com`}
+                  placeholder="ejemplo@puntofino.com"
                   icon={Mail}
                   error={errors.email?.message}
                   {...register('email')}
@@ -207,55 +217,45 @@ export default function LoginPage() {
                 <div>
                   <label className="label">Contraseña</label>
                   <div className="relative">
-                    <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none z-10">
-                      <Lock size={18} />
+                    <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#808080] pointer-events-none z-10">
+                      <Lock size={16} />
                     </div>
                     <input
                       type={showPassword ? 'text' : 'password'}
-                      placeholder="Tu contraseña"
-                      className={`input-field pl-11 pr-11 ${errors.password ? '!border-red-500/70 focus:!border-red-500 focus:!ring-red-500/20' : ''}`}
+                      placeholder="Tu contraseña secreta"
+                      className={`input-field pl-10 pr-10 text-xs ${errors.password ? '!border-red-500/70 focus:!border-red-500' : ''}`}
                       {...register('password')}
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors z-10 cursor-pointer"
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#808080] hover:text-white transition-colors z-10 cursor-pointer"
                     >
-                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                      {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
                   </div>
                   {errors.password && <p className="mt-1.5 text-xs text-red-400 font-medium">{errors.password.message}</p>}
                 </div>
 
                 <div className="flex justify-end">
-                  <Link to="/forgot-password" className="text-sm text-gold-400 hover:text-gold-300 transition-colors">
+                  <Link to="/forgot-password" className="text-xs font-sans text-gold-400 hover:text-white transition-colors">
                     ¿Olvidaste tu contraseña?
                   </Link>
                 </div>
 
-                <Button
+                <button
                   type="submit"
-                  loading={loading}
-                  className={`w-full bg-gradient-to-r ${activeRole.color} text-${selectedRole === 'barbero' ? 'black' : 'white'} font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition-all shadow-lg`}
+                  disabled={loading}
+                  className="w-full btn-primary text-xs uppercase tracking-wider py-3.5"
                 >
-                  Ingresar como {activeRole.label}
-                </Button>
+                  {loading ? 'Accediendo...' : `Iniciar Sesión (${activeRole.label})`}
+                </button>
               </form>
 
-              <button
-                onClick={() => setSelectedRole(null)}
-                className="w-full mt-4 py-3 text-gray-500 hover:text-gray-300 text-sm transition-colors flex items-center justify-center gap-2"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M19 12H5M12 19l-7-7 7-7"/>
-                </svg>
-                Cambiar tipo de cuenta
-              </button>
-
               {selectedRole === 'cliente' && (
-                <p className="text-center text-gray-500 mt-4 text-sm">
+                <p className="text-center text-[#808080] mt-6 text-xs font-sans">
                   ¿No tienes cuenta?{' '}
-                  <Link to="/register" className="text-gold-400 hover:text-gold-300 font-medium transition-colors">
+                  <Link to="/register" className="text-gold-400 hover:text-white font-medium transition-colors underline underline-offset-4">
                     Regístrate gratis
                   </Link>
                 </p>

@@ -13,14 +13,14 @@ const StatsCard = ({
   return (
     <BrutalCard variant={variant} className={`flex flex-col ${className}`}>
       <div className="flex justify-between items-start mb-4">
-        <div className="p-2 border-2 border-[#333] shadow-[2px_2px_0_#333] bg-[#0a0a0a] rounded-[2px]">
-          {Icon && <Icon className="w-5 h-5 text-[#d4af37]" />}
+        <div className="p-2 border border-[#2b3530] bg-[#161d19] rounded-[4px]">
+          {Icon && <Icon className="w-5 h-5 text-gold-400" />}
         </div>
         {trend && (
-          <span className={`brutal-badge ${
-            trend.startsWith('+') ? 'bg-green-500/10 text-green-500 border-green-500/20' : 
-            trend.startsWith('-') ? 'bg-red-500/10 text-red-500 border-red-500/20' : 
-            'bg-gray-500/10 text-gray-400 border-[#333]'
+          <span className={`editorial-tag ${
+            trend.startsWith('+') ? 'bg-green-500/10 text-green-400 border-green-500/20' : 
+            trend.startsWith('-') ? 'bg-red-500/10 text-red-400 border-red-500/20' : 
+            'bg-[#1a1f1d] text-[#b3b3b3] border-[#2b3530]'
           }`}>
             {trend}
           </span>
@@ -30,7 +30,7 @@ const StatsCard = ({
         <div className="text-3xl font-mono-price font-bold text-white mb-1">
           <AnimatedCounter value={value} />
         </div>
-        <p className="text-sm font-medium text-[#a0a0a0] font-sans">{label}</p>
+        <p className="text-xs uppercase tracking-wider font-sans text-[#b3b3b3]">{label}</p>
       </div>
     </BrutalCard>
   );

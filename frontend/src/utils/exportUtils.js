@@ -16,7 +16,7 @@ const formatCOP = (val) => {
  * @param {Array<{ sheetName: string, data: Array<object> }>} sheets
  * @param {string} fileName
  */
-export const exportToExcel = (sheets, fileName = 'Reporte_Steel_House') => {
+export const exportToExcel = (sheets, fileName = 'Reporte_Punto_Fino') => {
   try {
     const workbook = XLSX.utils.book_new();
 
@@ -47,16 +47,16 @@ export const exportToExcel = (sheets, fileName = 'Reporte_Steel_House') => {
 };
 
 /**
- * Exportar reporte a PDF con diseño profesional de Steel House
+ * Exportar reporte a PDF con diseño profesional de Punto Fino
  * @param {object} options
  */
 export const exportToPdf = ({
   title = 'REPORTE GENERAL DE NÓMINA Y SERVICIOS',
-  subtitle = 'Steel House Barbería · Control Contable',
+  subtitle = 'Punto Fino Barbería de Autor · Control Contable',
   periodLabel = 'Este Mes',
   summary = {},
   tables = [],
-  fileName = 'Reporte_Nomina_Steel_House',
+  fileName = 'Reporte_Nomina_Punto_Fino',
 }) => {
   try {
     const doc = new jsPDF({
@@ -67,12 +67,12 @@ export const exportToPdf = ({
 
     const pageWidth = doc.internal.pageSize.getWidth();
 
-    // Encabezado con banner oscuro y acento dorado
-    doc.setFillColor(17, 17, 17);
+    // Encabezado con banner oscuro y acento antique gold
+    doc.setFillColor(14, 19, 17); // Obsidian #0e1311
     doc.rect(0, 0, pageWidth, 28, 'F');
 
-    doc.setFillColor(212, 175, 55); // #d4af37
-    doc.rect(0, 28, pageWidth, 2, 'F');
+    doc.setFillColor(207, 165, 59); // Antique Gold #cfa53b
+    doc.rect(0, 28, pageWidth, 1.5, 'F');
 
     doc.setTextColor(255, 255, 255);
     doc.setFont('helvetica', 'bold');
@@ -81,11 +81,11 @@ export const exportToPdf = ({
 
     doc.setFontSize(10);
     doc.setFont('helvetica', 'normal');
-    doc.setTextColor(212, 175, 55);
+    doc.setTextColor(207, 165, 59);
     doc.text(subtitle, 14, 18);
 
     doc.setFontSize(9);
-    doc.setTextColor(180, 180, 180);
+    doc.setTextColor(179, 179, 179);
     doc.text(
       `Período: ${periodLabel} | Generado el: ${new Date().toLocaleDateString('es-CO')} ${new Date().toLocaleTimeString('es-CO')}`,
       14,
@@ -98,7 +98,7 @@ export const exportToPdf = ({
     if (summary && Object.keys(summary).length > 0) {
       const cards = [
         { label: 'Ingresos Totales', val: formatCOP(summary.grossRevenue), color: [34, 197, 94] },
-        { label: 'Nómina Barberos', val: formatCOP(summary.totalBarbersPayout), color: [212, 175, 55] },
+        { label: 'Nómina Barberos', val: formatCOP(summary.totalBarbersPayout), color: [207, 165, 59] },
         { label: 'Ganancia Neta', val: formatCOP(summary.netBarbershopEarnings), color: [59, 130, 246] },
         { label: 'Nómina Pagada', val: formatCOP(summary.totalPaidPayout), color: [16, 185, 129] },
         { label: 'Nómina Pendiente', val: formatCOP(summary.totalPendingPayout), color: [239, 68, 68] },
@@ -108,9 +108,9 @@ export const exportToPdf = ({
       const cardWidth = (pageWidth - 28 - 10) / cards.length;
       cards.forEach((c, idx) => {
         const x = 14 + idx * (cardWidth + 2);
-        doc.setFillColor(24, 24, 24);
+        doc.setFillColor(18, 24, 21); // Lifted Obsidian #121815
         doc.roundedRect(x, startY, cardWidth, 16, 2, 2, 'F');
-        doc.setDrawColor(50, 50, 50);
+        doc.setDrawColor(43, 53, 48); // Hairline border
         doc.roundedRect(x, startY, cardWidth, 16, 2, 2, 'S');
 
         doc.setFontSize(7);
@@ -133,7 +133,7 @@ export const exportToPdf = ({
       if (table.title) {
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(11);
-        doc.setTextColor(212, 175, 55);
+        doc.setTextColor(207, 165, 59);
         doc.text(table.title.toUpperCase(), 14, startY);
         startY += 4;
       }
@@ -144,8 +144,8 @@ export const exportToPdf = ({
         body: table.rows,
         theme: 'grid',
         headStyles: {
-          fillColor: [30, 30, 30],
-          textColor: [212, 175, 55],
+          fillColor: [22, 29, 25],
+          textColor: [207, 165, 59],
           fontStyle: 'bold',
           fontSize: 8,
           halign: 'center',
@@ -178,7 +178,7 @@ export const exportToPdf = ({
       doc.setFontSize(8);
       doc.setTextColor(140, 140, 140);
       doc.text(
-        `Steel House Barbería · Sistema de Gestión y Nómina · Página ${i} de ${pageCount}`,
+        `Punto Fino Barbería de Autor · Sistema de Gestión y Nómina · Página ${i} de ${pageCount}`,
         pageWidth / 2,
         doc.internal.pageSize.getHeight() - 8,
         { align: 'center' }

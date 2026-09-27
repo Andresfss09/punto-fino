@@ -11,11 +11,11 @@ const seedAppointments = async () => {
     console.log('MongoDB conectado para sembrar citas de prueba...');
 
     // Get barbers
-    const juan = await User.findOne({ email: 'juan@steelhouse.com' });
-    const carlos = await User.findOne({ email: 'carlos@steelhouse.com' });
+    const juan = await User.findOne({ email: { $in: ['juan@puntofino.com', 'juan@steelhouse.com'] } });
+    const carlos = await User.findOne({ email: { $in: ['carlos@puntofino.com', 'carlos@steelhouse.com'] } });
 
     if (!juan && !carlos) {
-      console.log('No se encontraron barberos de Steel House.');
+      console.log('No se encontraron barberos de Punto Fino.');
       process.exit(1);
     }
 

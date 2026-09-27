@@ -70,7 +70,7 @@ const seed = async () => {
     await connectDB();
     await Service.deleteMany({});
     await Service.insertMany(services);
-    console.log('✅ Servicios de Steel House creados correctamente');
+    console.log('✅ Servicios de Punto Fino creados correctamente');
     process.exit(0);
   } catch (error) {
     console.error('❌ Error:', error.message);

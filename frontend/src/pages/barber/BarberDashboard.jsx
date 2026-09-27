@@ -348,18 +348,18 @@ export default function BarberDashboard() {
     <PageTransition>
       <div className="space-y-8 max-w-7xl mx-auto">
         {/* Top Header */}
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-[#111111] p-6 border-2 border-[#333] shadow-[4px_4px_0_#333]">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-[#121815] p-6 border border-[#222a26] rounded-[4px] shadow-subtle">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="brutal-badge bg-gold-500/10 text-gold-500 border-gold-500/30 flex items-center gap-1">
-                <Scissors size={12} /> Panel de Barbero
+              <span className="editorial-tag bg-[#161d19] text-gold-400 border-[#2b3530] flex items-center gap-1">
+                <Scissors size={12} /> Maestro Barbero
               </span>
-              <span className="text-xs text-gray-400 font-mono">Steel House Barberia's</span>
+              <span className="text-xs text-[#808080] font-sans">Punto Fino · Barbería de Autor</span>
             </div>
-            <h1 className="text-3xl font-display font-bold uppercase tracking-wider text-white">
-              ¡Hola, <span className="text-gold-500">{user?.name ? user.name.split(' ')[0] : 'Barbero'}</span>!
+            <h1 className="text-3xl font-serif italic text-white font-normal">
+              ¡Hola, <span className="text-gold-400">{user?.name ? user.name.split(' ')[0] : 'Barbero'}</span>!
             </h1>
-            <p className="text-gray-400 text-sm mt-1 capitalize font-sans">
+            <p className="text-[#b3b3b3] text-xs sm:text-sm mt-1 capitalize font-sans">
               {new Date().toLocaleDateString('es-CO', {
                 weekday: 'long',
                 year: 'numeric',

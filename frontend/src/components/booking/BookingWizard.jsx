@@ -120,7 +120,7 @@ const FALLBACK_BARBERS = [
     user: {
       _id: '6ab429b52a8371bc3f9ee10b',
       name: 'Juan Muñeton',
-      email: 'juan@steelhouse.com',
+      email: 'juan@puntofino.com',
       phone: '3158965266',
     },
     bio: 'Fundador y Master Barber. Especialista en la Experiencia Gold, visagismo y cortes de alta precisión.',
@@ -133,7 +133,7 @@ const FALLBACK_BARBERS = [
     user: {
       _id: '6ab429b62a8371bc3f9ee114',
       name: 'Carlos Mendoza',
-      email: 'carlos@steelhouse.com',
+      email: 'carlos@puntofino.com',
       phone: '3109876543',
     },
     bio: 'Especialista en degradados limpios, perfilado de barba al detalle y cuidado capilar.',
@@ -217,7 +217,7 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
         }
       })
       .catch((err) => {
-        console.warn('Servicios iniciales cargados desde Steel House:', err);
+        console.warn('Servicios iniciales cargados desde Punto Fino:', err);
       });
 
     barberService
@@ -229,7 +229,7 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
         }
       })
       .catch((err) => {
-        console.warn('Barberos iniciales cargados desde Steel House:', err);
+        console.warn('Barberos iniciales cargados desde Punto Fino:', err);
       });
   }, [initialServiceId]);
 
@@ -371,106 +371,108 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
   // SUCCESS SCREEN
   if (bookingSuccess) {
     const apt = bookingSuccess.appointment || {};
-    const code = bookingSuccess.confirmationCode || apt.confirmationCode || 'SH-CONFIRMADA';
-    const barberName = apt.barber?.name || selectedBarber?.user?.name || 'Barbero Steel House';
+    const code = bookingSuccess.confirmationCode || apt.confirmationCode || 'PF-CONFIRMADA';
+    const barberName = apt.barber?.name || selectedBarber?.user?.name || 'Master Barber Punto Fino';
     const clientEmail = clientData.email;
 
     return (
-      <div className="max-w-3xl mx-auto py-8">
-        <BrutalCard variant="gold" className="text-center p-8 sm:p-12 relative overflow-hidden">
+      <div className="max-w-2xl mx-auto py-8">
+        <div className="bg-[#121815] border border-[#cfa53b]/40 rounded-[4px] text-center p-8 sm:p-12 relative overflow-hidden shadow-subtle">
           {/* Top Crown Badge */}
-          <div className="inline-flex items-center gap-2 bg-black border-2 border-gold-500 px-4 py-2 rounded-full mb-6 shadow-brutal-gold-sm">
-            <Sparkles size={18} className="text-gold-500 animate-pulse" />
-            <span className="text-xs uppercase font-mono tracking-widest text-gold-400 font-bold">
-              RESERVA CONFIRMADA · STEEL HOUSE
+          <div className="inline-flex items-center gap-2 bg-[#161d19] border border-gold-400/40 px-4 py-1.5 rounded-[4px] mb-6">
+            <Sparkles size={14} className="text-gold-400 animate-pulse" />
+            <span className="text-xs uppercase font-sans tracking-[0.2em] text-gold-400 font-semibold">
+              Reserva Confirmada · Punto Fino
             </span>
           </div>
 
-          <div className="w-20 h-20 bg-green-500/10 border-3 border-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle2 size={48} className="text-green-400" />
+          <div className="w-16 h-16 bg-green-500/10 border border-green-500/40 rounded-full flex items-center justify-center mx-auto mb-5">
+            <CheckCircle2 size={36} className="text-green-400" />
           </div>
 
-          <h2 className="text-3xl sm:text-4xl font-display font-bold uppercase text-white tracking-wide mb-3">
+          <h2 className="text-3xl sm:text-4xl font-serif italic text-white font-normal mb-3">
             ¡Tu Cita Ha Sido Agendada!
           </h2>
 
-          <p className="text-gray-300 text-sm sm:text-base max-w-xl mx-auto mb-8 leading-relaxed font-sans">
-            Hemos enviado un correo con todos los detalles a <span className="text-gold-400 font-bold">{clientEmail}</span> y tu barbero <span className="text-white font-semibold">{barberName}</span> ha sido notificado.
+          <p className="text-[#b3b3b3] text-xs sm:text-sm max-w-lg mx-auto mb-8 leading-relaxed font-sans">
+            Hemos enviado un correo con todos los detalles a <span className="text-gold-400 font-medium">{clientEmail}</span> y tu maestro barbero <span className="text-white font-medium">{barberName}</span> ha sido notificado.
           </p>
 
           {/* Reservation Code Box */}
-          <div className="bg-[#111111] border-2 border-gold-500 p-5 rounded-xl max-w-md mx-auto mb-8 shadow-brutal-gold-sm">
-            <p className="text-xs uppercase font-mono text-gray-400 font-bold mb-1">
+          <div className="bg-[#161d19] border border-[#2b3530] p-4.5 rounded-[4px] max-w-sm mx-auto mb-8">
+            <p className="text-[11px] uppercase font-sans text-[#808080] font-medium tracking-wider mb-1">
               Código Único de Reserva
             </p>
             <div className="flex items-center justify-center gap-3">
-              <span className="text-2xl sm:text-3xl font-mono-price font-bold text-gold-400 tracking-wider">
+              <span className="text-2xl font-mono text-gold-400 tracking-wider font-semibold">
                 {code}
               </span>
               <button
                 onClick={() => handleCopyCode(code)}
-                className="p-2 bg-[#222] hover:bg-gold-500 hover:text-black border border-white/20 rounded-lg text-gray-300 transition-all"
+                className="p-1.5 bg-[#1f2723] hover:bg-gold-400 hover:text-[#0e1311] border border-[#333d38] rounded-[4px] text-[#dfdbca] transition-all cursor-pointer"
                 title="Copiar código"
               >
-                {copiedCode ? <Check size={18} className="text-green-400" /> : <Copy size={18} />}
+                {copiedCode ? <Check size={16} className="text-green-400" /> : <Copy size={16} />}
               </button>
             </div>
           </div>
 
           {/* Compact Appointment Details */}
-          <div className="bg-[#141414] border-2 border-[#333] p-6 rounded-xl text-left max-w-lg mx-auto mb-8 space-y-3 font-sans text-sm">
-            <div className="flex justify-between items-center pb-2 border-b border-white/10">
-              <span className="text-gray-400">Cliente:</span>
-              <span className="font-semibold text-white uppercase">{clientData.name}</span>
+          <div className="bg-[#161d19] border border-[#222a26] p-5 sm:p-6 rounded-[4px] text-left max-w-md mx-auto mb-8 space-y-3 font-sans text-xs">
+            <div className="flex justify-between items-center pb-2 border-b border-[#222a26]">
+              <span className="text-[#808080]">Cliente:</span>
+              <span className="font-medium text-white uppercase">{clientData.name}</span>
             </div>
-            <div className="flex justify-between items-center pb-2 border-b border-white/10">
-              <span className="text-gray-400">Barbero Asignado:</span>
-              <span className="font-semibold text-gold-400">{barberName}</span>
+            <div className="flex justify-between items-center pb-2 border-b border-[#222a26]">
+              <span className="text-[#808080]">Barbero Asignado:</span>
+              <span className="font-serif italic text-sm text-gold-400">{barberName}</span>
             </div>
-            <div className="flex justify-between items-center pb-2 border-b border-white/10">
-              <span className="text-gray-400">Fecha y Hora:</span>
-              <span className="font-mono font-semibold text-white capitalize">
+            <div className="flex justify-between items-center pb-2 border-b border-[#222a26]">
+              <span className="text-[#808080]">Fecha y Hora:</span>
+              <span className="font-mono text-white capitalize">
                 {new Date(selectedDate + 'T12:00:00').toLocaleDateString('es-CO', { weekday: 'short', day: 'numeric', month: 'short' })} · {formatTime(selectedSlot)}
               </span>
             </div>
-            <div className="flex justify-between items-center pb-2 border-b border-white/10">
-              <span className="text-gray-400">Servicio(s):</span>
-              <span className="font-medium text-white text-right">
+            <div className="flex justify-between items-center pb-2 border-b border-[#222a26]">
+              <span className="text-[#808080]">Servicio(s):</span>
+              <span className="font-serif italic text-white text-right">
                 {selectedServices.map((s) => s.name).join(' + ')}
               </span>
             </div>
-            <div className="flex justify-between items-center pb-2 border-b border-white/10">
-              <span className="text-gray-400">Dirección registrada:</span>
-              <span className="font-medium text-gray-300 text-right">{clientData.address}</span>
-            </div>
-            <div className="flex justify-between items-center pt-1 text-base">
-              <span className="text-gray-300 font-bold uppercase font-mono">Total a pagar:</span>
-              <span className="font-mono-price font-bold text-gold-400 text-xl">
-                {formatPrice(totalPrice)} <span className="text-xs text-gray-400">({paymentMethod})</span>
+            {clientData.address && (
+              <div className="flex justify-between items-center pb-2 border-b border-[#222a26]">
+                <span className="text-[#808080]">Dirección registrada:</span>
+                <span className="text-[#b3b3b3] text-right truncate max-w-[200px]">{clientData.address}</span>
+              </div>
+            )}
+            <div className="flex justify-between items-center pt-1 text-sm">
+              <span className="text-[#dfdbca] uppercase font-sans text-xs font-semibold">Total:</span>
+              <span className="price-pill">
+                {formatPrice(totalPrice)}
               </span>
             </div>
           </div>
 
           {/* Actions */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center max-w-sm mx-auto">
             <button
               onClick={handleResetBooking}
-              className="w-full sm:w-auto brutal-btn bg-[#1a1a1a] text-white border-2 border-[#333] hover:border-gold-500 px-6 py-3.5 flex items-center justify-center gap-2 text-sm font-bold uppercase rounded-xl transition-all"
+              className="w-full sm:w-auto btn-secondary text-xs uppercase tracking-wider py-2.5 px-5"
             >
-              <RotateCcw size={16} />
-              Agendar Otra Cita
+              <RotateCcw size={14} />
+              Agendar Otra
             </button>
             <a
-              href={`https://wa.me/573158965266?text=Hola,%20acabo%20de%20agendar%20mi%20cita%20con%20c%C3%B3digo%20${code}`}
+              href={`https://wa.me/573158965266?text=Hola,%20acabo%20de%20agendar%20mi%20cita%20con%20c%C3%B3digo%20${code}%20en%20Punto%20Fino`}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto brutal-btn-primary px-6 py-3.5 flex items-center justify-center gap-2 text-sm rounded-xl"
+              className="w-full sm:w-auto btn-primary text-xs uppercase tracking-wider py-2.5 px-5"
             >
-              <MessageSquare size={16} />
-              WhatsApp Barbería
+              <MessageSquare size={14} />
+              WhatsApp Atelier
             </a>
           </div>
-        </BrutalCard>
+        </div>
       </div>
     );
   }
@@ -480,9 +482,9 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
     <div className="w-full">
       {/* Stepper */}
       <div className="mb-10 relative px-2 max-w-2xl mx-auto">
-        <div className="absolute top-1/2 left-0 right-0 h-1 bg-[#333] -translate-y-1/2 z-0" />
+        <div className="absolute top-1/2 left-0 right-0 h-px bg-[#222a26] -translate-y-1/2 z-0" />
         <div
-          className="absolute top-1/2 left-0 h-1 bg-gold-500 -translate-y-1/2 z-0 transition-all duration-500 ease-out"
+          className="absolute top-1/2 left-0 h-px bg-gold-400 -translate-y-1/2 z-0 transition-all duration-500 ease-out"
           style={{ width: `${((step - 1) / (STEPS.length - 1)) * 100}%` }}
         />
         <div className="flex justify-between relative z-10">
@@ -500,23 +502,23 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
                     }
                   }}
                   disabled={!isCompleted && !isActive}
-                  className={`w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center border-2 transition-all duration-300 rounded-xl cursor-pointer ${
+                  className={`w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center border transition-all duration-200 rounded-[4px] cursor-pointer ${
                     isActive
-                      ? 'bg-gold-500 border-black shadow-brutal-gold scale-110 text-black'
+                      ? 'bg-gold-400 border-gold-400 text-[#0e1311] shadow-sm font-semibold'
                       : isCompleted
-                      ? 'bg-green-500 border-black text-black shadow-sm'
-                      : 'bg-[#141414] border-[#333] text-gray-500 cursor-not-allowed'
+                      ? 'bg-[#19221d] border-gold-400/50 text-gold-400'
+                      : 'bg-[#121815] border-[#222a26] text-[#808080] cursor-not-allowed'
                   }`}
                 >
                   {isCompleted ? (
-                    <Check size={20} strokeWidth={3} />
+                    <Check size={18} strokeWidth={2.5} />
                   ) : (
-                    <s.icon size={18} strokeWidth={isActive ? 3 : 2} />
+                    <s.icon size={16} strokeWidth={isActive ? 2.5 : 2} />
                   )}
                 </button>
                 <span
-                  className={`mt-2 font-mono text-[11px] sm:text-xs font-bold uppercase tracking-wider hidden sm:block ${
-                    isActive ? 'text-gold-400' : isCompleted ? 'text-green-400' : 'text-gray-500'
+                  className={`mt-2 font-sans text-[11px] uppercase tracking-wider hidden sm:block ${
+                    isActive ? 'text-gold-400 font-semibold' : isCompleted ? 'text-white' : 'text-[#808080]'
                   }`}
                 >
                   {s.label}
@@ -597,13 +599,13 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
 
       {/* Navigation Buttons for Steps 1-3 */}
       {step < 4 && (
-        <div className="flex justify-between items-center gap-4 mt-8 pt-6 border-t-2 border-dashed border-[#333]">
+        <div className="flex justify-between items-center gap-4 mt-8 pt-6 border-t border-[#1f2723]">
           <button
             type="button"
             onClick={prevStep}
             disabled={step === 1}
-            className={`brutal-btn-outline px-6 py-3 text-sm uppercase font-bold rounded-xl transition-all ${
-              step === 1 ? 'opacity-30 cursor-not-allowed' : 'hover:border-gold-500'
+            className={`btn-secondary text-xs uppercase tracking-wider py-2.5 px-6 ${
+              step === 1 ? 'opacity-30 cursor-not-allowed' : ''
             }`}
           >
             Atrás
@@ -613,8 +615,8 @@ export default function BookingWizard({ isEmbedded = false, initialServiceId = n
             type="button"
             onClick={nextStep}
             disabled={!canProceed()}
-            className={`brutal-btn-primary px-8 py-3 text-sm uppercase font-bold rounded-xl shadow-brutal-gold transition-all ${
-              !canProceed() ? 'opacity-50 cursor-not-allowed' : ''
+            className={`btn-primary text-xs uppercase tracking-wider py-2.5 px-7 ${
+              !canProceed() ? 'opacity-40 cursor-not-allowed' : ''
             }`}
           >
             Continuar

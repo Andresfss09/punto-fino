@@ -43,49 +43,49 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="hidden md:flex flex-col w-64 h-screen bg-[#111111] border-r-2 border-[#333] flex-shrink-0 z-40 relative">
+    <aside className="hidden md:flex flex-col w-64 h-screen bg-[#0e1311] border-r border-[#1f2723] flex-shrink-0 z-40 relative">
       {/* Logo Area */}
-      <div className="h-16 flex items-center gap-3 px-5 border-b-2 border-[#333]">
+      <div className="h-18 py-3 flex items-center gap-3 px-5 border-b border-[#1f2723]">
         <img
           src="/logo.png"
-          alt="Steel House"
-          className="w-9 h-9 object-contain rounded-full border border-gold-500/40"
+          alt="Punto Fino"
+          className="w-9 h-9 object-contain rounded-full border border-gold-400/40"
         />
         <div>
-          <h2 className="font-display font-bold text-base text-white tracking-wide leading-none">Steel House</h2>
-          <span className="text-[10px] text-gold-500 tracking-[0.2em] font-semibold uppercase">Barberia's 👑</span>
+          <h2 className="font-serif italic text-xl text-white tracking-tight leading-none">Punto Fino</h2>
+          <span className="text-[10px] text-gold-400 tracking-[0.2em] font-medium uppercase block mt-1">Barbería de Autor</span>
         </div>
       </div>
 
       {/* Navigation Links */}
-      <nav className="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
+      <nav className="flex-1 py-6 px-3 space-y-1 overflow-y-auto">
         {links.map((link, idx) => (
           <NavLink
             key={idx}
             to={link.path}
             end={link.path === '/cliente' || link.path === '/barber' || link.path === '/admin'}
             className={({ isActive }) =>
-              `flex items-center px-4 py-3 min-h-[44px] border-2 transition-colors duration-100 ${
+              `flex items-center px-3.5 py-2.5 rounded-[4px] text-xs font-sans uppercase tracking-wider transition-all duration-150 ${
                 isActive
-                  ? 'border-[#d4af37] text-[#d4af37] bg-[#d4af37]/10'
-                  : 'border-transparent text-[#a0a0a0] hover:text-white hover:bg-[#333]/50 hover:border-[#333]'
+                  ? 'bg-[#161d19] border border-gold-400/50 text-gold-400 font-medium'
+                  : 'text-[#b3b3b3] hover:text-white hover:bg-white/5 border border-transparent'
               }`
             }
           >
-            <link.icon className="w-5 h-5 mr-3 flex-shrink-0" />
-            <span className="font-medium">{link.label}</span>
+            <link.icon className="w-4 h-4 mr-3 flex-shrink-0" />
+            <span>{link.label}</span>
           </NavLink>
         ))}
       </nav>
 
       {/* Bottom Area - User info & Logout */}
-      <div className="p-4 border-t-2 border-[#333] flex flex-col gap-2">
+      <div className="p-3 border-t border-[#1f2723] flex flex-col gap-2">
         <button 
           onClick={handleLogout}
-          className="flex items-center px-4 py-3 min-h-[44px] text-[#a0a0a0] hover:text-white hover:bg-[#333]/50 border-2 border-transparent hover:border-[#333] transition-colors w-full text-left"
+          className="flex items-center px-3.5 py-2.5 rounded-[4px] text-xs font-sans uppercase tracking-wider text-red-400 hover:text-red-300 hover:bg-red-500/10 border border-transparent transition-colors w-full text-left cursor-pointer"
         >
-          <LogOut className="w-5 h-5 mr-3 flex-shrink-0" />
-          <span className="font-medium">Cerrar Sesión</span>
+          <LogOut className="w-4 h-4 mr-3 flex-shrink-0" />
+          <span>Cerrar Sesión</span>
         </button>
       </div>
     </aside>

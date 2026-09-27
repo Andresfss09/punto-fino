@@ -84,7 +84,7 @@ exports.getPayrollAndStats = async (req, res) => {
       const info = {
         barberDocId: bId,
         userDocId: uId,
-        name: b.user?.name || 'Barbero Steel House',
+        name: b.user?.name || 'Maestro Barbero Punto Fino',
         email: b.user?.email || '',
         phone: b.user?.phone || '',
         avatar: b.user?.avatar || '',
@@ -152,7 +152,7 @@ exports.getPayrollAndStats = async (req, res) => {
       barberStatsAcc[uId] = {
         barberId: b._id.toString(),
         userId: uId,
-        name: b.user?.name || 'Barbero Steel House',
+        name: b.user?.name || 'Maestro Barbero Punto Fino',
         email: b.user?.email || '',
         phone: b.user?.phone || '',
         avatar: b.user?.avatar || '',

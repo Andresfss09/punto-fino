@@ -298,7 +298,7 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
         { Concepto: 'Ticket Promedio por Corte', Valor: formatCurrency(data.summary.averageTicket) },
         { Concepto: 'Ingresos Brutos Facturados', Valor: formatCurrency(data.summary.grossRevenue) },
         { Concepto: 'Total Nómina Barberos (Comisiones)', Valor: formatCurrency(data.summary.totalBarbersPayout) },
-        { Concepto: 'Ganancia Neta Steel House', Valor: formatCurrency(data.summary.netBarbershopEarnings) },
+        { Concepto: 'Ganancia Neta Punto Fino', Valor: formatCurrency(data.summary.netBarbershopEarnings) },
         { Concepto: 'Nómina Ya Pagada / Liquidada', Valor: formatCurrency(data.summary.totalPaidPayout) },
         { Concepto: 'Nómina Pendiente de Pago', Valor: formatCurrency(data.summary.totalPendingPayout) },
       ];
@@ -346,7 +346,7 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
           { sheetName: 'Nómina de Barberos', data: payrollSheetData },
           { sheetName: 'Detalle de Servicios', data: appointmentsSheetData },
         ],
-        `Nomina_SteelHouse_${new Date().toISOString().slice(0, 10)}`
+        `Nomina_PuntoFino_${new Date().toISOString().slice(0, 10)}`
       );
 
       toast.success('¡Archivo Excel (.xlsx) generado y descargado! 📊');
@@ -415,7 +415,7 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
 
       exportToPdf({
         title: 'REPORTE EJECUTIVO DE NÓMINA Y SERVICIOS',
-        subtitle: 'Steel House Barbería · Control de Pagos y Liquidaciones',
+        subtitle: 'Punto Fino Barbería de Autor · Control de Pagos y Liquidaciones',
         periodLabel: rangeText,
         summary: data.summary,
         tables: [
@@ -430,7 +430,7 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
             rows: serviceRows,
           },
         ],
-        fileName: `Reporte_Nomina_SteelHouse_${new Date().toISOString().slice(0, 10)}`,
+        fileName: `Reporte_Nomina_PuntoFino_${new Date().toISOString().slice(0, 10)}`,
       });
 
       toast.success('¡Reporte PDF oficial generado exitosamente! 📄');
@@ -495,11 +495,11 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b-2 border-[#333]">
           <div>
             <div className="flex items-center gap-3 mb-1">
-              <span className="brutal-badge border-gold-500 text-gold-400 bg-black">
+              <span className="editorial-tag bg-[#161d19] border-[#2b3530] text-gold-400">
                 ADMINISTRACIÓN & CONTABILIDAD
               </span>
-              <span className="text-xs text-gray-400 font-mono">
-                Steel House Barbería
+              <span className="text-xs text-[#808080] font-sans">
+                Punto Fino Barbería de Autor
               </span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-display font-bold uppercase tracking-wider text-white">
@@ -743,7 +743,7 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                       </span>
                     </div>
                     <p className="text-xs uppercase font-mono text-gray-400 font-bold mb-1">
-                      Ganancia Steel House
+                      Ganancia Punto Fino
                     </p>
                     <p className="text-2xl sm:text-3xl font-mono-price font-bold text-blue-400 tracking-tight">
                       {formatCurrency(data.summary.netBarbershopEarnings)}
@@ -938,7 +938,7 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                               </span>
                             </div>
                             <div className="flex justify-between text-gray-300">
-                              <span>Ganancia para Steel House:</span>
+                              <span>Ganancia para Punto Fino:</span>
                               <span className="font-mono text-gray-400">
                                 {formatCurrency(barber.barbershopShare)}
                               </span>

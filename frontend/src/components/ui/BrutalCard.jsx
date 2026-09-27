@@ -10,20 +10,20 @@ const BrutalCard = ({
   padding = true,
   ...props 
 }) => {
-  const baseClasses = 'rounded-[4px] border-2';
+  const baseClasses = 'rounded-[4px] border transition-all duration-200';
   const paddingClasses = padding ? 'p-4 sm:p-6' : '';
   
   let variantClasses = '';
   switch (variant) {
     case 'gold':
-      variantClasses = 'bg-[#111111] border-[#d4af37] shadow-[4px_4px_0_#d4af37]';
+      variantClasses = 'bg-[#121815] border-[#cfa53b]/40 shadow-sm';
       break;
     case 'interactive':
-      variantClasses = 'bg-[#111111] border-[#333] shadow-[4px_4px_0_#333] hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-[6px_6px_0_#333] transition-all cursor-pointer';
+      variantClasses = 'bg-[#121815] border-[#222a26] hover:border-[#cfa53b]/50 hover:bg-[#151c19] cursor-pointer shadow-subtle';
       break;
     case 'default':
     default:
-      variantClasses = 'bg-[#111111] border-[#333] shadow-[4px_4px_0_#333]';
+      variantClasses = 'bg-[#121815] border-[#222a26] shadow-subtle';
       break;
   }
 
@@ -32,7 +32,7 @@ const BrutalCard = ({
   // Only apply animation if it's a motion component
   const animationProps = Component === motion.div || Component === motion.button || Component === motion.article
     ? {
-        initial: { opacity: 0, y: 20 },
+        initial: { opacity: 0, y: 15 },
         animate: { opacity: 1, y: 0 },
         transition: { duration: 0.3 }
       }
@@ -51,3 +51,4 @@ const BrutalCard = ({
 };
 
 export default BrutalCard;
+
