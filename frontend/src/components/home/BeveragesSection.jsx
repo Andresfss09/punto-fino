@@ -40,7 +40,7 @@ export default function BeveragesSection({ onSelectBeverage }) {
   };
 
   return (
-    <section id="bebidas" className="py-16 sm:py-20 bg-[#000000] border-b border-[#1e1e1e]">
+    <section id="bebidas" className="py-16 sm:py-20 bg-[#000000] border-b border-[#1e1e1e] scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Container */}

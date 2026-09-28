@@ -37,7 +37,7 @@ const BARBERS = [
 
 export default function BarbersSection() {
   return (
-    <section id="barberos" className="py-20 sm:py-28 bg-[#000000] border-b border-[#1e1e1e]">
+    <section id="barberos" className="py-20 sm:py-28 bg-[#000000] border-b border-[#1e1e1e] scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#1e1e1e] pb-8 mb-10">
@@ -113,6 +113,11 @@ export default function BarbersSection() {
 
                   <a
                     href="#reservar"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const el = document.getElementById('reservar');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }}
                     className="w-full bg-transparent hover:bg-white text-white hover:text-black border border-[#333333] hover:border-white font-sans text-xs uppercase tracking-[0.2em] py-2.5 px-4 rounded-none transition-all flex items-center justify-center gap-2 cursor-pointer font-medium active:scale-[0.99]"
                   >
                     <span>Agendar con {barber.name.split(' ')[0]}</span>

@@ -87,7 +87,7 @@ exports.sendAppointmentConfirmationEmail = async (appointment) => {
             <p><strong>Total:</strong> $${totalPrice.toLocaleString('es-CO')} COP</p>
             ${displayAddress ? `<p><strong>Dirección cliente:</strong> ${displayAddress}</p>` : ''}
           </div>
-          <p>📍 <strong>Ubicación del Atelier:</strong> Cra. 12 #53-51, Villacolombia, Cali, Colombia.</p>
+          <p>📍 <strong>Ubicación del Atelier:</strong> <a href="https://www.google.com/maps/place/barberia+punto+fino/@3.4484441,-76.500278,17z/data=!3m1!4b1!4m6!3m5!1s0x8e30a7f8b6322dcd:0x647a1acfdd8317f4!8m2!3d3.4484387!4d-76.4977031!16s%2Fg%2F11z5s1m3vz?entry=ttu&g_ep=EgoyMDI2MDkyMy4wIKXMDSoASAFQAw%3D%3D" target="_blank" style="color:#cfa53b;text-decoration:underline;">Cra. 12 #53-51, Villacolombia, Cali, Colombia (Ver en Google Maps)</a></p>
           <p>Te recomendamos llegar 5 a 10 minutos antes de la hora para garantizar tu experiencia completa.</p>
         </div>
         <div class="footer"><p>© ${new Date().getFullYear()} Punto Fino Barbería · Cra. 12 #53-51, Villacolombia, Cali</p></div>

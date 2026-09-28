@@ -123,6 +123,11 @@ export default function HeroSection() {
               <div className="flex items-center gap-4">
                 <a
                   href="#reservar"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const el = document.getElementById('reservar');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }}
                   className="group inline-flex items-center gap-3.5 bg-transparent text-white hover:text-white/80 transition-all cursor-pointer"
                 >
                   <span className="font-sans font-medium uppercase tracking-[0.22em] text-xs">

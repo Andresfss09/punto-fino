@@ -1,8 +1,26 @@
 import React from 'react';
 import { Phone, MapPin, MessageCircle, Clock } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+
+const GOOGLE_MAPS_OFFICIAL_URL = 'https://www.google.com/maps/place/barberia+punto+fino/@3.4484441,-76.500278,17z/data=!3m1!4b1!4m6!3m5!1s0x8e30a7f8b6322dcd:0x647a1acfdd8317f4!8m2!3d3.4484387!4d-76.4977031!16s%2Fg%2F11z5s1m3vz?entry=ttu&g_ep=EgoyMDI2MDkyMy4wIKXMDSoASAFQAw%3D%3D';
 
 export default function Footer() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavClick = (e, targetId) => {
+    e.preventDefault();
+    if (location.pathname === '/') {
+      const el = document.getElementById(targetId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        window.history.pushState(null, '', `#${targetId}`);
+      }
+    } else {
+      navigate(`/#${targetId}`);
+    }
+  };
+
   return (
     <footer className="bg-[#000000] border-t border-[#1e1e1e] pt-16 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -36,17 +54,29 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-xs font-sans">
               <li>
-                <a href="#servicios" className="text-[#888888] hover:text-white transition-colors uppercase tracking-wider text-[11px]">
+                <a
+                  href="#servicios"
+                  onClick={(e) => handleNavClick(e, 'servicios')}
+                  className="text-[#888888] hover:text-white transition-colors uppercase tracking-wider text-[11px] cursor-pointer"
+                >
                   Carta de Servicios
                 </a>
               </li>
               <li>
-                <a href="#barberos" className="text-[#888888] hover:text-white transition-colors uppercase tracking-wider text-[11px]">
+                <a
+                  href="#barberos"
+                  onClick={(e) => handleNavClick(e, 'barberos')}
+                  className="text-[#888888] hover:text-white transition-colors uppercase tracking-wider text-[11px] cursor-pointer"
+                >
                   Maestros del Atelier
                 </a>
               </li>
               <li>
-                <a href="#reservar" className="text-gold-400 hover:text-gold-300 transition-colors uppercase tracking-wider text-[11px]">
+                <a
+                  href="#reservar"
+                  onClick={(e) => handleNavClick(e, 'reservar')}
+                  className="text-gold-400 hover:text-gold-300 transition-colors uppercase tracking-wider text-[11px] cursor-pointer"
+                >
                   Agendar Cita en Línea
                 </a>
               </li>
@@ -90,7 +120,14 @@ export default function Footer() {
             <ul className="space-y-2.5 text-xs font-sans text-[#888888]">
               <li>
                 <span className="text-white block font-medium uppercase tracking-wider text-[11px]">Sede Villacolombia</span>
-                <span>Cra. 12 #53-51, Villacolombia, Cali, Valle del Cauca</span>
+                <a
+                  href={GOOGLE_MAPS_OFFICIAL_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-gold-400 transition-colors inline-block"
+                >
+                  Cra. 12 #53-51, Villacolombia, Cali, Valle del Cauca
+                </a>
               </li>
               <li>
                 <a 

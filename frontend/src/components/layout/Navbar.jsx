@@ -25,14 +25,28 @@ export default function Navbar() {
     return '/cliente';
   };
 
+  const handleNavClick = (e, targetId) => {
+    e.preventDefault();
+    setIsOpen(false);
+    if (location.pathname === '/') {
+      const el = document.getElementById(targetId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        window.history.pushState(null, '', `#${targetId}`);
+      }
+    } else {
+      navigate(`/#${targetId}`);
+    }
+  };
+
   const isStaff = isAuthenticated && (isBarber() || isAdmin());
   const navLinks = [
-    { label: 'Experiencias', path: '/#servicios' },
-    { label: 'Lo que usamos', path: '/#bebidas' },
-    ...(!isStaff ? [{ label: 'Reservar', path: '/#reservar' }] : []),
-    { label: 'Barberos', path: '/#barberos' },
-    { label: 'Reseñas', path: '/#resenas' },
-    { label: 'Ubicación', path: '/#ubicacion' },
+    { label: 'Experiencias', targetId: 'servicios', path: '/#servicios' },
+    { label: 'Lo que usamos', targetId: 'bebidas', path: '/#bebidas' },
+    ...(!isStaff ? [{ label: 'Reservar', targetId: 'reservar', path: '/#reservar' }] : []),
+    { label: 'Barberos', targetId: 'barberos', path: '/#barberos' },
+    { label: 'Reseñas', targetId: 'resenas', path: '/#resenas' },
+    { label: 'Ubicación', targetId: 'ubicacion', path: '/#ubicacion' },
   ];
 
   return (
@@ -42,7 +56,7 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
           {/* Address */}
           <a
-            href="https://maps.google.com/?q=Cra.+12+%2353-51,+Villacolombia,+Cali"
+            href="https://www.google.com/maps/place/barberia+punto+fino/@3.4484441,-76.500278,17z/data=!3m1!4b1!4m6!3m5!1s0x8e30a7f8b6322dcd:0x647a1acfdd8317f4!8m2!3d3.4484387!4d-76.4977031!16s%2Fg%2F11z5s1m3vz?entry=ttu&g_ep=EgoyMDI2MDkyMy4wIKXMDSoASAFQAw%3D%3D"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 hover:text-white transition-colors"
@@ -97,17 +111,18 @@ export default function Navbar() {
             {/* Desktop Nav — Ferrari Uppercase Spaced Register */}
             <nav className="hidden lg:flex items-center space-x-1">
               {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  className={`px-3.5 py-2 rounded-none text-xs uppercase tracking-[0.2em] font-sans font-medium transition-colors ${
-                    location.pathname === link.path
+                <a
+                  key={link.targetId}
+                  href={`#${link.targetId}`}
+                  onClick={(e) => handleNavClick(e, link.targetId)}
+                  className={`px-3.5 py-2 rounded-none text-xs uppercase tracking-[0.2em] font-sans font-medium transition-colors cursor-pointer ${
+                    location.pathname === '/' && location.hash === `#${link.targetId}`
                       ? 'text-white'
                       : 'text-[#888888] hover:text-white'
                   }`}
                 >
                   {link.label}
-                </Link>
+                </a>
               ))}
             </nav>
 
@@ -203,7 +218,8 @@ export default function Navbar() {
                   </Link>
                   <a 
                     href="#reservar" 
-                    className="bg-white hover:bg-[#e5e5e5] text-black font-sans font-medium uppercase tracking-[0.2em] text-xs px-4 py-2 rounded-none transition-all inline-flex items-center gap-2"
+                    onClick={(e) => handleNavClick(e, 'reservar')}
+                    className="bg-white hover:bg-[#e5e5e5] text-black font-sans font-medium uppercase tracking-[0.2em] text-xs px-4 py-2 rounded-none transition-all inline-flex items-center gap-2 cursor-pointer"
                   >
                     <span>Reservar</span>
                     <ArrowRight size={12} />
@@ -235,20 +251,20 @@ export default function Navbar() {
           >
             <div className="px-4 py-6 space-y-3 font-sans">
               {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  onClick={() => setIsOpen(false)}
-                  className="block text-xs uppercase tracking-[0.2em] text-[#888888] hover:text-white py-2"
+                <a
+                  key={link.targetId}
+                  href={`#${link.targetId}`}
+                  onClick={(e) => handleNavClick(e, link.targetId)}
+                  className="block text-xs uppercase tracking-[0.2em] text-[#888888] hover:text-white py-2 cursor-pointer"
                 >
                   {link.label}
-                </Link>
+                </a>
               ))}
               <div className="pt-3 border-t border-[#1e1e1e]">
                 <a
                   href="#reservar"
-                  onClick={() => setIsOpen(false)}
-                  className="w-full bg-white text-black font-medium text-xs uppercase tracking-[0.2em] py-3 px-4 rounded-none flex items-center justify-center gap-2"
+                  onClick={(e) => handleNavClick(e, 'reservar')}
+                  className="w-full bg-white text-black font-medium text-xs uppercase tracking-[0.2em] py-3 px-4 rounded-none flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <span>Reservar Cita</span>
                   <ArrowRight size={13} />

@@ -63,7 +63,7 @@ export default function ServicesSection() {
   const filtered = activeCat === 'Todos' ? SERVICES : SERVICES.filter(s => s.cat === activeCat);
 
   return (
-    <section id="servicios" className="py-20 sm:py-28 bg-[#000000] border-b border-[#1e1e1e]">
+    <section id="servicios" className="py-20 sm:py-28 bg-[#000000] border-b border-[#1e1e1e] scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#1e1e1e] pb-8 mb-10">
@@ -153,6 +153,11 @@ export default function ServicesSection() {
 
                   <a
                     href="#reservar"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const el = document.getElementById('reservar');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }}
                     className="inline-flex items-center gap-2 bg-transparent hover:bg-white text-white hover:text-black border border-[#333333] hover:border-white font-sans text-xs uppercase tracking-[0.2em] px-4 py-2 rounded-none transition-all cursor-pointer font-medium"
                   >
                     <span>Reservar</span>

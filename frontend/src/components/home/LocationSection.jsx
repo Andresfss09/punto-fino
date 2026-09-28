@@ -4,11 +4,11 @@ import { MapPin, Phone, MessageCircle, Clock, Navigation, ExternalLink, ArrowRig
 export default function LocationSection() {
   const address = 'Cra. 12 #53-51, Villacolombia, Cali, Valle del Cauca';
   const phone = '+57 312 239 8964';
-  const mapsUrl = 'https://maps.google.com/?q=Cra.+12+%2353-51,+Villacolombia,+Cali';
+  const mapsUrl = 'https://www.google.com/maps/place/barberia+punto+fino/@3.4484441,-76.500278,17z/data=!3m1!4b1!4m6!3m5!1s0x8e30a7f8b6322dcd:0x647a1acfdd8317f4!8m2!3d3.4484387!4d-76.4977031!16s%2Fg%2F11z5s1m3vz?entry=ttu&g_ep=EgoyMDI2MDkyMy4wIKXMDSoASAFQAw%3D%3D';
   const whatsappUrl = 'https://wa.me/573122398964?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Punto%20Fino%20(Cra.%2012%20%2353-51)';
 
   return (
-    <section id="ubicacion" className="py-24 bg-[#000000] border-b border-[#1e1e1e] text-white">
+    <section id="ubicacion" className="py-24 bg-[#000000] border-b border-[#1e1e1e] text-white scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#1e1e1e] pb-8 mb-12">
@@ -150,29 +150,29 @@ export default function LocationSection() {
             </div>
 
             {/* Visual Location Frame / Map Link Card */}
-            <div className="relative rounded-none overflow-hidden border border-[#222222] aspect-[16/9] bg-[#000000] group">
+            <a
+              href={mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative rounded-none overflow-hidden border border-[#222222] hover:border-white/50 aspect-[16/9] bg-[#000000] group block cursor-pointer transition-colors"
+            >
               <img
                 src="https://images.unsplash.com/photo-1524813686514-a57563d77d61?auto=format&fit=crop&w=800&q=80"
                 alt="Mapa Punto Fino Villacolombia"
                 className="w-full h-full object-cover filter brightness-70 contrast-110 group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center p-4 text-center">
-                <div className="btn-circle-arrow mb-3 bg-white text-black border-white">
+                <div className="btn-circle-arrow mb-3 bg-white text-black border-white group-hover:scale-110 transition-transform">
                   <MapPin size={16} />
                 </div>
                 <span className="font-sans text-sm uppercase tracking-[0.16em] text-white font-medium">
                   Cra. 12 #53-51, Villacolombia
                 </span>
-                <a
-                  href={mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 text-xs font-mono text-gold-400 hover:text-white underline underline-offset-4 flex items-center gap-1.5 transition-colors"
-                >
+                <span className="mt-2 text-xs font-mono text-gold-400 group-hover:text-white underline underline-offset-4 flex items-center gap-1.5 transition-colors">
                   Abrir en Google Maps <ExternalLink size={11} />
-                </a>
+                </span>
               </div>
-            </div>
+            </a>
           </div>
         </div>
       </div>
