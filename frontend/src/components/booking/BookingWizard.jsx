@@ -291,6 +291,8 @@ export default function BookingWizard() {
         barberId: selectedBarber._id === 'any' ? undefined : selectedBarber._id,
         date: selectedDate,
         startTime: selectedSlot,
+        totalPrice,
+        totalDuration,
         paymentMethod,
         notes: [notes, selectedBeverage && selectedBeverage !== 'Sin bebida' ? `Bebida: ${selectedBeverage}` : ''].filter(Boolean).join(' | '),
         clientName: clientData.name,

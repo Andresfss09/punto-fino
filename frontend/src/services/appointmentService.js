@@ -14,8 +14,27 @@ export const appointmentService = {
     }
     return api.post('/appointments', data);
   },
-  getAvailableSlots: (params) => api.get('/appointments/available-slots', { params }),
+  createGuestAppointment: async (data) => {
+    return appointmentService.create(data);
+  },
+  getAvailableSlots: async (params) => {
+    const date = params?.date;
+    const barberId = params?.barberId;
+    const duration = params?.serviceDuration || 35;
+
+    if (isSupabaseConfigured()) {
+      try {
+        const slots = await supabaseService.getAvailableSlots(date, barberId, duration);
+        if (slots) return { slots };
+      } catch (err) {
+        console.warn('Error calculando horarios en Supabase:', err);
+      }
+    }
+    return api.get('/appointments/available-slots', { params });
+  },
   getMyAppointments: (params) => api.get('/appointments/my-appointments', { params }),
+  getMyHistory: (status) => api.get('/appointments/my-appointments', { params: { status } }),
+  getBarberSchedule: (date) => api.get('/appointments/barber-appointments', { params: { date } }),
   getBarberAppointments: async (params) => {
     if (isSupabaseConfigured()) {
       try {

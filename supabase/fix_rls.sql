@@ -34,7 +34,8 @@ create policy "Lectura de citas" on public.appointments for select using (
 -- 4. Corregir política de actualización en "appointments"
 drop policy if exists "Barberos y admins actualizan citas" on public.appointments;
 create policy "Barberos y admins actualizan citas" on public.appointments for update using (
-  exists (select 1 from public.barbers where id = appointments.barber_id and profile_id = auth.uid())
+  auth.uid() is null
+  or exists (select 1 from public.barbers where id = appointments.barber_id and (profile_id = auth.uid() or profile_id is null))
   or public.is_admin()
   or client_id = auth.uid()
 );
@@ -42,3 +43,10 @@ create policy "Barberos y admins actualizan citas" on public.appointments for up
 -- 5. Asegurar inserción pública en citas
 drop policy if exists "Cualquiera puede crear citas" on public.appointments;
 create policy "Cualquiera puede crear citas" on public.appointments for insert with check (true);
+
+-- 6. Permitir eliminar citas
+drop policy if exists "Solo administradores pueden eliminar citas" on public.appointments;
+create policy "Solo administradores pueden eliminar citas" on public.appointments for delete using (
+  auth.uid() is null
+  or public.is_admin()
+);
