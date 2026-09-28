@@ -17,6 +17,7 @@ export const formatDate = (date, options = {}) => {
 };
 
 export const formatTime = (time) => {
+  if (!time || typeof time !== 'string' || !time.includes(':')) return '--:--';
   const [h, m] = time.split(':').map(Number);
   const period = h >= 12 ? 'PM' : 'AM';
   const displayH = h > 12 ? h - 12 : h === 0 ? 12 : h;
