@@ -52,28 +52,28 @@ export default function Navbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-40">
       {/* Top Utility Announcement Bar — Clean Barbershop Info */}
-      <div className="bg-[#0a0a0a] text-[#888888] text-[11px] font-sans py-2 px-4 sm:px-8 border-b border-[#1e1e1e]">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
+      <div className="bg-[#0a0a0a] text-[#888888] text-xs font-sans py-2.5 px-4 sm:px-8 lg:px-12 border-b border-[#1e1e1e]">
+        <div className="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
           {/* Location / Presence */}
           <div className="flex items-center gap-2 text-[#cccccc]">
-            <MapPin size={11} className="text-[#cfa53b] shrink-0" />
-            <span className="font-mono uppercase tracking-wider text-[11px]">
+            <MapPin size={13} className="text-[#cfa53b] shrink-0" />
+            <span className="font-mono uppercase tracking-wider text-xs">
               Barbería Triadix · Cali, Colombia
             </span>
           </div>
 
           {/* Schedule & WhatsApp */}
-          <div className="flex items-center gap-5">
-            <span className="hidden md:inline font-mono uppercase tracking-wider text-[10px] text-[#888888]">
+          <div className="flex items-center gap-6">
+            <span className="hidden md:inline font-mono uppercase tracking-wider text-xs text-[#888888]">
               Lun-Sáb 09:00 - 20:30 · Dom 09:00 - 16:00
             </span>
             <a
               href="https://wa.me/573122398964?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Barber%C3%ADa%20Triadix"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 font-mono text-[11px] text-[#ffffff] hover:text-[#cfa53b] transition-colors"
+              className="flex items-center gap-1.5 font-mono text-xs text-[#ffffff] hover:text-[#cfa53b] transition-colors"
             >
-              <MessageCircle size={11} className="text-[#25D366] shrink-0" />
+              <MessageCircle size={13} className="text-[#25D366] shrink-0" />
               <span>WhatsApp: 312 239 8964</span>
             </a>
           </div>
@@ -81,39 +81,39 @@ export default function Navbar() {
       </div>
 
       {/* Main Navigation Bar */}
-      <div className="bg-black/90 backdrop-blur-md border-b border-[#1e1e1e]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 py-2">
+      <div className="bg-black/95 backdrop-blur-md border-b border-[#1e1e1e]">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12">
+          <div className="flex items-center justify-between h-20 py-2">
             {/* Logo Brand */}
-            <Link to="/" className="flex items-center gap-3 group">
+            <Link to="/" className="flex items-center gap-3.5 group">
               <div className="relative">
                 <img
                   src="/logo.png"
                   alt="Barbería Triadix"
-                  className="w-10 h-10 object-contain rounded-none border border-[#222222] group-hover:border-[#cfa53b] transition-all duration-300 p-0.5 bg-black"
+                  className="w-12 h-12 object-contain rounded-none border border-[#262626] group-hover:border-[#cfa53b] transition-all duration-300 p-1 bg-black shadow-md"
                 />
               </div>
               <div className="flex flex-col">
-                <span className="font-sans uppercase font-bold text-lg text-white tracking-[0.24em] leading-none group-hover:text-[#cfa53b] transition-colors">
+                <span className="font-sans uppercase font-bold text-xl text-white tracking-[0.22em] leading-none group-hover:text-[#cfa53b] transition-colors">
                   Triadix
                 </span>
-                <span className="text-[9px] text-[#cfa53b] font-sans tracking-[0.24em] uppercase font-medium mt-1">
+                <span className="text-[10px] text-[#cfa53b] font-sans tracking-[0.24em] uppercase font-semibold mt-1">
                   Barbería · Cali
                 </span>
               </div>
             </Link>
 
             {/* Desktop Nav — Ferrari Uppercase Spaced Register */}
-            <nav className="hidden lg:flex items-center space-x-1">
+            <nav className="hidden lg:flex items-center space-x-2">
               {navLinks.map((link) => (
                 <a
                   key={link.targetId}
                   href={`#${link.targetId}`}
                   onClick={(e) => handleNavClick(e, link.targetId)}
-                  className={`px-3.5 py-2 rounded-none text-xs uppercase tracking-[0.2em] font-sans font-medium transition-colors cursor-pointer ${
+                  className={`px-3.5 py-2 rounded-none text-[13px] uppercase tracking-[0.14em] font-sans font-medium transition-colors cursor-pointer ${
                     location.pathname === '/' && location.hash === `#${link.targetId}`
-                      ? 'text-white'
-                      : 'text-[#888888] hover:text-white'
+                      ? 'text-white font-semibold'
+                      : 'text-[#aaaaaa] hover:text-white'
                   }`}
                 >
                   {link.label}
@@ -122,7 +122,7 @@ export default function Navbar() {
             </nav>
 
             {/* Actions */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               {isAuthenticated ? (
                 <>
                   {/* Notifications */}
@@ -204,20 +204,20 @@ export default function Navbar() {
                   </div>
                 </>
               ) : (
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-5">
                   <Link 
                     to="/login" 
-                    className="font-sans text-xs uppercase tracking-[0.2em] font-medium text-[#888888] hover:text-white transition-colors"
+                    className="font-sans text-[13px] uppercase tracking-[0.16em] font-medium text-[#aaaaaa] hover:text-white transition-colors"
                   >
                     Ingresar
                   </Link>
                   <a 
                     href="#reservar" 
                     onClick={(e) => handleNavClick(e, 'reservar')}
-                    className="bg-white hover:bg-[#e5e5e5] text-black font-sans font-medium uppercase tracking-[0.2em] text-xs px-4 py-2 rounded-none transition-all inline-flex items-center gap-2 cursor-pointer"
+                    className="bg-white hover:bg-[#e5e5e5] text-black font-sans font-bold uppercase tracking-[0.16em] text-xs sm:text-[13px] px-5 py-2.5 rounded-none transition-all inline-flex items-center gap-2 cursor-pointer shadow-sm active:scale-95"
                   >
-                    <span>Reservar</span>
-                    <ArrowRight size={12} />
+                    <span>Reservar Cita</span>
+                    <ArrowRight size={13} />
                   </a>
                 </div>
               )}

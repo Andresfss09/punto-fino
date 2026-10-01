@@ -20,34 +20,34 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#000000] border-t border-[#1e1e1e] pt-16 pb-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-8 pb-14 border-b border-[#1e1e1e]">
+    <footer className="bg-[#000000] border-t border-[#1e1e1e] pt-20 pb-14">
+      <div className="max-w-[1600px] w-full mx-auto px-6 sm:px-10 lg:px-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-10 pb-16 border-b border-[#1e1e1e]">
           {/* Column 1 - Brand & Philosophy */}
           <div className="md:col-span-1 space-y-4">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3.5">
               <img
                 src="/logo.png"
                 alt="Barbería Triadix"
-                className="w-10 h-10 object-contain rounded-none border border-[#222222] p-1 bg-[#0d0d0d]"
+                className="w-12 h-12 object-contain rounded-none border border-[#222222] p-1 bg-[#0d0d0d] shadow-md"
               />
               <div>
-                <h3 className="font-sans text-base font-medium tracking-[0.2em] uppercase text-white leading-tight">
+                <h3 className="font-sans text-lg font-bold tracking-[0.2em] uppercase text-white leading-tight">
                   Triadix
                 </h3>
-                <span className="text-[10px] text-gold-400 tracking-[0.22em] font-medium uppercase block mt-0.5">
+                <span className="text-xs text-gold-400 tracking-[0.22em] font-semibold uppercase block mt-0.5">
                   Barbería · Cali
                 </span>
               </div>
             </div>
-            <p className="text-[#888888] text-xs leading-relaxed max-w-sm font-sans">
+            <p className="text-[#999999] text-sm leading-relaxed max-w-sm font-sans">
               Barbería dedicada al buen corte, degradados limpios, afeitado tradicional a navaja y la mejor atención en Cali.
             </p>
           </div>
 
           {/* Column 2 - Navigation */}
-          <div className="space-y-3">
-            <h4 className="font-sans text-[11px] uppercase tracking-[0.22em] text-white font-medium">
+          <div className="space-y-4">
+            <h4 className="font-sans text-xs uppercase tracking-[0.22em] text-white font-bold">
               Explorar
             </h4>
             <ul className="space-y-2 text-xs font-sans">

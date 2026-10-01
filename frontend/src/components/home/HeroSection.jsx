@@ -56,9 +56,9 @@ export default function HeroSection() {
   const active = SLIDES[currentSlide];
 
   return (
-    <div className="w-full bg-[#000000] text-white pt-24">
-      {/* Cinematic Hero Viewport */}
-      <div className="relative w-full min-h-[580px] sm:min-h-[640px] lg:h-[680px] overflow-hidden bg-black select-none border-b border-[#1e1e1e]">
+    <div className="w-full bg-[#000000] text-white pt-[116px]">
+      {/* Cinematic Hero Viewport — Full-Screen Feel */}
+      <div className="relative w-full min-h-[660px] sm:min-h-[720px] lg:min-h-[calc(100vh-116px)] xl:min-h-[820px] flex flex-col justify-center overflow-hidden bg-black select-none border-b border-[#1e1e1e]">
         {/* Background Slide Image */}
         <AnimatePresence mode="wait">
           <motion.div
@@ -81,11 +81,11 @@ export default function HeroSection() {
         </AnimatePresence>
 
         {/* Content Container (2 Columns on Desktop) */}
-        <div className="relative z-10 max-w-7xl mx-auto h-full px-6 sm:px-8 lg:px-12 py-16 flex items-center">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full">
+        <div className="relative z-10 max-w-[1600px] w-full mx-auto h-full px-6 sm:px-10 lg:px-16 xl:px-20 py-12 lg:py-20 flex items-center flex-1">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center w-full">
             
             {/* Left Column: Headlines & CTA */}
-            <div className="lg:col-span-7">
+            <div className="lg:col-span-7 xl:col-span-7">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={active.id}
@@ -94,24 +94,24 @@ export default function HeroSection() {
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.4 }}
                 >
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="w-2 h-2 bg-[#cfa53b]"></span>
-                    <span className="font-sans text-[11px] sm:text-xs font-medium uppercase tracking-[0.24em] text-[#cfa53b]">
+                  <div className="flex items-center gap-2.5 mb-4">
+                    <span className="w-2.5 h-2.5 bg-[#cfa53b]"></span>
+                    <span className="font-sans text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-[#cfa53b]">
                       {active.eyebrow}
                     </span>
                   </div>
 
-                  <h1 className="font-sans uppercase text-3xl sm:text-5xl lg:text-6xl font-medium tracking-[0.12em] text-white leading-[1.08] mb-4">
+                  <h1 className="font-sans uppercase text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-black tracking-normal sm:tracking-[0.02em] text-white leading-[1.04] mb-6">
                     <span>{active.titleLine1}</span>
                     <br />
                     <span className="text-[#cfa53b]">{active.titleLine2}</span>
                   </h1>
 
-                  <p className="font-sans text-sm sm:text-base text-[#cccccc] max-w-lg mb-8 leading-relaxed">
+                  <p className="font-sans text-base sm:text-lg lg:text-xl text-[#d4d4d4] max-w-2xl mb-8 sm:mb-10 leading-relaxed font-normal">
                     {active.desc}
                   </p>
 
-                  <div className="flex flex-wrap items-center gap-4">
+                  <div className="flex flex-wrap items-center gap-4 sm:gap-5">
                     <a
                       href="#reservar"
                       onClick={(e) => {
@@ -119,11 +119,11 @@ export default function HeroSection() {
                         const el = document.getElementById('reservar');
                         if (el) el.scrollIntoView({ behavior: 'smooth' });
                       }}
-                      className="btn-ferrari-primary !py-3.5 !px-8 text-xs flex items-center gap-2 shadow-lg"
+                      className="btn-ferrari-primary !py-4 !px-8 sm:!px-10 text-sm sm:text-base font-bold flex items-center gap-3 shadow-2xl"
                     >
-                      <Calendar size={15} />
+                      <Calendar size={18} />
                       <span>{active.buttonText}</span>
-                      <ArrowRight size={14} />
+                      <ArrowRight size={16} />
                     </a>
 
                     <a
@@ -133,7 +133,7 @@ export default function HeroSection() {
                         const el = document.getElementById('servicios');
                         if (el) el.scrollIntoView({ behavior: 'smooth' });
                       }}
-                      className="btn-ferrari-outline !py-3.5 !px-6 text-xs text-center"
+                      className="btn-ferrari-outline !py-4 !px-7 sm:!px-8 text-sm sm:text-base font-bold text-center"
                     >
                       Ver Precios y Cortes
                     </a>
@@ -143,41 +143,41 @@ export default function HeroSection() {
             </div>
 
             {/* Right Column: Floating Quick Info Card with the Razor Logo */}
-            <div className="hidden lg:flex lg:col-span-5 justify-end">
-              <div className="w-full max-w-sm bg-[#0a0a0a]/90 backdrop-blur-md border border-[#222222] p-7 shadow-2xl relative">
+            <div className="hidden lg:flex lg:col-span-5 xl:col-span-5 justify-end">
+              <div className="w-full max-w-md bg-[#0a0a0a]/95 backdrop-blur-md border border-[#2e2e2e] p-8 sm:p-9 shadow-2xl relative">
                 {/* Top Badge */}
-                <div className="flex items-center justify-between border-b border-[#1e1e1e] pb-4 mb-5">
-                  <div className="flex items-center gap-3">
+                <div className="flex items-center justify-between border-b border-[#1e1e1e] pb-5 mb-6">
+                  <div className="flex items-center gap-3.5">
                     <img 
                       src="/logo.png" 
                       alt="Barbería Triadix" 
-                      className="w-11 h-11 object-contain p-0.5 bg-black border border-[#2e2e2e]" 
+                      className="w-14 h-14 object-contain p-1 bg-black border border-[#333333] shadow-md" 
                     />
                     <div>
-                      <h3 className="font-sans uppercase font-bold text-sm tracking-[0.2em] text-white leading-tight">
+                      <h3 className="font-sans uppercase font-bold text-base sm:text-lg tracking-[0.2em] text-white leading-tight">
                         Triadix
                       </h3>
-                      <span className="text-[10px] text-[#cfa53b] uppercase tracking-[0.16em] font-mono">
+                      <span className="text-xs text-[#cfa53b] uppercase tracking-[0.18em] font-mono mt-0.5 block">
                         Barbería · Cali
                       </span>
                     </div>
                   </div>
-                  <span className="px-2 py-0.5 text-[9px] font-mono uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                  <span className="px-3 py-1 text-xs font-mono uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-semibold">
                     Abierto Hoy
                   </span>
                 </div>
 
-                <div className="space-y-3.5 text-xs font-sans mb-6">
-                  <div className="flex items-start gap-2.5 text-[#cccccc]">
-                    <CheckCircle2 size={15} className="text-[#cfa53b] shrink-0 mt-0.5" />
+                <div className="space-y-4 text-sm sm:text-[15px] font-sans mb-8">
+                  <div className="flex items-start gap-3 text-[#dcdcdc]">
+                    <CheckCircle2 size={18} className="text-[#cfa53b] shrink-0 mt-0.5" />
                     <span><strong>3 Barberos disponibles:</strong> Andrés, Nicolás y Luis</span>
                   </div>
-                  <div className="flex items-start gap-2.5 text-[#cccccc]">
-                    <CheckCircle2 size={15} className="text-[#cfa53b] shrink-0 mt-0.5" />
+                  <div className="flex items-start gap-3 text-[#dcdcdc]">
+                    <CheckCircle2 size={18} className="text-[#cfa53b] shrink-0 mt-0.5" />
                     <span><strong>Atención puntual:</strong> Reserva online y olvídate de hacer fila</span>
                   </div>
-                  <div className="flex items-start gap-2.5 text-[#cccccc]">
-                    <CheckCircle2 size={15} className="text-[#cfa53b] shrink-0 mt-0.5" />
+                  <div className="flex items-start gap-3 text-[#dcdcdc]">
+                    <CheckCircle2 size={18} className="text-[#cfa53b] shrink-0 mt-0.5" />
                     <span><strong>Bebida de cortesía:</strong> Café, agua o jugo mientras te atendemos</span>
                   </div>
                 </div>
@@ -189,9 +189,9 @@ export default function HeroSection() {
                     const el = document.getElementById('reservar');
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="w-full btn-ferrari-primary text-xs !py-3 flex items-center justify-center gap-2"
+                  className="w-full btn-ferrari-primary text-sm !py-4 flex items-center justify-center gap-2.5 font-bold shadow-lg"
                 >
-                  <Calendar size={14} />
+                  <Calendar size={16} />
                   <span>Agendar Mi Cita Ahora</span>
                 </a>
               </div>
@@ -208,8 +208,8 @@ export default function HeroSection() {
               <button
                 key={s.id}
                 onClick={() => setCurrentSlide(idx)}
-                className={`h-1.5 transition-all cursor-pointer ${
-                  isActive ? 'w-8 bg-[#cfa53b]' : 'w-2 bg-white/40 hover:bg-white/70'
+                className={`h-2 transition-all cursor-pointer ${
+                  isActive ? 'w-10 bg-[#cfa53b]' : 'w-3 bg-white/40 hover:bg-white/70'
                 }`}
                 aria-label={`Slide ${idx + 1}`}
               />
@@ -221,44 +221,44 @@ export default function HeroSection() {
         <button
           onClick={prevSlide}
           aria-label="Corte anterior"
-          className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-9 h-9 border border-white/20 hover:border-white text-white flex items-center justify-center transition-all bg-black/40 hover:bg-black/80 cursor-pointer"
+          className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 border border-white/25 hover:border-white text-white flex items-center justify-center transition-all bg-black/60 hover:bg-black/90 cursor-pointer backdrop-blur-sm shadow-lg"
         >
-          <ChevronLeft size={18} />
+          <ChevronLeft size={22} />
         </button>
 
         <button
           onClick={nextSlide}
           aria-label="Siguiente corte"
-          className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-9 h-9 border border-white/20 hover:border-white text-white flex items-center justify-center transition-all bg-black/40 hover:bg-black/80 cursor-pointer"
+          className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 border border-white/25 hover:border-white text-white flex items-center justify-center transition-all bg-black/60 hover:bg-black/90 cursor-pointer backdrop-blur-sm shadow-lg"
         >
-          <ChevronRight size={18} />
+          <ChevronRight size={22} />
         </button>
       </div>
 
-      {/* Stats Band */}
-      <section className="bg-[#0a0a0a] border-b border-[#1e1e1e] py-6 sm:py-8">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 grid grid-cols-3 gap-4 text-center divide-x divide-[#1e1e1e]">
+      {/* Stats Band — Expansive and Punchy */}
+      <section className="bg-[#0a0a0a] border-b border-[#1e1e1e] py-8 sm:py-12">
+        <div className="max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16 grid grid-cols-3 gap-6 text-center divide-x divide-[#1e1e1e]">
           <div>
-            <div className="font-mono text-2xl sm:text-3xl text-white font-medium">
+            <div className="font-mono text-4xl sm:text-5xl lg:text-6xl text-white font-black tracking-tight">
               <AnimatedCounter value={7} />+
             </div>
-            <div className="font-sans text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#888888] mt-1">
+            <div className="font-sans text-xs sm:text-sm uppercase tracking-[0.22em] text-[#aaaaaa] font-medium mt-2">
               Años de Experiencia
             </div>
           </div>
           <div>
-            <div className="font-mono text-2xl sm:text-3xl text-white font-medium">
+            <div className="font-mono text-4xl sm:text-5xl lg:text-6xl text-white font-black tracking-tight">
               <AnimatedCounter value={2500} />+
             </div>
-            <div className="font-sans text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#888888] mt-1">
+            <div className="font-sans text-xs sm:text-sm uppercase tracking-[0.22em] text-[#aaaaaa] font-medium mt-2">
               Clientes Atendidos
             </div>
           </div>
           <div>
-            <div className="font-mono text-2xl sm:text-3xl text-white font-medium">
+            <div className="font-mono text-4xl sm:text-5xl lg:text-6xl text-white font-black tracking-tight">
               <AnimatedCounter value={4.9} />
             </div>
-            <div className="font-sans text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#888888] mt-1">
+            <div className="font-sans text-xs sm:text-sm uppercase tracking-[0.22em] text-[#aaaaaa] font-medium mt-2">
               Calificación en Cali
             </div>
           </div>
@@ -266,20 +266,20 @@ export default function HeroSection() {
       </section>
 
       {/* Barbershop Promise */}
-      <section className="border-b border-[#1e1e1e] bg-[#000000] py-16 sm:py-20">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <span className="font-sans text-[11px] uppercase tracking-[0.28em] text-[#cfa53b] block mb-4">
+      <section className="border-b border-[#1e1e1e] bg-[#000000] py-20 sm:py-24">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <span className="font-sans text-xs uppercase tracking-[0.28em] text-[#cfa53b] block mb-5 font-semibold">
             LA EXPERIENCIA EN TRIADIX
           </span>
-          <blockquote className="font-sans uppercase text-base sm:text-xl lg:text-2xl text-white font-medium tracking-[0.12em] leading-relaxed">
+          <blockquote className="font-sans uppercase text-lg sm:text-2xl lg:text-3xl text-white font-medium tracking-[0.08em] leading-relaxed">
             “En Triadix nos enfocamos en que te sientas como en casa, disfrutes de un buen ambiente y salgas con el corte exacto que pediste. Atención puntual, buena música y la mejor vibra de Cali.”
           </blockquote>
-          <div className="mt-6 flex items-center justify-center gap-3">
-            <span className="w-8 h-px bg-[#333333]"></span>
-            <span className="font-sans text-xs uppercase tracking-[0.18em] text-[#888888]">
+          <div className="mt-8 flex items-center justify-center gap-4">
+            <span className="w-12 h-px bg-[#333333]"></span>
+            <span className="font-sans text-xs sm:text-sm uppercase tracking-[0.2em] text-[#888888] font-medium">
               Andrés Felipe Sarria · Nicolás Chávez · Luis De Ávila
             </span>
-            <span className="w-8 h-px bg-[#333333]"></span>
+            <span className="w-12 h-px bg-[#333333]"></span>
           </div>
         </div>
       </section>

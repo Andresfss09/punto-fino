@@ -7,22 +7,22 @@ export default function LocationSection() {
   const whatsappUrl = 'https://wa.me/573122398964?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Triadix%20Barber%20Studio';
 
   return (
-    <section id="ubicacion" className="py-24 bg-[#000000] border-b border-[#1e1e1e] text-white scroll-mt-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="ubicacion" className="py-24 sm:py-32 bg-[#000000] border-b border-[#1e1e1e] text-white scroll-mt-24">
+      <div className="max-w-[1600px] w-full mx-auto px-6 sm:px-10 lg:px-16">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#1e1e1e] pb-8 mb-12">
           <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="w-2 h-2 bg-[#cfa53b]"></span>
-              <span className="font-sans text-[11px] uppercase tracking-[0.28em] text-[#cfa53b] font-medium">
+            <div className="flex items-center gap-2.5 mb-3">
+              <span className="w-2.5 h-2.5 bg-[#cfa53b]"></span>
+              <span className="font-sans text-xs sm:text-sm uppercase tracking-[0.26em] text-[#cfa53b] font-bold">
                 06 · DÓNDE ESTAMOS & CONTACTO
               </span>
             </div>
-            <h2 className="display-hero text-2xl sm:text-3xl lg:text-4xl text-white font-medium leading-tight">
+            <h2 className="font-sans uppercase text-4xl sm:text-5xl lg:text-6xl text-white font-black tracking-normal sm:tracking-[0.02em] leading-tight">
               Ubicación & Contacto
             </h2>
           </div>
-          <p className="font-sans text-xs sm:text-sm text-[#aaaaaa] max-w-md mt-4 md:mt-0 leading-relaxed">
+          <p className="font-sans text-sm sm:text-base text-[#aaaaaa] max-w-lg mt-4 md:mt-0 leading-relaxed">
             Te esperamos en Cali para brindarte la mejor atención en corte y barba. Reserva tu cita online para atenderte puntual y sin filas.
           </p>
         </div>
@@ -30,7 +30,7 @@ export default function LocationSection() {
         {/* Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* Main Info Card (7 cols) */}
-          <div className="lg:col-span-7 bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-6 sm:p-8 flex flex-col justify-between space-y-8">
+          <div className="lg:col-span-7 bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-8 sm:p-10 flex flex-col justify-between space-y-8 shadow-xl">
             {/* Address Banner */}
             <div className="space-y-5">
               <span className="font-sans text-[11px] uppercase tracking-[0.2em] text-[#cfa53b] font-medium block">

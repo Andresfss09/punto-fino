@@ -48,14 +48,14 @@ export default function ServiceSelector({ services = [], selectedServices = [], 
   return (
     <div className="pb-24 sm:pb-0">
       {categories.length > 1 && (
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className="flex flex-wrap gap-2.5 mb-6">
           {categories.map(cat => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-3.5 py-1.5 rounded-none text-xs uppercase tracking-[0.16em] font-sans border transition-all cursor-pointer ${
+              className={`px-4 py-2 rounded-none text-xs sm:text-[13px] uppercase tracking-[0.16em] font-sans border transition-all cursor-pointer ${
                 activeCategory === cat 
-                  ? 'bg-white text-black border-white font-medium' 
+                  ? 'bg-white text-black border-white font-bold' 
                   : 'bg-[#141414] text-[#888888] border-[#222222] hover:text-white hover:border-white/40'
               }`}
             >
@@ -66,13 +66,13 @@ export default function ServiceSelector({ services = [], selectedServices = [], 
       )}
 
       {/* Info Banner: Duración y Precios */}
-      <div className="mb-6 p-4 bg-[#0a0a0a] border border-[#1e1e1e] rounded-none flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-        <span className="text-[#d4d4d4] flex items-center gap-2 font-sans">
-          <Clock size={14} className="text-white" />
-          <span><strong>Estimación:</strong> 30 a 40 minutos en promedio por corte</span>
+      <div className="mb-6 p-4 sm:p-5 bg-[#0a0a0a] border border-[#1e1e1e] rounded-none flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs sm:text-sm">
+        <span className="text-[#d4d4d4] flex items-center gap-2.5 font-sans">
+          <Clock size={16} className="text-[#cfa53b]" />
+          <span><strong>Estimación:</strong> 30 a 45 minutos en promedio por corte</span>
         </span>
-        <span className="text-gold-400 font-mono text-[11px] uppercase tracking-wider font-medium">
-          Tarifas en pesos colombianos (COP)
+        <span className="text-[#cfa53b] font-mono text-xs uppercase tracking-wider font-semibold">
+          Tarifas oficiales en pesos colombianos (COP)
         </span>
       </div>
 
@@ -80,7 +80,7 @@ export default function ServiceSelector({ services = [], selectedServices = [], 
         variants={container}
         initial="hidden"
         animate="show"
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6"
       >
         <AnimatePresence mode="popLayout">
           {filteredServices.map(service => {
@@ -89,36 +89,36 @@ export default function ServiceSelector({ services = [], selectedServices = [], 
               <motion.div key={service._id} layout variants={item}>
                 <div 
                   onClick={() => onToggleService(service)}
-                  className={`h-full flex flex-col justify-between p-5 rounded-none border transition-all duration-200 cursor-pointer ${
+                  className={`h-full flex flex-col justify-between p-6 rounded-none border transition-all duration-200 cursor-pointer ${
                     isSelected 
-                      ? 'bg-[#141414] border-white shadow-sm' 
-                      : 'bg-[#0a0a0a] border-[#1e1e1e] hover:border-[#333333]'
+                      ? 'bg-[#141414] border-white shadow-md' 
+                      : 'bg-[#0a0a0a] border-[#1e1e1e] hover:border-[#383838]'
                   }`}
                 >
-                  <div className="flex items-start justify-between gap-3 mb-3">
+                  <div className="flex items-start justify-between gap-3 mb-4">
                     <div className="flex-1">
-                      <h3 className="font-sans font-medium uppercase tracking-[0.14em] text-sm sm:text-base text-white mb-1.5 leading-snug">
+                      <h3 className="font-sans font-bold uppercase tracking-[0.08em] text-base text-white mb-2 leading-snug">
                         {service.name}
                       </h3>
-                      <p className="text-[#888888] text-xs leading-relaxed line-clamp-3 font-sans">
+                      <p className="text-[#aaaaaa] text-xs sm:text-[13px] leading-relaxed line-clamp-3 font-sans">
                         {service.description}
                       </p>
                     </div>
-                    <div className={`w-5 h-5 flex-shrink-0 border flex items-center justify-center transition-colors rounded-none ${
+                    <div className={`w-6 h-6 flex-shrink-0 border flex items-center justify-center transition-colors rounded-none ${
                       isSelected 
                         ? 'bg-white border-white text-black' 
                         : 'border-[#2e2e2e] bg-[#141414]'
                     }`}>
-                      {isSelected && <Check size={12} strokeWidth={3} />}
+                      {isSelected && <Check size={14} strokeWidth={3} />}
                     </div>
                   </div>
 
-                  <div className="pt-3 border-t border-[#1e1e1e] flex items-center justify-between mt-auto">
+                  <div className="pt-4 border-t border-[#1e1e1e] flex items-center justify-between mt-auto">
                     <div className="flex items-center gap-1.5 text-xs text-[#888888] font-mono">
-                      <Clock size={12} className="text-white" />
+                      <Clock size={13} className="text-[#cfa53b]" />
                       <span>{service.duration || 40} min</span>
                     </div>
-                    <span className="font-mono text-sm font-medium text-white">
+                    <span className="font-mono text-base font-bold text-white">
                       ${service.price?.toLocaleString('es-CO')}
                     </span>
                   </div>
