@@ -5,33 +5,36 @@ import { Star, ArrowRight } from 'lucide-react';
 const BARBERS = [
   { 
     id: 1, 
-    name: 'Juan David', 
-    role: 'Master Barber & Asesor de Imagen', 
+    name: 'Andrés Felipe Sarria', 
+    role: 'Lead Stylist & Co-Founder', 
     experience: '7+ AÑOS',
     rating: 4.9, 
-    reviews: 16, 
-    specs: ['Experiencia Platinium', 'Visagismo Facial', 'Degradados'],
-    bio: 'Profesional en asesoría de imagen y cortes de alta precisión. Especialista en la Experiencia Platinium y técnicas modernas de visagismo.',
+    reviews: 24, 
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
+    specs: ['Visagismo Craneal', 'Experiencia Platinium', 'Degradados de Autor'],
+    bio: 'Cofundador de Triadix. Especialista en diagnóstico morfológico, arquitectura craneofacial y cortes de alta precisión milimétrica.',
   },
   { 
     id: 2, 
-    name: 'Juan Diego', 
-    role: 'Especialista en Ritual de Barba & Corte', 
-    experience: '6 AÑOS',
+    name: 'Nicolás Chávez', 
+    role: 'Creative Director & Master Barber', 
+    experience: '6+ AÑOS',
     rating: 5.0, 
-    reviews: 16, 
-    specs: ['Ritual de Barba', 'Navaja Libre', 'Vapor Ozono'],
-    bio: 'Maestro en el cuidado integral de la barba, perfilado a navaja tradicional y diseño de barba con vapor ozono y aceites botánicos.',
+    reviews: 28, 
+    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
+    specs: ['Ritual de Barba', 'Navaja Libre', 'Vapor Ozono & Facial'],
+    bio: 'Cofundador de Triadix. Maestro en rituales clásicos a navaja, diseño geométrico de barba y bienestar dérmico con toallas calientes.',
   },
   { 
     id: 3, 
-    name: 'Emanuel Torres', 
-    role: 'Especialista en Tendencia & Textura', 
-    experience: '5 AÑOS',
+    name: 'Luis De Ávila', 
+    role: 'Technical Director & Specialist', 
+    experience: '5+ AÑOS',
     rating: 4.9, 
-    reviews: 16, 
-    specs: ['Corte Clásico', 'Cejas', 'Fade en Tendencia'],
-    bio: 'Experto en cortes clásicos y en tendencia, perfilado geométrico de cejas y texturizado para un look impecable.',
+    reviews: 19, 
+    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80',
+    specs: ['Fade en Tendencia', 'Perfilado Geométrico', 'Texturizado Moderno'],
+    bio: 'Cofundador de Triadix. Maestro de la textura y el degradado limpio, perfilado geométrico de cejas y vanguardia estética masculina.',
   },
 ];
 
@@ -42,15 +45,18 @@ export default function BarbersSection() {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#1e1e1e] pb-8 mb-10">
           <div>
-            <span className="font-sans text-[11px] uppercase tracking-[0.28em] text-[#888888] block mb-2">
-              EQUIPO PROFESIONAL — TÉCNICA Y CERTIFICACIÓN
-            </span>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="w-2 h-2 bg-[#cfa53b]"></span>
+              <span className="font-sans text-[11px] uppercase tracking-[0.28em] text-[#cfa53b] font-medium">
+                03 · EQUIPO FUNDADOR TRIADIX
+              </span>
+            </div>
             <h2 className="font-sans uppercase text-3xl sm:text-4xl lg:text-5xl text-white font-medium tracking-[0.16em] leading-tight">
               Maestros del Atelier
             </h2>
           </div>
-          <p className="font-sans text-xs sm:text-sm text-[#888888] max-w-md mt-4 md:mt-0 leading-relaxed">
-            Cada barbero de Punto Fino domina la geometría craneal y las técnicas tradicionales de navaja para garantizar un acabado impecable.
+          <p className="font-sans text-xs sm:text-sm text-[#aaaaaa] max-w-md mt-4 md:mt-0 leading-relaxed">
+            Andrés Felipe Sarria, Nicolás Chávez y Luis De Ávila. Fusionamos el rigor de la ingeniería con el arte del visagismo y el corte de alta precisión.
           </p>
         </div>
 
@@ -63,23 +69,30 @@ export default function BarbersSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.08, duration: 0.3 }}
               viewport={{ once: true }}
-              className="bg-[#0d0d0d] border border-[#1e1e1e] hover:border-[#333333] rounded-none overflow-hidden flex flex-col justify-between transition-all duration-150"
+              className="bg-[#0d0d0d] border border-[#1e1e1e] hover:border-[#444444] rounded-none overflow-hidden flex flex-col justify-between transition-all duration-150 group"
             >
-              {/* Header with Monogram */}
+              {/* Header with Photo / Monogram */}
               <div className="p-6 border-b border-[#1e1e1e] bg-black flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-none bg-[#111111] border border-[#262626] flex items-center justify-center text-white font-mono text-base font-medium tracking-wider">
-                    {barber.name.split(' ').map(n => n[0]).join('')}
+                <div className="flex items-center gap-3.5">
+                  <div className="relative w-12 h-12 rounded-none overflow-hidden border border-[#333333] group-hover:border-[#cfa53b] transition-colors shrink-0">
+                    <img 
+                      src={barber.image} 
+                      alt={barber.name} 
+                      className="w-full h-full object-cover filter brightness-90 contrast-105"
+                    />
                   </div>
                   <div>
-                    <span className="px-2 py-0.5 text-[9px] font-sans font-medium uppercase tracking-[0.2em] rounded-none border border-[#222222] bg-[#0a0a0a] text-[#888888]">
+                    <h3 className="font-sans uppercase text-sm sm:text-base text-white font-medium tracking-[0.12em] leading-snug group-hover:text-[#cfa53b] transition-colors">
+                      {barber.name}
+                    </h3>
+                    <span className="inline-block mt-0.5 px-2 py-0.5 text-[9px] font-sans font-medium uppercase tracking-[0.2em] rounded-none border border-[#222222] bg-[#0a0a0a] text-[#cfa53b]">
                       {barber.experience}
                     </span>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-1.5 bg-[#0a0a0a] border border-[#222222] px-2.5 py-1 rounded-none">
-                  <Star size={11} className="text-white fill-white" />
+                <div className="flex items-center gap-1.5 bg-[#0a0a0a] border border-[#222222] px-2.5 py-1 rounded-none shrink-0">
+                  <Star size={11} className="text-[#cfa53b] fill-[#cfa53b]" />
                   <span className="font-mono text-xs font-medium text-white">{barber.rating}</span>
                   <span className="font-sans text-[10px] text-[#666666]">({barber.reviews})</span>
                 </div>
@@ -88,13 +101,10 @@ export default function BarbersSection() {
               {/* Information & Specialties */}
               <div className="p-6 flex-1 flex flex-col justify-between space-y-5">
                 <div>
-                  <h3 className="font-sans uppercase text-lg text-white font-medium tracking-[0.14em] leading-snug">
-                    {barber.name}
-                  </h3>
-                  <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-[#888888] mt-1 font-normal">
+                  <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-[#cfa53b] font-medium">
                     {barber.role}
                   </p>
-                  <p className="font-sans text-xs text-[#888888] mt-3 leading-relaxed">
+                  <p className="font-sans text-xs text-[#aaaaaa] mt-2.5 leading-relaxed">
                     {barber.bio}
                   </p>
                 </div>

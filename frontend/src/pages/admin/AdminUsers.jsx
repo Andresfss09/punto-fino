@@ -7,9 +7,9 @@ import { userService } from '../../services/userService';
 import toast from 'react-hot-toast';
 
 const FALLBACK_USERS = [
-  { _id: '1', name: 'Andrés Suárez', email: 'andres@gmail.com', role: 'admin', phone: '3157891234', isActive: true, createdAt: '2026-01-15' },
-  { _id: '2', name: 'Emanuel Torres', email: 'emanuel@puntofino.com', role: 'barbero', phone: '3009876543', isActive: true, createdAt: '2026-02-10' },
-  { _id: '3', name: 'Nicolás Gómez', email: 'nicolas@gmail.com', role: 'cliente', phone: '3205556677', isActive: true, createdAt: '2026-03-01' },
+  { _id: '1', name: 'Andrés Felipe Sarria', email: 'andres@triadix.co', role: 'admin', phone: '3157891234', isActive: true, createdAt: '2026-01-15' },
+  { _id: '2', name: 'Nicolás Chávez', email: 'nicolas@triadix.co', role: 'barbero', phone: '3009876543', isActive: true, createdAt: '2026-02-10' },
+  { _id: '3', name: 'Luis De Ávila', email: 'luis@triadix.co', role: 'barbero', phone: '3205556677', isActive: true, createdAt: '2026-03-01' },
 ];
 
 export default function AdminUsers() {

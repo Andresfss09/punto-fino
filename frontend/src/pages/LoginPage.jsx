@@ -81,7 +81,7 @@ export default function LoginPage() {
       }
 
       setAuth(response.user, response.token);
-      toast.success(`¡Bienvenido a Punto Fino, ${response.user.name.split(' ')[0]}!`);
+      toast.success(`¡Bienvenido a Triadix, ${response.user.name.split(' ')[0]}!`);
 
       if (userRole === 'admin') navigate('/admin');
       else if (userRole === 'barbero') navigate('/barber');
@@ -107,16 +107,16 @@ export default function LoginPage() {
         >
           <Link to="/" className="inline-block group mb-4">
             <img
-              src="/logo.png"
-              alt="Punto Fino Barbería"
-              className="w-20 h-20 object-contain rounded-none border border-[#1e1e1e] shadow-md mx-auto group-hover:scale-105 transition-transform"
+              src="/triadix-logo.svg"
+              alt="Triadix Barber Studio"
+              className="w-20 h-20 object-contain rounded-none border border-[#1e1e1e] p-2 bg-[#0d0d0d] shadow-md mx-auto group-hover:scale-105 transition-transform"
             />
           </Link>
           <h1 className="font-sans font-medium uppercase tracking-[0.2em] text-2xl text-white">
-            Punto Fino
+            Triadix
           </h1>
           <p className="text-[#888888] mt-1.5 text-xs tracking-[0.25em] uppercase font-sans">
-            Barbería de Autor · Cali
+            Barber Studio · Cali
           </p>
         </motion.div>
 
@@ -208,7 +208,7 @@ export default function LoginPage() {
                 <Input
                   label="Correo Electrónico"
                   type="email"
-                  placeholder="ejemplo@puntofino.com"
+                  placeholder="ejemplo@triadix.co"
                   icon={Mail}
                   error={errors.email?.message}
                   {...register('email')}

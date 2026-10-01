@@ -227,7 +227,7 @@ export default function AdminBarbers() {
                 <label className="text-[#888888] font-sans text-[11px] uppercase tracking-[0.16em] mb-1 block">Correo Electrónico</label>
                 <input
                   type="email"
-                  placeholder="barbero@puntofino.com"
+                  placeholder="barbero@triadix.co"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   className="w-full bg-[#141414] border border-[#222222] text-white focus:border-white/50 rounded-none p-2.5 text-xs outline-none transition-colors"

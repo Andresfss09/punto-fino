@@ -50,7 +50,7 @@ app.use('/api/admin', require('./routes/adminRoutes'));
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ success: true, message: 'Punto Fino API funcionando ✅', time: new Date() });
+  res.json({ success: true, message: 'Triadix API funcionando ✅', time: new Date() });
 });
 
 // Manejador de rutas no encontradas

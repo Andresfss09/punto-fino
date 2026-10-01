@@ -13,19 +13,19 @@ const createTransporter = () => {
 };
 
 const emailStyles = `
-  body { font-family: 'Arial', sans-serif; background: #0e1311; color: #ffffff; margin: 0; padding: 0; }
-  .container { max-width: 600px; margin: 0 auto; background: #121815; border-radius: 6px; border: 1px solid #222a26; overflow: hidden; }
-  .header { background: #161d19; padding: 32px; text-align: center; border-bottom: 2px solid #cfa53b; }
-  .header h1 { color: #ffffff; margin: 0; font-size: 26px; letter-spacing: 2px; font-style: italic; }
+  body { font-family: 'Arial', sans-serif; background: #000000; color: #ffffff; margin: 0; padding: 0; }
+  .container { max-width: 600px; margin: 0 auto; background: #0d0d0d; border-radius: 0px; border: 1px solid #1e1e1e; overflow: hidden; }
+  .header { background: #141414; padding: 32px; text-align: center; border-bottom: 2px solid #cfa53b; }
+  .header h1 { color: #ffffff; margin: 0; font-size: 26px; letter-spacing: 4px; font-weight: bold; }
   .header p { color: #cfa53b; margin: 8px 0 0; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-weight: bold; }
   .body { padding: 32px; }
-  .body h2 { color: #ffffff; font-size: 20px; font-style: italic; }
+  .body h2 { color: #ffffff; font-size: 20px; font-weight: 600; }
   .body p { color: #b3b3b3; line-height: 1.7; font-size: 14px; }
-  .detail-box { background: #101513; border: 1px solid #2b3530; border-radius: 4px; padding: 20px; margin: 20px 0; }
+  .detail-box { background: #141414; border: 1px solid #262626; border-radius: 0px; padding: 20px; margin: 20px 0; }
   .detail-box p { margin: 7px 0; color: #b3b3b3; font-size: 13px; }
   .detail-box strong { color: #ffffff; }
-  .btn { display: inline-block; background: #cfa53b; color: #0e1311; padding: 12px 28px; border-radius: 4px; text-decoration: none; font-weight: bold; margin: 16px 0; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; }
-  .footer { text-align: center; padding: 20px; border-top: 1px solid #1f2723; }
+  .btn { display: inline-block; background: #ffffff; color: #000000; padding: 12px 28px; border-radius: 0px; text-decoration: none; font-weight: bold; margin: 16px 0; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
+  .footer { text-align: center; padding: 20px; border-top: 1px solid #1e1e1e; }
   .footer p { color: #666; font-size: 11px; }
 `;
 
@@ -33,7 +33,7 @@ exports.sendWelcomeEmail = async (user) => {
   const html = `
     <html><head><style>${emailStyles}</style></head>
     <body><div class="container">
-      <div class="header"><h1>PUNTO FINO</h1><p>Barbería de Autor · Cali</p></div>
+      <div class="header"><h1>TRIADIX</h1><p>Barber Studio · Cali</p></div>
       <div class="body">
         <h2>¡Bienvenido, ${user.name}!</h2>
         <p>Tu cuenta ha sido creada exitosamente. Ahora puedes reservar tus citas con nuestros maestros barberos en Cali.</p>
@@ -45,15 +45,15 @@ exports.sendWelcomeEmail = async (user) => {
         <p>Reserva tu primera experiencia y empieza a acumular puntos exclusivos.</p>
         <a href="${process.env.CLIENT_URL}" class="btn">RESERVAR CITA</a>
       </div>
-      <div class="footer"><p>© ${new Date().getFullYear()} Punto Fino Barbería · Cra. 12 #53-51, Villacolombia, Cali</p></div>
+      <div class="footer"><p>© ${new Date().getFullYear()} Triadix Barber Studio · Cali, Colombia</p></div>
     </div></body></html>
   `;
 
   const transporter = createTransporter();
   await transporter.sendMail({
-    from: process.env.EMAIL_FROM || '"Punto Fino Barbería" <noreply@puntofino.com>',
+    from: process.env.EMAIL_FROM || '"Triadix Barber Studio" <noreply@triadix.co>',
     to: user.email,
-    subject: '¡Bienvenido a Punto Fino! ✂️',
+    subject: '¡Bienvenido a Triadix! ✂️',
     html,
   });
 };
@@ -73,13 +73,13 @@ exports.sendAppointmentConfirmationEmail = async (appointment) => {
     const html = `
       <html><head><style>${emailStyles}</style></head>
       <body><div class="container">
-        <div class="header"><h1>PUNTO FINO</h1><p>Confirmación de Cita</p></div>
+        <div class="header"><h1>TRIADIX</h1><p>Confirmación de Cita</p></div>
         <div class="body">
           <h2>¡Tu cita ha sido confirmada con éxito!</h2>
-          <p>Hola <strong>${displayName}</strong>, tu reserva en Punto Fino Barbería de Autor ha sido programada.</p>
+          <p>Hola <strong>${displayName}</strong>, tu reserva en Triadix Barber Studio ha sido programada.</p>
           <div class="detail-box">
             <p><strong>Código de reserva:</strong> <span style="color:#cfa53b;font-weight:bold;">${confirmationCode}</span></p>
-            <p><strong>Barbero asignado:</strong> ${barber?.name || 'Maestro Barbero Punto Fino'}</p>
+            <p><strong>Barbero asignado:</strong> ${barber?.name || 'Master Barber Triadix'}</p>
             <p><strong>Fecha:</strong> ${new Date(date).toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
             <p><strong>Horario:</strong> ${startTime} - ${endTime} (aprox. ${totalDuration} min)</p>
             <p><strong>Servicio(s):</strong> ${servicesList}</p>
@@ -87,18 +87,18 @@ exports.sendAppointmentConfirmationEmail = async (appointment) => {
             <p><strong>Total:</strong> $${totalPrice.toLocaleString('es-CO')} COP</p>
             ${displayAddress ? `<p><strong>Dirección cliente:</strong> ${displayAddress}</p>` : ''}
           </div>
-          <p>📍 <strong>Ubicación del Atelier:</strong> <a href="https://www.google.com/maps/place/barberia+punto+fino/@3.4484441,-76.500278,17z/data=!3m1!4b1!4m6!3m5!1s0x8e30a7f8b6322dcd:0x647a1acfdd8317f4!8m2!3d3.4484387!4d-76.4977031!16s%2Fg%2F11z5s1m3vz?entry=ttu&g_ep=EgoyMDI2MDkyMy4wIKXMDSoASAFQAw%3D%3D" target="_blank" style="color:#cfa53b;text-decoration:underline;">Cra. 12 #53-51, Villacolombia, Cali, Colombia (Ver en Google Maps)</a></p>
+          <p>📍 <strong>Ubicación del Atelier:</strong> Triadix Barber Studio · Cali, Colombia</p>
           <p>Te recomendamos llegar 5 a 10 minutos antes de la hora para garantizar tu experiencia completa.</p>
         </div>
-        <div class="footer"><p>© ${new Date().getFullYear()} Punto Fino Barbería · Cra. 12 #53-51, Villacolombia, Cali</p></div>
+        <div class="footer"><p>© ${new Date().getFullYear()} Triadix Barber Studio · Cali, Colombia</p></div>
       </div></body></html>
     `;
 
     const transporter = createTransporter();
     await transporter.sendMail({
-      from: process.env.EMAIL_FROM || '"Punto Fino Barbería" <noreply@puntofino.com>',
+      from: process.env.EMAIL_FROM || '"Triadix Barber Studio" <noreply@triadix.co>',
       to: emailTo,
-      subject: `¡Cita confirmada en Punto Fino! - ${confirmationCode} ✂️`,
+      subject: `¡Cita confirmada en Triadix! - ${confirmationCode} ✂️`,
       html,
     });
     console.log(`[Email] Confirmación enviada al cliente: ${emailTo}`);
@@ -123,10 +123,10 @@ exports.sendAppointmentNotificationToBarber = async (appointment) => {
     const html = `
       <html><head><style>${emailStyles}</style></head>
       <body><div class="container">
-        <div class="header"><h1>PUNTO FINO</h1><p>Nueva Cita Asignada</p></div>
+        <div class="header"><h1>TRIADIX</h1><p>Nueva Cita Asignada</p></div>
         <div class="body">
           <h2>Tienes un nuevo cliente en tu agenda</h2>
-          <p>Hola <strong>${barber.name}</strong>, se ha programado una nueva cita en tu calendario de Punto Fino:</p>
+          <p>Hola <strong>${barber.name}</strong>, se ha programado una nueva cita en tu calendario de Triadix:</p>
           <div class="detail-box">
             <p><strong>Código de cita:</strong> ${confirmationCode}</p>
             <p><strong>Cliente:</strong> ${displayName}</p>
@@ -141,15 +141,15 @@ exports.sendAppointmentNotificationToBarber = async (appointment) => {
           </div>
           <p>Puedes gestionar el estado de esta cita desde tu panel de barbero.</p>
         </div>
-        <div class="footer"><p>© ${new Date().getFullYear()} Punto Fino Barbería · Cali</p></div>
+        <div class="footer"><p>© ${new Date().getFullYear()} Triadix Barber Studio · Cali, Colombia</p></div>
       </div></body></html>
     `;
 
     const transporter = createTransporter();
     await transporter.sendMail({
-      from: process.env.EMAIL_FROM || '"Punto Fino Barbería" <noreply@puntofino.com>',
+      from: process.env.EMAIL_FROM || '"Triadix Barber Studio" <noreply@triadix.co>',
       to: barber.email,
-      subject: `¡Nueva cita agendada en Punto Fino! - ${displayName} (${startTime}) ✂️`,
+      subject: `¡Nueva cita agendada en Triadix! - ${displayName} (${startTime}) ✂️`,
       html,
     });
     console.log(`[Email] Notificación enviada al barbero: ${barber.email}`);
@@ -164,22 +164,22 @@ exports.sendPasswordResetEmail = async (user, token) => {
   const html = `
     <html><head><style>${emailStyles}</style></head>
     <body><div class="container">
-      <div class="header"><h1>PUNTO FINO</h1><p>Recuperar Contraseña</p></div>
+      <div class="header"><h1>TRIADIX</h1><p>Recuperar Contraseña</p></div>
       <div class="body">
         <h2>Restablecer Contraseña</h2>
         <p>Haz clic en el botón para crear una nueva contraseña. Este enlace expira en 30 minutos.</p>
         <a href="${resetUrl}" class="btn">RESTABLECER CONTRASEÑA</a>
         <p>Si no solicitaste esto, puedes ignorar este correo de forma segura.</p>
       </div>
-      <div class="footer"><p>© ${new Date().getFullYear()} Punto Fino Barbería · Cra. 12 #53-51, Villacolombia, Cali</p></div>
+      <div class="footer"><p>© ${new Date().getFullYear()} Triadix Barber Studio · Cali, Colombia</p></div>
     </div></body></html>
   `;
 
   const transporter = createTransporter();
   await transporter.sendMail({
-    from: process.env.EMAIL_FROM || '"Punto Fino Barbería" <noreply@puntofino.com>',
+    from: process.env.EMAIL_FROM || '"Triadix Barber Studio" <noreply@triadix.co>',
     to: user.email,
-    subject: 'Recuperar contraseña - Punto Fino',
+    subject: 'Recuperar contraseña - Triadix',
     html,
   });
 };

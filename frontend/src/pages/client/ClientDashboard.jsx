@@ -106,7 +106,7 @@ export default function ClientDashboard() {
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className="eyebrow text-gold-400 flex items-center gap-1">
-                <Scissors size={12} /> Cliente Punto Fino
+                <Scissors size={12} /> Cliente Triadix
               </span>
               <span className="text-xs text-[#666666] font-mono uppercase tracking-wider">Cali, Colombia</span>
             </div>
@@ -114,7 +114,7 @@ export default function ClientDashboard() {
               ¡Hola, <span className="text-gold-400">{user?.name ? user.name.split(' ')[0] : 'Cliente'}</span>!
             </h1>
             <p className="text-[#888888] text-xs sm:text-sm mt-1 font-sans">
-              Bienvenido a tu panel de reservas personal en Punto Fino Barbería de Autor.
+              Bienvenido a tu panel de reservas personal en Triadix Barber Studio.
             </p>
           </div>
 
@@ -255,7 +255,7 @@ export default function ClientDashboard() {
                   No tienes citas próximas agendadas
                 </h3>
                 <p className="text-[#888888] text-xs max-w-md mx-auto mb-6 font-sans">
-                  Elige tu servicio de corte o experiencia, tu barbero de confianza y agenda en Punto Fino en menos de un minuto.
+                  Elige tu servicio de corte o experiencia, tu barbero de confianza y agenda en Triadix en menos de un minuto.
                 </p>
                 <Link
                   to="/reservar"
@@ -303,7 +303,7 @@ export default function ClientDashboard() {
             <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none overflow-hidden">
               <div className="p-4 bg-[#0e0e0e] border-b border-[#1e1e1e] flex items-center justify-between">
                 <h3 className="font-sans font-medium uppercase tracking-[0.16em] text-xs flex items-center gap-2 text-white">
-                  <Star size={13} className="text-gold-400 fill-gold-400" /> Fidelidad Punto Fino
+                  <Star size={13} className="text-gold-400 fill-gold-400" /> Fidelidad Triadix
                 </h3>
                 <span className="text-xs font-mono text-gold-400">{loyaltyTier}</span>
               </div>

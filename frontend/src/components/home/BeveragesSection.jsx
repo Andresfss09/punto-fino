@@ -52,14 +52,17 @@ export default function BeveragesSection({ onSelectBeverage }) {
               <ShoppingBag size={18} />
             </div>
             <div>
-              <span className="font-sans text-[10px] uppercase tracking-[0.28em] text-[#888888] block mb-1">
-                NEVERA DEL ATELIER
-              </span>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="w-1.5 h-1.5 bg-[#cfa53b]"></span>
+                <span className="font-sans text-[10px] uppercase tracking-[0.28em] text-[#cfa53b] font-medium">
+                  02 · NEVERA & BAR TRIADIX
+                </span>
+              </div>
               <h3 className="font-sans uppercase text-xl sm:text-2xl text-white font-medium tracking-[0.16em] leading-tight">
                 Lo que usamos contigo
               </h3>
-              <p className="font-sans text-xs text-[#888888] mt-1">
-                Añádelos a tu reserva y recógelos en tu cita
+              <p className="font-sans text-xs text-[#aaaaaa] mt-1">
+                Complementa tu corte o ritual con tu bebida predilecta al llegar a Triadix Atelier.
               </p>
             </div>
           </div>

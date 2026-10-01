@@ -140,7 +140,7 @@ export default function MyAppointments() {
           <div className="text-center py-20 bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-8">
             <Calendar size={36} className="text-[#444444] mx-auto mb-3" />
             <p className="font-sans font-medium uppercase tracking-[0.16em] text-sm text-white mb-1">Sin Citas Registradas</p>
-            <p className="text-[#888888] text-xs font-sans mt-1">Intenta cambiando el filtro o reserva tu próxima experiencia en Punto Fino.</p>
+            <p className="text-[#888888] text-xs font-sans mt-1">Intenta cambiando el filtro o reserva tu próxima experiencia en Triadix.</p>
           </div>
         ) : (
           <motion.div 
@@ -283,7 +283,7 @@ export default function MyAppointments() {
       <Modal isOpen={reviewModal.open} onClose={() => setReviewModal({ open: false, appointment: null })} title="CALIFICAR SERVICIO">
         <div className="space-y-4">
           <p className="text-[#888888] text-xs font-sans">
-            ¿Cómo fue tu experiencia en Punto Fino con {reviewModal.appointment?.barber?.user?.name}?
+            ¿Cómo fue tu experiencia en Triadix con {reviewModal.appointment?.barber?.user?.name}?
           </p>
 
           <div className="flex justify-center gap-2 py-3">

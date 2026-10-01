@@ -332,7 +332,7 @@ export default function BarberDashboard() {
               <span className="eyebrow text-gold-400 flex items-center gap-1">
                 <Scissors size={12} /> Maestro Barbero
               </span>
-              <span className="text-xs text-[#666666] font-mono uppercase tracking-wider">Punto Fino · Atelier</span>
+              <span className="text-xs text-[#666666] font-mono uppercase tracking-wider">Triadix · Atelier</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-sans font-medium uppercase tracking-[0.16em] text-white">
               ¡Hola, <span className="text-gold-400">{user?.name ? user.name.split(' ')[0] : 'Barbero'}</span>!

@@ -42,7 +42,7 @@ export default function RegisterPage() {
         role: 'cliente',
       });
       setAuth(response.user, response.token);
-      toast.success('¡Cuenta creada! Bienvenido a Punto Fino');
+      toast.success('¡Cuenta creada! Bienvenido a Triadix');
       navigate('/cliente');
     } catch (error) {
       toast.error(error.message || 'Error al crear la cuenta');
@@ -61,14 +61,14 @@ export default function RegisterPage() {
         <div className="text-center mb-8">
           <Link to="/" className="inline-block group mb-4">
             <img
-              src="/logo.png"
-              alt="Punto Fino Barbería"
-              className="w-20 h-20 object-contain rounded-none border border-[#1e1e1e] shadow-md mx-auto group-hover:scale-105 transition-transform"
+              src="/triadix-logo.svg"
+              alt="Triadix Barber Studio"
+              className="w-20 h-20 object-contain rounded-none border border-[#1e1e1e] p-2 bg-[#0d0d0d] shadow-md mx-auto group-hover:scale-105 transition-transform"
             />
           </Link>
           <h1 className="font-sans font-medium uppercase tracking-[0.2em] text-2xl text-white">Registro de Cliente</h1>
           <p className="text-[#888888] mt-1.5 text-xs uppercase tracking-[0.25em] font-sans">
-            Punto Fino · Barbería de Autor
+            Triadix · Barber Studio
           </p>
         </div>
 

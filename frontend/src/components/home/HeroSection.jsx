@@ -11,25 +11,25 @@ const SLIDES = [
     titleLine2: 'RASURADO CLÁSICO',
     desc: 'Apertura de poros mediante vapor ozonizado, bálsamos botánicos esenciales y perfilado geométrico con técnica tradicional a navaja.',
     buttonText: 'AGENDAR BARBA',
-    image: 'https://s3.weibook.co/punto_fino/services/0f55ddbc-1dd2-4eb0-8978-3a50b53fffbc.webp',
+    image: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1400&q=80',
   },
   {
     id: 2,
     eyebrow: 'CORTE DE AUTOR & VISAGISMO',
     titleLine1: 'EXPERIENCIA',
-    titleLine2: 'PUNTO FINO + BARBA',
+    titleLine2: 'TRIADIX ATELIER',
     desc: 'Corte milimétrico adaptado a tu morfología craneal, lavado capilar revitalizante y ritual completo de barba con toallas calientes.',
     buttonText: 'AGENDAR EXPERIENCIA',
-    image: 'https://s3.weibook.co/punto_fino/services/241a43d5-f365-4a78-a32d-9e4ffaffb801.webp',
+    image: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=1400&q=80',
   },
   {
     id: 3,
     eyebrow: 'RITUAL SUPREMO VIP',
     titleLine1: 'EXPERIENCIA PLATINIUM',
-    titleLine2: 'GOL DE ORO',
+    titleLine2: 'TRIADIX SIGNATURE',
     desc: 'Corte, visagismo, exfoliación dérmica, vapor ozono dual, velo hidratante, mascarilla desintoxicante y masaje craneofacial.',
     buttonText: 'AGENDAR PLATINIUM',
-    image: 'https://s3.weibook.co/punto_fino/services/f7e3bb87-4e93-4eed-8340-1a01e6fa0ff3.webp',
+    image: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=1400&q=80',
   },
   {
     id: 4,
@@ -38,7 +38,7 @@ const SLIDES = [
     titleLine2: 'PERFILADO DE CEJAS',
     desc: 'Visagismo craneal, corte milimétrico de precisión, perfilado de cejas que enmarca tu rostro y peinado con producto profesional.',
     buttonText: 'AGENDAR CORTE',
-    image: 'https://s3.weibook.co/punto_fino/services/d9eb3738-2f6d-47bf-a98a-16135933c3f4.webp',
+    image: 'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=1400&q=80',
   },
 ];
 
@@ -102,8 +102,8 @@ export default function HeroSection() {
             >
               {/* Category Eyebrow: 12px, weight 400, letterSpacing: 3px */}
               <div className="mb-4">
-                <span className="font-sans text-[11px] sm:text-xs font-normal uppercase tracking-[0.28em] text-[#888888] block">
-                  {active.eyebrow} — PUNTO FINO · CALI
+                <span className="font-sans text-[11px] sm:text-xs font-normal uppercase tracking-[0.28em] text-[#cfa53b] block">
+                  {active.eyebrow} — TRIADIX ATELIER · CALI
                 </span>
               </div>
 
@@ -226,19 +226,19 @@ export default function HeroSection() {
         </div>
       </section>
 
-      {/* Ferrari Section Band Dark — Manifesto */}
+      {/* Section Band Dark — Manifesto */}
       <section className="border-b border-[#1e1e1e] bg-[#000000] py-20 sm:py-28">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <span className="font-sans text-[11px] uppercase tracking-[0.28em] text-[#888888] block mb-6">
-            MANIFIESTO PUNTO FINO
+          <span className="font-sans text-[11px] uppercase tracking-[0.28em] text-[#cfa53b] block mb-6">
+            MANIFIESTO TRIADIX
           </span>
           <blockquote className="font-sans uppercase text-lg sm:text-2xl lg:text-3xl text-white font-medium tracking-[0.14em] leading-[1.5] text-balance">
-            “Entendemos el corte de cabello como un ejercicio de visagismo y arquitectura. No perseguimos modas efímeras; esculpimos la presencia, la proporción y el carácter de cada hombre con técnica milimétrica y atención absoluta.”
+            “Entendemos el corte de cabello como un ejercicio de visagismo, arquitectura y precisión milimétrica. En Triadix no seguimos modas efímeras; esculpimos presencia, identidad y distinción con técnica artesanal rigurosa.”
           </blockquote>
           <div className="mt-8 flex items-center justify-center gap-3">
             <span className="w-8 h-px bg-[#333333]"></span>
-            <span className="font-sans text-[11px] uppercase tracking-[0.22em] text-[#888888]">
-              Juan David · Master Barber & Asesor de Imagen
+            <span className="font-sans text-[11px] uppercase tracking-[0.22em] text-[#cccccc]">
+              Andrés Felipe Sarria · Lead Stylist & Co-Founder Triadix
             </span>
             <span className="w-8 h-px bg-[#333333]"></span>
           </div>

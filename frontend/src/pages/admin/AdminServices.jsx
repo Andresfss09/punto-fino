@@ -127,7 +127,7 @@ export default function AdminServices() {
               Gestión de <span className="text-gold-400">Servicios</span>
             </h1>
             <p className="text-[#888888] text-xs font-sans mt-1">
-              Administra los cortes, combos y experiencias del menú de Punto Fino.
+              Administra los cortes, combos y experiencias del menú de Triadix.
             </p>
           </div>
           <button 

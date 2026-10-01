@@ -59,7 +59,7 @@ export default function BarberProfile() {
             
             <div className="text-center sm:text-left">
               <h2 className="font-sans font-medium uppercase tracking-[0.14em] text-lg text-white">{user?.name || 'Maestro Barbero'}</h2>
-              <p className="text-gold-400 font-sans text-xs uppercase tracking-[0.16em] mt-0.5">Barbero Titular · Punto Fino</p>
+              <p className="text-gold-400 font-sans text-xs uppercase tracking-[0.16em] mt-0.5">Barbero Titular · Triadix</p>
               <p className="text-[#888888] text-xs font-mono mt-1">{user?.email}</p>
             </div>
           </div>

@@ -88,7 +88,7 @@ export default function ClientProfile() {
               <span className="px-2 py-0.5 text-[10px] font-mono rounded-none uppercase tracking-wider bg-[#141414] text-gold-400 border border-gold-400/30">
                 Cliente Distinguido
               </span>
-              <span className="text-[#888888] text-xs font-mono">Punto Fino Club</span>
+              <span className="text-[#888888] text-xs font-mono">Triadix Club</span>
             </div>
           </div>
         </div>

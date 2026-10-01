@@ -11,21 +11,21 @@ const seedAppointments = async () => {
     console.log('MongoDB conectado para sembrar citas de prueba...');
 
     // Get barbers
-    const juan = await User.findOne({ email: { $in: ['juan.david@puntofino.com', 'juan@puntofino.com', 'juan@steelhouse.com'] } });
-    const diego = await User.findOne({ email: { $in: ['juan.diego@puntofino.com', 'carlos@puntofino.com', 'carlos@steelhouse.com'] } });
-    const emanuel = await User.findOne({ email: { $in: ['emanuel@puntofino.com', 'mateo@puntofino.com'] } });
+    const andres = await User.findOne({ email: { $in: ['andres@triadix.co', 'juan.david@puntofino.com', 'juan@puntofino.com'] } });
+    const nicolas = await User.findOne({ email: { $in: ['nicolas@triadix.co', 'juan.diego@puntofino.com', 'carlos@puntofino.com'] } });
+    const luis = await User.findOne({ email: { $in: ['luis@triadix.co', 'emanuel@puntofino.com'] } });
 
-    const targetBarbers = [juan, diego, emanuel].filter(Boolean);
+    const targetBarbers = [andres, nicolas, luis].filter(Boolean);
 
     if (targetBarbers.length === 0) {
-      console.log('No se encontraron barberos de Punto Fino.');
+      console.log('No se encontraron barberos de Triadix.');
       process.exit(1);
     }
 
     // Get services
-    const expPlatinium = await Service.findOne({ name: 'Experiencia Platinium / Gol de Oro' }) || await Service.findOne({});
-    const expRitual = await Service.findOne({ name: 'Experiencia Punto Fino + Ritual de Barba' }) || expPlatinium;
-    const expCorte = await Service.findOne({ name: 'Experiencia Punto Fino (Corte + Cejas)' }) || expPlatinium;
+    const expPlatinium = await Service.findOne({ name: 'Experiencia Triadix Signature (Gol de Oro)' }) || await Service.findOne({});
+    const expRitual = await Service.findOne({ name: 'Experiencia Triadix + Ritual de Barba' }) || expPlatinium;
+    const expCorte = await Service.findOne({ name: 'Experiencia Triadix (Corte + Cejas)' }) || expPlatinium;
     const ritualBarba = await Service.findOne({ name: 'Ritual de Barba' }) || expPlatinium;
 
     // Ensure clients exist

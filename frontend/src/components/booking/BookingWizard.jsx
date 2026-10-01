@@ -54,34 +54,34 @@ const slideVariants = {
 const FALLBACK_SERVICES = [
   {
     _id: '6ab429b351b742ce20f96ab4',
-    name: 'Experiencia Platinium / Gol de Oro',
+    name: 'Experiencia Triadix Signature (Gol de Oro)',
     description: 'Una experiencia integral: orientación personalizada, corte de cabello, cejas, afeitado facial, exfoliación, vapor ozono frío/caliente, mascarilla para puntos negros, velo hidratante, lavado capilar y masaje relajante.',
     price: 55000,
     duration: 60,
     category: 'combo',
-    image: 'https://s3.weibook.co/punto_fino/services/f7e3bb87-4e93-4eed-8340-1a01e6fa0ff3.webp',
+    image: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=1200&q=80',
     isPopular: true,
     isActive: true,
   },
   {
     _id: '6ab429b351b742ce20f96ab5',
-    name: 'Experiencia Punto Fino + Ritual de Barba',
+    name: 'Experiencia Triadix + Ritual de Barba',
     description: 'Orientación personalizada, corte de cabello, lavado capilar y producto profesional. Además, Ritual de Barba con vapor ozono frío y caliente, exfoliación facial, suave afeitado a navaja y aceites hidratantes.',
     price: 34000,
     duration: 45,
     category: 'combo',
-    image: 'https://s3.weibook.co/punto_fino/services/241a43d5-f365-4a78-a32d-9e4ffaffb801.webp',
+    image: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=1200&q=80',
     isPopular: true,
     isActive: true,
   },
   {
     _id: '6ab429b351b742ce20f96ab6',
-    name: 'Experiencia Punto Fino (Corte + Cejas)',
+    name: 'Experiencia Triadix (Corte + Cejas)',
     description: 'Servicio insignia de Corte y Ceja. Incluye visagismo según morfología craneal, corte milimétrico de precisión, perfilado de cejas, lavado capilar y peinado con producto profesional.',
     price: 24000,
     duration: 35,
     category: 'corte',
-    image: 'https://s3.weibook.co/punto_fino/services/d9eb3738-2f6d-47bf-a98a-16135933c3f4.webp',
+    image: 'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=1200&q=80',
     isPopular: true,
     isActive: true,
   },
@@ -92,18 +92,18 @@ const FALLBACK_SERVICES = [
     price: 12000,
     duration: 20,
     category: 'barba',
-    image: 'https://s3.weibook.co/punto_fino/services/0f55ddbc-1dd2-4eb0-8978-3a50b53fffbc.webp',
+    image: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1200&q=80',
     isPopular: false,
     isActive: true,
   },
   {
     _id: '6ab429b351b742ce20f96ab8',
-    name: 'Corte Tradicional',
+    name: 'Corte Tradicional de Precisión',
     description: 'Corte clásico con tijera y máquina, perfilado de contornos, lavado y peinado.',
     price: 20000,
     duration: 30,
     category: 'corte',
-    image: 'https://s3.weibook.co/punto_fino/services/d9eb3738-2f6d-47bf-a98a-16135933c3f4.webp',
+    image: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=1200&q=80',
     isPopular: false,
     isActive: true,
   },
@@ -114,10 +114,43 @@ const FALLBACK_SERVICES = [
     price: 35000,
     duration: 40,
     category: 'facial',
-    image: 'https://s3.weibook.co/punto_fino/services/f7e3bb87-4e93-4eed-8340-1a01e6fa0ff3.webp',
+    image: 'https://images.unsplash.com/photo-1512690459411-b9245aed614b?auto=format&fit=crop&w=1200&q=80',
     isPopular: false,
     isActive: true,
   }
+];
+
+const FALLBACK_BARBERS = [
+  {
+    _id: 'a1111111-1111-1111-1111-111111111111',
+    user: {
+      name: 'Andrés Felipe Sarria',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
+    },
+    specialties: ['Visagismo Craneal', 'Experiencia Signature', 'Degradados de Autor'],
+    rating: { average: 4.9, count: 24 },
+    isAvailable: true,
+  },
+  {
+    _id: 'b2222222-2222-2222-2222-222222222222',
+    user: {
+      name: 'Nicolás Chávez',
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
+    },
+    specialties: ['Ritual de Barba', 'Navaja Libre', 'Vapor Ozono'],
+    rating: { average: 5.0, count: 28 },
+    isAvailable: true,
+  },
+  {
+    _id: 'c3333333-3333-3333-3333-333333333333',
+    user: {
+      name: 'Luis De Ávila',
+      avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80',
+    },
+    specialties: ['Fade Milimétrico', 'Perfilado Geométrico', 'Texturizado'],
+    rating: { average: 4.9, count: 19 },
+    isAvailable: true,
+  },
 ];
 
 export default function BookingWizard() {
@@ -139,7 +172,7 @@ export default function BookingWizard() {
     name: user?.name || user?.nombre || '',
     email: user?.email || '',
     phone: user?.phone || user?.telefono || '',
-    address: 'Cra. 12 #53-51, Villacolombia',
+    address: 'Triadix Atelier · Cali, Colombia',
   });
 
   // State lists
@@ -186,10 +219,14 @@ export default function BookingWizard() {
         setLoadingBarbers(true);
         const res = await barberService.getAll();
         const list = res.barbers || res.data?.barbers || [];
-        setBarbers(list);
+        if (list && list.length > 0) {
+          setBarbers(list);
+        } else {
+          setBarbers(FALLBACK_BARBERS);
+        }
       } catch (error) {
         console.error('Error cargando barberos:', error);
-        toast.error('Error al cargar la lista de barberos');
+        setBarbers(FALLBACK_BARBERS);
       } finally {
         setLoadingBarbers(false);
       }
@@ -335,8 +372,8 @@ export default function BookingWizard() {
   // SUCCESS SCREEN
   if (bookingSuccess) {
     const apt = bookingSuccess.appointment || {};
-    const code = bookingSuccess.confirmationCode || apt.confirmationCode || 'PF-CONFIRMADA';
-    const barberName = apt.barber?.name || selectedBarber?.user?.name || 'Master Barber Punto Fino';
+    const code = bookingSuccess.confirmationCode || apt.confirmationCode || 'TX-CONFIRMADA';
+    const barberName = apt.barber?.name || selectedBarber?.user?.name || 'Master Barber Triadix';
     const clientEmail = clientData.email;
 
     return (
@@ -346,7 +383,7 @@ export default function BookingWizard() {
           <div className="inline-flex items-center gap-2 bg-[#141414] border border-[#262626] px-4 py-1.5 rounded-none mb-6">
             <Sparkles size={14} className="text-white" />
             <span className="text-xs uppercase font-sans tracking-[0.2em] text-white font-medium">
-              Reserva Confirmada · Punto Fino
+              Reserva Confirmada · Triadix
             </span>
           </div>
 
@@ -433,7 +470,7 @@ export default function BookingWizard() {
               Agendar Otra
             </button>
             <a
-              href={`https://wa.me/573122398964?text=Hola,%20acabo%20de%20agendar%20mi%20cita%20con%20c%C3%B3digo%20${code}%20en%20Punto%20Fino`}
+              href={`https://wa.me/573122398964?text=Hola,%20acabo%20de%20agendar%20mi%20cita%20con%20c%C3%B3digo%20${code}%20en%20Triadix`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto btn-ferrari-primary text-xs !py-2.5 !px-5"

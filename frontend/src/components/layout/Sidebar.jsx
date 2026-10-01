@@ -47,13 +47,13 @@ export default function Sidebar() {
       {/* Logo Area */}
       <div className="h-16 py-3 flex items-center gap-3 px-5 border-b border-[#1e1e1e]">
         <img
-          src="/logo.png"
-          alt="Punto Fino"
-          className="w-8 h-8 object-contain rounded-none border border-[#222222]"
+          src="/triadix-logo.svg"
+          alt="Triadix Barber Studio"
+          className="w-8 h-8 object-contain rounded-none border border-[#222222] p-0.5 bg-[#0d0d0d]"
         />
         <div>
-          <h2 className="font-sans font-medium uppercase tracking-[0.2em] text-xs text-white leading-none">PUNTO FINO</h2>
-          <span className="text-[9px] text-gold-400 tracking-[0.22em] font-medium uppercase block mt-1">Barbería de Autor</span>
+          <h2 className="font-sans font-medium uppercase tracking-[0.2em] text-xs text-white leading-none">TRIADIX</h2>
+          <span className="text-[9px] text-gold-400 tracking-[0.22em] font-medium uppercase block mt-1">Barber Studio</span>
         </div>
       </div>
 

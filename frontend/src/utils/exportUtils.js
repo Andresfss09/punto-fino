@@ -47,16 +47,16 @@ export const exportToExcel = (sheets, fileName = 'Reporte_Punto_Fino') => {
 };
 
 /**
- * Exportar reporte a PDF con diseño profesional de Punto Fino
+ * Exportar reporte a PDF con diseño profesional de Triadix
  * @param {object} options
  */
 export const exportToPdf = ({
   title = 'REPORTE GENERAL DE NÓMINA Y SERVICIOS',
-  subtitle = 'Punto Fino Barbería de Autor · Control Contable',
+  subtitle = 'Triadix Barber Studio · Control Contable',
   periodLabel = 'Este Mes',
   summary = {},
   tables = [],
-  fileName = 'Reporte_Nomina_Punto_Fino',
+  fileName = 'Reporte_Nomina_Triadix',
 }) => {
   try {
     const doc = new jsPDF({
@@ -178,7 +178,7 @@ export const exportToPdf = ({
       doc.setFontSize(8);
       doc.setTextColor(140, 140, 140);
       doc.text(
-        `Punto Fino Barbería de Autor · Sistema de Gestión y Nómina · Página ${i} de ${pageCount}`,
+        `Triadix Barber Studio · Sistema de Gestión y Nómina · Página ${i} de ${pageCount}`,
         pageWidth / 2,
         doc.internal.pageSize.getHeight() - 8,
         { align: 'center' }

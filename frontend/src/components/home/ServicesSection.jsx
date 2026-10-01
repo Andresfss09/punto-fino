@@ -6,10 +6,10 @@ const CATEGORIES = ['Todos', 'Experiencias', 'Cortes', 'Barba & Cuidado'];
 const SERVICES = [
   {
     id: 1,
-    name: 'EXPERIENCIA PLATINIUM / GOL DE ORO',
+    name: 'EXPERIENCIA PLATINIUM / TRIADIX SIGNATURE',
     badge: 'RITUAL SUPREMO',
-    image: 'https://s3.weibook.co/punto_fino/services/f7e3bb87-4e93-4eed-8340-1a01e6fa0ff3.webp',
-    desc: 'Una experiencia integral para verse y sentirse en su mejor versión. Incluye orientación personalizada, corte de cabello, cejas, afeitado facial, exfoliación, vapor ozono frío/caliente, mascarilla para puntos negros, velo hidratante, lavado capilar y masaje relajante.',
+    image: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=800&q=80',
+    desc: 'La experiencia cumbre de Triadix: diagnóstico morfológico, corte de precisión, perfilado de cejas, afeitado a navaja, exfoliación, vapor ozono dual, mascarilla purificante, velo hidratante y masaje craneofacial relajante.',
     price: 55000,
     time: 60,
     cat: 'Experiencias',
@@ -17,40 +17,40 @@ const SERVICES = [
   },
   {
     id: 2,
-    name: 'EXPERIENCIA PUNTO FINO + RITUAL DE BARBA',
+    name: 'EXPERIENCIA TRIADIX + RITUAL DE BARBA',
     badge: 'RECOMENDADA',
-    image: 'https://s3.weibook.co/punto_fino/services/241a43d5-f365-4a78-a32d-9e4ffaffb801.webp',
-    desc: 'La combinación perfecta para una imagen impecable. Orientación personalizada, corte de cabello, lavado capilar y producto profesional. Además, Ritual de Barba con vapor ozono frío y caliente, exfoliación facial, suave afeitado a navaja y aceites hidratantes.',
+    image: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=800&q=80',
+    desc: 'La combinación de alto impacto: corte de autor con visagismo, lavado capilar y Ritual de Barba con vapor ozono, exfoliación dérmica, afeitado a navaja libre y aceites botánicos esenciales.',
     price: 34000,
     time: 45,
     cat: 'Experiencias',
   },
   {
     id: 3,
-    name: 'EXPERIENCIA PUNTO FINO (CORTE + CEJAS)',
+    name: 'CORTE DE AUTOR TRIADIX (CORTE + CEJAS)',
     badge: 'SERVICIO INSIGNIA',
-    image: 'https://s3.weibook.co/punto_fino/services/d9eb3738-2f6d-47bf-a98a-16135933c3f4.webp',
-    desc: 'Servicio insignia de Corte y Ceja. Incluye visagismo según morfología craneal, corte milimétrico de precisión, perfilado de cejas que enmarca tu rostro, lavado capilar revitalizante y peinado con producto profesional.',
+    image: 'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=800&q=80',
+    desc: 'Corte de máxima precisión adaptado a tu estructura craneofacial, perfilado geométrico de cejas con navaja, lavado capilar revitalizante y peinado profesional.',
     price: 24000,
     time: 35,
     cat: 'Cortes',
   },
   {
     id: 4,
-    name: 'RITUAL DE BARBA',
+    name: 'RITUAL DE BARBA & VAPOR OZONO',
     badge: 'CLÁSICO',
-    image: 'https://s3.weibook.co/punto_fino/services/0f55ddbc-1dd2-4eb0-8978-3a50b53fffbc.webp',
-    desc: 'Dale a tu barba el cuidado que merece: diseño personalizado según fisionomía, exfoliación facial, vapor ozono frío y caliente para suavizar el vello y la piel, afeitado preciso a navaja y aplicación de aceites nutritivos.',
+    image: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=80',
+    desc: 'Tratamiento integral de barba: diseño y delineado a navaja tradicional, exfoliación facial, vapor de ozono para dilatación de poros y nutrición con aceites botánicos.',
     price: 12000,
     time: 20,
     cat: 'Barba & Cuidado',
   },
   {
     id: 5,
-    name: 'PERFILADO DE CEJAS',
+    name: 'PERFILADO DE CEJAS & VISAGISMO',
     badge: 'ESENCIAL',
-    image: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=700&q=80',
-    desc: 'Limpieza y perfilado geométrico de cejas a navaja y tijera para realzar la mirada y armonizar la simetría natural del rostro.',
+    image: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=800&q=80',
+    desc: 'Diseño y armonización geométrica de cejas a navaja y tijera para realzar la mirada y equilibrar las proporciones naturales de tu rostro.',
     price: 5000,
     time: 10,
     cat: 'Barba & Cuidado',
@@ -68,15 +68,18 @@ export default function ServicesSection() {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#1e1e1e] pb-8 mb-10">
           <div>
-            <span className="font-sans text-[11px] uppercase tracking-[0.28em] text-[#888888] block mb-2">
-              CATÁLOGO DE SERVICIOS — TARIFAS OFICIALES COP
-            </span>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="w-2 h-2 bg-[#cfa53b]"></span>
+              <span className="font-sans text-[11px] uppercase tracking-[0.28em] text-[#cfa53b] font-medium">
+                01 · CATÁLOGO OFICIAL TRIADIX
+              </span>
+            </div>
             <h2 className="font-sans uppercase text-3xl sm:text-4xl lg:text-5xl text-white font-medium tracking-[0.16em] leading-tight">
               Experiencias de Autor
             </h2>
           </div>
-          <p className="font-sans text-xs sm:text-sm text-[#888888] max-w-md mt-4 md:mt-0 leading-relaxed">
-            Cada servicio es un proceso artesanal de diagnóstico morfológico, técnica de corte refinada y bienestar masculino.
+          <p className="font-sans text-xs sm:text-sm text-[#aaaaaa] max-w-md mt-4 md:mt-0 leading-relaxed">
+            Cada servicio en Triadix combina visagismo morfológico, técnica de corte de alta precisión y bienestar masculino absoluto.
           </p>
         </div>
 

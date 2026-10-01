@@ -4,34 +4,34 @@ const Service = require('../models/Service');
 
 const services = [
   {
-    name: 'Experiencia Platinium / Gol de Oro',
+    name: 'Experiencia Triadix Signature (Gol de Oro)',
     description: 'Una experiencia integral: orientación personalizada, corte de cabello, cejas, afeitado facial, exfoliación, vapor ozono frío/caliente, mascarilla para puntos negros, velo hidratante, lavado capilar y masaje relajante.',
     price: 55000,
     duration: 60,
     category: 'combo',
-    image: 'https://s3.weibook.co/punto_fino/services/f7e3bb87-4e93-4eed-8340-1a01e6fa0ff3.webp',
+    image: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=1200&q=80',
     isPopular: true,
     isActive: true,
     order: 1,
   },
   {
-    name: 'Experiencia Punto Fino + Ritual de Barba',
+    name: 'Experiencia Triadix + Ritual de Barba',
     description: 'Orientación personalizada, corte de cabello, lavado capilar y producto profesional. Además, Ritual de Barba con vapor ozono frío y caliente, exfoliación facial, afeitado suave a navaja y aceites hidratantes.',
     price: 34000,
     duration: 45,
     category: 'combo',
-    image: 'https://s3.weibook.co/punto_fino/services/241a43d5-f365-4a78-a32d-9e4ffaffb801.webp',
+    image: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=1200&q=80',
     isPopular: true,
     isActive: true,
     order: 2,
   },
   {
-    name: 'Experiencia Punto Fino (Corte + Cejas)',
+    name: 'Experiencia Triadix (Corte + Cejas)',
     description: 'Servicio insignia de Corte y Ceja. Incluye visagismo según morfología craneal, corte milimétrico de precisión, perfilado de cejas, lavado capilar y peinado con producto profesional.',
     price: 24000,
     duration: 35,
     category: 'corte',
-    image: 'https://s3.weibook.co/punto_fino/services/d9eb3738-2f6d-47bf-a98a-16135933c3f4.webp',
+    image: 'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=1200&q=80',
     isPopular: true,
     isActive: true,
     order: 3,
@@ -42,7 +42,7 @@ const services = [
     price: 12000,
     duration: 20,
     category: 'barba',
-    image: 'https://s3.weibook.co/punto_fino/services/0f55ddbc-1dd2-4eb0-8978-3a50b53fffbc.webp',
+    image: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1200&q=80',
     isPopular: false,
     isActive: true,
     order: 4,
@@ -71,11 +71,11 @@ const services = [
   },
   {
     name: 'Cerveza Premium Fría & Coctelería de Bar',
-    description: 'Acompaña tu sesión con una cerveza fría (Corona, Heineken, Club Colombia) o trago de autor on the rocks. Incluida en Experiencia Platinium.',
+    description: 'Acompaña tu sesión con una cerveza fría (Corona, Heineken, Club Colombia) o trago de autor on the rocks. Incluida en Experiencia Signature.',
     price: 8000,
     duration: 10,
     category: 'bar',
-    image: '/cerveza-bar.webp',
+    image: 'https://images.unsplash.com/photo-1608270191854-5a2a0a2df3aa?auto=format&fit=crop&w=700&q=80',
     isPopular: false,
     isActive: true,
     order: 7,
@@ -87,7 +87,7 @@ const seed = async () => {
     await connectDB();
     await Service.deleteMany({});
     await Service.insertMany(services);
-    console.log('✅ Servicios de Punto Fino creados correctamente');
+    console.log('✅ Servicios de Triadix creados correctamente');
     process.exit(0);
   } catch (error) {
     console.error('❌ Error:', error.message);

@@ -2,8 +2,6 @@ import React from 'react';
 import { Phone, MapPin, MessageCircle, Clock } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-const GOOGLE_MAPS_OFFICIAL_URL = 'https://www.google.com/maps/place/barberia+punto+fino/@3.4484441,-76.500278,17z/data=!3m1!4b1!4m6!3m5!1s0x8e30a7f8b6322dcd:0x647a1acfdd8317f4!8m2!3d3.4484387!4d-76.4977031!16s%2Fg%2F11z5s1m3vz?entry=ttu&g_ep=EgoyMDI2MDkyMy4wIKXMDSoASAFQAw%3D%3D';
-
 export default function Footer() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,16 +27,16 @@ export default function Footer() {
           <div className="md:col-span-1 space-y-4">
             <div className="flex items-center gap-3">
               <img
-                src="/logo.png"
-                alt="Punto Fino Barbería"
-                className="w-10 h-10 object-contain rounded-none border border-[#222222]"
+                src="/triadix-logo.svg"
+                alt="Triadix Barber Studio"
+                className="w-10 h-10 object-contain rounded-none border border-[#222222] p-1 bg-[#0d0d0d]"
               />
               <div>
                 <h3 className="font-sans text-base font-medium tracking-[0.2em] uppercase text-white leading-tight">
-                  Punto Fino
+                  Triadix
                 </h3>
                 <span className="text-[10px] text-gold-400 tracking-[0.22em] font-medium uppercase block mt-0.5">
-                  Barbería de Autor · Cali
+                  Barber Studio · Cali
                 </span>
               </div>
             </div>
@@ -119,15 +117,10 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs font-sans text-[#888888]">
               <li>
-                <span className="text-white block font-medium uppercase tracking-wider text-[11px]">Sede Villacolombia</span>
-                <a
-                  href={GOOGLE_MAPS_OFFICIAL_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-gold-400 transition-colors inline-block"
-                >
-                  Cra. 12 #53-51, Villacolombia, Cali, Valle del Cauca
-                </a>
+                <span className="text-white block font-medium uppercase tracking-wider text-[11px]">Sede Central</span>
+                <span className="text-[#aaaaaa] inline-block">
+                  Triadix Atelier · Cali, Valle del Cauca, Colombia
+                </span>
               </li>
               <li>
                 <a 
@@ -139,12 +132,12 @@ export default function Footer() {
               </li>
               <li className="pt-1">
                 <a
-                  href="https://wa.me/573122398964?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Punto%20Fino"
+                  href="https://wa.me/573122398964?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Triadix"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-mono text-xs text-gold-400 hover:text-white underline underline-offset-4 flex items-center gap-1.5 transition-colors"
                 >
-                  <MessageCircle size={14} /> WhatsApp Directo Atelier
+                  <MessageCircle size={14} /> WhatsApp Concierge Atelier
                 </a>
               </li>
             </ul>
@@ -153,7 +146,7 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-sans text-[#666666]">
-          <p className="font-mono text-[11px]">© {new Date().getFullYear()} PUNTO FINO BARBERÍA. TODOS LOS DERECHOS RESERVADOS · CALI, COLOMBIA.</p>
+          <p className="font-mono text-[11px]">© {new Date().getFullYear()} TRIADIX BARBER STUDIO. TODOS LOS DERECHOS RESERVADOS · CALI, COLOMBIA.</p>
           <div className="flex items-center gap-3">
             <span className="font-sans uppercase tracking-[0.2em] text-[10px] text-[#888888]">
               Precisión · Presencia · Distinción

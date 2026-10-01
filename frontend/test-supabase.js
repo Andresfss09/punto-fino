@@ -17,7 +17,7 @@ const supabaseUrl = urlMatch ? urlMatch[1].trim() : '';
 const supabaseKey = keyMatch ? keyMatch[1].trim() : '';
 
 console.log('====================================================');
-console.log('🔍 PRUEBA DE CONEXIÓN A SUPABASE · PUNTO FINO');
+console.log('🔍 PRUEBA DE CONEXIÓN A SUPABASE · TRIADIX');
 console.log('====================================================');
 console.log('URL:', supabaseUrl);
 console.log('Anon Key:', supabaseKey ? supabaseKey.substring(0, 20) + '...' : '(Vacía)');

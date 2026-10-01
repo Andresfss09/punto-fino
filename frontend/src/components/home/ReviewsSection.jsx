@@ -5,27 +5,27 @@ import { Star, CheckCircle2 } from 'lucide-react';
 const REVIEWS = [
   { 
     id: 1, 
-    name: 'Juan David Gómez', 
-    service: 'Experiencia Platinium / Gol de Oro',
+    name: 'Carlos Alberto Gómez', 
+    service: 'Experiencia Platinium Triadix',
     date: 'Septiembre 2026',
     rating: 5, 
-    text: 'El ritual con vapor ozono frío y caliente, la mascarilla para puntos negros y el corte con visagismo es de otro nivel. Juan David entiende con exactitud lo que favorece a las facciones de tu rostro.' 
+    text: 'El ritual con vapor ozono frío y caliente, la mascarilla purificante y el corte con visagismo de Andrés Felipe es de otro nivel. Entiende con exactitud lo que favorece a las facciones de tu rostro.' 
   },
   { 
     id: 2, 
     name: 'Camilo Andrés Mora', 
-    service: 'Experiencia Punto Fino + Ritual de Barba',
+    service: 'Experiencia Triadix + Ritual de Barba',
     date: 'Septiembre 2026',
     rating: 5, 
-    text: 'Puntualidad impecable y trato de primera. El ritual de barba con aceites hidratantes y navaja libre deja la piel relajada y sin irritación. Sin duda la mejor barbería de Villacolombia.' 
+    text: 'Puntualidad impecable y trato de primera por parte de Nicolás Chávez. El ritual de barba con aceites hidratantes y navaja libre deja la piel relajada y sin irritación. Sin duda la mejor experiencia en Cali.' 
   },
   { 
     id: 3, 
     name: 'Felipe Benítez', 
-    service: 'Experiencia Punto Fino (Corte + Cejas)',
+    service: 'Corte de Autor Triadix (Corte + Cejas)',
     date: 'Agosto 2026',
     rating: 5, 
-    text: 'El perfilado de cejas y el degradado milimétrico son perfectos. Ambiente sobrio, higiénico y con productos profesionales de alta gama.' 
+    text: 'El perfilado geométrico de cejas y el degradado milimétrico realizado por Luis De Ávila son perfectos. Ambiente sobrio, higiénico y con productos profesionales de alta gama.' 
   },
 ];
 
@@ -35,14 +35,17 @@ export default function ReviewsSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="eyebrow block mb-3 text-gold-400">
-            Opiniones Reales · 4.9 ★ Weibook
-          </span>
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <span className="w-2 h-2 bg-[#cfa53b]"></span>
+            <span className="font-sans text-[11px] uppercase tracking-[0.28em] text-[#cfa53b] font-medium">
+              05 · TESTIMONIOS VERIFICADOS · 4.9 ★ CLIENTES TRIADIX
+            </span>
+          </div>
           <h2 className="display-hero text-2xl sm:text-3xl lg:text-4xl text-white font-medium">
             La Voz de Nuestros Clientes
           </h2>
-          <p className="font-sans text-xs sm:text-sm text-[#888888] mt-3">
-            Calificación 4.9 / 5.0 basada en 16 reseñas reales y verificadas en la plataforma de reservas de Punto Fino.
+          <p className="font-sans text-xs sm:text-sm text-[#aaaaaa] mt-3">
+            Calificación 4.9 / 5.0 basada en reseñas reales y verificadas de clientes que viven la experiencia Triadix.
           </p>
         </div>
 

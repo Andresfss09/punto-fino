@@ -1,5 +1,5 @@
 -- ========================================================
--- PUNTO FINO BARBERÍA · ESQUEMA COMPLETO PARA SUPABASE
+-- TRIADIX BARBER STUDIO · ESQUEMA COMPLETO PARA SUPABASE
 -- ========================================================
 
 -- 1. Habilitar extensión UUID
@@ -63,7 +63,7 @@ create table if not exists public.barbers (
   created_at timestamptz default now()
 );
 
--- 5. Tabla: services (catálogo oficial de experiencias Punto Fino)
+-- 5. Tabla: services (catálogo oficial de experiencias Triadix)
 create table if not exists public.services (
   id uuid primary key default gen_random_uuid(),
   name text not null unique,

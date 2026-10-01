@@ -1,11 +1,11 @@
 -- ========================================================
--- PUNTO FINO BARBERÍA · DATOS SEMILLA (SEED DATA)
+-- TRIADIX BARBER STUDIO · DATOS SEMILLA (SEED DATA)
 -- ========================================================
 
 -- 1. Insertar Catálogo Oficial de Servicios
 insert into public.services (name, description, price, duration, category, is_popular, is_active, order_num) values
 (
-  'EXPERIENCIA PLATINIUM / GOL DE ORO',
+  'EXPERIENCIA TRIADIX SIGNATURE (Gol de Oro)',
   'Corte de autor con visagismo facial, ritual de barba completo a navaja libre, toalla caliente aromatizada, vapor de ozono y mascarilla facial purificante.',
   55000,
   60,
@@ -15,7 +15,7 @@ insert into public.services (name, description, price, duration, category, is_po
   1
 ),
 (
-  'EXPERIENCIA PUNTO FINO (Corte + Cejas)',
+  'EXPERIENCIA TRIADIX (Corte + Cejas)',
   'Corte personalizado con diagnóstico morfológico craneal, texturizado a tijera japonesa, lavado térmico y perfilación geométrica de cejas.',
   24000,
   35,
@@ -25,7 +25,7 @@ insert into public.services (name, description, price, duration, category, is_po
   2
 ),
 (
-  'EXPERIENCIA PUNTO FINO + RITUAL DE BARBA',
+  'EXPERIENCIA TRIADIX + RITUAL DE BARBA',
   'Combinación magistral de corte de autor y ritual tradicional de barba con toalla tibia, aceites esenciales botánicos y navaja al ras.',
   34000,
   45,
@@ -60,15 +60,15 @@ on conflict (name) do update set
   duration = excluded.duration,
   category = excluded.category;
 
--- 2. Insertar Barberos Oficiales (disponibles para agendamiento inmediato)
+-- 2. Insertar Barberos Oficiales (Equipo Fundador Triadix)
 insert into public.barbers (id, name, email, phone, bio, specialties, rating_average, rating_count, total_clients, is_available) values
 (
   'a1111111-1111-1111-1111-111111111111',
-  'Juan David',
-  'juandavid@puntofino.co',
+  'Andrés Felipe Sarria',
+  'andres@triadix.co',
   '3122398964',
-  'Master Barber con más de 7 años de experiencia. Especialista en la Experiencia Platinium, visagismo facial y cortes de alta precisión.',
-  array['Visagismo', 'Corte de Autor', 'Experiencia Platinium', 'Degradados'],
+  'Cofundador de Triadix y Lead Stylist. Especialista en diagnóstico morfológico, arquitectura craneofacial y cortes de alta precisión milimétrica.',
+  array['Visagismo Craneal', 'Experiencia Signature', 'Degradados de Autor'],
   4.93,
   58,
   310,
@@ -76,11 +76,11 @@ insert into public.barbers (id, name, email, phone, bio, specialties, rating_ave
 ),
 (
   'b2222222-2222-2222-2222-222222222222',
-  'Juan Diego',
-  'juandiego@puntofino.co',
+  'Nicolás Chávez',
+  'nicolas@triadix.co',
   '3122398964',
-  'Master Barber y técnico capilar. Especialista en rituales de barba con vapor ozono, toalla caliente y perfilados clásicos al detalle.',
-  array['Ritual de Barba', 'Navaja Libre', 'Vapor Ozono', 'Corte Clásico'],
+  'Cofundador de Triadix y Director Creativo. Maestro en rituales clásicos a navaja, diseño geométrico de barba y bienestar dérmico con toallas calientes.',
+  array['Ritual de Barba', 'Navaja Libre', 'Vapor Ozono'],
   5.00,
   64,
   280,
@@ -88,11 +88,11 @@ insert into public.barbers (id, name, email, phone, bio, specialties, rating_ave
 ),
 (
   'c3333333-3333-3333-3333-333333333333',
-  'Emanuel Torres',
-  'emanuel@puntofino.co',
+  'Luis De Ávila',
+  'luis@triadix.co',
   '3122398964',
-  'Barbero Profesional especialista en visagismo facial, degradados limpios, fade milimétrico y perfilado de cejas.',
-  array['Fade Milimétrico', 'Perfilado Cejas', 'Corte Urbano', 'Texturizado'],
+  'Cofundador de Triadix y Director Técnico. Maestro de la textura y el degradado limpio, perfilado geométrico de cejas y vanguardia estética masculina.',
+  array['Fade Milimétrico', 'Perfilado Geométrico', 'Texturizado'],
   4.90,
   37,
   190,

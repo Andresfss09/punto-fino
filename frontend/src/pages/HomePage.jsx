@@ -33,17 +33,20 @@ export default function HomePage() {
       <BeveragesSection />
 
       {/* Sección de Reserva directa en la página principal */}
-      <section id="reservar" className="py-24 sm:py-32 bg-[#0c100e] border-b border-[#1f2723] relative scroll-mt-24">
+      <section id="reservar" className="py-24 sm:py-32 bg-[#000000] border-b border-[#1e1e1e] relative scroll-mt-24">
         <div className="container mx-auto px-4 max-w-5xl relative z-10">
           <div className="text-center mb-12">
-            <span className="editorial-tag bg-[#161d19] border-[#2b3630] text-gold-400 mb-3">
-              Reserva en Línea · Punto Fino
-            </span>
-            <h2 className="font-serif italic text-4xl sm:text-5xl text-white font-normal leading-tight">
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <span className="w-2 h-2 bg-[#cfa53b]"></span>
+              <span className="font-sans text-[11px] uppercase tracking-[0.28em] text-[#cfa53b] font-medium">
+                04 · RESERVA OFICIAL TRIADIX
+              </span>
+            </div>
+            <h2 className="font-sans uppercase text-3xl sm:text-4xl lg:text-5xl text-white font-medium tracking-[0.16em] leading-tight">
               Agenda tu Experiencia
             </h2>
-            <p className="text-[#8e9b94] text-xs sm:text-sm max-w-xl mx-auto mt-3 font-sans leading-relaxed">
-              Selecciona tu servicio, tu barbero y el horario ideal. No requieres crear cuenta para agendar; confirmación inmediata por correo electrónico.
+            <p className="text-[#888888] text-xs sm:text-sm max-w-xl mx-auto mt-3 font-sans leading-relaxed">
+              Selecciona tu servicio, tu barbero fundador y el horario ideal. No requieres crear cuenta para agendar; confirmación inmediata por correo electrónico.
             </p>
           </div>
 

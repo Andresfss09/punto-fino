@@ -1,11 +1,10 @@
 import React from 'react';
-import { MapPin, Phone, MessageCircle, Clock, Navigation, ExternalLink, ArrowRight } from 'lucide-react';
+import { MapPin, Phone, MessageCircle, Clock, Calendar, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
 
 export default function LocationSection() {
-  const address = 'Cra. 12 #53-51, Villacolombia, Cali, Valle del Cauca';
+  const address = 'Cali, Valle del Cauca, Colombia';
   const phone = '+57 312 239 8964';
-  const mapsUrl = 'https://www.google.com/maps/place/barberia+punto+fino/@3.4484441,-76.500278,17z/data=!3m1!4b1!4m6!3m5!1s0x8e30a7f8b6322dcd:0x647a1acfdd8317f4!8m2!3d3.4484387!4d-76.4977031!16s%2Fg%2F11z5s1m3vz?entry=ttu&g_ep=EgoyMDI2MDkyMy4wIKXMDSoASAFQAw%3D%3D';
-  const whatsappUrl = 'https://wa.me/573122398964?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Punto%20Fino%20(Cra.%2012%20%2353-51)';
+  const whatsappUrl = 'https://wa.me/573122398964?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Triadix%20Barber%20Studio';
 
   return (
     <section id="ubicacion" className="py-24 bg-[#000000] border-b border-[#1e1e1e] text-white scroll-mt-24">
@@ -13,20 +12,18 @@ export default function LocationSection() {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#1e1e1e] pb-8 mb-12">
           <div>
-            <div className="flex items-center gap-3 mb-2">
-              <span className="eyebrow text-gold-400">
-                Sede & Contacto
-              </span>
-              <span className="font-mono text-[11px] uppercase tracking-wider text-[#666666]">
-                Villacolombia · Cali
+            <div className="flex items-center gap-2 mb-2">
+              <span className="w-2 h-2 bg-[#cfa53b]"></span>
+              <span className="font-sans text-[11px] uppercase tracking-[0.28em] text-[#cfa53b] font-medium">
+                06 · SEDE & CONTACTO EXCLUSIVO
               </span>
             </div>
             <h2 className="display-hero text-2xl sm:text-3xl lg:text-4xl text-white font-medium leading-tight">
-              Ubicación & Atención
+              Atelier & Atención Triadix
             </h2>
           </div>
-          <p className="font-sans text-xs sm:text-sm text-[#888888] max-w-md mt-4 md:mt-0 leading-relaxed">
-            Un espacio sobrio y de alta precisión diseñado para tu calma y distinción. Visítanos o comunícate con nosotros.
+          <p className="font-sans text-xs sm:text-sm text-[#aaaaaa] max-w-md mt-4 md:mt-0 leading-relaxed">
+            Un espacio de sobria elegancia y precisión concebido para tu presencia y calma. Atención exclusiva bajo cita previa para garantizar puntualidad absoluta.
           </p>
         </div>
 
@@ -36,36 +33,39 @@ export default function LocationSection() {
           <div className="lg:col-span-7 bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-6 sm:p-8 flex flex-col justify-between space-y-8">
             {/* Address Banner */}
             <div className="space-y-5">
-              <span className="font-sans text-[11px] uppercase tracking-[0.2em] text-[#888888] font-medium block">
-                Dirección del Atelier
+              <span className="font-sans text-[11px] uppercase tracking-[0.2em] text-[#cfa53b] font-medium block">
+                Sede Central Triadix
               </span>
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-none bg-[#141414] border border-[#222222] flex items-center justify-center text-white shrink-0">
+                <div className="w-10 h-10 rounded-none bg-[#141414] border border-[#222222] flex items-center justify-center text-[#cfa53b] shrink-0">
                   <MapPin size={18} />
                 </div>
                 <div>
                   <h3 className="font-sans text-xl sm:text-2xl text-white font-medium tracking-wide">
-                    Cra. 12 #53-51
+                    Triadix Barber Studio
                   </h3>
-                  <p className="font-sans text-sm text-gold-400 font-medium mt-1">
-                    Barrio Villacolombia · Cali, Valle del Cauca
+                  <p className="font-sans text-sm text-[#cccccc] font-medium mt-1">
+                    Cali, Valle del Cauca · Colombia
                   </p>
                   <p className="font-sans text-xs text-[#888888] mt-2 leading-relaxed max-w-md">
-                    Fácil acceso vehicular y peatonal. Atención exclusiva con cita previa para garantizar puntualidad absoluta.
+                    Entorno privado, climatizado y con los más altos estándares de higiene y confort. Diseñado para ofrecer una experiencia estética transformadora.
                   </p>
                 </div>
               </div>
 
-              <div className="pt-2">
+              <div className="pt-2 flex flex-wrap items-center gap-3">
                 <a
-                  href={mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-ferrari-outline text-xs !py-2.5 !px-4"
+                  href="#reservar"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const el = document.getElementById('reservar');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="bg-white hover:bg-[#e5e5e5] text-black font-sans font-medium uppercase tracking-[0.18em] text-xs px-5 py-3 rounded-none inline-flex items-center gap-2 cursor-pointer transition-all active:scale-[0.99]"
                 >
-                  <Navigation size={13} />
-                  <span>Cómo Llegar (Google Maps)</span>
-                  <ExternalLink size={12} />
+                  <Calendar size={13} />
+                  <span>Agendar Cita en Línea</span>
+                  <ArrowRight size={13} />
                 </a>
               </div>
             </div>
@@ -73,7 +73,7 @@ export default function LocationSection() {
             {/* Direct Contact Strip */}
             <div className="pt-6 border-t border-[#1e1e1e] space-y-4">
               <span className="font-sans text-[11px] uppercase tracking-[0.2em] text-[#888888] font-medium block">
-                Líneas de Atención
+                Canales de Atención Directa
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* WhatsApp */}
@@ -83,14 +83,14 @@ export default function LocationSection() {
                   rel="noopener noreferrer"
                   className="bg-[#111111] hover:bg-[#161616] border border-[#222222] hover:border-white/30 rounded-none p-4 flex items-center gap-3.5 transition-all group cursor-pointer"
                 >
-                  <div className="w-9 h-9 rounded-full border border-white/20 bg-transparent flex items-center justify-center text-white shrink-0 group-hover:border-white transition-colors">
+                  <div className="w-9 h-9 rounded-full border border-white/20 bg-transparent flex items-center justify-center text-white shrink-0 group-hover:border-[#25D366] transition-colors">
                     <MessageCircle size={16} />
                   </div>
                   <div>
                     <span className="font-sans text-[10px] uppercase tracking-[0.16em] text-[#888888] block">
-                      WhatsApp Oficial
+                      WhatsApp Concierge
                     </span>
-                    <span className="font-mono text-xs sm:text-sm font-medium text-white group-hover:text-gold-400 transition-colors">
+                    <span className="font-mono text-xs sm:text-sm font-medium text-white group-hover:text-[#cfa53b] transition-colors">
                       +57 312 239 8964
                     </span>
                   </div>
@@ -108,7 +108,7 @@ export default function LocationSection() {
                     <span className="font-sans text-[10px] uppercase tracking-[0.16em] text-[#888888] block">
                       Línea Telefónica
                     </span>
-                    <span className="font-mono text-xs sm:text-sm font-medium text-white group-hover:text-gold-400 transition-colors">
+                    <span className="font-mono text-xs sm:text-sm font-medium text-white group-hover:text-[#cfa53b] transition-colors">
                       312 239 8964
                     </span>
                   </div>
@@ -117,12 +117,12 @@ export default function LocationSection() {
             </div>
           </div>
 
-          {/* Schedule & Map Preview Card (5 cols) */}
+          {/* Schedule & Atmosphere Card (5 cols) */}
           <div className="lg:col-span-5 bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-6 sm:p-8 flex flex-col justify-between space-y-6">
             <div>
               <div className="flex items-center gap-2 mb-5">
-                <Clock size={15} className="text-white" />
-                <h4 className="font-sans text-xs uppercase tracking-[0.2em] font-medium text-white">Horarios de Atención</h4>
+                <Clock size={15} className="text-[#cfa53b]" />
+                <h4 className="font-sans text-xs uppercase tracking-[0.2em] font-medium text-white">Horarios Oficiales</h4>
               </div>
               <div className="divide-y divide-[#1e1e1e] font-sans text-xs">
                 <div className="py-3 flex justify-between items-center">
@@ -139,40 +139,34 @@ export default function LocationSection() {
                 </div>
                 <div className="py-3 flex justify-between items-center">
                   <span className="text-[#888888]">Domingos</span>
-                  <span className="font-mono text-gold-400 font-medium bg-[#141414] px-2.5 py-1 rounded-none border border-gold-400/30">
+                  <span className="font-mono text-[#cfa53b] font-medium bg-[#141414] px-2.5 py-1 rounded-none border border-[#cfa53b]/30">
                     09:00 — 16:00
                   </span>
                 </div>
               </div>
-              <p className="font-mono text-[11px] text-[#666666] mt-4">
-                * Para evitar tiempos de espera, agenda previamente en línea.
-              </p>
+              <div className="flex items-center gap-2 mt-4 text-[11px] font-sans text-[#888888]">
+                <ShieldCheck size={14} className="text-[#cfa53b]" />
+                <span>Atención sin filas ni tiempos de espera bajo reserva online.</span>
+              </div>
             </div>
 
-            {/* Visual Location Frame / Map Link Card */}
-            <a
-              href={mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="relative rounded-none overflow-hidden border border-[#222222] hover:border-white/50 aspect-[16/9] bg-[#000000] group block cursor-pointer transition-colors"
-            >
+            {/* Visual Atelier Photo Frame */}
+            <div className="relative rounded-none overflow-hidden border border-[#222222] aspect-[16/9] bg-[#000000] group">
               <img
-                src="https://images.unsplash.com/photo-1524813686514-a57563d77d61?auto=format&fit=crop&w=800&q=80"
-                alt="Mapa Punto Fino Villacolombia"
+                src="https://images.unsplash.com/photo-1512690459411-b9245aed614b?auto=format&fit=crop&w=900&q=80"
+                alt="Triadix Barber Studio Atelier"
                 className="w-full h-full object-cover filter brightness-70 contrast-110 group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center p-4 text-center">
-                <div className="btn-circle-arrow mb-3 bg-white text-black border-white group-hover:scale-110 transition-transform">
-                  <MapPin size={16} />
-                </div>
-                <span className="font-sans text-sm uppercase tracking-[0.16em] text-white font-medium">
-                  Cra. 12 #53-51, Villacolombia
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col items-center justify-end p-5 text-center">
+                <span className="font-sans text-xs uppercase tracking-[0.2em] text-[#cfa53b] font-medium mb-1 flex items-center gap-1.5">
+                  <Sparkles size={12} />
+                  Triadix Studio
                 </span>
-                <span className="mt-2 text-xs font-mono text-gold-400 group-hover:text-white underline underline-offset-4 flex items-center gap-1.5 transition-colors">
-                  Abrir en Google Maps <ExternalLink size={11} />
+                <span className="font-sans text-sm uppercase tracking-[0.16em] text-white font-semibold">
+                  Atelier de Vanguardia · Cali
                 </span>
               </div>
-            </a>
+            </div>
           </div>
         </div>
       </div>
