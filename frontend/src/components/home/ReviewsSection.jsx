@@ -6,26 +6,26 @@ const REVIEWS = [
   { 
     id: 1, 
     name: 'Carlos Alberto Gómez', 
-    service: 'Experiencia Platinium Triadix',
+    service: 'Combo Completo Triadix',
     date: 'Septiembre 2026',
     rating: 5, 
-    text: 'El ritual con vapor ozono frío y caliente, la mascarilla purificante y el corte con visagismo de Andrés Felipe es de otro nivel. Entiende con exactitud lo que favorece a las facciones de tu rostro.' 
+    text: 'Excelente servicio por parte de Andrés Felipe. La toalla caliente, la mascarilla facial y el corte quedaron de 10. Muy recomendado, te atienden puntual y el lugar es impecable.' 
   },
   { 
     id: 2, 
     name: 'Camilo Andrés Mora', 
-    service: 'Experiencia Triadix + Ritual de Barba',
+    service: 'Corte de Cabello + Arreglo de Barba',
     date: 'Septiembre 2026',
     rating: 5, 
-    text: 'Puntualidad impecable y trato de primera por parte de Nicolás Chávez. El ritual de barba con aceites hidratantes y navaja libre deja la piel relajada y sin irritación. Sin duda la mejor experiencia en Cali.' 
+    text: 'Puntualidad impecable y trato de primera por parte de Nicolás Chávez. El arreglo de barba con navaja y aceites deja la piel fresca y sin irritación. Sin duda la mejor barbería en Cali.' 
   },
   { 
     id: 3, 
     name: 'Felipe Benítez', 
-    service: 'Corte de Autor Triadix (Corte + Cejas)',
+    service: 'Corte de Cabello + Cejas',
     date: 'Agosto 2026',
     rating: 5, 
-    text: 'El perfilado geométrico de cejas y el degradado milimétrico realizado por Luis De Ávila son perfectos. Ambiente sobrio, higiénico y con productos profesionales de alta gama.' 
+    text: 'El degradado y el perfilado de cejas realizado por Luis De Ávila quedó perfecto. Muy buena vibra, música agradable y atención de calidad desde que entras.' 
   },
 ];
 
@@ -45,7 +45,7 @@ export default function ReviewsSection() {
             La Voz de Nuestros Clientes
           </h2>
           <p className="font-sans text-xs sm:text-sm text-[#aaaaaa] mt-3">
-            Calificación 4.9 / 5.0 basada en reseñas reales y verificadas de clientes que viven la experiencia Triadix.
+            Calificación 4.9 / 5.0 basada en opiniones reales de clientes que se cortan en Triadix.
           </p>
         </div>
 

@@ -15,15 +15,15 @@ export default function LocationSection() {
             <div className="flex items-center gap-2 mb-2">
               <span className="w-2 h-2 bg-[#cfa53b]"></span>
               <span className="font-sans text-[11px] uppercase tracking-[0.28em] text-[#cfa53b] font-medium">
-                06 · SEDE & CONTACTO EXCLUSIVO
+                06 · DÓNDE ESTAMOS & CONTACTO
               </span>
             </div>
             <h2 className="display-hero text-2xl sm:text-3xl lg:text-4xl text-white font-medium leading-tight">
-              Atelier & Atención Triadix
+              Ubicación & Contacto
             </h2>
           </div>
           <p className="font-sans text-xs sm:text-sm text-[#aaaaaa] max-w-md mt-4 md:mt-0 leading-relaxed">
-            Un espacio de sobria elegancia y precisión concebido para tu presencia y calma. Atención exclusiva bajo cita previa para garantizar puntualidad absoluta.
+            Te esperamos en Cali para brindarte la mejor atención en corte y barba. Reserva tu cita online para atenderte puntual y sin filas.
           </p>
         </div>
 
@@ -34,7 +34,7 @@ export default function LocationSection() {
             {/* Address Banner */}
             <div className="space-y-5">
               <span className="font-sans text-[11px] uppercase tracking-[0.2em] text-[#cfa53b] font-medium block">
-                Sede Central Triadix
+                Nuestra Sede
               </span>
               <div className="flex items-start gap-4">
                 <div className="w-10 h-10 rounded-none bg-[#141414] border border-[#222222] flex items-center justify-center text-[#cfa53b] shrink-0">
@@ -42,13 +42,13 @@ export default function LocationSection() {
                 </div>
                 <div>
                   <h3 className="font-sans text-xl sm:text-2xl text-white font-medium tracking-wide">
-                    Triadix Barber Studio
+                    Barbería Triadix
                   </h3>
                   <p className="font-sans text-sm text-[#cccccc] font-medium mt-1">
                     Cali, Valle del Cauca · Colombia
                   </p>
                   <p className="font-sans text-xs text-[#888888] mt-2 leading-relaxed max-w-md">
-                    Entorno privado, climatizado y con los más altos estándares de higiene y confort. Diseñado para ofrecer una experiencia estética transformadora.
+                    Espacio cómodo, climatizado, con buena música y excelente atención. Agenda con anticipación para asegurar tu cupo con tu barbero favorito.
                   </p>
                 </div>
               </div>
@@ -88,7 +88,7 @@ export default function LocationSection() {
                   </div>
                   <div>
                     <span className="font-sans text-[10px] uppercase tracking-[0.16em] text-[#888888] block">
-                      WhatsApp Concierge
+                      WhatsApp Barbería
                     </span>
                     <span className="font-mono text-xs sm:text-sm font-medium text-white group-hover:text-[#cfa53b] transition-colors">
                       +57 312 239 8964
@@ -106,7 +106,7 @@ export default function LocationSection() {
                   </div>
                   <div>
                     <span className="font-sans text-[10px] uppercase tracking-[0.16em] text-[#888888] block">
-                      Línea Telefónica
+                      Llamadas
                     </span>
                     <span className="font-mono text-xs sm:text-sm font-medium text-white group-hover:text-[#cfa53b] transition-colors">
                       312 239 8964
@@ -122,7 +122,7 @@ export default function LocationSection() {
             <div>
               <div className="flex items-center gap-2 mb-5">
                 <Clock size={15} className="text-[#cfa53b]" />
-                <h4 className="font-sans text-xs uppercase tracking-[0.2em] font-medium text-white">Horarios Oficiales</h4>
+                <h4 className="font-sans text-xs uppercase tracking-[0.2em] font-medium text-white">Horarios de Atención</h4>
               </div>
               <div className="divide-y divide-[#1e1e1e] font-sans text-xs">
                 <div className="py-3 flex justify-between items-center">
@@ -146,24 +146,24 @@ export default function LocationSection() {
               </div>
               <div className="flex items-center gap-2 mt-4 text-[11px] font-sans text-[#888888]">
                 <ShieldCheck size={14} className="text-[#cfa53b]" />
-                <span>Atención sin filas ni tiempos de espera bajo reserva online.</span>
+                <span>Atención puntual y sin filas al reservar tu cita online.</span>
               </div>
             </div>
 
-            {/* Visual Atelier Photo Frame */}
+            {/* Visual Photo Frame */}
             <div className="relative rounded-none overflow-hidden border border-[#222222] aspect-[16/9] bg-[#000000] group">
               <img
                 src="https://images.unsplash.com/photo-1512690459411-b9245aed614b?auto=format&fit=crop&w=900&q=80"
-                alt="Triadix Barber Studio Atelier"
+                alt="Barbería Triadix Cali"
                 className="w-full h-full object-cover filter brightness-70 contrast-110 group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col items-center justify-end p-5 text-center">
                 <span className="font-sans text-xs uppercase tracking-[0.2em] text-[#cfa53b] font-medium mb-1 flex items-center gap-1.5">
                   <Sparkles size={12} />
-                  Triadix Studio
+                  Triadix
                 </span>
                 <span className="font-sans text-sm uppercase tracking-[0.16em] text-white font-semibold">
-                  Atelier de Vanguardia · Cali
+                  Barbería Moderna · Cali
                 </span>
               </div>
             </div>

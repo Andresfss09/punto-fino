@@ -27,8 +27,8 @@ export default function Footer() {
           <div className="md:col-span-1 space-y-4">
             <div className="flex items-center gap-3">
               <img
-                src="/triadix-logo.svg"
-                alt="Triadix Barber Studio"
+                src="/logo.png"
+                alt="Barbería Triadix"
                 className="w-10 h-10 object-contain rounded-none border border-[#222222] p-1 bg-[#0d0d0d]"
               />
               <div>
@@ -36,12 +36,12 @@ export default function Footer() {
                   Triadix
                 </h3>
                 <span className="text-[10px] text-gold-400 tracking-[0.22em] font-medium uppercase block mt-0.5">
-                  Barber Studio · Cali
+                  Barbería · Cali
                 </span>
               </div>
             </div>
             <p className="text-[#888888] text-xs leading-relaxed max-w-sm font-sans">
-              Atelier dedicado al visagismo, corte clásico y cuidado masculino integral. Esculpimos tu presencia con rigor y precisión milimétrica.
+              Barbería dedicada al buen corte, degradados limpios, afeitado tradicional a navaja y la mejor atención en Cali.
             </p>
           </div>
 
@@ -57,7 +57,7 @@ export default function Footer() {
                   onClick={(e) => handleNavClick(e, 'servicios')}
                   className="text-[#888888] hover:text-white transition-colors uppercase tracking-wider text-[11px] cursor-pointer"
                 >
-                  Carta de Servicios
+                  Cortes & Servicios
                 </a>
               </li>
               <li>
@@ -66,7 +66,7 @@ export default function Footer() {
                   onClick={(e) => handleNavClick(e, 'barberos')}
                   className="text-[#888888] hover:text-white transition-colors uppercase tracking-wider text-[11px] cursor-pointer"
                 >
-                  Maestros del Atelier
+                  Los Barberos
                 </a>
               </li>
               <li>
@@ -89,7 +89,7 @@ export default function Footer() {
           {/* Column 3 - Schedule */}
           <div className="space-y-3">
             <h4 className="font-sans text-[11px] uppercase tracking-[0.22em] text-white font-medium flex items-center gap-1.5">
-              <Clock size={13} className="text-gold-400" /> Horario Oficial
+              <Clock size={13} className="text-gold-400" /> Horarios de Atención
             </h4>
             <ul className="space-y-2 text-xs font-sans text-[#888888]">
               <li className="flex justify-between max-w-[240px] pb-1 border-b border-[#1e1e1e]">
@@ -105,7 +105,7 @@ export default function Footer() {
                 <span className="font-mono text-gold-400">09:00 - 16:00</span>
               </li>
               <li className="text-[10px] text-[#666666] pt-1 uppercase tracking-wider">
-                Atención con cita previa
+                Atención con cita previa online
               </li>
             </ul>
           </div>
@@ -117,9 +117,9 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs font-sans text-[#888888]">
               <li>
-                <span className="text-white block font-medium uppercase tracking-wider text-[11px]">Sede Central</span>
+                <span className="text-white block font-medium uppercase tracking-wider text-[11px]">Sede Triadix</span>
                 <span className="text-[#aaaaaa] inline-block">
-                  Triadix Atelier · Cali, Valle del Cauca, Colombia
+                  Barbería Triadix · Cali, Valle del Cauca, Colombia
                 </span>
               </li>
               <li>
@@ -137,7 +137,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="font-mono text-xs text-gold-400 hover:text-white underline underline-offset-4 flex items-center gap-1.5 transition-colors"
                 >
-                  <MessageCircle size={14} /> WhatsApp Concierge Atelier
+                  <MessageCircle size={14} /> WhatsApp Barbería
                 </a>
               </li>
             </ul>
@@ -146,10 +146,10 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-sans text-[#666666]">
-          <p className="font-mono text-[11px]">© {new Date().getFullYear()} TRIADIX BARBER STUDIO. TODOS LOS DERECHOS RESERVADOS · CALI, COLOMBIA.</p>
+          <p className="font-mono text-[11px]">© {new Date().getFullYear()} BARBERÍA TRIADIX · CALI, COLOMBIA. TODOS LOS DERECHOS RESERVADOS.</p>
           <div className="flex items-center gap-3">
             <span className="font-sans uppercase tracking-[0.2em] text-[10px] text-[#888888]">
-              Precisión · Presencia · Distinción
+              Cortes Modernos · Buena Vibra · Puntualidad
             </span>
           </div>
         </div>

@@ -30,7 +30,7 @@ const roles = [
   },
   {
     id: 'barbero',
-    label: 'Maestro Barbero',
+    label: 'Barbero',
     description: 'Controla tu agenda diaria y clientes',
     icon: Scissors,
     color: 'from-gold-500 to-gold-700',
@@ -42,7 +42,7 @@ const roles = [
   {
     id: 'admin',
     label: 'Administrador',
-    description: 'Gestión total, nómina y métricas del atelier',
+    description: 'Gestión total, nómina y métricas de la barbería',
     icon: Crown,
     color: 'from-zinc-700 to-zinc-900',
     border: 'border-[#333d38]',
@@ -107,8 +107,8 @@ export default function LoginPage() {
         >
           <Link to="/" className="inline-block group mb-4">
             <img
-              src="/triadix-logo.svg"
-              alt="Triadix Barber Studio"
+              src="/logo.png"
+              alt="Barbería Triadix"
               className="w-20 h-20 object-contain rounded-none border border-[#1e1e1e] p-2 bg-[#0d0d0d] shadow-md mx-auto group-hover:scale-105 transition-transform"
             />
           </Link>
@@ -116,7 +116,7 @@ export default function LoginPage() {
             Triadix
           </h1>
           <p className="text-[#888888] mt-1.5 text-xs tracking-[0.25em] uppercase font-sans">
-            Barber Studio · Cali
+            Barbería · Cali
           </p>
         </motion.div>
 

@@ -4,8 +4,8 @@ const Service = require('../models/Service');
 
 const services = [
   {
-    name: 'Experiencia Triadix Signature (Gol de Oro)',
-    description: 'Una experiencia integral: orientación personalizada, corte de cabello, cejas, afeitado facial, exfoliación, vapor ozono frío/caliente, mascarilla para puntos negros, velo hidratante, lavado capilar y masaje relajante.',
+    name: 'Combo Completo Triadix (Corte + Barba + Facial)',
+    description: 'El servicio más completo: corte a tu gusto, arreglo y perfilado de barba a navaja, toalla caliente, exfoliación facial suave y mascarilla refrescante.',
     price: 55000,
     duration: 60,
     category: 'combo',
@@ -15,8 +15,8 @@ const services = [
     order: 1,
   },
   {
-    name: 'Experiencia Triadix + Ritual de Barba',
-    description: 'Orientación personalizada, corte de cabello, lavado capilar y producto profesional. Además, Ritual de Barba con vapor ozono frío y caliente, exfoliación facial, afeitado suave a navaja y aceites hidratantes.',
+    name: 'Corte de Cabello + Arreglo de Barba',
+    description: 'La combinación perfecta: corte de cabello con degradado fade o clásico, lavado capilar, toalla tibia y perfilado de barba a navaja con aceites hidratantes.',
     price: 34000,
     duration: 45,
     category: 'combo',
@@ -26,8 +26,8 @@ const services = [
     order: 2,
   },
   {
-    name: 'Experiencia Triadix (Corte + Cejas)',
-    description: 'Servicio insignia de Corte y Ceja. Incluye visagismo según morfología craneal, corte milimétrico de precisión, perfilado de cejas, lavado capilar y peinado con producto profesional.',
+    name: 'Corte de Cabello + Cejas',
+    description: 'Corte moderno o clásico según tu estilo, perfilado limpio de cejas a navaja, lavado capilar y peinado con producto profesional.',
     price: 24000,
     duration: 35,
     category: 'corte',
@@ -37,8 +37,8 @@ const services = [
     order: 3,
   },
   {
-    name: 'Ritual de Barba',
-    description: 'Cuidado integral de barba: diseño según tu tipo de rostro, exfoliación facial, vapor ozono frío y caliente para abrir poros y suavizar vello, afeitado preciso y aceites nutritivos.',
+    name: 'Arreglo y Perfilado de Barba',
+    description: 'Delineado y arreglo de barba con navaja tradicional, toalla caliente para abrir los poros y aceites nutritivos para un afeitado suave.',
     price: 12000,
     duration: 20,
     category: 'barba',
@@ -49,7 +49,7 @@ const services = [
   },
   {
     name: 'Perfilado de Cejas',
-    description: 'Limpieza y perfilado geométrico de cejas a navaja y tijera para realzar la mirada y armonizar la simetría natural del rostro.',
+    description: 'Limpieza y perfilado limpio de cejas con navaja y tijera para un rostro pulido y natural.',
     price: 5000,
     duration: 10,
     category: 'barba',

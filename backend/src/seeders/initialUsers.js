@@ -36,8 +36,8 @@ const seedUsers = async () => {
       });
       await Barber.create({
         user: barberUser1._id,
-        bio: 'Cofundador de Triadix. Especialista en diagnóstico morfológico, arquitectura craneofacial y cortes de alta precisión milimétrica.',
-        specialties: ['Visagismo Craneal', 'Experiencia Signature', 'Degradados de Autor'],
+        bio: 'Cofundador de Triadix. Especialista en cortes modernos, degradados limpios a navaja y asesoría de estilo.',
+        specialties: ['Degradados Fade', 'Cortes Clásicos', 'Asesoría de Estilo'],
         rating: { average: 4.9, count: 24 },
         isAvailable: true,
       });
@@ -58,8 +58,8 @@ const seedUsers = async () => {
       });
       await Barber.create({
         user: barberUser2._id,
-        bio: 'Cofundador de Triadix. Maestro en rituales clásicos a navaja, diseño geométrico de barba y bienestar dérmico con toallas calientes.',
-        specialties: ['Ritual de Barba', 'Navaja Libre', 'Vapor Ozono'],
+        bio: 'Cofundador de Triadix. Experto en afeitado tradicional a navaja, perfilado de barba con toalla caliente y aceites hidratantes.',
+        specialties: ['Arreglo de Barba', 'Afeitado a Navaja', 'Toalla Caliente'],
         rating: { average: 5.0, count: 28 },
         isAvailable: true,
       });

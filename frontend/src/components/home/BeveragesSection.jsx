@@ -55,14 +55,14 @@ export default function BeveragesSection({ onSelectBeverage }) {
               <div className="flex items-center gap-2 mb-1">
                 <span className="w-1.5 h-1.5 bg-[#cfa53b]"></span>
                 <span className="font-sans text-[10px] uppercase tracking-[0.28em] text-[#cfa53b] font-medium">
-                  02 · NEVERA & BAR TRIADIX
+                  02 · BEBIDAS FRÍAS
                 </span>
               </div>
               <h3 className="font-sans uppercase text-xl sm:text-2xl text-white font-medium tracking-[0.16em] leading-tight">
-                Lo que usamos contigo
+                Bebidas & Refrescos
               </h3>
               <p className="font-sans text-xs text-[#aaaaaa] mt-1">
-                Complementa tu corte o ritual con tu bebida predilecta al llegar a Triadix Atelier.
+                Acompaña tu corte con una bebida bien fría mientras te atendemos en la barbería.
               </p>
             </div>
           </div>

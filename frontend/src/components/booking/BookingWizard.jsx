@@ -54,8 +54,8 @@ const slideVariants = {
 const FALLBACK_SERVICES = [
   {
     _id: '6ab429b351b742ce20f96ab4',
-    name: 'Experiencia Triadix Signature (Gol de Oro)',
-    description: 'Una experiencia integral: orientación personalizada, corte de cabello, cejas, afeitado facial, exfoliación, vapor ozono frío/caliente, mascarilla para puntos negros, velo hidratante, lavado capilar y masaje relajante.',
+    name: 'Combo Completo Triadix (Corte + Barba + Facial)',
+    description: 'El servicio más completo: corte a tu gusto, arreglo y perfilado de barba a navaja, toalla caliente, exfoliación facial suave y mascarilla refrescante.',
     price: 55000,
     duration: 60,
     category: 'combo',
@@ -65,8 +65,8 @@ const FALLBACK_SERVICES = [
   },
   {
     _id: '6ab429b351b742ce20f96ab5',
-    name: 'Experiencia Triadix + Ritual de Barba',
-    description: 'Orientación personalizada, corte de cabello, lavado capilar y producto profesional. Además, Ritual de Barba con vapor ozono frío y caliente, exfoliación facial, suave afeitado a navaja y aceites hidratantes.',
+    name: 'Corte de Cabello + Arreglo de Barba',
+    description: 'La combinación perfecta: corte de cabello con degradado fade o clásico, lavado capilar, toalla tibia y perfilado de barba a navaja con aceites hidratantes.',
     price: 34000,
     duration: 45,
     category: 'combo',
@@ -76,8 +76,8 @@ const FALLBACK_SERVICES = [
   },
   {
     _id: '6ab429b351b742ce20f96ab6',
-    name: 'Experiencia Triadix (Corte + Cejas)',
-    description: 'Servicio insignia de Corte y Ceja. Incluye visagismo según morfología craneal, corte milimétrico de precisión, perfilado de cejas, lavado capilar y peinado con producto profesional.',
+    name: 'Corte de Cabello + Cejas',
+    description: 'Corte moderno o clásico según tu estilo, perfilado limpio de cejas a navaja, lavado capilar y peinado con producto profesional.',
     price: 24000,
     duration: 35,
     category: 'corte',
@@ -87,8 +87,8 @@ const FALLBACK_SERVICES = [
   },
   {
     _id: '6ab429b351b742ce20f96ab7',
-    name: 'Ritual de Barba',
-    description: 'Cuidado integral de barba: diseño según tu tipo de rostro, exfoliación facial, vapor ozono frío y caliente para abrir poros y suavizar vello, afeitado preciso y aceites nutritivos.',
+    name: 'Arreglo y Perfilado de Barba',
+    description: 'Delineado y arreglo de barba con navaja tradicional, toalla caliente para abrir los poros y aceites nutritivos para un afeitado suave.',
     price: 12000,
     duration: 20,
     category: 'barba',
@@ -98,8 +98,8 @@ const FALLBACK_SERVICES = [
   },
   {
     _id: '6ab429b351b742ce20f96ab8',
-    name: 'Corte Tradicional de Precisión',
-    description: 'Corte clásico con tijera y máquina, perfilado de contornos, lavado y peinado.',
+    name: 'Corte Clásico o Moderno',
+    description: 'Corte tradicional o moderno a tijera y máquina, perfilado de contornos, lavado y peinado.',
     price: 20000,
     duration: 30,
     category: 'corte',
@@ -109,8 +109,8 @@ const FALLBACK_SERVICES = [
   },
   {
     _id: '6ab429b351b742ce20f96ab9',
-    name: 'Limpieza Facial Profunda',
-    description: 'Vapor ozono, extracción de comedones, mascarilla de carbón activado, tónico y bloqueador solar.',
+    name: 'Limpieza y Mascarilla Facial',
+    description: 'Vapor facial, toalla caliente, mascarilla refrescante y tónico hidratante para limpiar la piel.',
     price: 35000,
     duration: 40,
     category: 'facial',
@@ -127,7 +127,7 @@ const FALLBACK_BARBERS = [
       name: 'Andrés Felipe Sarria',
       avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
     },
-    specialties: ['Visagismo Craneal', 'Experiencia Signature', 'Degradados de Autor'],
+    specialties: ['Degradados Fade', 'Cortes Clásicos', 'Asesoría de Estilo'],
     rating: { average: 4.9, count: 24 },
     isAvailable: true,
   },
@@ -137,7 +137,7 @@ const FALLBACK_BARBERS = [
       name: 'Nicolás Chávez',
       avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
     },
-    specialties: ['Ritual de Barba', 'Navaja Libre', 'Vapor Ozono'],
+    specialties: ['Arreglo de Barba', 'Afeitado a Navaja', 'Toalla Caliente'],
     rating: { average: 5.0, count: 28 },
     isAvailable: true,
   },
@@ -147,7 +147,7 @@ const FALLBACK_BARBERS = [
       name: 'Luis De Ávila',
       avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80',
     },
-    specialties: ['Fade Milimétrico', 'Perfilado Geométrico', 'Texturizado'],
+    specialties: ['Fade en Tendencia', 'Perfilado de Cejas', 'Corte a Tijera'],
     rating: { average: 4.9, count: 19 },
     isAvailable: true,
   },
@@ -172,7 +172,7 @@ export default function BookingWizard() {
     name: user?.name || user?.nombre || '',
     email: user?.email || '',
     phone: user?.phone || user?.telefono || '',
-    address: 'Triadix Atelier · Cali, Colombia',
+    address: 'Barbería Triadix · Cali, Colombia',
   });
 
   // State lists
@@ -304,7 +304,7 @@ export default function BookingWizard() {
       setStep(prev => prev + 1);
     } else {
       if (step === 1) toast.error('Selecciona al menos un servicio');
-      if (step === 2) toast.error('Selecciona un maestro barbero');
+      if (step === 2) toast.error('Selecciona tu barbero');
       if (step === 3) toast.error('Selecciona la fecha y la hora deseada');
     }
   };
@@ -373,7 +373,7 @@ export default function BookingWizard() {
   if (bookingSuccess) {
     const apt = bookingSuccess.appointment || {};
     const code = bookingSuccess.confirmationCode || apt.confirmationCode || 'TX-CONFIRMADA';
-    const barberName = apt.barber?.name || selectedBarber?.user?.name || 'Master Barber Triadix';
+    const barberName = apt.barber?.name || selectedBarber?.user?.name || 'Barbero Triadix';
     const clientEmail = clientData.email;
 
     return (
@@ -396,7 +396,7 @@ export default function BookingWizard() {
           </h2>
 
           <p className="text-[#888888] text-xs sm:text-sm max-w-lg mx-auto mb-8 leading-relaxed font-sans">
-            Hemos enviado un correo con todos los detalles a <span className="text-white font-medium">{clientEmail}</span> y tu maestro barbero <span className="text-white font-medium">{barberName}</span> ha sido notificado.
+            Hemos enviado un correo con todos los detalles a <span className="text-white font-medium">{clientEmail}</span> y tu barbero <span className="text-white font-medium">{barberName}</span> ha sido notificado.
           </p>
 
           {/* Reservation Code Box */}
@@ -476,7 +476,7 @@ export default function BookingWizard() {
               className="w-full sm:w-auto btn-ferrari-primary text-xs !py-2.5 !px-5"
             >
               <MessageSquare size={14} />
-              WhatsApp Atelier
+              WhatsApp Barbería
             </a>
           </div>
         </div>

@@ -76,27 +76,27 @@ exports.sendAppointmentConfirmationEmail = async (appointment) => {
         <div class="header"><h1>TRIADIX</h1><p>Confirmación de Cita</p></div>
         <div class="body">
           <h2>¡Tu cita ha sido confirmada con éxito!</h2>
-          <p>Hola <strong>${displayName}</strong>, tu reserva en Triadix Barber Studio ha sido programada.</p>
+          <p>Hola <strong>${displayName}</strong>, tu reserva en Barbería Triadix ha sido programada.</p>
           <div class="detail-box">
             <p><strong>Código de reserva:</strong> <span style="color:#cfa53b;font-weight:bold;">${confirmationCode}</span></p>
-            <p><strong>Barbero asignado:</strong> ${barber?.name || 'Master Barber Triadix'}</p>
+            <p><strong>Barbero asignado:</strong> ${barber?.name || 'Barbero Triadix'}</p>
             <p><strong>Fecha:</strong> ${new Date(date).toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
             <p><strong>Horario:</strong> ${startTime} - ${endTime} (aprox. ${totalDuration} min)</p>
             <p><strong>Servicio(s):</strong> ${servicesList}</p>
-            <p><strong>Método de pago:</strong> ${paymentMethod || 'Efectivo en Atelier'}</p>
+            <p><strong>Método de pago:</strong> ${paymentMethod || 'Efectivo en la Barbería'}</p>
             <p><strong>Total:</strong> $${totalPrice.toLocaleString('es-CO')} COP</p>
             ${displayAddress ? `<p><strong>Dirección cliente:</strong> ${displayAddress}</p>` : ''}
           </div>
-          <p>📍 <strong>Ubicación del Atelier:</strong> Triadix Barber Studio · Cali, Colombia</p>
-          <p>Te recomendamos llegar 5 a 10 minutos antes de la hora para garantizar tu experiencia completa.</p>
+          <p>📍 <strong>Ubicación:</strong> Barbería Triadix · Cali, Colombia</p>
+          <p>Te recomendamos llegar 5 a 10 minutos antes de la hora para atenderte a tiempo.</p>
         </div>
-        <div class="footer"><p>© ${new Date().getFullYear()} Triadix Barber Studio · Cali, Colombia</p></div>
+        <div class="footer"><p>© ${new Date().getFullYear()} Barbería Triadix · Cali, Colombia</p></div>
       </div></body></html>
     `;
 
     const transporter = createTransporter();
     await transporter.sendMail({
-      from: process.env.EMAIL_FROM || '"Triadix Barber Studio" <noreply@triadix.co>',
+      from: process.env.EMAIL_FROM || '"Barbería Triadix" <noreply@triadix.co>',
       to: emailTo,
       subject: `¡Cita confirmada en Triadix! - ${confirmationCode} ✂️`,
       html,

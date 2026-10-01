@@ -24,7 +24,7 @@ create policy "Usuarios ven su propio perfil" on public.profiles for select
 
 -- 3. Corregir política de lectura en "appointments"
 drop policy if exists "Lectura de citas" on public.appointments;
-create policy "Lectura de citas" on public.appointments for select using (
+create policy "Lectura de citas" on pu+lic.appointments for select using (
   auth.uid() is null
   or client_id = auth.uid()
   or exists (select 1 from public.barbers where id = appointments.barber_id and profile_id = auth.uid())

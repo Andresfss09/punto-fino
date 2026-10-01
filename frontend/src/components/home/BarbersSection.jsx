@@ -6,35 +6,35 @@ const BARBERS = [
   { 
     id: 1, 
     name: 'Andrés Felipe Sarria', 
-    role: 'Lead Stylist & Co-Founder', 
+    role: 'Barbero Profesional & Cofundador', 
     experience: '7+ AÑOS',
     rating: 4.9, 
     reviews: 24, 
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
-    specs: ['Visagismo Craneal', 'Experiencia Platinium', 'Degradados de Autor'],
-    bio: 'Cofundador de Triadix. Especialista en diagnóstico morfológico, arquitectura craneofacial y cortes de alta precisión milimétrica.',
+    specs: ['Degradados Fade', 'Cortes Clásicos', 'Asesoría de Estilo'],
+    bio: 'Cofundador de Triadix. Especialista en cortes modernos, degradados limpios a navaja y asesoría para que salgas con el corte que mejor te luce.',
   },
   { 
     id: 2, 
     name: 'Nicolás Chávez', 
-    role: 'Creative Director & Master Barber', 
+    role: 'Barbero Master & Cofundador', 
     experience: '6+ AÑOS',
     rating: 5.0, 
     reviews: 28, 
     image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
-    specs: ['Ritual de Barba', 'Navaja Libre', 'Vapor Ozono & Facial'],
-    bio: 'Cofundador de Triadix. Maestro en rituales clásicos a navaja, diseño geométrico de barba y bienestar dérmico con toallas calientes.',
+    specs: ['Arreglo de Barba', 'Afeitado a Navaja', 'Toalla Caliente'],
+    bio: 'Cofundador de Triadix. Experto en afeitado tradicional a navaja, perfilado de barba con toalla caliente y aceites hidratantes.',
   },
   { 
     id: 3, 
     name: 'Luis De Ávila', 
-    role: 'Technical Director & Specialist', 
+    role: 'Barbero Especialista & Cofundador', 
     experience: '5+ AÑOS',
     rating: 4.9, 
     reviews: 19, 
     image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80',
-    specs: ['Fade en Tendencia', 'Perfilado Geométrico', 'Texturizado Moderno'],
-    bio: 'Cofundador de Triadix. Maestro de la textura y el degradado limpio, perfilado geométrico de cejas y vanguardia estética masculina.',
+    specs: ['Fade en Tendencia', 'Perfilado de Cejas', 'Corte a Tijera'],
+    bio: 'Cofundador de Triadix. Especialista en degradados precisos, textura y movimiento con tijera y perfilado limpio de cejas.',
   },
 ];
 
@@ -48,15 +48,15 @@ export default function BarbersSection() {
             <div className="flex items-center gap-2 mb-2">
               <span className="w-2 h-2 bg-[#cfa53b]"></span>
               <span className="font-sans text-[11px] uppercase tracking-[0.28em] text-[#cfa53b] font-medium">
-                03 · EQUIPO FUNDADOR TRIADIX
+                03 · NUESTROS BARBEROS
               </span>
             </div>
             <h2 className="font-sans uppercase text-3xl sm:text-4xl lg:text-5xl text-white font-medium tracking-[0.16em] leading-tight">
-              Maestros del Atelier
+              Los Barberos de Triadix
             </h2>
           </div>
           <p className="font-sans text-xs sm:text-sm text-[#aaaaaa] max-w-md mt-4 md:mt-0 leading-relaxed">
-            Andrés Felipe Sarria, Nicolás Chávez y Luis De Ávila. Fusionamos el rigor de la ingeniería con el arte del visagismo y el corte de alta precisión.
+            Andrés Felipe Sarria, Nicolás Chávez y Luis De Ávila. Tres barberos dedicados a brindarte un corte impecable, buena charla y la mejor atención.
           </p>
         </div>
 

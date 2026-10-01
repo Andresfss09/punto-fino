@@ -41,46 +41,46 @@ export default function Navbar() {
 
   const isStaff = isAuthenticated && (isBarber() || isAdmin());
   const navLinks = [
-    { label: 'Experiencias', targetId: 'servicios', path: '/#servicios' },
-    { label: 'Lo que usamos', targetId: 'bebidas', path: '/#bebidas' },
-    ...(!isStaff ? [{ label: 'Reservar', targetId: 'reservar', path: '/#reservar' }] : []),
-    { label: 'Barberos', targetId: 'barberos', path: '/#barberos' },
-    { label: 'Reseñas', targetId: 'resenas', path: '/#resenas' },
+    { label: 'Cortes & Servicios', targetId: 'servicios', path: '/#servicios' },
+    { label: 'Bebidas', targetId: 'bebidas', path: '/#bebidas' },
+    ...(!isStaff ? [{ label: 'Reservar Cita', targetId: 'reservar', path: '/#reservar' }] : []),
+    { label: 'Los Barberos', targetId: 'barberos', path: '/#barberos' },
+    { label: 'Opiniones', targetId: 'resenas', path: '/#resenas' },
     { label: 'Ubicación', targetId: 'ubicacion', path: '/#ubicacion' },
   ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40">
-      {/* Top Utility Announcement Bar — Triadix Minimal Architectural Line */}
+      {/* Top Utility Announcement Bar — Clean Barbershop Info */}
       <div className="bg-[#0a0a0a] text-[#888888] text-[11px] font-sans py-2 px-4 sm:px-8 border-b border-[#1e1e1e]">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
-          {/* Location / Presence (No external Google Maps link) */}
+          {/* Location / Presence */}
           <div className="flex items-center gap-2 text-[#cccccc]">
             <MapPin size={11} className="text-[#cfa53b] shrink-0" />
             <span className="font-mono uppercase tracking-wider text-[11px]">
-              Triadix Barber Studio · Cali, Colombia
+              Barbería Triadix · Cali, Colombia
             </span>
           </div>
 
-          {/* Schedule & WhatsApp Concierge */}
+          {/* Schedule & WhatsApp */}
           <div className="flex items-center gap-5">
-            <span className="hidden md:inline font-mono uppercase tracking-wider text-[10px] text-[#666666]">
+            <span className="hidden md:inline font-mono uppercase tracking-wider text-[10px] text-[#888888]">
               Lun-Sáb 09:00 - 20:30 · Dom 09:00 - 16:00
             </span>
             <a
-              href="https://wa.me/573122398964?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Triadix%20Barber%20Studio"
+              href="https://wa.me/573122398964?text=Hola,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20en%20Barber%C3%ADa%20Triadix"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 font-mono text-[11px] text-[#ffffff] hover:text-[#cfa53b] transition-colors"
             >
               <MessageCircle size={11} className="text-[#25D366] shrink-0" />
-              <span>WhatsApp Concierge: 312 239 8964</span>
+              <span>WhatsApp: 312 239 8964</span>
             </a>
           </div>
         </div>
       </div>
 
-      {/* Main Navigation Bar — Transparent Over Photography / Pure Black Backing */}
+      {/* Main Navigation Bar */}
       <div className="bg-black/90 backdrop-blur-md border-b border-[#1e1e1e]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 py-2">
@@ -88,17 +88,17 @@ export default function Navbar() {
             <Link to="/" className="flex items-center gap-3 group">
               <div className="relative">
                 <img
-                  src="/triadix-logo.svg"
-                  alt="Triadix Barber Studio"
-                  className="w-10 h-10 object-contain rounded-none border border-[#222222] group-hover:border-[#cfa53b] transition-all duration-300 p-1 bg-[#0d0d0d]"
+                  src="/logo.png"
+                  alt="Barbería Triadix"
+                  className="w-10 h-10 object-contain rounded-none border border-[#222222] group-hover:border-[#cfa53b] transition-all duration-300 p-0.5 bg-black"
                 />
               </div>
               <div className="flex flex-col">
                 <span className="font-sans uppercase font-bold text-lg text-white tracking-[0.24em] leading-none group-hover:text-[#cfa53b] transition-colors">
                   Triadix
                 </span>
-                <span className="text-[9px] text-[#cfa53b] font-sans tracking-[0.28em] uppercase font-medium mt-1">
-                  Barber Atelier · Cali
+                <span className="text-[9px] text-[#cfa53b] font-sans tracking-[0.24em] uppercase font-medium mt-1">
+                  Barbería · Cali
                 </span>
               </div>
             </Link>

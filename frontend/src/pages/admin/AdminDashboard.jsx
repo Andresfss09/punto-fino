@@ -490,7 +490,7 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                 Administración & Contabilidad
               </span>
               <span className="text-xs text-[#666666] font-mono uppercase tracking-wider">
-                Triadix · Atelier
+                Triadix · Barbería
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-sans font-medium uppercase tracking-[0.16em] text-white">

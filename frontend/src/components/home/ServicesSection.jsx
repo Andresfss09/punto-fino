@@ -1,59 +1,59 @@
 import React, { useState } from 'react';
 import { Clock, ArrowRight } from 'lucide-react';
 
-const CATEGORIES = ['Todos', 'Experiencias', 'Cortes', 'Barba & Cuidado'];
+const CATEGORIES = ['Todos', 'Combos', 'Cortes', 'Barba & Cejas'];
 
 const SERVICES = [
   {
     id: 1,
-    name: 'EXPERIENCIA PLATINIUM / TRIADIX SIGNATURE',
-    badge: 'RITUAL SUPREMO',
+    name: 'COMBO COMPLETO TRIADIX (CORTE + BARBA + FACIAL)',
+    badge: 'EL MÁS COMPLETO',
     image: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=800&q=80',
-    desc: 'La experiencia cumbre de Triadix: diagnóstico morfológico, corte de precisión, perfilado de cejas, afeitado a navaja, exfoliación, vapor ozono dual, mascarilla purificante, velo hidratante y masaje craneofacial relajante.',
+    desc: 'El servicio más completo de Triadix: corte de cabello a tu gusto, arreglo y perfilado de barba a navaja, toalla caliente, exfoliación facial suave y mascarilla refrescante.',
     price: 55000,
     time: 60,
-    cat: 'Experiencias',
+    cat: 'Combos',
     highlight: true,
   },
   {
     id: 2,
-    name: 'EXPERIENCIA TRIADIX + RITUAL DE BARBA',
-    badge: 'RECOMENDADA',
+    name: 'CORTE DE CABELLO + ARREGLO DE BARBA',
+    badge: 'EL FAVORITO',
     image: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=800&q=80',
-    desc: 'La combinación de alto impacto: corte de autor con visagismo, lavado capilar y Ritual de Barba con vapor ozono, exfoliación dérmica, afeitado a navaja libre y aceites botánicos esenciales.',
+    desc: 'La combinación perfecta: corte de cabello con degradado fade o clásico, lavado capilar, toalla tibia, afeitado y perfilado de barba a navaja con aceites hidratantes.',
     price: 34000,
     time: 45,
-    cat: 'Experiencias',
+    cat: 'Combos',
   },
   {
     id: 3,
-    name: 'CORTE DE AUTOR TRIADIX (CORTE + CEJAS)',
-    badge: 'SERVICIO INSIGNIA',
+    name: 'CORTE DE CABELLO + CEJAS',
+    badge: 'CORTE & ESTILO',
     image: 'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=800&q=80',
-    desc: 'Corte de máxima precisión adaptado a tu estructura craneofacial, perfilado geométrico de cejas con navaja, lavado capilar revitalizante y peinado profesional.',
+    desc: 'Corte moderno o clásico según tu estilo, perfilado limpio de cejas a navaja, lavado capilar revitalizante y peinado con producto profesional.',
     price: 24000,
     time: 35,
     cat: 'Cortes',
   },
   {
     id: 4,
-    name: 'RITUAL DE BARBA & VAPOR OZONO',
-    badge: 'CLÁSICO',
+    name: 'ARREGLO Y PERFILADO DE BARBA',
+    badge: 'BARBA & NAVAJA',
     image: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=80',
-    desc: 'Tratamiento integral de barba: diseño y delineado a navaja tradicional, exfoliación facial, vapor de ozono para dilatación de poros y nutrición con aceites botánicos.',
+    desc: 'Delineado y arreglo de barba con navaja tradicional, toalla caliente para abrir los poros, y aceites nutritivos para un afeitado suave sin irritación.',
     price: 12000,
     time: 20,
-    cat: 'Barba & Cuidado',
+    cat: 'Barba & Cejas',
   },
   {
     id: 5,
-    name: 'PERFILADO DE CEJAS & VISAGISMO',
-    badge: 'ESENCIAL',
+    name: 'PERFILADO Y LIMPIEZA DE CEJAS',
+    badge: 'DETALLE RÁPIDO',
     image: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=800&q=80',
-    desc: 'Diseño y armonización geométrica de cejas a navaja y tijera para realzar la mirada y equilibrar las proporciones naturales de tu rostro.',
+    desc: 'Limpieza y perfilado de cejas con navaja y tijera para un acabado pulido, natural y bien definido.',
     price: 5000,
     time: 10,
-    cat: 'Barba & Cuidado',
+    cat: 'Barba & Cejas',
   },
 ];
 
@@ -71,15 +71,15 @@ export default function ServicesSection() {
             <div className="flex items-center gap-2 mb-2">
               <span className="w-2 h-2 bg-[#cfa53b]"></span>
               <span className="font-sans text-[11px] uppercase tracking-[0.28em] text-[#cfa53b] font-medium">
-                01 · CATÁLOGO OFICIAL TRIADIX
+                01 · PRECIOS Y SERVICIOS
               </span>
             </div>
             <h2 className="font-sans uppercase text-3xl sm:text-4xl lg:text-5xl text-white font-medium tracking-[0.16em] leading-tight">
-              Experiencias de Autor
+              Cortes & Servicios
             </h2>
           </div>
           <p className="font-sans text-xs sm:text-sm text-[#aaaaaa] max-w-md mt-4 md:mt-0 leading-relaxed">
-            Cada servicio en Triadix combina visagismo morfológico, técnica de corte de alta precisión y bienestar masculino absoluto.
+            Cortes modernos, degradados limpios, afeitado a navaja y el mejor ambiente de barbería en Cali.
           </p>
         </div>
 
