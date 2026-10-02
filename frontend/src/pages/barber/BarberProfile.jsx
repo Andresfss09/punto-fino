@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { User, Star, Image as ImageIcon, Camera, Scissors, Check } from 'lucide-react';
+import { useState } from 'react';
+import { Star, Image as ImageIcon, Camera, Scissors } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import PageTransition from '../../components/ui/PageTransition';
 import toast from 'react-hot-toast';
@@ -10,7 +10,6 @@ export default function BarberProfile() {
   const { user } = useAuth();
   const [specialties, setSpecialties] = useState(['Corte Clásico', 'Degradado', 'Diseño de Barba']);
   const [bio, setBio] = useState('Maestro barbero especializado en técnicas tradicionales con navaja, degradados milimétricos y cuidado integral de barba.');
-  const [portfolio, setPortfolio] = useState([]);
 
   const toggleSpecialty = (sp) => {
     if (specialties.includes(sp)) {

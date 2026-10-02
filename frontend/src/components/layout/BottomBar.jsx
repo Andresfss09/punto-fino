@@ -1,32 +1,23 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, Calendar, Scissors, User, LayoutDashboard, Sparkles } from 'lucide-react';
+import { Calendar, Scissors, User, LayoutDashboard, Sparkles } from 'lucide-react';
 import useAuthStore from '../../store/useAuthStore';
 
 const BottomBar = () => {
   const { user } = useAuthStore();
   const role = user?.role || 'cliente';
 
-  let links = [];
-
-  switch (role) {
-    case 'admin':
-      links = [
+  const links = role === 'admin'
+    ? [
         { icon: LayoutDashboard, label: 'Nómina', path: '/admin' },
         { icon: Calendar, label: 'Citas', path: '/admin/citas' },
         { icon: Scissors, label: 'Barberos', path: '/admin/barberos' },
         { icon: Sparkles, label: 'Servicios', path: '/admin/servicios' },
-      ];
-      break;
-    case 'barbero':
-    default:
-      links = [
+      ]
+    : [
         { icon: LayoutDashboard, label: 'Dashboard', path: '/barber' },
         { icon: Calendar, label: 'Agenda', path: '/barber/agenda' },
         { icon: User, label: 'Perfil', path: '/barber/perfil' },
       ];
-      break;
-  }
 
   return (
     <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#121113] border-t border-[#2b292d] pb-safe z-40 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)]">

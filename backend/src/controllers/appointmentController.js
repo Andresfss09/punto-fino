@@ -92,6 +92,7 @@ exports.createAppointment = async (req, res) => {
     let {
       barberId,
       serviceIds,
+      services: reqServices,
       date,
       startTime,
       notes,
@@ -102,13 +103,17 @@ exports.createAppointment = async (req, res) => {
       clientAddress,
     } = req.body;
 
-    // Obtener servicios y calcular totales (soporta ObjectId y nombres)
-    const mongoose = require('mongoose');
-    const validObjectIds = (serviceIds || []).filter(id => mongoose.Types.ObjectId.isValid(id));
+    // Obtener servicios y calcular totales (soporta ObjectId, nombres o array en req.body.services / serviceIds)
+    const rawServiceList = serviceIds || reqServices || [];
+    const normalizedServiceList = Array.isArray(rawServiceList)
+      ? rawServiceList.map((s) => (s && typeof s === 'object' && s._id ? s._id : s))
+      : [rawServiceList];
+
+    const validObjectIds = normalizedServiceList.filter((id) => mongoose.Types.ObjectId.isValid(id));
     const services = await Service.find({
       $or: [
         { _id: { $in: validObjectIds } },
-        { name: { $in: serviceIds || [] } }
+        { name: { $in: normalizedServiceList } }
       ],
       isActive: true
     });
@@ -315,13 +320,13 @@ exports.createAppointment = async (req, res) => {
 // @access  Public
 exports.getAvailableSlots = async (req, res) => {
   try {
-    const { barberId, date, duration } = req.query;
+    const { barberId, date, duration, serviceDuration } = req.query;
 
     if (!date) {
       return sendError(res, 400, 'La fecha es requerida.');
     }
 
-    const durationMinutes = parseInt(duration, 10) || 40;
+    const durationMinutes = parseInt(duration || serviceDuration, 10) || 40;
     const { startOfDay, endOfDay, dayOfWeek, localDate } = parseLocalDateRange(date);
 
     // Si seleccionó un barbero específico válido
@@ -568,8 +573,19 @@ exports.updateAppointmentStatus = async (req, res) => {
 // @access  Private (barbero)
 exports.getBarberAppointments = async (req, res) => {
   try {
-    const { date, status, startDate, endDate } = req.query;
-    const query = { barber: req.user.id };
+    const { date, status, startDate, endDate, barberId } = req.query;
+    let targetId = req.user.id;
+    if (req.user.role === 'admin' && barberId && barberId !== 'all') {
+      targetId = barberId;
+    }
+    let barberDoc = null;
+    if (mongoose.Types.ObjectId.isValid(targetId)) {
+      barberDoc = await Barber.findOne({
+        $or: [{ user: targetId }, { _id: targetId }]
+      });
+    }
+    const barberIds = [targetId, barberDoc?.user, barberDoc?._id].filter(Boolean);
+    const query = { barber: { $in: barberIds } };
 
     if (startDate && endDate) {
       const sParts = startDate.split('T')[0].split('-').map(Number);

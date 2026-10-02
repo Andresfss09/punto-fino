@@ -1,6 +1,5 @@
-import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Home, Calendar, Scissors, User, LayoutDashboard, Sparkles, Users, LogOut } from 'lucide-react';
+import { Calendar, Scissors, User, LayoutDashboard, Sparkles, Users, LogOut } from 'lucide-react';
 import useAuthStore from '../../store/useAuthStore';
 
 export default function Sidebar() {
@@ -8,26 +7,19 @@ export default function Sidebar() {
   const navigate = useNavigate();
   const role = user?.role || 'cliente';
 
-  let links = [];
-  switch (role) {
-    case 'admin':
-      links = [
+  const links = role === 'admin'
+    ? [
         { icon: LayoutDashboard, label: 'Dashboard & Nómina', path: '/admin' },
         { icon: Calendar, label: 'Citas', path: '/admin/citas' },
         { icon: Scissors, label: 'Barberos', path: '/admin/barberos' },
         { icon: Sparkles, label: 'Servicios', path: '/admin/servicios' },
         { icon: Users, label: 'Usuarios', path: '/admin/usuarios' },
-      ];
-      break;
-    case 'barbero':
-    default:
-      links = [
+      ]
+    : [
         { icon: LayoutDashboard, label: 'Dashboard', path: '/barber' },
         { icon: Calendar, label: 'Agenda', path: '/barber/agenda' },
         { icon: User, label: 'Mi Perfil', path: '/barber/perfil' },
       ];
-      break;
-  }
 
   const handleLogout = () => {
     logout();

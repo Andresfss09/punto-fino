@@ -11,12 +11,12 @@ async function seedDashboardData() {
     console.log('✅ Conectado a MongoDB Atlas');
 
     // 1. Obtener Barberos
-    const nicolasUser = await User.findOne({ email: 'barbero@triadix.co' });
-    const andresUser = await User.findOne({ email: 'andres@triadix.co' });
-    const luisUser = await User.findOne({ email: 'luis@triadix.co' });
+    const nicolasUser = await User.findOne({ email: { $in: ['barbero@triadix.co', 'nicolas@triadix.co', 'carlos@puntofino.com'] } }) || await User.findOne({ role: 'barbero' });
+    const andresUser = await User.findOne({ email: { $in: ['andres@triadix.co', 'juan.david@puntofino.com'] } }) || nicolasUser;
+    const luisUser = await User.findOne({ email: { $in: ['luis@triadix.co', 'emanuel@puntofino.com'] } }) || nicolasUser;
 
-    if (!nicolasUser || !andresUser || !luisUser) {
-      console.error('❌ Uno o más barberos no existen en la base de datos.');
+    if (!nicolasUser) {
+      console.error('❌ No se encontró ningún barbero registrado en la base de datos.');
       process.exit(1);
     }
 
