@@ -37,7 +37,7 @@ const seedUsers = async () => {
       await Barber.create({
         user: barberUser1._id,
         bio: 'Cofundador de Triadix. Especialista en cortes modernos, degradados limpios a navaja y asesoría de estilo.',
-        specialties: ['Degradados Fade', 'Cortes Clásicos', 'Asesoría de Estilo'],
+        specialties: ['degradado', 'corte clásico'],
         rating: { average: 4.9, count: 24 },
         isAvailable: true,
       });
@@ -59,7 +59,7 @@ const seedUsers = async () => {
       await Barber.create({
         user: barberUser2._id,
         bio: 'Cofundador de Triadix. Experto en afeitado tradicional a navaja, perfilado de barba con toalla caliente y aceites hidratantes.',
-        specialties: ['Arreglo de Barba', 'Afeitado a Navaja', 'Toalla Caliente'],
+        specialties: ['barba', 'corte clásico'],
         rating: { average: 5.0, count: 28 },
         isAvailable: true,
       });
@@ -81,7 +81,7 @@ const seedUsers = async () => {
       await Barber.create({
         user: barberUser3._id,
         bio: 'Cofundador de Triadix. Maestro de la textura y el degradado limpio, perfilado geométrico de cejas y vanguardia estética masculina.',
-        specialties: ['Fade Milimétrico', 'Perfilado Geométrico', 'Texturizado'],
+        specialties: ['degradado', 'cejas'],
         rating: { average: 4.9, count: 19 },
         isAvailable: true,
       });
