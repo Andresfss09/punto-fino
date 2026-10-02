@@ -10,20 +10,27 @@ const BrutalCard = ({
   padding = true,
   ...props 
 }) => {
-  const baseClasses = 'rounded-none border transition-all duration-200';
+  const baseClasses = 'rounded-[6px] border transition-all duration-200 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]';
   const paddingClasses = padding ? 'p-4 sm:p-6' : '';
   
   let variantClasses = '';
   switch (variant) {
+    case 'green':
+    case 'featured':
+      variantClasses = 'bg-[#121113] border-[#2d5736] hover:border-[#71d083]/60';
+      break;
     case 'gold':
-      variantClasses = 'bg-[#0d0d0d] border-gold-400/40 shadow-sm';
+      variantClasses = 'bg-[#121113] border-[#2d5736] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]';
+      break;
+    case 'secondary':
+      variantClasses = 'bg-[#1a191b] border-[#2b292d]';
       break;
     case 'interactive':
-      variantClasses = 'bg-[#0a0a0a] border-[#1e1e1e] hover:border-[#383838] hover:bg-[#111111] cursor-pointer';
+      variantClasses = 'bg-[#121113] border-[#2b292d] hover:border-[#3c393f] hover:bg-[#1a191b] cursor-pointer';
       break;
     case 'default':
     default:
-      variantClasses = 'bg-[#0a0a0a] border-[#1e1e1e]';
+      variantClasses = 'bg-[#121113] border-[#2b292d]';
       break;
   }
 

@@ -6,7 +6,6 @@ import {
   Scissors,
   Calendar,
   Download,
-  FileSpreadsheet,
   FileText,
   CheckCircle2,
   Clock,
@@ -33,7 +32,7 @@ import BrutalCard from '../../components/ui/BrutalCard';
 import StatsCard from '../../components/ui/StatsCard';
 import Modal from '../../components/ui/Modal';
 import { adminService } from '../../services/adminService';
-import { exportToExcel, exportToPdf } from '../../utils/exportUtils';
+import { exportToPdf } from '../../utils/exportUtils';
 import { formatTime } from '../../utils/formatters';
 import toast from 'react-hot-toast';
 
@@ -69,7 +68,6 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
   // Loading states
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [exportingExcel, setExportingExcel] = useState(false);
   const [exportingPdf, setExportingPdf] = useState(false);
 
   // Data from backend
@@ -277,78 +275,7 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
     }
   };
 
-  // ==========================================
-  // EXPORTAR A EXCEL (.xlsx)
-  // ==========================================
-  const handleExportExcel = () => {
-    setExportingExcel(true);
-    try {
-      const rangeText = data.summary.rangeLabel || period;
 
-      const summarySheetData = [
-        { Concepto: 'Período Contable', Valor: rangeText },
-        { Concepto: 'Total Citas Registradas', Valor: data.summary.totalAppointments || 0 },
-        { Concepto: 'Cortes Completados', Valor: data.summary.completedCuts || 0 },
-        { Concepto: 'Citas Pendientes / En Progreso', Valor: data.summary.pendingCuts || 0 },
-        { Concepto: 'Citas Canceladas', Valor: data.summary.cancelledCuts || 0 },
-        { Concepto: 'Clientes Únicos Atendidos', Valor: data.summary.uniqueClients || 0 },
-        { Concepto: 'Ticket Promedio por Corte', Valor: formatCurrency(data.summary.averageTicket) },
-        { Concepto: 'Ingresos Brutos Facturados', Valor: formatCurrency(data.summary.grossRevenue) },
-        { Concepto: 'Total Nómina Barberos (Comisiones)', Valor: formatCurrency(data.summary.totalBarbersPayout) },
-        { Concepto: 'Comisiones ya Liquidadas / Pagadas', Valor: formatCurrency(data.summary.totalPaidPayout) },
-        { Concepto: 'Comisiones Pendientes por Pagar', Valor: formatCurrency(data.summary.totalPendingPayout) },
-        { Concepto: 'Ganancia Neta Triadix', Valor: formatCurrency(data.summary.netBarbershopEarnings) },
-      ];
-
-      const payrollSheetData = (data.barbersPayroll || []).map((b) => ({
-        'Nombre Barbero': b.name,
-        'Teléfono': b.phone || 'N/A',
-        'Comisión (%)': `${b.commissionRate}%`,
-        'Cortes Realizados': b.totalCuts,
-        'Ingresos Brutos Generados': b.grossRevenue,
-        'Nómina Total (Comisión)': b.commissionAmount,
-        'Comisión Liquidada': b.paidCommission,
-        'Comisión Pendiente de Pago': b.pendingCommission,
-        'Margen Triadix': b.barbershopShare,
-      }));
-
-      const servicesSheetData = (data.appointments || []).map((a) => ({
-        'Código Cita': a.confirmationCode,
-        'Fecha': new Date(a.date).toLocaleDateString('es-CO'),
-        'Hora': formatTime(a.startTime),
-        'Barbero Asignado': a.barber?.name || 'N/A',
-        'Cliente': a.client?.name || 'Cliente sin registrar',
-        'Teléfono Cliente': a.client?.phone || 'N/A',
-        'Servicios Prestados': (a.services || []).map((s) => s.name).join(' + '),
-        'Método de Pago': a.paymentMethod || 'Efectivo',
-        'Total Cobrado': a.totalPrice,
-        'Comisión Barbero (%)': `${a.commissionRate}%`,
-        'Monto Nómina Barbero': a.barberCut,
-        'Monto Triadix': a.barbershopCut,
-        'Estado Cita': a.status,
-        'Nómina Liquidada': a.commissionPaid ? 'SÍ' : 'NO',
-        'Fecha de Liquidación': a.commissionPaidAt
-          ? new Date(a.commissionPaidAt).toLocaleDateString('es-CO')
-          : 'Pendiente',
-      }));
-
-      exportToExcel({
-        fileName: `Nomina_Estadisticas_Triadix_${new Date().toISOString().slice(0, 10)}`,
-        sheets: [
-          { name: 'Balance General', data: summarySheetData },
-          { name: 'Nómina de Barberos', data: payrollSheetData },
-          { name: 'Servicios Recolectados', data: servicesSheetData },
-        ],
-      });
-
-      toast.success('Reporte Excel generado exitosamente');
-    } catch (error) {
-      console.error(error);
-      toast.error('Error al generar archivo Excel');
-    } finally {
-      setExportingExcel(false);
-    }
-  };
 
   // ==========================================
   // EXPORTAR A PDF (.pdf)
@@ -482,72 +409,64 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
   return (
     <PageTransition>
       <div className="max-w-7xl mx-auto space-y-8 pb-16">
-        {/* HEADER PRINCIPAL */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-[#1e1e1e]">
+        {/* HEADER PRINCIPAL — Depot Style */}
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-[#2b292d]">
           <div>
-            <div className="flex items-center gap-3 mb-2">
-              <span className="eyebrow text-gold-400">
-                Administración & Contabilidad
+            <div className="flex items-center gap-2.5 mb-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#71d083] shadow-[0_0_8px_#71d083]"></span>
+              <span className="text-[11px] font-mono uppercase tracking-[0.025em] text-[#71d083]">
+                ADMINISTRACIÓN & CONTABILIDAD
               </span>
-              <span className="text-xs text-[#666666] font-mono uppercase tracking-wider">
-                Triadix · Barbería
+              <span className="text-[10px] text-[#7c7a85] font-mono uppercase">
+                · Triadix Terminal
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-sans font-medium uppercase tracking-[0.16em] text-white">
-              Nómina & <span className="text-gold-400">Estadísticas</span>
+            <h1 className="text-2xl sm:text-3xl font-sans font-semibold tracking-[-0.025em] text-[#e5e5e5]">
+              Nómina & <span className="text-[#71d083]">Estadísticas</span>
             </h1>
-            <p className="text-[#888888] text-xs sm:text-sm font-sans mt-1">
+            <p className="text-[#7c7a85] text-xs sm:text-sm font-sans mt-1">
               Control de pagos a trabajadores, comisiones, liquidaciones y balance de servicios prestados.
             </p>
           </div>
 
-          {/* BOTONES DE EXPORTACIÓN Y ACCIÓN */}
+          {/* BOTONES DE EXPORTACIÓN Y ACCIÓN (SIN EXCEL) */}
           <div className="flex flex-wrap items-center gap-3">
             <button
               onClick={() => fetchData(true)}
               disabled={refreshing || loading}
-              className="p-2.5 bg-[#141414] hover:bg-[#1c1c1c] text-[#d4d4d4] hover:text-white border border-[#262626] rounded-none flex items-center gap-2 text-xs transition-all cursor-pointer"
+              className="btn-depot-outline !py-2.5 !px-3.5"
               title="Refrescar datos"
             >
-              <RefreshCw size={14} className={refreshing ? 'animate-spin text-white' : ''} />
-              <span className="hidden sm:inline font-sans uppercase tracking-[0.16em] text-[11px]">Actualizar</span>
-            </button>
-
-            <button
-              onClick={handleExportExcel}
-              disabled={exportingExcel || loading}
-              className="px-4 py-2.5 bg-[#141414] hover:bg-[#1a1a1a] text-emerald-400 border border-emerald-500/30 font-sans font-medium uppercase text-xs tracking-[0.16em] rounded-none flex items-center gap-2 transition-all cursor-pointer"
-            >
-              <FileSpreadsheet size={14} />
-              <span>Descargar Excel</span>
+              <RefreshCw size={14} className={refreshing ? 'animate-spin text-[#71d083]' : ''} />
+              <span className="hidden sm:inline font-sans uppercase tracking-[0.025em] text-[11px]">Actualizar</span>
             </button>
 
             <button
               onClick={handleExportPdf}
               disabled={exportingPdf || loading}
-              className="btn-ferrari-primary text-xs !py-2.5 !px-4"
+              className="btn-depot-primary"
             >
               <FileText size={14} />
-              <span>Descargar PDF</span>
+              <span>Descargar Reporte PDF</span>
             </button>
           </div>
         </div>
 
         {/* SELECTOR DE PERÍODOS Y FILTROS RÁPIDOS */}
-        <div className="bg-[#0a0a0a] border border-[#1e1e1e] p-4 rounded-none space-y-4">
+        <div className="bg-[#121113] border border-[#2b292d] p-4 rounded-[6px] space-y-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[11px] uppercase font-sans tracking-[0.16em] text-[#888888] mr-2 flex items-center gap-1.5">
-                <Calendar size={13} className="text-white" /> Período:
+              <span className="text-[11px] uppercase font-sans tracking-[0.025em] text-[#7c7a85] mr-2 flex items-center gap-1.5">
+                <Calendar size={13} className="text-[#71d083]" /> Período:
               </span>
               {PERIOD_OPTIONS.map((opt) => (
                 <button
                   key={opt.id}
                   onClick={() => setPeriod(opt.id)}
-                  className={`px-3 py-1.5 text-xs font-sans uppercase tracking-[0.16em] rounded-none border transition-all cursor-pointer ${
+                  className={`px-3 py-1.5 text-xs font-sans uppercase tracking-[0.025em] rounded-[6px] border transition-all cursor-pointer ${
                     period === opt.id
-                      ? 'bg-white text-black border-white font-medium'
-                      : 'bg-[#141414] text-[#888888] border-[#222222] hover:border-white/40 hover:text-white'
+                      ? 'bg-[#1a191b] text-[#71d083] border-[#2d5736] font-medium shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)]'
+                      : 'bg-[#1a191b]/40 text-[#7c7a85] border-[#2b292d] hover:border-[#3c393f] hover:text-[#eeeef0]'
                   }`}
                 >
                   {opt.label}
@@ -557,13 +476,13 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
 
             {/* Selector de barbero para filtrar todo */}
             <div className="flex items-center gap-2">
-              <span className="text-[11px] uppercase font-sans tracking-[0.16em] text-[#888888]">
+              <span className="text-[11px] uppercase font-sans tracking-[0.025em] text-[#7c7a85]">
                 Barbero:
               </span>
               <select
                 value={barberFilter}
                 onChange={(e) => setBarberFilter(e.target.value)}
-                className="py-1.5 px-3 text-xs bg-[#141414] border border-[#222222] text-white rounded-none font-sans focus:outline-none focus:border-white/50"
+                className="py-1.5 px-3 text-xs bg-[#1a191b] border border-[#2b292d] text-[#eeeef0] rounded-[6px] font-sans focus:outline-none focus:border-[#71d083]/70"
               >
                 <option value="all">Todos los Barberos</option>
                 {data.barbersPayroll.map((b) => (
@@ -580,29 +499,29 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
-              className="pt-3 border-t border-[#1e1e1e] flex flex-wrap items-center gap-4"
+              className="pt-3 border-t border-[#2b292d] flex flex-wrap items-center gap-4"
             >
               <div className="flex items-center gap-2">
-                <label className="text-xs text-[#888888] uppercase font-mono">Desde:</label>
+                <label className="text-xs text-[#7c7a85] uppercase font-mono">Desde:</label>
                 <input
                   type="date"
                   value={customStartDate}
                   onChange={(e) => setCustomStartDate(e.target.value)}
-                  className="bg-[#141414] border border-[#222222] text-white py-1 px-2.5 text-xs rounded-none font-mono focus:outline-none focus:border-white/50"
+                  className="bg-[#1a191b] border border-[#2b292d] text-[#eeeef0] py-1 px-2.5 text-xs rounded-[6px] font-mono focus:outline-none focus:border-[#71d083]/70"
                 />
               </div>
               <div className="flex items-center gap-2">
-                <label className="text-xs text-[#888888] uppercase font-mono">Hasta:</label>
+                <label className="text-xs text-[#7c7a85] uppercase font-mono">Hasta:</label>
                 <input
                   type="date"
                   value={customEndDate}
                   onChange={(e) => setCustomEndDate(e.target.value)}
-                  className="bg-[#141414] border border-[#222222] text-white py-1 px-2.5 text-xs rounded-none font-mono focus:outline-none focus:border-white/50"
+                  className="bg-[#1a191b] border border-[#2b292d] text-[#eeeef0] py-1 px-2.5 text-xs rounded-[6px] font-mono focus:outline-none focus:border-[#71d083]/70"
                 />
               </div>
               <button
                 onClick={() => fetchData(false)}
-                className="btn-ferrari-primary text-xs !py-1.5 !px-4"
+                className="btn-depot-primary !py-1.5 !px-4"
               >
                 Aplicar Rango
               </button>
@@ -610,14 +529,14 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
           )}
         </div>
 
-        {/* TABS DE NAVEGACIÓN */}
-        <div className="flex border-b border-[#1e1e1e] gap-2 overflow-x-auto">
+        {/* TABS DE NAVEGACIÓN — Depot Style */}
+        <div className="flex border-b border-[#2b292d] gap-2 overflow-x-auto">
           <button
             onClick={() => setActiveTab('stats')}
-            className={`py-3 px-5 font-sans font-medium text-xs uppercase tracking-[0.16em] transition-all border-b-2 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+            className={`py-3 px-5 font-sans font-medium text-xs uppercase tracking-[0.025em] transition-all border-b-2 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
               activeTab === 'stats'
-                ? 'text-white border-white -mb-[1px] bg-white/5'
-                : 'text-[#888888] border-transparent hover:text-white'
+                ? 'text-[#71d083] border-[#71d083] -mb-[1px] bg-[#1a191b] rounded-t-[6px] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)]'
+                : 'text-[#7c7a85] border-transparent hover:text-[#eeeef0]'
             }`}
           >
             <TrendingUp size={14} />
@@ -626,16 +545,16 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
 
           <button
             onClick={() => setActiveTab('payroll')}
-            className={`py-3 px-5 font-sans font-medium text-xs uppercase tracking-[0.16em] transition-all border-b-2 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+            className={`py-3 px-5 font-sans font-medium text-xs uppercase tracking-[0.025em] transition-all border-b-2 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
               activeTab === 'payroll'
-                ? 'text-white border-white -mb-[1px] bg-white/5'
-                : 'text-[#888888] border-transparent hover:text-white'
+                ? 'text-[#71d083] border-[#71d083] -mb-[1px] bg-[#1a191b] rounded-t-[6px] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)]'
+                : 'text-[#7c7a85] border-transparent hover:text-[#eeeef0]'
             }`}
           >
             <DollarSign size={15} />
             <span>Nómina y Pagos a Barberos</span>
             {data.summary.totalPendingPayout > 0 && (
-              <span className="ml-1.5 px-2 py-0.5 bg-red-500/10 text-red-400 border border-red-500/30 text-[10px] rounded-none font-mono">
+              <span className="ml-1.5 tag-depot-danger">
                 Por liquidar
               </span>
             )}
@@ -643,10 +562,10 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
 
           <button
             onClick={() => setActiveTab('services')}
-            className={`py-3 px-5 font-sans font-medium text-xs uppercase tracking-[0.16em] transition-all border-b-2 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+            className={`py-3 px-5 font-sans font-medium text-xs uppercase tracking-[0.025em] transition-all border-b-2 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
               activeTab === 'services'
-                ? 'text-white border-white -mb-[1px] bg-white/5'
-                : 'text-[#888888] border-transparent hover:text-white'
+                ? 'text-[#71d083] border-[#71d083] -mb-[1px] bg-[#1a191b] rounded-t-[6px] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)]'
+                : 'text-[#7c7a85] border-transparent hover:text-[#eeeef0]'
             }`}
           >
             <Receipt size={14} />
@@ -657,8 +576,8 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
         {/* CONTENIDO DE CADA TAB */}
         {loading ? (
           <div className="py-24 flex flex-col items-center justify-center space-y-4">
-            <div className="w-8 h-8 border border-white border-t-transparent rounded-full animate-spin" />
-            <p className="text-[#888888] font-mono text-xs uppercase tracking-[0.2em]">
+            <div className="w-8 h-8 border-2 border-[#71d083] border-t-transparent rounded-full animate-spin" />
+            <p className="text-[#7c7a85] font-mono text-xs uppercase tracking-[0.025em]">
               Calculando nómina y consolidados contables...
             </p>
           </div>
@@ -676,44 +595,44 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                 {/* TARJETAS DE KPIS PRINCIPALES */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {/* Ingresos Brutos */}
-                  <div className="bg-[#0a0a0a] border border-[#1e1e1e] hover:border-[#333333] rounded-none p-5 transition-all">
+                  <div className="bg-[#121113] border border-[#2b292d] hover:border-[#3c393f] rounded-[6px] p-5 transition-all shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
                     <div className="flex justify-between items-start mb-3">
-                      <div className="w-9 h-9 bg-[#141414] border border-[#222222] text-white rounded-none flex items-center justify-center">
+                      <div className="w-9 h-9 bg-[#1a191b] border border-[#2b292d] text-[#71d083] rounded-[6px] flex items-center justify-center shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)]">
                         <DollarSign size={16} />
                       </div>
-                      <span className="px-2 py-0.5 text-[10px] font-mono rounded-none uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                      <span className="tag-depot-green">
                         Total Facturado
                       </span>
                     </div>
-                    <p className="text-[11px] uppercase font-sans tracking-[0.16em] text-[#888888] mb-1">
+                    <p className="text-[11px] uppercase font-sans tracking-[0.025em] text-[#7c7a85] mb-1">
                       Ingresos Brutos
                     </p>
-                    <p className="text-2xl sm:text-3xl font-mono font-medium text-white tracking-tight">
+                    <p className="text-2xl sm:text-3xl font-mono font-medium text-[#e5e5e5] tracking-tight">
                       {formatCurrency(data.summary.grossRevenue)}
                     </p>
-                    <div className="mt-3 pt-2.5 border-t border-[#1e1e1e] text-xs text-[#888888] flex justify-between font-sans">
+                    <div className="mt-3 pt-2.5 border-t border-[#2b292d] text-xs text-[#7c7a85] flex justify-between font-sans">
                       <span>Cortes Realizados:</span>
-                      <span className="text-white font-mono font-medium">{data.summary.completedCuts || 0}</span>
+                      <span className="text-[#e5e5e5] font-mono font-medium">{data.summary.completedCuts || 0}</span>
                     </div>
                   </div>
 
                   {/* Nómina a Pagar */}
-                  <div className="bg-[#0a0a0a] border border-[#1e1e1e] hover:border-[#333333] rounded-none p-5 transition-all">
+                  <div className="bg-[#121113] border border-[#2b292d] hover:border-[#3c393f] rounded-[6px] p-5 transition-all shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
                     <div className="flex justify-between items-start mb-3">
-                      <div className="w-9 h-9 bg-[#141414] border border-[#222222] text-gold-400 rounded-none flex items-center justify-center">
+                      <div className="w-9 h-9 bg-[#1a191b] border border-[#2b292d] text-[#71d083] rounded-[6px] flex items-center justify-center shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)]">
                         <Users size={16} />
                       </div>
-                      <span className="px-2 py-0.5 text-[10px] font-mono rounded-none uppercase tracking-wider bg-gold-400/10 text-gold-400 border border-gold-400/30">
+                      <span className="tag-depot-green">
                         Comisiones
                       </span>
                     </div>
-                    <p className="text-[11px] uppercase font-sans tracking-[0.16em] text-[#888888] mb-1">
+                    <p className="text-[11px] uppercase font-sans tracking-[0.025em] text-[#7c7a85] mb-1">
                       Nómina Trabajadores
                     </p>
-                    <p className="text-2xl sm:text-3xl font-mono font-medium text-gold-400 tracking-tight">
+                    <p className="text-2xl sm:text-3xl font-mono font-medium text-[#71d083] tracking-tight">
                       {formatCurrency(data.summary.totalBarbersPayout)}
                     </p>
-                    <div className="mt-3 pt-2.5 border-t border-[#1e1e1e] text-xs text-[#888888] flex justify-between font-sans">
+                    <div className="mt-3 pt-2.5 border-t border-[#2b292d] text-xs text-[#7c7a85] flex justify-between font-sans">
                       <span>Pendiente por pagar:</span>
                       <span className="text-rose-400 font-mono font-medium">
                         {formatCurrency(data.summary.totalPendingPayout)}
@@ -722,48 +641,48 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                   </div>
 
                   {/* Ganancia Neta */}
-                  <div className="bg-[#0a0a0a] border border-[#1e1e1e] hover:border-[#333333] rounded-none p-5 transition-all">
+                  <div className="bg-[#121113] border border-[#2b292d] hover:border-[#3c393f] rounded-[6px] p-5 transition-all shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
                     <div className="flex justify-between items-start mb-3">
-                      <div className="w-9 h-9 bg-[#141414] border border-[#222222] text-white rounded-none flex items-center justify-center">
+                      <div className="w-9 h-9 bg-[#1a191b] border border-[#2b292d] text-[#70b8ff] rounded-[6px] flex items-center justify-center shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)]">
                         <TrendingUp size={16} />
                       </div>
-                      <span className="px-2 py-0.5 text-[10px] font-mono rounded-none uppercase tracking-wider bg-[#141414] text-white border border-[#262626]">
+                      <span className="tag-depot-blue">
                         Utilidad Neta
                       </span>
                     </div>
-                    <p className="text-[11px] uppercase font-sans tracking-[0.16em] text-[#888888] mb-1">
+                    <p className="text-[11px] uppercase font-sans tracking-[0.025em] text-[#7c7a85] mb-1">
                       Ganancia Triadix
                     </p>
-                    <p className="text-2xl sm:text-3xl font-mono font-medium text-white tracking-tight">
+                    <p className="text-2xl sm:text-3xl font-mono font-medium text-[#e5e5e5] tracking-tight">
                       {formatCurrency(data.summary.netBarbershopEarnings)}
                     </p>
-                    <div className="mt-3 pt-2.5 border-t border-[#1e1e1e] text-xs text-[#888888] flex justify-between font-sans">
+                    <div className="mt-3 pt-2.5 border-t border-[#2b292d] text-xs text-[#7c7a85] flex justify-between font-sans">
                       <span>Ticket Promedio:</span>
-                      <span className="text-white font-mono font-medium">
+                      <span className="text-[#e5e5e5] font-mono font-medium">
                         {formatCurrency(data.summary.averageTicket)}
                       </span>
                     </div>
                   </div>
 
                   {/* Clientes & Equipo */}
-                  <div className="bg-[#0a0a0a] border border-[#1e1e1e] hover:border-[#333333] rounded-none p-5 transition-all">
+                  <div className="bg-[#121113] border border-[#2b292d] hover:border-[#3c393f] rounded-[6px] p-5 transition-all shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
                     <div className="flex justify-between items-start mb-3">
-                      <div className="w-9 h-9 bg-[#141414] border border-[#222222] text-white rounded-none flex items-center justify-center">
+                      <div className="w-9 h-9 bg-[#1a191b] border border-[#2b292d] text-[#baa7ff] rounded-[6px] flex items-center justify-center shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)]">
                         <ShieldCheck size={16} />
                       </div>
-                      <span className="px-2 py-0.5 text-[10px] font-mono rounded-none uppercase tracking-wider bg-[#141414] text-gold-400 border border-gold-400/30">
+                      <span className="tag-depot-lilac">
                         Equipo
                       </span>
                     </div>
-                    <p className="text-[11px] uppercase font-sans tracking-[0.16em] text-[#888888] mb-1">
+                    <p className="text-[11px] uppercase font-sans tracking-[0.025em] text-[#7c7a85] mb-1">
                       Clientes Atendidos
                     </p>
-                    <p className="text-2xl sm:text-3xl font-mono font-medium text-white tracking-tight">
+                    <p className="text-2xl sm:text-3xl font-mono font-medium text-[#e5e5e5] tracking-tight">
                       {data.summary.uniqueClients || 0}
                     </p>
-                    <div className="mt-3 pt-2.5 border-t border-[#1e1e1e] text-xs text-[#888888] flex justify-between font-sans">
+                    <div className="mt-3 pt-2.5 border-t border-[#2b292d] text-xs text-[#7c7a85] flex justify-between font-sans">
                       <span>Barberos Activos:</span>
-                      <span className="text-gold-400 font-mono font-medium">
+                      <span className="text-[#71d083] font-mono font-medium">
                         {data.summary.activeBarbersCount || 0}
                       </span>
                     </div>
@@ -773,9 +692,9 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                 {/* FILA DE DESGLOSES: MÉTODOS DE PAGO Y TOP SERVICIOS */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {/* Desglose de Métodos de Pago */}
-                  <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-6">
-                    <h3 className="font-sans font-medium uppercase tracking-[0.16em] text-xs sm:text-sm text-white mb-4 flex items-center gap-2 border-b border-[#1e1e1e] pb-3">
-                      <CreditCard size={15} className="text-white" />
+                  <div className="bg-[#121113] border border-[#2b292d] rounded-[6px] p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
+                    <h3 className="font-sans font-medium uppercase tracking-[-0.025em] text-xs sm:text-sm text-[#e5e5e5] mb-4 flex items-center gap-2 border-b border-[#2b292d] pb-3">
+                      <CreditCard size={15} className="text-[#71d083]" />
                       Recaudación por Método de Pago
                     </h3>
 
@@ -787,19 +706,19 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                         return (
                           <div key={key} className="space-y-1.5">
                             <div className="flex justify-between items-center text-xs">
-                              <span className="uppercase font-sans tracking-[0.16em] text-[#d4d4d4]">
+                              <span className="uppercase font-sans tracking-[0.025em] text-[#b5b2bc]">
                                 {key} ({item.count} pagos)
                               </span>
                               <div className="text-right">
-                                <span className="font-mono font-medium text-white mr-2">
+                                <span className="font-mono font-medium text-[#e5e5e5] mr-2">
                                   {formatCurrency(item.total)}
                                 </span>
-                                <span className="text-[11px] text-[#888888] font-mono">({percentage}%)</span>
+                                <span className="text-[11px] text-[#7c7a85] font-mono">({percentage}%)</span>
                               </div>
                             </div>
-                            <div className="w-full h-1 bg-[#141414] rounded-none overflow-hidden border border-[#222222]">
+                            <div className="w-full h-1.5 bg-[#1a191b] rounded-[2px] overflow-hidden border border-[#2b292d]">
                               <div
-                                className="h-full bg-white transition-all duration-500 rounded-none"
+                                className="h-full bg-[#71d083] transition-all duration-500 rounded-[2px]"
                                 style={{ width: `${Math.min(percentage, 100)}%` }}
                               />
                             </div>
@@ -810,27 +729,27 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                   </div>
 
                   {/* Servicios Más Solicitados */}
-                  <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-6">
-                    <h3 className="font-sans font-medium uppercase tracking-[0.16em] text-xs sm:text-sm text-white mb-4 flex items-center gap-2 border-b border-[#1e1e1e] pb-3">
-                      <Sparkles size={15} className="text-white" />
+                  <div className="bg-[#121113] border border-[#2b292d] rounded-[6px] p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
+                    <h3 className="font-sans font-medium uppercase tracking-[-0.025em] text-xs sm:text-sm text-[#e5e5e5] mb-4 flex items-center gap-2 border-b border-[#2b292d] pb-3">
+                      <Sparkles size={15} className="text-[#71d083]" />
                       Servicios Más Solicitados
                     </h3>
 
                     {data.servicesBreakdown.length === 0 ? (
-                      <p className="text-xs text-[#888888] py-8 text-center font-sans">
+                      <p className="text-xs text-[#7c7a85] py-8 text-center font-sans">
                         No hay servicios completados en este período.
                       </p>
                     ) : (
-                      <div className="divide-y divide-[#161616] space-y-2">
+                      <div className="divide-y divide-[#2b292d]/60 space-y-2">
                         {data.servicesBreakdown.slice(0, 5).map((srv, idx) => (
                           <div key={idx} className="pt-2.5 flex items-center justify-between">
                             <div>
-                              <p className="text-xs font-sans font-medium text-white">{srv.name}</p>
-                              <span className="text-[11px] text-[#888888] font-mono">
+                              <p className="text-xs font-sans font-medium text-[#eeeef0]">{srv.name}</p>
+                              <span className="text-[11px] text-[#7c7a85] font-mono">
                                 Realizado {srv.count} veces
                               </span>
                             </div>
-                            <span className="font-mono text-xs font-medium text-white">
+                            <span className="font-mono text-xs font-medium text-[#71d083]">
                               {formatCurrency(srv.totalRevenue)}
                             </span>
                           </div>
@@ -853,15 +772,15 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
-                    <h3 className="text-sm font-sans font-medium uppercase tracking-[0.16em] text-white">
+                    <h3 className="text-sm font-sans font-medium uppercase tracking-[-0.025em] text-[#e5e5e5]">
                       Liquidación de Nómina del Equipo
                     </h3>
-                    <p className="text-xs text-[#888888] font-sans mt-0.5">
+                    <p className="text-xs text-[#7c7a85] font-sans mt-0.5">
                       Comisiones calculadas según los cortes finalizados en el período seleccionado.
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-xs text-[#888888] font-sans">
+                    <span className="text-xs text-[#7c7a85] font-sans">
                       Total a liquidar: <strong className="text-rose-400 font-mono font-medium">{formatCurrency(data.summary.totalPendingPayout)}</strong>
                     </span>
                   </div>
@@ -875,22 +794,22 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                     return (
                       <div
                         key={barber.barberId}
-                        className={`bg-[#0a0a0a] border rounded-none p-6 flex flex-col justify-between transition-all duration-200 ${
-                          hasPending ? 'border-white/40 hover:border-white' : 'border-[#1e1e1e] hover:border-[#333333]'
+                        className={`bg-[#121113] border rounded-[6px] p-6 flex flex-col justify-between transition-all duration-200 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] ${
+                          hasPending ? 'border-[#2d5736] hover:border-[#71d083]/50' : 'border-[#2b292d] hover:border-[#3c393f]'
                         }`}
                       >
                         <div>
                           {/* Barber Header */}
-                          <div className="flex items-start justify-between gap-3 mb-4 pb-4 border-b border-[#1e1e1e]">
+                          <div className="flex items-start justify-between gap-3 mb-4 pb-4 border-b border-[#2b292d]">
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-none bg-[#141414] border border-[#222222] flex items-center justify-center font-mono font-medium text-white text-base">
+                              <div className="w-10 h-10 rounded-[6px] bg-[#1a191b] border border-[#2b292d] flex items-center justify-center font-mono font-medium text-[#71d083] text-base shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)]">
                                 {barber.name.charAt(0)}
                               </div>
                               <div>
-                                <h4 className="font-sans font-medium uppercase tracking-[0.16em] text-sm text-white leading-tight">
+                                <h4 className="font-sans font-medium text-sm text-[#e5e5e5] leading-tight tracking-[-0.025em]">
                                   {barber.name}
                                 </h4>
-                                <p className="text-xs text-[#888888] font-mono mt-0.5">{barber.phone || barber.email}</p>
+                                <p className="text-xs text-[#7c7a85] font-mono mt-0.5">{barber.phone || barber.email}</p>
                               </div>
                             </div>
 
@@ -898,12 +817,12 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                             <button
                               onClick={() =>
                                 setCommissionModal({
-                                   isOpen: true,
-                                   barber,
-                                   newRate: barber.commissionRate,
-                                 })
+                                  isOpen: true,
+                                  barber,
+                                  newRate: barber.commissionRate,
+                                })
                               }
-                              className="px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-[#141414] hover:bg-[#1a1a1a] text-white border border-[#262626] rounded-none transition-all cursor-pointer flex items-center gap-1"
+                              className="px-2 py-0.5 text-[10px] font-mono uppercase tracking-[0.025em] bg-[#1a191b] hover:bg-[#232225] text-[#71d083] border border-[#2d5736] rounded-[4px] transition-all cursor-pointer flex items-center gap-1"
                               title="Modificar % de comisión"
                             >
                               <Percent size={10} />
@@ -914,34 +833,34 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
 
                           {/* Métricas de Nómina del Barbero */}
                           <div className="space-y-2.5 text-xs font-sans mb-6">
-                            <div className="flex justify-between text-[#d4d4d4]">
-                              <span className="text-[#888888]">Cortes Realizados:</span>
-                              <span className="font-medium text-white font-mono">{barber.totalCuts}</span>
+                            <div className="flex justify-between text-[#b5b2bc]">
+                              <span className="text-[#7c7a85]">Cortes Realizados:</span>
+                              <span className="font-medium text-[#e5e5e5] font-mono">{barber.totalCuts}</span>
                             </div>
-                            <div className="flex justify-between text-[#d4d4d4]">
-                              <span className="text-[#888888]">Total Facturado:</span>
-                              <span className="font-mono font-medium text-white">
+                            <div className="flex justify-between text-[#b5b2bc]">
+                              <span className="text-[#7c7a85]">Total Facturado:</span>
+                              <span className="font-mono font-medium text-[#e5e5e5]">
                                 {formatCurrency(barber.grossRevenue)}
                               </span>
                             </div>
-                            <div className="flex justify-between text-[#d4d4d4]">
-                              <span className="text-[#888888]">Ganancia Triadix:</span>
-                              <span className="font-mono text-[#888888]">
+                            <div className="flex justify-between text-[#b5b2bc]">
+                              <span className="text-[#7c7a85]">Ganancia Triadix:</span>
+                              <span className="font-mono text-[#7c7a85]">
                                 {formatCurrency(barber.barbershopShare)}
                               </span>
                             </div>
 
-                            <div className="pt-2.5 border-t border-[#1e1e1e] flex justify-between items-baseline">
-                              <span className="font-sans text-[11px] uppercase tracking-[0.16em] text-[#888888]">
+                            <div className="pt-2.5 border-t border-[#2b292d] flex justify-between items-baseline">
+                              <span className="font-sans text-[11px] uppercase tracking-[0.025em] text-[#7c7a85]">
                                 Nómina Barbero:
                               </span>
-                              <span className="font-mono text-base font-medium text-white">
+                              <span className="font-mono text-base font-medium text-[#71d083]">
                                 {formatCurrency(barber.commissionAmount)}
                               </span>
                             </div>
 
                             <div className="flex justify-between items-center text-[11px] pt-1">
-                              <span className="text-emerald-400 flex items-center gap-1 font-mono">
+                              <span className="text-[#71d083] flex items-center gap-1 font-mono">
                                 <CheckCircle2 size={12} /> Pagado: {formatCurrency(barber.paidCommission)}
                               </span>
                               <span className="text-rose-400 flex items-center gap-1 font-mono font-medium">
@@ -952,17 +871,17 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                         </div>
 
                         {/* Botones de Acción */}
-                        <div className="space-y-2 pt-4 border-t border-[#1e1e1e]">
+                        <div className="space-y-2 pt-4 border-t border-[#2b292d]">
                           {hasPending ? (
                             <button
                               onClick={() => handleOpenPayoutModal(barber)}
-                              className="w-full btn-ferrari-primary !text-xs !py-2.5"
+                              className="w-full btn-depot-primary !text-xs !py-2.5"
                             >
                               <DollarSign size={13} />
                               <span>Liquidar Nómina ({formatCurrency(barber.pendingCommission)})</span>
                             </button>
                           ) : (
-                            <div className="w-full py-2 px-3 bg-[#111111] border border-[#222222] text-emerald-400 text-xs font-mono text-center rounded-none flex items-center justify-center gap-1.5">
+                            <div className="w-full py-2 px-3 bg-[#1b2a1e] border border-[#2d5736] text-[#71d083] text-xs font-mono text-center rounded-[6px] flex items-center justify-center gap-1.5">
                               <CheckCircle2 size={13} />
                               <span>Al día · Sin saldos pendientes</span>
                             </div>
@@ -970,7 +889,7 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
 
                           <button
                             onClick={() => handleExportSingleBarberPdf(barber)}
-                            className="w-full py-2 px-3 bg-[#141414] hover:bg-[#1a1a1a] text-[#888888] hover:text-white border border-[#222222] rounded-none text-xs font-sans uppercase tracking-[0.16em] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                            className="w-full btn-depot-outline !text-xs !py-2"
                           >
                             <FileText size={13} />
                             <span>Descargar Desprendible PDF</span>
@@ -993,26 +912,26 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                 className="space-y-4"
               >
                 {/* BARRA DE BÚSQUEDA Y FILTROS */}
-                <div className="bg-[#0a0a0a] border border-[#1e1e1e] p-4 rounded-none flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+                <div className="bg-[#121113] border border-[#2b292d] p-4 rounded-[6px] flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
                   {/* Buscador */}
                   <div className="relative flex-1">
-                    <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#888888]" />
+                    <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#7c7a85]" />
                     <input
                       type="text"
                       placeholder="Buscar por cliente, teléfono, barbero, código o servicio..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="bg-[#141414] border border-[#222222] text-white pl-9 pr-4 py-2 w-full text-xs rounded-none font-sans focus:outline-none focus:border-white/50 placeholder:text-[#666666]"
+                      className="bg-[#1a191b] border border-[#2b292d] text-[#eeeef0] pl-9 pr-4 py-2 w-full text-xs rounded-[6px] font-sans focus:outline-none focus:border-[#71d083]/70 placeholder:text-[#7c7a85]"
                     />
                   </div>
 
                   {/* Filtro Estado Cita */}
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] uppercase font-sans tracking-[0.16em] text-[#888888]">Estado:</span>
+                    <span className="text-[11px] uppercase font-sans tracking-[0.025em] text-[#7c7a85]">Estado:</span>
                     <select
                       value={statusFilter}
                       onChange={(e) => setStatusFilter(e.target.value)}
-                      className="py-1.5 px-3 text-xs bg-[#141414] border border-[#222222] text-white rounded-none font-sans focus:outline-none focus:border-white/50"
+                      className="py-1.5 px-3 text-xs bg-[#1a191b] border border-[#2b292d] text-[#eeeef0] rounded-[6px] font-sans focus:outline-none focus:border-[#71d083]/70"
                     >
                       <option value="todos">Todos los Estados</option>
                       <option value="completada">Completada</option>
@@ -1024,11 +943,11 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
 
                   {/* Filtro Liquidación */}
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] uppercase font-sans tracking-[0.16em] text-[#888888]">Nómina:</span>
+                    <span className="text-[11px] uppercase font-sans tracking-[0.025em] text-[#7c7a85]">Nómina:</span>
                     <select
                       value={commissionStatusFilter}
                       onChange={(e) => setCommissionStatusFilter(e.target.value)}
-                      className="py-1.5 px-3 text-xs bg-[#141414] border border-[#222222] text-white rounded-none font-sans focus:outline-none focus:border-white/50"
+                      className="py-1.5 px-3 text-xs bg-[#1a191b] border border-[#2b292d] text-[#eeeef0] rounded-[6px] font-sans focus:outline-none focus:border-[#71d083]/70"
                     >
                       <option value="todos">Todos los Pagos</option>
                       <option value="pendiente">Comisión Pendiente</option>
@@ -1038,10 +957,10 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                 </div>
 
                 {/* TABLA DE CITAS */}
-                <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none overflow-hidden">
+                <div className="bg-[#121113] border border-[#2b292d] rounded-[6px] overflow-hidden shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
                   <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs font-sans">
-                      <thead className="bg-[#0e0e0e] border-b border-[#1e1e1e] text-[#888888] font-sans uppercase tracking-[0.16em] text-[10px]">
+                      <thead className="bg-[#1a191b] border-b border-[#2b292d] text-[#7c7a85] font-sans uppercase tracking-[0.025em] text-[10px]">
                         <tr>
                           <th className="py-3 px-4">CÓDIGO / FECHA</th>
                           <th className="py-3 px-4">BARBERO</th>
@@ -1054,42 +973,42 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                           <th className="py-3 px-4 text-center">LIQUIDACIÓN</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-[#161616]">
+                      <tbody className="divide-y divide-[#2b292d]/50">
                         {filteredAppointments.length === 0 ? (
                           <tr>
-                            <td colSpan={9} className="py-12 text-center text-[#888888] font-sans">
+                            <td colSpan={9} className="py-12 text-center text-[#7c7a85] font-sans">
                               No se encontraron servicios con los filtros aplicados.
                             </td>
                           </tr>
                         ) : (
                           filteredAppointments.map((apt) => (
-                            <tr key={apt._id} className="hover:bg-[#111111] transition-colors">
+                            <tr key={apt._id} className="hover:bg-[#1a191b]/50 transition-colors">
                               {/* Código y Fecha */}
                               <td className="py-3 px-4">
-                                <span className="font-mono font-medium text-white block">
+                                <span className="font-mono font-medium text-[#e5e5e5] block">
                                   {apt.confirmationCode}
                                 </span>
-                                <span className="text-[11px] text-[#888888] font-mono">
+                                <span className="text-[11px] text-[#7c7a85] font-mono">
                                   {new Date(apt.date).toLocaleDateString('es-CO')} · {formatTime(apt.startTime)}
                                 </span>
                               </td>
 
                               {/* Barbero */}
                               <td className="py-3 px-4">
-                                <span className="font-sans font-medium text-white block">
+                                <span className="font-sans font-medium text-[#e5e5e5] block">
                                   {apt.barber?.name || 'Barbero'}
                                 </span>
-                                <span className="text-[10px] text-[#888888] font-mono">
+                                <span className="text-[10px] text-[#7c7a85] font-mono">
                                   Comisión: {apt.commissionRate}%
                                 </span>
                               </td>
 
                               {/* Cliente */}
                               <td className="py-3 px-4">
-                                <span className="font-sans font-medium text-white block">
+                                <span className="font-sans font-medium text-[#e5e5e5] block">
                                   {apt.client?.name || 'Cliente'}
                                 </span>
-                                <span className="text-[11px] text-[#888888] font-mono block">
+                                <span className="text-[11px] text-[#7c7a85] font-mono block">
                                   {apt.client?.phone || 'Sin tel'}
                                 </span>
                               </td>
@@ -1100,7 +1019,7 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                                   {(apt.services || []).map((s, idx) => (
                                     <span
                                       key={idx}
-                                      className="inline-block px-2 py-0.5 bg-[#141414] border border-[#222222] rounded-none text-[10px] text-[#d4d4d4]"
+                                      className="tag-depot-neutral !text-[9px]"
                                     >
                                       {s.name}
                                     </span>
@@ -1110,22 +1029,22 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
 
                               {/* Método de Pago */}
                               <td className="py-3 px-4">
-                                <span className="px-2 py-0.5 text-[10px] font-mono uppercase bg-[#141414] border border-[#222222] text-[#d4d4d4]">
+                                <span className="px-2 py-0.5 text-[10px] font-mono uppercase bg-[#1a191b] border border-[#2b292d] text-[#b5b2bc] rounded-[2px]">
                                   {apt.paymentMethod || 'Efectivo'}
                                 </span>
                               </td>
 
                               {/* Total Cobrado */}
-                              <td className="py-3 px-4 text-right font-mono font-medium text-white text-xs">
+                              <td className="py-3 px-4 text-right font-mono font-medium text-[#e5e5e5] text-xs">
                                 {formatCurrency(apt.totalPrice)}
                               </td>
 
                               {/* Comisión / Nómina Barbero */}
                               <td className="py-3 px-4 text-right">
-                                <span className="font-mono font-medium text-white block text-xs">
+                                <span className="font-mono font-medium text-[#71d083] block text-xs">
                                   {formatCurrency(apt.barberCut)}
                                 </span>
-                                <span className="text-[10px] text-[#888888] font-mono">
+                                <span className="text-[10px] text-[#7c7a85] font-mono">
                                   Negocio: {formatCurrency(apt.barbershopCut)}
                                 </span>
                               </td>
@@ -1133,13 +1052,13 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                               {/* Estado Cita */}
                               <td className="py-3 px-4 text-center">
                                 <span
-                                  className={`px-2 py-0.5 text-[10px] font-mono rounded-none uppercase tracking-wider ${
+                                  className={
                                     apt.status === 'completada'
-                                      ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
+                                      ? 'tag-depot-green'
                                       : apt.status === 'cancelada'
-                                      ? 'bg-rose-500/10 text-rose-400 border border-rose-500/30'
-                                      : 'bg-gold-400/10 text-gold-400 border border-gold-400/30'
-                                  }`}
+                                      ? 'tag-depot-danger'
+                                      : 'tag-depot-neutral'
+                                  }
                                 >
                                   {apt.status}
                                 </span>
@@ -1150,10 +1069,10 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                                 {apt.status === 'completada' ? (
                                   <button
                                     onClick={() => handleToggleAppointmentPayout(apt)}
-                                    className={`px-2.5 py-1 rounded-none text-[10px] font-mono font-medium uppercase transition-all flex items-center justify-center gap-1 mx-auto border cursor-pointer ${
+                                    className={`px-2.5 py-1 rounded-[4px] text-[10px] font-mono font-medium uppercase transition-all flex items-center justify-center gap-1 mx-auto border cursor-pointer ${
                                       apt.commissionPaid
-                                        ? 'bg-[#141414] text-emerald-400 border-emerald-500/30 hover:bg-rose-500/10 hover:text-rose-400 hover:border-rose-500/30'
-                                        : 'bg-rose-500/10 text-rose-400 border-rose-500/30 hover:bg-emerald-500/10 hover:text-emerald-400 hover:border-emerald-500/30'
+                                        ? 'bg-[#1b2a1e] text-[#71d083] border-[#2d5736] hover:bg-rose-500/10 hover:text-rose-400 hover:border-rose-500/30'
+                                        : 'bg-rose-500/10 text-rose-400 border-rose-500/30 hover:bg-[#1b2a1e] hover:text-[#71d083] hover:border-[#2d5736]'
                                     }`}
                                     title="Haz clic para cambiar estado de liquidación"
                                   >
@@ -1170,7 +1089,7 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                                     )}
                                   </button>
                                 ) : (
-                                  <span className="text-[#888888] text-[10px] font-mono">N/A</span>
+                                  <span className="text-[#7c7a85] text-[10px] font-mono">N/A</span>
                                 )}
                               </td>
                             </tr>
@@ -1195,32 +1114,32 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
           title={`LIQUIDAR NÓMINA · ${payoutModal.barber?.name?.toUpperCase() || ''}`}
         >
           <div className="space-y-4">
-            <p className="text-xs text-[#d4d4d4] font-sans leading-relaxed">
+            <p className="text-xs text-[#b5b2bc] font-sans leading-relaxed">
               Vas a registrar el pago de nómina para{' '}
-              <strong className="text-white">{payoutModal.barber?.name}</strong> correspondiente a{' '}
-              <strong className="text-white">{payoutModal.pendingAppointments?.length} cortes completados</strong>.
+              <strong className="text-[#e5e5e5]">{payoutModal.barber?.name}</strong> correspondiente a{' '}
+              <strong className="text-[#71d083]">{payoutModal.pendingAppointments?.length} cortes completados</strong>.
             </p>
 
-            <div className="bg-[#141414] border border-[#262626] p-5 rounded-none text-center space-y-1">
-              <span className="text-[11px] uppercase font-sans tracking-[0.16em] text-[#888888] block">
+            <div className="bg-[#1a191b] border border-[#2b292d] p-5 rounded-[6px] text-center space-y-1 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)]">
+              <span className="text-[11px] uppercase font-sans tracking-[0.025em] text-[#7c7a85] block">
                 Total a Transferir / Liquidar
               </span>
-              <span className="text-3xl font-mono font-medium text-white block">
+              <span className="text-3xl font-mono font-medium text-[#71d083] block">
                 {formatCurrency(payoutModal.totalPayout)}
               </span>
-              <span className="text-[11px] text-[#888888] font-mono">
+              <span className="text-[11px] text-[#7c7a85] font-mono">
                 Comisión acordada: {payoutModal.barber?.commissionRate}%
               </span>
             </div>
 
-            <div className="flex gap-3 pt-2">
+            <div className="flex gap-3 pt-2 border-t border-[#2b292d]">
               <button
                 type="button"
                 onClick={() =>
                   setPayoutModal({ isOpen: false, barber: null, pendingAppointments: [], totalPayout: 0 })
                 }
                 disabled={submittingPayout}
-                className="flex-1 py-2.5 px-4 bg-[#141414] hover:bg-[#1a1a1a] text-[#888888] hover:text-white border border-[#222222] text-xs font-sans uppercase tracking-[0.16em] rounded-none transition-all cursor-pointer"
+                className="btn-depot-outline flex-1"
               >
                 Cancelar
               </button>
@@ -1228,10 +1147,10 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                 type="button"
                 onClick={handleConfirmBarberPayout}
                 disabled={submittingPayout}
-                className="flex-1 btn-ferrari-primary !text-xs !py-2.5"
+                className="btn-depot-primary flex-1"
               >
                 {submittingPayout ? (
-                  <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-[#04040b] border-t-transparent rounded-full animate-spin" />
                 ) : (
                   <>
                     <Check size={14} />
@@ -1253,16 +1172,16 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
           title={`AJUSTAR COMISIÓN · ${commissionModal.barber?.name?.toUpperCase() || ''}`}
         >
           <div className="space-y-4">
-            <p className="text-xs text-[#d4d4d4] font-sans leading-relaxed">
+            <p className="text-xs text-[#b5b2bc] font-sans leading-relaxed">
               Define el porcentaje de comisión que recibirá este barbero por cada corte o servicio realizado en Triadix.
             </p>
 
             <div>
-              <label className="block text-[11px] font-sans uppercase tracking-[0.16em] text-[#888888] mb-1.5">
+              <label className="block text-[11px] font-sans uppercase tracking-[0.025em] text-[#b5b2bc] mb-1.5 font-medium">
                 Porcentaje de Comisión (%)
               </label>
               <div className="relative">
-                <Percent size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#888888]" />
+                <Percent size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#7c7a85]" />
                 <input
                   type="number"
                   min="0"
@@ -1271,24 +1190,24 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                   onChange={(e) =>
                     setCommissionModal((prev) => ({ ...prev, newRate: e.target.value }))
                   }
-                  className="bg-[#141414] border border-[#222222] text-white pl-9 pr-4 py-2.5 w-full text-sm font-mono rounded-none focus:outline-none focus:border-white/50"
+                  className="input-depot pl-9 pr-4 font-mono text-sm"
                   placeholder="Ej: 50"
                   required
                 />
               </div>
-              <span className="text-[11px] text-[#888888] font-sans mt-1.5 block">
+              <span className="text-[11px] text-[#7c7a85] font-sans mt-1.5 block">
                 Por ejemplo: 50% significa que la mitad del cobro va para el barbero y la otra mitad para la barbería.
               </span>
             </div>
 
-            <div className="flex gap-3 pt-2">
+            <div className="flex gap-3 pt-2 border-t border-[#2b292d]">
               <button
                 type="button"
                 onClick={() =>
                   setCommissionModal({ isOpen: false, barber: null, newRate: 50 })
                 }
                 disabled={submittingCommission}
-                className="flex-1 py-2.5 px-4 bg-[#141414] hover:bg-[#1a1a1a] text-[#888888] hover:text-white border border-[#222222] text-xs font-sans uppercase tracking-[0.16em] rounded-none transition-all cursor-pointer"
+                className="btn-depot-outline flex-1"
               >
                 Cancelar
               </button>
@@ -1296,10 +1215,10 @@ export default function AdminDashboard({ initialTab = 'stats' }) {
                 type="button"
                 onClick={handleSaveCommissionRate}
                 disabled={submittingCommission}
-                className="flex-1 btn-ferrari-primary !text-xs !py-2.5"
+                className="btn-depot-primary flex-1"
               >
                 {submittingCommission ? (
-                  <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-[#04040b] border-t-transparent rounded-full animate-spin" />
                 ) : (
                   <>
                     <Check size={14} />

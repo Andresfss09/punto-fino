@@ -172,36 +172,41 @@ export default function BarberSchedule() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-2 pb-20">
         
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4 pb-6 border-b border-[#1e1e1e]">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4 pb-6 border-b border-[#2b292d]">
           <div>
-            <span className="eyebrow text-gold-400 block mb-1">Control de Agenda</span>
-            <h1 className="font-sans font-medium uppercase tracking-[0.16em] text-2xl sm:text-3xl text-white">
-              Mi <span className="text-gold-400">Agenda & Horario</span>
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#71d083] shadow-[0_0_6px_#71d083]" />
+              <span className="font-mono text-[10px] text-[#71d083] uppercase tracking-wider">
+                Operaciones · Gestión de Jornada
+              </span>
+            </div>
+            <h1 className="font-sans font-semibold tracking-[-0.025em] text-2xl sm:text-3xl text-[#eeeef0]">
+              Agenda & <span className="text-[#71d083]">Disponibilidad</span>
             </h1>
             <p className="text-[#888888] text-xs font-sans mt-1">
-              Gestiona tus citas programadas y tus jornadas de trabajo disponibles.
+              Visualiza tus citas programadas en tiempo real y calibra tus franjas laborales.
             </p>
           </div>
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-2 mb-6 border-b border-[#1e1e1e] pb-4">
+        <div className="flex gap-2 mb-6 border-b border-[#2b292d] pb-4">
           <button
             onClick={() => setActiveTab('agenda')}
-            className={`px-5 py-2.5 text-xs font-sans uppercase tracking-[0.16em] rounded-none transition-all cursor-pointer border ${
+            className={`px-4 py-2 text-xs font-mono uppercase tracking-wider rounded-[6px] transition-all cursor-pointer border ${
               activeTab === 'agenda' 
-                ? 'bg-white text-black border-white font-medium' 
-                : 'bg-[#141414] text-[#888888] hover:text-white border-[#222222] hover:border-white/40'
+                ? 'bg-[#71d083] text-[#04040b] border-[#366740] font-semibold' 
+                : 'bg-[#1a191b] text-[#888888] hover:text-[#eeeef0] border-[#2b292d] hover:border-[#366740]/60'
             }`}
           >
             Agenda Diaria
           </button>
           <button
             onClick={() => setActiveTab('horario')}
-            className={`px-5 py-2.5 text-xs font-sans uppercase tracking-[0.16em] rounded-none transition-all cursor-pointer border ${
+            className={`px-4 py-2 text-xs font-mono uppercase tracking-wider rounded-[6px] transition-all cursor-pointer border ${
               activeTab === 'horario' 
-                ? 'bg-white text-black border-white font-medium' 
-                : 'bg-[#141414] text-[#888888] hover:text-white border-[#222222] hover:border-white/40'
+                ? 'bg-[#71d083] text-[#04040b] border-[#366740] font-semibold' 
+                : 'bg-[#1a191b] text-[#888888] hover:text-[#eeeef0] border-[#2b292d] hover:border-[#366740]/60'
             }`}
           >
             Configurar Horario
@@ -218,27 +223,27 @@ export default function BarberSchedule() {
               className="space-y-6"
             >
               {/* Date Selector */}
-              <div className="flex items-center justify-between p-4 bg-[#0a0a0a] border border-[#1e1e1e] rounded-none">
+              <div className="flex items-center justify-between p-4 bg-[#121113] border border-[#2b292d] rounded-[6px] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
                 <button 
                   onClick={() => setSelectedDate(prev => subDays(prev, 1))}
-                  className="p-2 bg-[#141414] hover:bg-[#1a1a1a] border border-[#222222] text-[#888888] hover:text-white rounded-none transition-colors cursor-pointer"
+                  className="p-2 bg-[#1a191b] hover:bg-[#232225] border border-[#2b292d] text-[#888888] hover:text-white rounded-[6px] transition-colors cursor-pointer"
                   title="Día anterior"
                 >
                   <ChevronLeft size={16} />
                 </button>
                 <div className="text-center">
-                  <h3 className="font-sans font-medium uppercase tracking-[0.14em] text-base text-white mb-1">
+                  <h3 className="font-sans font-medium tracking-[-0.015em] text-base text-[#eeeef0] mb-1">
                     {format(selectedDate, "EEEE d 'de' MMMM", { locale: es })}
                   </h3>
                   {isSameDay(selectedDate, new Date()) && (
-                    <span className="inline-block px-2 py-0.5 rounded-none text-[10px] font-mono uppercase tracking-wider bg-white text-black">
+                    <span className="inline-block px-2 py-0.5 rounded-[2px] text-[10px] font-mono uppercase tracking-wider bg-[#1b2a1e] text-[#71d083] border border-[#2d5736]">
                       Hoy
                     </span>
                   )}
                 </div>
                 <button 
                   onClick={() => setSelectedDate(prev => addDays(prev, 1))}
-                  className="p-2 bg-[#141414] hover:bg-[#1a1a1a] border border-[#222222] text-[#888888] hover:text-white rounded-none transition-colors cursor-pointer"
+                  className="p-2 bg-[#1a191b] hover:bg-[#232225] border border-[#2b292d] text-[#888888] hover:text-white rounded-[6px] transition-colors cursor-pointer"
                   title="Día siguiente"
                 >
                   <ChevronRight size={16} />
@@ -247,52 +252,52 @@ export default function BarberSchedule() {
 
               {/* Stats for the day */}
               <div className="grid grid-cols-3 gap-4">
-                <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-4 text-center">
-                  <p className="text-[#888888] font-sans text-xs uppercase tracking-[0.16em] mb-1">Total Citas</p>
-                  <p className="font-mono text-2xl font-medium text-white">{stats.total}</p>
+                <div className="bg-[#121113] border border-[#2b292d] rounded-[6px] p-4 text-center shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
+                  <p className="text-[#888888] font-mono text-[10px] uppercase tracking-wider mb-1">Total Citas</p>
+                  <p className="font-mono text-2xl font-semibold text-[#eeeef0]">{stats.total}</p>
                 </div>
-                <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-4 text-center">
-                  <p className="text-[#888888] font-sans text-xs uppercase tracking-[0.16em] mb-1">Completadas</p>
-                  <p className="font-mono text-2xl font-medium text-emerald-400">{stats.completed}</p>
+                <div className="bg-[#121113] border border-[#2b292d] rounded-[6px] p-4 text-center shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
+                  <p className="text-[#888888] font-mono text-[10px] uppercase tracking-wider mb-1">Completadas</p>
+                  <p className="font-mono text-2xl font-semibold text-[#71d083]">{stats.completed}</p>
                 </div>
-                <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-4 text-center">
-                  <p className="text-[#888888] font-sans text-xs uppercase tracking-[0.16em] mb-1">Ingresos</p>
-                  <p className="font-mono text-2xl font-medium text-white">${stats.earnings.toLocaleString('es-CO')}</p>
+                <div className="bg-[#121113] border border-[#2b292d] rounded-[6px] p-4 text-center shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
+                  <p className="text-[#888888] font-mono text-[10px] uppercase tracking-wider mb-1">Ingresos</p>
+                  <p className="font-mono text-2xl font-semibold text-[#eeeef0]">${stats.earnings.toLocaleString('es-CO')}</p>
                 </div>
               </div>
 
               {/* Timeline Container */}
-              <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none overflow-hidden relative min-h-[300px]">
+              <div className="bg-[#121113] border border-[#2b292d] rounded-[6px] overflow-hidden relative min-h-[300px] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
                 {loadingAgenda ? (
                   <div className="p-20 flex justify-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border border-white border-t-transparent"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border border-[#71d083] border-t-transparent"></div>
                   </div>
                 ) : appointments.length === 0 ? (
                   <div className="p-16 text-center">
-                    <p className="font-sans font-medium uppercase tracking-[0.16em] text-sm text-white mb-1">Día Libre / Sin Citas</p>
+                    <p className="font-sans font-medium text-sm text-[#eeeef0] mb-1">Día Libre / Sin Citas</p>
                     <p className="text-[#888888] text-xs font-sans">No tienes citas agendadas para esta fecha.</p>
                   </div>
                 ) : (
-                  <div className="divide-y divide-[#161616]">
+                  <div className="divide-y divide-[#2b292d]/60">
                     {appointments.map(apt => (
-                      <div key={apt._id} className="p-4 sm:p-5 flex flex-col sm:flex-row gap-4 hover:bg-[#111111] transition-colors">
+                      <div key={apt._id} className="p-4 sm:p-5 flex flex-col sm:flex-row gap-4 hover:bg-[#1a191b]/50 transition-colors">
                         <div className="w-24 flex-shrink-0 pt-0.5">
-                          <p className="font-mono font-medium text-white text-base">{formatTime(apt.startTime)}</p>
+                          <p className="font-mono font-medium text-[#eeeef0] text-base">{formatTime(apt.startTime)}</p>
                           <p className="text-[#888888] font-mono text-xs mt-0.5">
                             {Math.floor(apt.totalDuration / 60)}h {apt.totalDuration % 60}m
                           </p>
                         </div>
                         
                         <div className="flex-1 border-l-2 pl-4 py-0.5 flex flex-col justify-between" 
-                             style={{ borderColor: apt.status === 'completada' ? '#10b981' : apt.status === 'cancelada' ? '#f43f5e' : '#ffffff' }}>
+                             style={{ borderColor: apt.status === 'completada' ? '#71d083' : apt.status === 'cancelada' ? '#ef4444' : '#60a5fa' }}>
                           <div>
                             <div className="flex justify-between items-start mb-1.5">
-                              <h4 className="font-sans font-medium uppercase tracking-[0.12em] text-sm text-white">{apt.client?.name}</h4>
-                              <span className={`px-2 py-0.5 rounded-none text-[10px] font-mono uppercase tracking-wider border ${
-                                apt.status === 'completada' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
-                                apt.status === 'confirmada' ? 'bg-blue-500/10 text-blue-400 border-blue-500/30' :
-                                apt.status === 'cancelada' ? 'bg-rose-500/10 text-rose-400 border-rose-500/30' :
-                                'bg-gold-400/10 text-gold-400 border-gold-400/30'
+                              <h4 className="font-sans font-medium tracking-[-0.015em] text-sm text-[#eeeef0]">{apt.client?.name}</h4>
+                              <span className={`px-2 py-0.5 rounded-[2px] text-[10px] font-mono uppercase tracking-wider border ${
+                                apt.status === 'completada' ? 'bg-[#1b2a1e] text-[#71d083] border-[#2d5736]' :
+                                apt.status === 'confirmada' ? 'bg-[#1e293b] text-blue-400 border-blue-500/30' :
+                                apt.status === 'cancelada' ? 'bg-[#2a1717] text-red-400 border-red-500/30' :
+                                'bg-[#2a2417] text-amber-400 border-amber-500/30'
                               }`}>
                                 {apt.status}
                               </span>
@@ -302,9 +307,9 @@ export default function BarberSchedule() {
                             </p>
                           </div>
                           
-                          <div className="flex items-center justify-between text-xs font-mono border-t border-[#1e1e1e] pt-2 mt-2">
+                          <div className="flex items-center justify-between text-xs font-mono border-t border-[#2b292d]/60 pt-2 mt-2">
                             <span className="text-[#888888] uppercase">{apt.paymentMethod}</span>
-                            <span className="text-white font-medium">${apt.totalPrice?.toLocaleString('es-CO')}</span>
+                            <span className="text-[#eeeef0] font-medium">${apt.totalPrice?.toLocaleString('es-CO')}</span>
                           </div>
                         </div>
                       </div>
@@ -323,13 +328,13 @@ export default function BarberSchedule() {
               exit={{ opacity: 0, y: -8 }}
               className="space-y-6"
             >
-              <div className="bg-[#0a0a0a] border border-[#1e1e1e] rounded-none p-6">
-                <div className="flex items-start gap-4 mb-6 pb-6 border-b border-[#1e1e1e]">
-                  <div className="w-10 h-10 bg-[#141414] border border-[#222222] rounded-none flex items-center justify-center flex-shrink-0 text-white">
+              <div className="bg-[#121113] border border-[#2b292d] rounded-[6px] p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
+                <div className="flex items-start gap-4 mb-6 pb-6 border-b border-[#2b292d]">
+                  <div className="w-10 h-10 bg-[#1a191b] border border-[#2b292d] rounded-[6px] flex items-center justify-center flex-shrink-0 text-[#71d083]">
                     <Clock size={18} />
                   </div>
                   <div>
-                    <h3 className="font-sans font-medium uppercase tracking-[0.16em] text-sm text-white mb-1">Horario Laboral y Descansos</h3>
+                    <h3 className="font-sans font-medium text-sm text-[#eeeef0] mb-1">Horario Laboral y Descansos</h3>
                     <p className="text-[#888888] text-xs leading-relaxed font-sans">
                       Configura los días en los que atiendes y tus intervalos de descanso. Los clientes solo podrán agendar dentro de estos rangos libres.
                     </p>
@@ -338,16 +343,16 @@ export default function BarberSchedule() {
 
                 {loadingSchedule ? (
                   <div className="p-10 flex justify-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border border-white border-t-transparent"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border border-[#71d083] border-t-transparent"></div>
                   </div>
                 ) : (
                   <div className="space-y-4">
                     {DAYS_OF_WEEK.map(day => {
                       const daySchedule = schedule[day.id] || DEFAULT_SCHEDULE_DAY;
                       return (
-                        <div key={day.id} className="border border-[#1e1e1e] p-4 bg-[#141414] rounded-none">
+                        <div key={day.id} className="border border-[#2b292d] p-4 bg-[#1a191b] rounded-[6px]">
                           <div className="flex items-center justify-between mb-3">
-                            <h4 className="font-sans font-medium uppercase tracking-[0.14em] text-xs text-white">{day.label}</h4>
+                            <h4 className="font-mono text-xs uppercase tracking-wider text-[#eeeef0]">{day.label}</h4>
                             <label className="flex items-center cursor-pointer relative">
                               <input 
                                 type="checkbox" 
@@ -355,34 +360,34 @@ export default function BarberSchedule() {
                                 checked={daySchedule.isWorking}
                                 onChange={(e) => handleUpdateScheduleDay(day.id, 'isWorking', e.target.checked)}
                               />
-                              <div className={`w-11 h-6 rounded-none border transition-colors ${daySchedule.isWorking ? 'bg-white border-white' : 'bg-[#0a0a0a] border-[#222222]'}`}></div>
-                              <div className={`absolute w-4 h-4 rounded-none bg-black top-1 transition-transform ${daySchedule.isWorking ? 'translate-x-6' : 'translate-x-1 opacity-20'}`}></div>
+                              <div className={`w-11 h-6 rounded-full border transition-colors ${daySchedule.isWorking ? 'bg-[#71d083] border-[#366740]' : 'bg-[#121113] border-[#2b292d]'}`}></div>
+                              <div className={`absolute w-4 h-4 rounded-full bg-[#04040b] top-1 transition-transform ${daySchedule.isWorking ? 'translate-x-6' : 'translate-x-1 opacity-40'}`}></div>
                             </label>
                           </div>
 
                           {daySchedule.isWorking ? (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3 border-t border-[#1e1e1e]">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3 border-t border-[#2b292d]">
                               <div>
-                                <label className="text-[#888888] font-sans text-[11px] uppercase tracking-[0.16em] mb-1.5 block">Jornada</label>
+                                <label className="text-[#888888] font-mono text-[10px] uppercase tracking-wider mb-1.5 block">Jornada</label>
                                 <div className="flex items-center gap-2">
                                   <input 
                                     type="time" 
                                     value={daySchedule.startTime}
                                     onChange={(e) => handleUpdateScheduleDay(day.id, 'startTime', e.target.value)}
-                                    className="bg-[#0a0a0a] border border-[#222222] text-white focus:border-white/50 rounded-none py-1.5 px-2.5 flex-1 font-mono text-xs outline-none"
+                                    className="bg-[#232225] border border-[#2b292d] text-[#eeeef0] focus:border-[#71d083] rounded-[6px] py-1.5 px-2.5 flex-1 font-mono text-xs outline-none transition-colors"
                                   />
                                   <span className="text-[#666]">-</span>
                                   <input 
                                     type="time" 
                                     value={daySchedule.endTime}
                                     onChange={(e) => handleUpdateScheduleDay(day.id, 'endTime', e.target.value)}
-                                    className="bg-[#0a0a0a] border border-[#222222] text-white focus:border-white/50 rounded-none py-1.5 px-2.5 flex-1 font-mono text-xs outline-none"
+                                    className="bg-[#232225] border border-[#2b292d] text-[#eeeef0] focus:border-[#71d083] rounded-[6px] py-1.5 px-2.5 flex-1 font-mono text-xs outline-none transition-colors"
                                   />
                                 </div>
                               </div>
                               
                               <div>
-                                <label className="text-[#888888] font-sans text-[11px] uppercase tracking-[0.16em] mb-1.5 block flex justify-between">
+                                <label className="text-[#888888] font-mono text-[10px] uppercase tracking-wider mb-1.5 flex justify-between">
                                   <span>Descanso</span>
                                   <span className="text-[#666] font-normal lowercase font-mono">(opcional)</span>
                                 </label>
@@ -391,21 +396,21 @@ export default function BarberSchedule() {
                                     type="time" 
                                     value={daySchedule.breakStartTime}
                                     onChange={(e) => handleUpdateScheduleDay(day.id, 'breakStartTime', e.target.value)}
-                                    className="bg-[#0a0a0a] border border-[#222222] text-white focus:border-white/50 rounded-none py-1.5 px-2.5 flex-1 font-mono text-xs outline-none"
+                                    className="bg-[#232225] border border-[#2b292d] text-[#eeeef0] focus:border-[#71d083] rounded-[6px] py-1.5 px-2.5 flex-1 font-mono text-xs outline-none transition-colors"
                                   />
                                   <span className="text-[#666]">-</span>
                                   <input 
                                     type="time" 
                                     value={daySchedule.breakEndTime}
                                     onChange={(e) => handleUpdateScheduleDay(day.id, 'breakEndTime', e.target.value)}
-                                    className="bg-[#0a0a0a] border border-[#222222] text-white focus:border-white/50 rounded-none py-1.5 px-2.5 flex-1 font-mono text-xs outline-none"
+                                    className="bg-[#232225] border border-[#2b292d] text-[#eeeef0] focus:border-[#71d083] rounded-[6px] py-1.5 px-2.5 flex-1 font-mono text-xs outline-none transition-colors"
                                   />
                                 </div>
                               </div>
                             </div>
                           ) : (
-                            <div className="pt-3 border-t border-[#1e1e1e] text-center py-2">
-                              <span className="text-[#888888] font-sans text-xs uppercase tracking-[0.16em]">
+                            <div className="pt-3 border-t border-[#2b292d] text-center py-2">
+                              <span className="text-[#888888] font-mono text-xs uppercase tracking-wider">
                                 Día Libre / Descanso
                               </span>
                             </div>
@@ -416,11 +421,11 @@ export default function BarberSchedule() {
                   </div>
                 )}
                 
-                <div className="mt-8 pt-6 border-t border-[#1e1e1e] flex justify-end">
+                <div className="mt-8 pt-6 border-t border-[#2b292d] flex justify-end">
                   <button 
                     onClick={handleSaveSchedule}
                     disabled={savingSchedule || loadingSchedule}
-                    className="btn-ferrari-primary text-xs !py-3 !px-6 w-full sm:w-auto"
+                    className="btn-depot-primary flex items-center justify-center gap-2 !py-2.5 !px-6 w-full sm:w-auto"
                   >
                     {savingSchedule ? (
                       <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />

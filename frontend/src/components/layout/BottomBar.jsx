@@ -29,7 +29,7 @@ const BottomBar = () => {
   }
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#0a0a0a] border-t border-[#1e1e1e] pb-safe z-40">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#121113] border-t border-[#2b292d] pb-safe z-40 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)]">
       <div className="flex justify-around items-center h-16">
         {links.map((link, idx) => (
           <NavLink
@@ -39,13 +39,13 @@ const BottomBar = () => {
             className={({ isActive }) => 
               `flex flex-col items-center justify-center flex-1 h-full min-w-[44px] transition-colors ${
                 isActive 
-                  ? 'text-white bg-[#141414] border-t-2 border-white' 
-                  : 'text-[#888888] hover:text-white border-t-2 border-transparent'
+                  ? 'text-[#71d083] bg-[#1a191b] border-t-2 border-[#71d083]' 
+                  : 'text-[#7c7a85] hover:text-[#eeeef0] border-t-2 border-transparent'
               }`
             }
           >
             <link.icon className="w-4 h-4 mb-1" />
-            <span className="text-[10px] font-sans font-medium uppercase tracking-[0.14em]">{link.label}</span>
+            <span className="text-[10px] font-sans font-medium uppercase tracking-[0.025em]">{link.label}</span>
           </NavLink>
         ))}
       </div>

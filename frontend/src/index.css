@@ -154,4 +154,52 @@
   .label {
     @apply block text-[11px] uppercase tracking-[0.18em] font-sans font-medium text-[#888888] mb-1.5;
   }
+
+  /* ======================================================== */
+  /* DEPOT DEVELOPER CONSOLE DESIGN SYSTEM                    */
+  /* ======================================================== */
+
+  .btn-depot-primary {
+    @apply bg-[#71d083] hover:bg-[#82e294] text-[#04040b] font-medium tracking-[0.025em] text-xs px-4 py-2.5 rounded-[6px] border border-[#366740] inline-flex items-center justify-center gap-2 transition-all cursor-pointer shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25)] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-depot-outline {
+    @apply bg-transparent hover:bg-white/[0.04] text-[#eeeef0] border border-[#2b292d] hover:border-[#3c393f] font-medium tracking-[0.025em] text-xs px-4 py-2.5 rounded-[6px] inline-flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .card-depot {
+    @apply bg-[#121113] border border-[#2b292d] rounded-[6px] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)];
+  }
+
+  .card-depot-secondary {
+    @apply bg-[#1a191b] border border-[#2b292d] rounded-[6px];
+  }
+
+  .input-depot {
+    @apply w-full bg-[#1a191b] border border-[#2b292d] rounded-[6px] px-3.5 py-2.5 text-[#eeeef0] text-xs placeholder:text-[#7c7a85] focus:outline-none focus:border-[#71d083]/70 transition-all duration-150;
+  }
+
+  .tag-depot-green {
+    @apply rounded-[2px] border border-[#2d5736] bg-[#1b2a1e] text-[#71d083] uppercase tracking-[0.025em] text-[10px] font-mono px-2 py-0.5 inline-flex items-center gap-1.5;
+  }
+
+  .tag-depot-neutral {
+    @apply rounded-[2px] border border-[#2b292d] bg-[#1a191b] text-[#b5b2bc] uppercase tracking-[0.025em] text-[10px] font-mono px-2 py-0.5 inline-flex items-center gap-1.5;
+  }
+
+  .tag-depot-danger {
+    @apply rounded-[2px] border border-rose-500/30 bg-rose-500/10 text-rose-400 uppercase tracking-[0.025em] text-[10px] font-mono px-2 py-0.5 inline-flex items-center gap-1.5;
+  }
+
+  .tag-depot-blue {
+    @apply rounded-[2px] border border-[#70b8ff]/30 bg-[#70b8ff]/10 text-[#70b8ff] uppercase tracking-[0.025em] text-[10px] font-mono px-2 py-0.5 inline-flex items-center gap-1.5;
+  }
+
+  .tag-depot-lilac {
+    @apply rounded-[2px] border border-[#baa7ff]/30 bg-[#baa7ff]/10 text-[#baa7ff] uppercase tracking-[0.025em] text-[10px] font-mono px-2 py-0.5 inline-flex items-center gap-1.5;
+  }
+
+  .depot-led {
+    @apply inline-block w-2 h-2 rounded-full bg-[#71d083] shadow-[0_0_8px_#71d083];
+  }
 }

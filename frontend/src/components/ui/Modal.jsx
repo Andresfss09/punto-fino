@@ -36,14 +36,17 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' })
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.98, y: 8 }}
             transition={{ duration: 0.2 }}
-            className={`relative w-full ${sizes[size]} bg-[#0a0a0a] border border-[#222222] rounded-none shadow-2xl overflow-hidden`}
+            className={`relative w-full ${sizes[size]} bg-[#121113] border border-[#2b292d] rounded-[6px] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] overflow-hidden`}
           >
             {title && (
-              <div className="flex items-center justify-between px-6 py-4 border-b border-[#1e1e1e] bg-[#0e0e0e]">
-                <h2 className="font-sans font-medium uppercase tracking-[0.16em] text-xs sm:text-sm text-white">{title}</h2>
+              <div className="flex items-center justify-between px-6 py-4 border-b border-[#2b292d] bg-[#1a191b]">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-2 h-2 rounded-full bg-[#71d083] shadow-[0_0_8px_#71d083]"></span>
+                  <h2 className="font-sans font-medium uppercase tracking-[-0.025em] text-xs sm:text-sm text-[#e5e5e5]">{title}</h2>
+                </div>
                 <button
                   onClick={onClose}
-                  className="p-1.5 text-[#888888] hover:text-white hover:bg-white/5 rounded-none border border-transparent hover:border-[#222222] transition-all cursor-pointer"
+                  className="p-1.5 text-[#7c7a85] hover:text-[#eeeef0] hover:bg-[#232225] rounded-[4px] border border-transparent hover:border-[#2b292d] transition-all cursor-pointer"
                 >
                   <X size={16} />
                 </button>
