@@ -22,7 +22,7 @@ export default function Navbar() {
   const getDashboardLink = () => {
     if (isAdmin()) return '/admin';
     if (isBarber()) return '/barber';
-    return '/cliente';
+    return '/';
   };
 
   const handleNavClick = (e, targetId) => {

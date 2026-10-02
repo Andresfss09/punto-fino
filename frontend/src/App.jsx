@@ -7,12 +7,7 @@ import PageTransition from './components/ui/PageTransition';
 
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
 import BookingPage from './pages/BookingPage';
-
-import ClientDashboard from './pages/client/ClientDashboard';
-import MyAppointments from './pages/client/MyAppointments';
-import ClientProfile from './pages/client/ClientProfile';
 
 import BarberDashboard from './pages/barber/BarberDashboard';
 import BarberSchedule from './pages/barber/BarberSchedule';
@@ -42,27 +37,15 @@ export default function App() {
           {/* Públicas */}
           <Route path="/" element={<PageTransition><HomePage /><Footer /></PageTransition>} />
           <Route path="/login" element={<PageTransition><LoginPage /><Footer /></PageTransition>} />
-          <Route path="/register" element={<PageTransition><RegisterPage /><Footer /></PageTransition>} />
+          <Route path="/register" element={<Navigate to="/#reservar" replace />} />
           <Route path="/reservar" element={<PageTransition><BookingPage /><Footer /></PageTransition>} />
+
+          {/* Rutas de cliente redirigidas a home */}
+          <Route path="/cliente/*" element={<Navigate to="/" replace />} />
+          <Route path="/cliente" element={<Navigate to="/" replace />} />
 
         {/* Dashboard Layout wrapper para las rutas de usuarios */}
         <Route element={<DashboardLayout />}>
-          {/* Cliente */}
-          <Route path="/cliente" element={
-            <PrivateRoute allowedRoles={['cliente']}>
-              <PageTransition><ClientDashboard /></PageTransition>
-            </PrivateRoute>
-          } />
-          <Route path="/cliente/citas" element={
-            <PrivateRoute allowedRoles={['cliente']}>
-              <PageTransition><MyAppointments /></PageTransition>
-            </PrivateRoute>
-          } />
-          <Route path="/cliente/perfil" element={
-            <PrivateRoute allowedRoles={['cliente']}>
-              <PageTransition><ClientProfile /></PageTransition>
-            </PrivateRoute>
-          } />
 
           {/* Barbero */}
           <Route path="/barber" element={

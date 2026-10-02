@@ -19,19 +19,11 @@ const BottomBar = () => {
       ];
       break;
     case 'barbero':
+    default:
       links = [
         { icon: LayoutDashboard, label: 'Dashboard', path: '/barber' },
         { icon: Calendar, label: 'Agenda', path: '/barber/agenda' },
         { icon: User, label: 'Perfil', path: '/barber/perfil' },
-      ];
-      break;
-    case 'cliente':
-    default:
-      links = [
-        { icon: Home, label: 'Inicio', path: '/cliente' },
-        { icon: Calendar, label: 'Mis Citas', path: '/cliente/citas' },
-        { icon: Scissors, label: 'Reservar', path: '/reservar' },
-        { icon: User, label: 'Perfil', path: '/cliente/perfil' },
       ];
       break;
   }
@@ -43,7 +35,7 @@ const BottomBar = () => {
           <NavLink
             key={idx}
             to={link.path}
-            end={link.path === '/cliente' || link.path === '/barber' || link.path === '/admin'}
+            end={link.path === '/barber' || link.path === '/admin'}
             className={({ isActive }) => 
               `flex flex-col items-center justify-center flex-1 h-full min-w-[44px] transition-colors ${
                 isActive 

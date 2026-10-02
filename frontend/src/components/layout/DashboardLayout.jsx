@@ -15,7 +15,6 @@ export default function DashboardLayout() {
     if (parts.length === 1) {
       if (parts[0] === 'admin') return 'NÓMINA & CONTROL GENERAL';
       if (parts[0] === 'barber') return 'PANEL DEL BARBERO';
-      if (parts[0] === 'cliente') return 'MI CUENTA';
       return 'PANEL';
     }
     const lastPart = parts[parts.length - 1];
@@ -34,8 +33,7 @@ export default function DashboardLayout() {
     switch (role) {
       case 'admin': return 'ADMINISTRADOR';
       case 'barbero': return 'MAESTRO BARBERO';
-      case 'cliente': return 'CLIENTE DISTINGUIDO';
-      default: return 'USUARIO';
+      default: return 'STAFF';
     }
   };
 

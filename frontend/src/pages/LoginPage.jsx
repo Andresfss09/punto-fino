@@ -18,20 +18,9 @@ const loginSchema = z.object({
 
 const roles = [
   {
-    id: 'cliente',
-    label: 'Cliente',
-    description: 'Reserva y gestiona tus citas personales',
-    icon: User,
-    color: 'from-amber-600 to-amber-800',
-    border: 'border-[#333d38]',
-    bg: 'bg-[#121815]',
-    text: 'text-gold-400',
-    emoji: '💈',
-  },
-  {
     id: 'barbero',
     label: 'Barbero',
-    description: 'Controla tu agenda diaria y clientes',
+    description: 'Controla tu agenda diaria y citas',
     icon: Scissors,
     color: 'from-gold-500 to-gold-700',
     border: 'border-gold-400/40',
@@ -85,7 +74,7 @@ export default function LoginPage() {
 
       if (userRole === 'admin') navigate('/admin');
       else if (userRole === 'barbero') navigate('/barber');
-      else navigate('/cliente');
+      else navigate('/');
     } catch (error) {
       toast.error(error.message || 'Credenciales incorrectas');
     } finally {
@@ -132,7 +121,7 @@ export default function LoginPage() {
             >
               <div className="text-center mb-6">
                 <h2 className="font-sans font-medium uppercase tracking-[0.16em] text-lg text-white">Portal de Acceso</h2>
-                <p className="text-[#888888] font-sans text-xs mt-1">Selecciona el perfil con el que deseas ingresar</p>
+                <p className="text-[#888888] font-sans text-xs mt-1">Acceso exclusivo para el personal de la barbería</p>
               </div>
 
               <div className="space-y-3">
@@ -166,9 +155,9 @@ export default function LoginPage() {
               </div>
 
               <p className="text-center text-[#888888] mt-8 text-xs font-sans">
-                ¿Aún no tienes cuenta?{' '}
-                <Link to="/register" className="text-white hover:text-[#888888] font-medium transition-colors underline underline-offset-4">
-                  Crear cuenta de cliente
+                ¿Deseas agendar un servicio?{' '}
+                <Link to="/#reservar" className="text-white hover:text-[#888888] font-medium transition-colors underline underline-offset-4">
+                  Reservar cita sin cuenta
                 </Link>
               </p>
             </motion.div>
@@ -251,15 +240,6 @@ export default function LoginPage() {
                   {loading ? 'Accediendo...' : `Iniciar Sesión (${activeRole.label})`}
                 </button>
               </form>
-
-              {selectedRole === 'cliente' && (
-                <p className="text-center text-[#888888] mt-6 text-xs font-sans">
-                  ¿No tienes cuenta?{' '}
-                  <Link to="/register" className="text-white hover:text-[#888888] font-medium transition-colors underline underline-offset-4">
-                    Regístrate gratis
-                  </Link>
-                </p>
-              )}
             </motion.div>
           )}
 

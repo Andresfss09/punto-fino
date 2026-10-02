@@ -80,7 +80,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link to="/login" className="text-[#888888] hover:text-white transition-colors uppercase tracking-wider text-[11px]">
-                  Portal de Clientes & Barberos
+                  Acceso Barberos & Administración
                 </Link>
               </li>
             </ul>

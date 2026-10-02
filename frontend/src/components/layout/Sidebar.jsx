@@ -20,19 +20,11 @@ export default function Sidebar() {
       ];
       break;
     case 'barbero':
+    default:
       links = [
         { icon: LayoutDashboard, label: 'Dashboard', path: '/barber' },
         { icon: Calendar, label: 'Agenda', path: '/barber/agenda' },
         { icon: User, label: 'Mi Perfil', path: '/barber/perfil' },
-      ];
-      break;
-    case 'cliente':
-    default:
-      links = [
-        { icon: Home, label: 'Inicio', path: '/cliente' },
-        { icon: Calendar, label: 'Mis Citas', path: '/cliente/citas' },
-        { icon: Scissors, label: 'Reservar', path: '/reservar' },
-        { icon: User, label: 'Perfil', path: '/cliente/perfil' },
       ];
       break;
   }
@@ -63,7 +55,7 @@ export default function Sidebar() {
           <NavLink
             key={idx}
             to={link.path}
-            end={link.path === '/cliente' || link.path === '/barber' || link.path === '/admin'}
+            end={link.path === '/barber' || link.path === '/admin'}
             className={({ isActive }) =>
               `flex items-center px-3.5 py-2.5 rounded-none text-xs font-sans uppercase tracking-[0.16em] transition-all duration-150 ${
                 isActive
