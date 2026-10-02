@@ -572,18 +572,16 @@ exports.getBarberAppointments = async (req, res) => {
     const query = { barber: req.user.id };
 
     if (startDate && endDate) {
-      const start = new Date(startDate);
-      const end = new Date(endDate);
-      query.date = {
-        $gte: new Date(start.setHours(0, 0, 0, 0)),
-        $lte: new Date(end.setHours(23, 59, 59, 999)),
-      };
+      const sParts = startDate.split('T')[0].split('-').map(Number);
+      const eParts = endDate.split('T')[0].split('-').map(Number);
+      const start = new Date(sParts[0], sParts[1] - 1, sParts[2], 0, 0, 0, 0);
+      const end = new Date(eParts[0], eParts[1] - 1, eParts[2], 23, 59, 59, 999);
+      query.date = { $gte: start, $lte: end };
     } else if (date) {
-      const targetDate = new Date(date);
-      query.date = {
-        $gte: new Date(targetDate.setHours(0, 0, 0, 0)),
-        $lte: new Date(targetDate.setHours(23, 59, 59, 999)),
-      };
+      const parts = date.split('T')[0].split('-').map(Number);
+      const start = new Date(parts[0], parts[1] - 1, parts[2], 0, 0, 0, 0);
+      const end = new Date(parts[0], parts[1] - 1, parts[2], 23, 59, 59, 999);
+      query.date = { $gte: start, $lte: end };
     }
 
     if (status && status !== 'todos') query.status = status;
