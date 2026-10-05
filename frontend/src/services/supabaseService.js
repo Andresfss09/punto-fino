@@ -29,7 +29,7 @@ export const supabaseService = {
     if (error) throw error;
     return (data || []).map(b => {
       let newName = b.name;
-      if (newName.toUpperCase().includes('JUAN DAVID')) newName = 'Andrés Felipe Sarria';
+      if (newName.toUpperCase().includes('JUAN DAVID')) newName = 'Andres Felipe Sarria';
       else if (newName.toUpperCase().includes('JUAN DIEGO')) newName = 'Nicolas Chavez';
       else if (newName.toUpperCase().includes('EMANUEL TORRES')) newName = 'Luis de Avila';
       return {
@@ -124,7 +124,7 @@ export const supabaseService = {
 
     if (error) throw error;
 
-    // Si tiene servicios asociados con IDs válidos UUID, insertar en appointment_services
+    // Si tiene servicios asociados con IDs vï¿½lidos UUID, insertar en appointment_services
     const servicesList = appointmentData.services || appointmentData.serviceIds || [];
     if (Array.isArray(servicesList) && servicesList.length > 0) {
       const validItems = servicesList
