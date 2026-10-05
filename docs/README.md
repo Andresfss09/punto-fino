@@ -53,13 +53,6 @@ punto-fino/
 # 1. Clonar
 git clone https://github.com/Andresfss09/punto-fino.git
 cd punto-fino
-
-# 2. Backend
-cd backend
-cp .env.example .env    # Configurar variables
-npm install
-npm run dev
-
 # 3. Frontend (otra terminal)
 cd frontend
 npm install
