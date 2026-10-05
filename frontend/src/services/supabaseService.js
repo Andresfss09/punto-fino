@@ -1,4 +1,4 @@
-ï»¿import { supabase, isSupabaseConfigured } from './supabaseClient';
+import { supabase, isSupabaseConfigured } from './supabaseClient';
 
 const isUUID = (str) => typeof str === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str);
 
@@ -29,7 +29,7 @@ export const supabaseService = {
     if (error) throw error;
     return (data || []).map(b => {
       let newName = b.name;
-      if (newName.toUpperCase().includes('JUAN DAVID')) newName = 'AndrÃ©s Felipe Sarria';
+      if (newName.toUpperCase().includes('JUAN DAVID')) newName = 'Andrés Felipe Sarria';
       else if (newName.toUpperCase().includes('JUAN DIEGO')) newName = 'Nicolas Chavez';
       else if (newName.toUpperCase().includes('EMANUEL TORRES')) newName = 'Luis de Avila';
       return {
@@ -50,7 +50,8 @@ export const supabaseService = {
         count: b.rating_count || 0,
       },
       isAvailable: b.is_available,
-    }));
+    };
+    });
   },
 
   // ================= AVAILABLE SLOTS =================
@@ -123,7 +124,7 @@ export const supabaseService = {
 
     if (error) throw error;
 
-    // Si tiene servicios asociados con IDs vÃ¡lidos UUID, insertar en appointment_services
+    // Si tiene servicios asociados con IDs válidos UUID, insertar en appointment_services
     const servicesList = appointmentData.services || appointmentData.serviceIds || [];
     if (Array.isArray(servicesList) && servicesList.length > 0) {
       const validItems = servicesList
@@ -266,5 +267,6 @@ export const supabaseService = {
     await supabase.auth.signOut();
   },
 };
+
 
 
