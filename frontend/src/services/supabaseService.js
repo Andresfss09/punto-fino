@@ -1,4 +1,4 @@
-import { supabase, isSupabaseConfigured } from './supabaseClient';
+﻿import { supabase, isSupabaseConfigured } from './supabaseClient';
 
 const isUUID = (str) => typeof str === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str);
 
@@ -27,12 +27,18 @@ export const supabaseService = {
       .select('*')
       .eq('is_available', true);
     if (error) throw error;
-    return (data || []).map(b => ({
+    return (data || []).map(b => {
+      let newName = b.name;
+      if (newName.toUpperCase().includes('JUAN DAVID')) newName = 'Andrés Felipe Sarria';
+      else if (newName.toUpperCase().includes('JUAN DIEGO')) newName = 'Nicolas Chavez';
+      else if (newName.toUpperCase().includes('EMANUEL TORRES')) newName = 'Luis de Avila';
+      return {
+
       _id: b.id,
-      name: b.name,
+      name: newName,
       user: {
         _id: b.profile_id || b.id,
-        name: b.name,
+        name: newName,
         email: b.email,
         phone: b.phone,
         avatar: b.avatar_url,
@@ -260,3 +266,5 @@ export const supabaseService = {
     await supabase.auth.signOut();
   },
 };
+
+
