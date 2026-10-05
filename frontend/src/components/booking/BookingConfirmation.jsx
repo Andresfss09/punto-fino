@@ -3,9 +3,9 @@ import { Scissors, User, Calendar, Clock, Check, Edit2, Mail, Phone, MapPin, Spa
 import { formatTime, formatPrice } from '../../utils/formatters';
 
 const BEVERAGES = [
-  { id: 'Jugo Hit ($5.000)', name: 'JUGO HIT', category: 'NEVERA', price: 5000, initials: 'JH' },
-  { id: 'Cerveza Águila Latón ($6.000)', name: 'CERVEZA AGUILA LATON', category: 'NEVERA', price: 6000, initials: 'CA' },
-  { id: 'Agua ($3.000)', name: 'AGUA', category: 'NEVERA', price: 3000, initials: 'AG' },
+  { id: 'Jugo Hit ($5.000)', name: 'JUGO HIT', category: 'NEVERA', price: 5000, initials: 'JH', image: '/images/jugo-hit.png' },
+  { id: 'Cerveza Águila Latón ($6.000)', name: 'CERVEZA AGUILA LATON', category: 'NEVERA', price: 6000, initials: 'CA', image: '/images/cerveza-aguila.webp' },
+  { id: 'Agua ($3.000)', name: 'AGUA', category: 'NEVERA', price: 3000, initials: 'AG', image: '/images/agua.webp' },
 ];
 
 export default function BookingConfirmation({ 
@@ -249,12 +249,7 @@ export default function BookingConfirmation({
                     : 'bg-[#000000] border-[#1e1e1e] hover:border-[#333333]'
                 }`}
               >
-                {/* Initials Box */}
-                <div className="w-full aspect-[4/3] bg-[#050505] border border-[#1e1e1e] rounded-none flex items-center justify-center mb-3">
-                  <span className="font-mono text-2xl font-medium text-white tracking-widest">
-                    {bev.initials}
-                  </span>
-                </div>
+                <div className="w-full aspect-[4/3] bg-[#050505] border border-[#1e1e1e] rounded-none flex items-center justify-center mb-3 overflow-hidden relative">{bev.image ? <img src={bev.image} alt={bev.name} className="w-full h-full object-contain p-2 mix-blend-lighten" /> : <span className="font-mono text-2xl font-medium text-white tracking-widest">{bev.initials}</span>}</div>
 
                 <div className="space-y-1 mb-3">
                   <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#666666] block">
@@ -385,3 +380,7 @@ export default function BookingConfirmation({
     </div>
   );
 }
+
+
+
+

@@ -16,6 +16,17 @@ export const barberService = {
   },
   getOne: (userId) => api.get(`/barbers/${userId}`),
   updateProfile: (data) => api.put('/barbers/profile', data),
-  getMyStats: (params) => api.get('/barbers/stats/me', { params }),
+  getMyStats: async (params) => {
+    if (isSupabaseConfigured()) {
+      return {
+        data: {
+          cutsToday: 0, revenueToday: 0, cutsThisWeek: 0, revenueThisWeek: 0,
+          cutsThisMonth: 0, revenueThisMonth: 0, pendingToday: 0, totalScheduledToday: 0
+        }
+      };
+    }
+    return api.get('/barbers/stats/me', { params });
+  },
   getStats: (userId = 'me', params) => api.get(`/barbers/stats/${userId}`, { params }),
 };
+

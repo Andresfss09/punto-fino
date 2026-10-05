@@ -4,7 +4,7 @@ import { ShoppingBag, Plus } from 'lucide-react';
 const BEVERAGES = [
   {
     id: 'jugo-hit',
-    initials: 'JH',
+    initials: 'JH', image: '/images/jugo-hit.png',
     category: 'NEVERA',
     name: 'JUGO HIT',
     price: 5000,
@@ -12,7 +12,7 @@ const BEVERAGES = [
   },
   {
     id: 'cerveza-aguila',
-    initials: 'CA',
+    initials: 'CA', image: '/images/cerveza-aguila.webp',
     category: 'NEVERA',
     name: 'CERVEZA AGUILA LATON',
     price: 6000,
@@ -20,7 +20,7 @@ const BEVERAGES = [
   },
   {
     id: 'agua',
-    initials: 'AG',
+    initials: 'AG', image: '/images/agua.webp',
     category: 'NEVERA',
     name: 'AGUA',
     price: 3000,
@@ -74,12 +74,7 @@ export default function BeveragesSection({ onSelectBeverage }) {
                 key={bev.id}
                 className="bg-black border border-[#1e1e1e] hover:border-[#383838] rounded-none p-6 flex flex-col justify-between transition-all duration-150 group shadow-lg"
               >
-                {/* Initials Placeholder Box */}
-                <div className="w-full aspect-[4/3] bg-[#0a0a0a] border border-[#1e1e1e] rounded-none flex items-center justify-center mb-5 group-hover:border-[#383838] transition-colors">
-                  <span className="font-mono text-4xl sm:text-5xl font-medium text-white tracking-[0.2em]">
-                    {bev.initials}
-                  </span>
-                </div>
+                <div className="w-full aspect-[4/3] bg-[#0a0a0a] border border-[#1e1e1e] rounded-none flex items-center justify-center mb-5 group-hover:border-[#383838] transition-colors overflow-hidden relative">{bev.image ? <img src={bev.image} alt={bev.name} className="w-full h-full object-contain p-4 mix-blend-lighten" /> : <span className="font-mono text-4xl sm:text-5xl font-medium text-white tracking-[0.2em]">{bev.initials}</span>}</div>
 
                 {/* Details */}
                 <div className="space-y-1.5 mb-5">
@@ -119,3 +114,5 @@ export default function BeveragesSection({ onSelectBeverage }) {
     </section>
   );
 }
+
+
